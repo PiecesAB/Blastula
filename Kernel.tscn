@@ -1,0 +1,1036 @@
+[gd_scene load_steps=117 format=3 uid="uid://cm2d45utvjkxn"]
+
+[ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
+[ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
+[ext_resource type="Script" path="res://addons/Blastula/VirtualVariables/Persistent.cs" id="3_o74kx"]
+[ext_resource type="Script" path="res://addons/Blastula/VirtualVariables/Session.cs" id="4_6521m"]
+[ext_resource type="Script" path="res://addons/Blastula/LowLevel/FrameCounter.cs" id="4_ykg5i"]
+[ext_resource type="Script" path="res://addons/Blastula/Execute/ExecuteManager.cs" id="7_jkywi"]
+[ext_resource type="MultiMesh" uid="uid://br8ppceciw5ru" path="res://addons/Blastula/Graphics/GraphicsSelector/MultimeshSample.tres" id="8_7b7a7"]
+[ext_resource type="Script" path="res://addons/Blastula/Collision/CollisionManager.cs" id="8_nou1f"]
+[ext_resource type="Script" path="res://addons/Blastula/Graphics/RainbowInfo.cs" id="9_cyb1k"]
+[ext_resource type="Script" path="res://addons/Blastula/Execute/PostExecuteManager.cs" id="9_t4qwe"]
+[ext_resource type="Script" path="res://addons/Blastula/Graphics/GraphicInfo.cs" id="10_gun14"]
+[ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletRendererManager.cs" id="11_6k6is"]
+[ext_resource type="Texture2D" uid="uid://bml4eqyqjq1dp" path="res://addons/Blastula/Graphics/Bullets/sonic.png" id="12_4wcau"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/InvColored.gdshader" id="13_fjrpc"]
+[ext_resource type="Texture2D" uid="uid://cejjgaml01w7h" path="res://addons/Blastula/Graphics/Bullets/orb.png" id="14_nuun3"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/InvColoredAdditive.gdshader" id="15_3cmmm"]
+[ext_resource type="Texture2D" uid="uid://bd6njr8jd3xnv" path="res://addons/Blastula/Graphics/Bullets/bubble.png" id="15_4cpwf"]
+[ext_resource type="Texture2D" uid="uid://bwvkned7kfkj8" path="res://addons/Blastula/Graphics/Bullets/arrowBullet.png" id="15_gj71c"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Standard.gdshader" id="15_vupyf"]
+[ext_resource type="Script" path="res://addons/Blastula/Graphics/GraphicsSelector/MultimeshBullet.cs" id="16_yom2p"]
+[ext_resource type="Texture2D" uid="uid://bgujfp1s8llso" path="res://addons/Blastula/Graphics/Bullets/crystal.png" id="17_gjiw2"]
+[ext_resource type="Texture2D" uid="uid://dx23p8nt56m10" path="res://addons/Blastula/Graphics/Bullets/bubbleHuge.png" id="17_h7h8t"]
+[ext_resource type="Texture2D" uid="uid://cxpjhhxlgyuqq" path="res://addons/Blastula/Graphics/Bullets/dagger.png" id="17_ukoes"]
+[ext_resource type="Texture2D" uid="uid://jvug1dk56ced" path="res://addons/Blastula/Graphics/Bullets/card.png" id="18_1nhwt"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Player/ButtonInfo.cs" id="18_b0g1x"]
+[ext_resource type="Texture2D" uid="uid://dtatjabcdc7fm" path="res://addons/Blastula/Graphics/Bullets/kunai.png" id="19_8tg4g"]
+[ext_resource type="Texture2D" uid="uid://28gh8i5f8v61" path="res://addons/Blastula/Graphics/Bullets/bullet.png" id="19_863oj"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/InvColoredGrayscale.gdshader" id="19_hx3pk"]
+[ext_resource type="Texture2D" uid="uid://bebsj5vxyiv61" path="res://addons/Blastula/Graphics/Bullets/laserBit.png" id="19_qbq2r"]
+[ext_resource type="Texture2D" uid="uid://clxndni2n8l13" path="res://addons/Blastula/Graphics/Bullets/pellet.png" id="21_2bt56"]
+[ext_resource type="ArrayMesh" uid="uid://cwdm03v3roqbc" path="res://addons/Blastula/Graphics/GraphicsSelector/ArrayMeshSample.tres" id="21_3rreq"]
+[ext_resource type="Texture2D" uid="uid://bxo8aydwgdhj" path="res://addons/Blastula/Graphics/Bullets/butterfly.png" id="21_jd4y2"]
+[ext_resource type="Texture2D" uid="uid://cxr7xeqras55s" path="res://addons/Blastula/Graphics/Bullets/checkered.png" id="21_tf4co"]
+[ext_resource type="Texture2D" uid="uid://dkallnc8kr13t" path="res://addons/Blastula/Graphics/Bullets/heart.png" id="21_trwxo"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/StandardSpin.gdshader" id="22_2qk1a"]
+[ext_resource type="Texture2D" uid="uid://cqnfuiw8b1niw" path="res://addons/Blastula/Graphics/Bullets/orbBig.png" id="22_187e0"]
+[ext_resource type="Texture2D" uid="uid://bf0v73jg44qkf" path="res://addons/Blastula/Graphics/Bullets/orbDark.png" id="22_rjfk1"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/InvColoredAnimated.gdshader" id="22_tcyov"]
+[ext_resource type="Texture2D" uid="uid://w5lun47g0dq8" path="res://addons/Blastula/Graphics/Bullets/leaf.png" id="23_bxeop"]
+[ext_resource type="Texture2D" uid="uid://de40idg8lpaan" path="res://addons/Blastula/Graphics/Bullets/checkeredBig.png" id="23_wegdv"]
+[ext_resource type="Texture2D" uid="uid://dpralir30tc5n" path="res://addons/Blastula/Graphics/Bullets/checkeredSmall.png" id="24_8ipta"]
+[ext_resource type="Texture2D" uid="uid://beci7vqpijsws" path="res://addons/Blastula/Graphics/Bullets/leafDark.png" id="24_oqs0n"]
+[ext_resource type="Texture2D" uid="uid://dqf4ob37t5m26" path="res://addons/Blastula/Graphics/Bullets/orbBigDark.png" id="25_h7yak"]
+[ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="26_yhurp"]
+[ext_resource type="Texture2D" uid="uid://dtyyc8mjkguu7" path="res://addons/Blastula/Graphics/Bullets/deletion.png" id="29_7qac7"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Deletion.gdshader" id="30_eiabq"]
+[ext_resource type="Texture2D" uid="uid://dfgm30y05tlob" path="res://addons/Blastula/Graphics/Bullets/mist.png" id="35_7frid"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/AdditiveSpin.gdshader" id="35_b8d48"]
+[ext_resource type="Texture2D" uid="uid://cgdo5iku7p2te" path="res://addons/Blastula/Graphics/Bullets/star.png" id="37_gdhem"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/InvColoredSpin.gdshader" id="38_uld8k"]
+[ext_resource type="Texture2D" uid="uid://d1hy605bgvcbs" path="res://addons/Blastula/Graphics/Bullets/starBig.png" id="39_o0qo0"]
+[ext_resource type="Texture2D" uid="uid://cxubm6gatru8e" path="res://addons/Blastula/Graphics/Bullets/teardrop.png" id="40_7pce2"]
+[ext_resource type="Script" path="res://addons/Blastula/Graphics/LaserRendererManager.cs" id="48_k35cx"]
+[ext_resource type="Script" path="res://addons/Blastula/Graphics/ParticleEffectPool.cs" id="50_eyr8l"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Player/InputManager.cs" id="50_fax0d"]
+[ext_resource type="PackedScene" uid="uid://htuij3trjfo5" path="res://addons/Blastula/Graphics/ExplodeMedium.tscn" id="51_njfs0"]
+[ext_resource type="Script" path="res://addons/Blastula/Sounds/Music.cs" id="52_l68ss"]
+[ext_resource type="Script" path="res://addons/Blastula/Sounds/CommonSFXManager.cs" id="53_22pks"]
+[ext_resource type="AudioStream" uid="uid://y0rkehjfrr2j" path="res://addons/Blastula/Sounds/timeoutWarning.ogg" id="54_gb2so"]
+[ext_resource type="AudioStream" uid="uid://ck5iij88fdqj6" path="res://addons/Blastula/Sounds/pop.ogg" id="54_syovx"]
+[ext_resource type="AudioStream" uid="uid://c77n3g03105ks" path="res://addons/Blastula/Sounds/Enemy/burst.ogg" id="55_ebwm0"]
+[ext_resource type="AudioStream" uid="uid://brfxcimoxoiwv" path="res://addons/Blastula/Sounds/Enemy/enemyShot1.ogg" id="55_jx76w"]
+[ext_resource type="AudioStream" uid="uid://bk550dh4yan7h" path="res://addons/Blastula/Sounds/Enemy/enemyShot2.ogg" id="56_2wipd"]
+[ext_resource type="AudioStream" uid="uid://ma800yc8d8df" path="res://addons/Blastula/Sounds/Enemy/enemyShot3.ogg" id="57_b4lmc"]
+[ext_resource type="AudioStream" uid="uid://c4bcf3o45l5cn" path="res://addons/Blastula/Sounds/Enemy/damaged.ogg" id="57_u6fux"]
+[ext_resource type="AudioStream" uid="uid://c1kb1t7rnsdj8" path="res://addons/Blastula/Sounds/Enemy/shine.ogg" id="58_1pk8q"]
+[ext_resource type="AudioStream" uid="uid://bghrehvbxqqwa" path="res://addons/Blastula/Sounds/Enemy/damagedDeep.ogg" id="58_6px5a"]
+[ext_resource type="AudioStream" uid="uid://bbtcxun22ccoj" path="res://addons/Blastula/Sounds/Enemy/deflect.ogg" id="59_mnxij"]
+[ext_resource type="AudioStream" uid="uid://cfucbp8d6mgw8" path="res://addons/Blastula/Sounds/Player/shot1.ogg" id="60_437af"]
+[ext_resource type="AudioStream" uid="uid://bvfhixp6hlhyd" path="res://addons/Blastula/Sounds/Enemy/explode.ogg" id="60_jg0ee"]
+[ext_resource type="AudioStream" uid="uid://b40ppbhpry1iv" path="res://addons/Blastula/Sounds/Player/graze.ogg" id="60_mqmjd"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Player/GrazeLines.cs" id="62_deiuq"]
+[ext_resource type="Script" path="res://addons/Blastula/Stage/StageManager.cs" id="62_lftpa"]
+[ext_resource type="Script" path="res://addons/Blastula/Stage/StageSector.cs" id="63_d8ira"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Sound.cs" id="64_w3bqr"]
+[ext_resource type="PackedScene" uid="uid://dy1rv3s4i26wp" path="res://addons/Blastula/Stage/EnemySpamTest.tscn" id="65_1m2vo"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="66_doh6d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n1fl4"]
+shader = ExtResource("22_tcyov")
+shader_parameter/tint = Vector4(0, 0, 0, 1)
+shader_parameter/frame_count = 16.0
+shader_parameter/frame_duration = 0.033
+shader_parameter/sync = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l76aq"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nkcdk"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vdhva"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_est2h"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4x2tf"]
+shader = ExtResource("19_hx3pk")
+shader_parameter/tint = Vector4(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4sdq4"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_64j08"]
+shader = ExtResource("22_2qk1a")
+shader_parameter/tint = Vector4(1, 1, 1, 1)
+shader_parameter/speed = 180.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_im8yr"]
+shader = ExtResource("22_2qk1a")
+shader_parameter/tint = Vector4(1, 1, 1, 1)
+shader_parameter/speed = 90.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uh560"]
+shader = ExtResource("22_2qk1a")
+shader_parameter/tint = Vector4(1, 1, 1, 1)
+shader_parameter/speed = 360.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rej5y"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_18mvk"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nnhic"]
+shader = ExtResource("30_eiabq")
+shader_parameter/frame_count = 16.0
+shader_parameter/frame_duration = 0.0333
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jjwll"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_odwvc"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5u3y8"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4q3mj"]
+shader = ExtResource("15_vupyf")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7lpix"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_738il"]
+shader = ExtResource("15_vupyf")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xts5b"]
+shader = ExtResource("38_uld8k")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+shader_parameter/speed = 180.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mc2mk"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ky66s"]
+shader = ExtResource("15_vupyf")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_87fyk"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i3vqr"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fag2n"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bu80g"]
+shader = ExtResource("35_b8d48")
+shader_parameter/tint = Vector4(0.5, 0.5, 0.5, 1)
+shader_parameter/speed = 1130.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dlug3"]
+shader = ExtResource("19_hx3pk")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_87rhf"]
+shader = ExtResource("15_vupyf")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gpl6b"]
+shader = ExtResource("15_vupyf")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mlr20"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_arbek"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ivmsn"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7jvqy"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a1if7"]
+shader = ExtResource("38_uld8k")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+shader_parameter/speed = 180.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kbbsk"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5qpb0"]
+shader = ExtResource("38_uld8k")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+shader_parameter/speed = 180.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_462aa"]
+shader = ExtResource("38_uld8k")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+shader_parameter/speed = -360.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fnutg"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jmpvp"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[node name="Blastula Kernel" type="Node"]
+
+[node name="Bullet Graphic Preview" type="Node2D" parent="." node_paths=PackedStringArray("graphicsContainer")]
+material = SubResource("ShaderMaterial_n1fl4")
+script = ExtResource("1_crnkb")
+graphicsContainer = NodePath("../Rendering/Bullet Renderer Manager/Graphics Root")
+graphicName = "Butterfly"
+collisionColor = Color(1, 0, 1, 1)
+
+[node name="BG" type="Sprite2D" parent="Bullet Graphic Preview"]
+z_index = -4096
+texture = ExtResource("2_g131m")
+
+[node name="Virtual Variables" type="Node" parent="."]
+
+[node name="Persistent" type="Node" parent="Virtual Variables"]
+script = ExtResource("3_o74kx")
+
+[node name="Session" type="Node" parent="Virtual Variables"]
+script = ExtResource("4_6521m")
+
+[node name="Processing Pipeline" type="Node" parent="."]
+
+[node name="Frame Counter" type="Node" parent="Processing Pipeline"]
+script = ExtResource("4_ykg5i")
+
+[node name="Execute Manager" type="Node" parent="Processing Pipeline"]
+script = ExtResource("7_jkywi")
+
+[node name="Collision Solver Manager" type="Node" parent="Processing Pipeline" node_paths=PackedStringArray("objectLayersHolder", "bulletLayersHolder")]
+script = ExtResource("8_nou1f")
+objectLayersHolder = NodePath("Object Layers")
+bulletLayersHolder = NodePath("Bullet Layers")
+
+[node name="Object Layers" type="Node" parent="Processing Pipeline/Collision Solver Manager"]
+
+[node name="Player" type="Node" parent="Processing Pipeline/Collision Solver Manager/Object Layers"]
+
+[node name="Graze" type="Node" parent="Processing Pipeline/Collision Solver Manager/Object Layers"]
+
+[node name="Enemy" type="Node" parent="Processing Pipeline/Collision Solver Manager/Object Layers"]
+
+[node name="EnemyShotBlocker" type="Node" parent="Processing Pipeline/Collision Solver Manager/Object Layers"]
+
+[node name="PlayerShotBlocker" type="Node" parent="Processing Pipeline/Collision Solver Manager/Object Layers"]
+
+[node name="Bullet Layers" type="Node" parent="Processing Pipeline/Collision Solver Manager"]
+
+[node name="EnemyShot" type="Node" parent="Processing Pipeline/Collision Solver Manager/Bullet Layers"]
+
+[node name="Player" type="Node" parent="Processing Pipeline/Collision Solver Manager/Bullet Layers/EnemyShot"]
+
+[node name="Graze" type="Node" parent="Processing Pipeline/Collision Solver Manager/Bullet Layers/EnemyShot"]
+
+[node name="EnemyShotBlocker" type="Node" parent="Processing Pipeline/Collision Solver Manager/Bullet Layers/EnemyShot"]
+
+[node name="PlayerShot" type="Node" parent="Processing Pipeline/Collision Solver Manager/Bullet Layers"]
+
+[node name="PlayerShotBlocker" type="Node" parent="Processing Pipeline/Collision Solver Manager/Bullet Layers/PlayerShot"]
+
+[node name="Enemy" type="Node" parent="Processing Pipeline/Collision Solver Manager/Bullet Layers/PlayerShot"]
+
+[node name="Collectible" type="Node" parent="Processing Pipeline/Collision Solver Manager/Bullet Layers"]
+
+[node name="Player" type="Node" parent="Processing Pipeline/Collision Solver Manager/Bullet Layers/Collectible"]
+
+[node name="Graze" type="Node" parent="Processing Pipeline/Collision Solver Manager/Bullet Layers/Collectible"]
+
+[node name="Post Execute Manager" type="Node" parent="Processing Pipeline"]
+script = ExtResource("9_t4qwe")
+
+[node name="Rendering" type="Node" parent="."]
+
+[node name="Rainbows" type="Node" parent="Rendering"]
+
+[node name="Standard" type="Node" parent="Rendering/Rainbows"]
+script = ExtResource("9_cyb1k")
+colors = PackedColorArray(1, 0, 0, 1, 1, 0.501961, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0.690196, 0.690196, 0.690196, 1)
+names = PackedStringArray("Red", "Orange", "Yellow", "Green", "Cyan", "Blue", "Magenta", "Gray")
+
+[node name="Bullet Renderer Manager" type="Node" parent="Rendering" node_paths=PackedStringArray("bulletGraphicsRoot", "selectorSample")]
+script = ExtResource("11_6k6is")
+bulletGraphicsRoot = NodePath("Graphics Root")
+selectorSample = NodePath("Mesh Container/Sample")
+multiMeshSample = ExtResource("8_7b7a7")
+
+[node name="Graphics Root" type="Node" parent="Rendering/Bullet Renderer Manager"]
+
+[node name="# Enemy" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root"]
+
+[node name="Arrow" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("15_gj71c")
+size = Vector2(80, 80)
+material = SubResource("ShaderMaterial_l76aq")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(5, 0)
+
+[node name="Bubble" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("15_4cpwf")
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_nkcdk")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(8, 0)
+
+[node name="Add" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Bubble" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("15_4cpwf")
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_vdhva")
+zIndex = 50
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(8, 0)
+
+[node name="Huge" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Bubble" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("17_h7h8t")
+size = Vector2(128, 128)
+material = SubResource("ShaderMaterial_est2h")
+zIndex = 50
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(28, 0)
+
+[node name="Bullet" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("19_863oj")
+size = Vector2(32, 24)
+material = SubResource("ShaderMaterial_4x2tf")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(6, 0)
+extraMultimeshFields = 1
+
+[node name="Add" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Bullet" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("19_863oj")
+size = Vector2(32, 24)
+material = SubResource("ShaderMaterial_4sdq4")
+zIndex = 50
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(6, 0)
+
+[node name="Butterfly" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("21_jd4y2")
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_n1fl4")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(14, 0)
+
+[node name="Card" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("18_1nhwt")
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_4x2tf")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(8, 0)
+
+[node name="Checkered" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("21_tf4co")
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_64j08")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(8.5, 0)
+
+[node name="Big" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Checkered" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("23_wegdv")
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_im8yr")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(16, 0)
+
+[node name="Small" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Checkered" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("24_8ipta")
+size = Vector2(16, 16)
+material = SubResource("ShaderMaterial_uh560")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(5.5, 0)
+
+[node name="Crystal" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("17_gjiw2")
+size = Vector2(40, 40)
+material = SubResource("ShaderMaterial_rej5y")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(7.5, 0)
+
+[node name="Afterimage" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Crystal" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("17_gjiw2")
+modulate = Color(1, 1, 1, 0.25098)
+size = Vector2(40, 40)
+material = SubResource("ShaderMaterial_rej5y")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionShape = 0
+collisionSize = Vector2(0, 0)
+
+[node name="Big" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Crystal" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("17_gjiw2")
+size = Vector2(90, 120)
+material = SubResource("ShaderMaterial_18mvk")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(20, 0)
+
+[node name="Dagger" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("17_ukoes")
+size = Vector2(64, 32)
+material = SubResource("ShaderMaterial_l76aq")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(11, 0)
+
+[node name="Deletion" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy"]
+script = ExtResource("10_gun14")
+texture = ExtResource("29_7qac7")
+modulate = Color(1, 1, 1, 0.313726)
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_nnhic")
+unrotatedGraphic = true
+zIndex = -1
+collisionShape = 0
+collisionSize = Vector2(0, 0)
+extraMultimeshFields = 3
+
+[node name="Ellipse" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("14_nuun3")
+size = Vector2(32, 16)
+material = SubResource("ShaderMaterial_jjwll")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(6, 0)
+
+[node name="Big" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Ellipse" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("22_187e0")
+size = Vector2(64, 32)
+material = SubResource("ShaderMaterial_odwvc")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+
+[node name="Add" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Ellipse/Big" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("22_187e0")
+size = Vector2(64, 32)
+material = SubResource("ShaderMaterial_5u3y8")
+zIndex = 50
+autoRainbow = NodePath("../../../../../../Rainbows/Standard")
+
+[node name="Dark" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Ellipse/Big" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("25_h7yak")
+size = Vector2(64, 32)
+material = SubResource("ShaderMaterial_4q3mj")
+autoRainbow = NodePath("../../../../../../Rainbows/Standard")
+
+[node name="Add" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Ellipse" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("14_nuun3")
+size = Vector2(32, 16)
+material = SubResource("ShaderMaterial_7lpix")
+zIndex = 50
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(6, 0)
+
+[node name="Dark" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Ellipse" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("22_rjfk1")
+size = Vector2(32, 16)
+material = SubResource("ShaderMaterial_738il")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(6, 0)
+
+[node name="Spin" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Ellipse" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("14_nuun3")
+size = Vector2(32, 16)
+material = SubResource("ShaderMaterial_xts5b")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(6, 0)
+
+[node name="Leaf" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("23_bxeop")
+size = Vector2(32, 16)
+material = SubResource("ShaderMaterial_mc2mk")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(5, 0)
+
+[node name="Dark" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Leaf" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("24_oqs0n")
+size = Vector2(32, 16)
+material = SubResource("ShaderMaterial_ky66s")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(5, 0)
+
+[node name="Heart" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("21_trwxo")
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_87fyk")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(8, 0)
+
+[node name="Big" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Heart" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("21_trwxo")
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_87fyk")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(16, 0)
+
+[node name="Add" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Heart" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("21_trwxo")
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_i3vqr")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(8, 0)
+
+[node name="Kunai" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("19_8tg4g")
+size = Vector2(64, 16)
+material = SubResource("ShaderMaterial_l76aq")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(5, 0)
+
+[node name="LaserBit" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("19_qbq2r")
+size = Vector2(24, 24)
+material = SubResource("ShaderMaterial_fag2n")
+zIndex = 100
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(7, 0)
+
+[node name="Mist" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy"]
+script = ExtResource("10_gun14")
+texture = ExtResource("35_7frid")
+size = Vector2(48, 48)
+material = SubResource("ShaderMaterial_bu80g")
+zIndex = 200
+collisionShape = 0
+collisionSize = Vector2(0, 0)
+
+[node name="Big" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Mist"]
+script = ExtResource("10_gun14")
+texture = ExtResource("35_7frid")
+size = Vector2(80, 80)
+material = SubResource("ShaderMaterial_bu80g")
+zIndex = 200
+collisionShape = 0
+collisionSize = Vector2(0, 0)
+
+[node name="Huge" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Mist"]
+script = ExtResource("10_gun14")
+texture = ExtResource("35_7frid")
+size = Vector2(144, 144)
+material = SubResource("ShaderMaterial_bu80g")
+zIndex = 200
+collisionShape = 0
+collisionSize = Vector2(0, 0)
+
+[node name="Small" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Mist"]
+script = ExtResource("10_gun14")
+texture = ExtResource("35_7frid")
+size = Vector2(24, 24)
+material = SubResource("ShaderMaterial_bu80g")
+zIndex = 200
+collisionShape = 0
+collisionSize = Vector2(0, 0)
+
+[node name="Orb" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("14_nuun3")
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_jjwll")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(8.5, 0)
+
+[node name="Big" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Orb" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("22_187e0")
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_dlug3")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(16, 0)
+
+[node name="Add" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Orb/Big" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("22_187e0")
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_5u3y8")
+zIndex = 50
+autoRainbow = NodePath("../../../../../../Rainbows/Standard")
+collisionSize = Vector2(16, 0)
+
+[node name="Dark" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Orb/Big" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("25_h7yak")
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_87rhf")
+autoRainbow = NodePath("../../../../../../Rainbows/Standard")
+collisionSize = Vector2(16, 0)
+
+[node name="Add" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Orb" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("14_nuun3")
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_7lpix")
+zIndex = 50
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(8.5, 0)
+
+[node name="Dark" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Orb" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("22_rjfk1")
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_gpl6b")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(8.5, 0)
+
+[node name="Pellet" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("21_2bt56")
+size = Vector2(16, 16)
+material = SubResource("ShaderMaterial_mlr20")
+unrotatedGraphic = true
+zIndex = 1
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(5.5, 0)
+
+[node name="Add" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Pellet" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("21_2bt56")
+size = Vector2(14, 14)
+material = SubResource("ShaderMaterial_arbek")
+unrotatedGraphic = true
+zIndex = 1
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(5, 0)
+
+[node name="Sonic" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("12_4wcau")
+size = Vector2(40, 40)
+material = SubResource("ShaderMaterial_ivmsn")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(6, 0)
+
+[node name="Star" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("37_gdhem")
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_7jvqy")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(8, 0)
+
+[node name="Spin" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Star" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("37_gdhem")
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_a1if7")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(8, 0)
+
+[node name="Big" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Star" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("39_o0qo0")
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_kbbsk")
+autoRainbow = NodePath("../../../../../Rainbows/Standard")
+collisionSize = Vector2(16, 0)
+
+[node name="Spin" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Star/Big" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("39_o0qo0")
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_5qpb0")
+autoRainbow = NodePath("../../../../../../Rainbows/Standard")
+collisionSize = Vector2(16, 0)
+
+[node name="Teardrop" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("40_7pce2")
+size = Vector2(32, 16)
+material = SubResource("ShaderMaterial_mc2mk")
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(5, 0)
+
+[node name="Player" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root"]
+
+[node name="HomingCard" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Player"]
+script = ExtResource("10_gun14")
+texture = ExtResource("18_1nhwt")
+modulate = Color(1, 1, 1, 0.376471)
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_462aa")
+zIndex = -100
+collisionSize = Vector2(20, 0)
+
+[node name="Mesh Container" type="Node" parent="Rendering/Bullet Renderer Manager"]
+
+[node name="Sample" type="MultiMeshInstance2D" parent="Rendering/Bullet Renderer Manager/Mesh Container"]
+multimesh = ExtResource("8_7b7a7")
+script = ExtResource("16_yom2p")
+
+[node name="Laser Renderer Manager" type="Node" parent="Rendering" node_paths=PackedStringArray("laserGraphicsRoot", "meshInstanceSample")]
+script = ExtResource("48_k35cx")
+laserGraphicsRoot = NodePath("Graphics Root")
+meshInstanceSample = NodePath("Mesh Container/Sample")
+arrayMeshSample = ExtResource("21_3rreq")
+
+[node name="Graphics Root" type="Node" parent="Rendering/Laser Renderer Manager"]
+
+[node name="Orb" type="Node" parent="Rendering/Laser Renderer Manager/Graphics Root" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("14_nuun3")
+size = Vector2(24, 0.5)
+material = SubResource("ShaderMaterial_fnutg")
+zIndex = 100
+autoRainbow = NodePath("../../../Rainbows/Standard")
+collisionSize = Vector2(6.5, 0)
+
+[node name="Add" type="Node" parent="Rendering/Laser Renderer Manager/Graphics Root/Orb" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("14_nuun3")
+size = Vector2(24, 0.5)
+material = SubResource("ShaderMaterial_jmpvp")
+zIndex = 100
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionSize = Vector2(6.5, 0)
+
+[node name="Mesh Container" type="Node" parent="Rendering/Laser Renderer Manager"]
+
+[node name="Sample" type="MeshInstance2D" parent="Rendering/Laser Renderer Manager/Mesh Container"]
+mesh = ExtResource("21_3rreq")
+
+[node name="Particle Effect Pools" type="Node" parent="Rendering"]
+
+[node name="ExplodeMedium" type="Node" parent="Rendering/Particle Effect Pools"]
+script = ExtResource("50_eyr8l")
+ID = "ExplodeMedium"
+sample = ExtResource("51_njfs0")
+count = 100
+
+[node name="Input Manager" type="Node" parent="." node_paths=PackedStringArray("buttonsHolder")]
+script = ExtResource("50_fax0d")
+buttonsHolder = NodePath("One Player Buttons")
+
+[node name="One Player Buttons" type="Node" parent="Input Manager"]
+
+[node name="Left" type="Node" parent="Input Manager/One Player Buttons"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194319
+
+[node name="Right" type="Node" parent="Input Manager/One Player Buttons"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194321
+
+[node name="Up" type="Node" parent="Input Manager/One Player Buttons"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194320
+
+[node name="Down" type="Node" parent="Input Manager/One Player Buttons"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194322
+
+[node name="Shoot" type="Node" parent="Input Manager/One Player Buttons"]
+script = ExtResource("18_b0g1x")
+defaultKey = 90
+
+[node name="Bomb" type="Node" parent="Input Manager/One Player Buttons"]
+script = ExtResource("18_b0g1x")
+defaultKey = 88
+
+[node name="Special" type="Node" parent="Input Manager/One Player Buttons"]
+script = ExtResource("18_b0g1x")
+defaultKey = 67
+
+[node name="Focus" type="Node" parent="Input Manager/One Player Buttons"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194325
+
+[node name="Pause" type="Node" parent="Input Manager/One Player Buttons"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194305
+
+[node name="Debug" type="Node" parent="Input Manager/One Player Buttons"]
+script = ExtResource("18_b0g1x")
+defaultKey = 96
+
+[node name="Two Player Buttons" type="Node" parent="Input Manager"]
+
+[node name="LP" type="Node" parent="Input Manager/Two Player Buttons"]
+
+[node name="Left" type="Node" parent="Input Manager/Two Player Buttons/LP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 70
+
+[node name="Right" type="Node" parent="Input Manager/Two Player Buttons/LP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 72
+
+[node name="Up" type="Node" parent="Input Manager/Two Player Buttons/LP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 84
+
+[node name="Down" type="Node" parent="Input Manager/Two Player Buttons/LP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 66
+
+[node name="Shoot" type="Node" parent="Input Manager/Two Player Buttons/LP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 90
+
+[node name="Bomb" type="Node" parent="Input Manager/Two Player Buttons/LP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 88
+
+[node name="Special" type="Node" parent="Input Manager/Two Player Buttons/LP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 67
+
+[node name="Focus" type="Node" parent="Input Manager/Two Player Buttons/LP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194325
+
+[node name="RP" type="Node" parent="Input Manager/Two Player Buttons"]
+
+[node name="Left" type="Node" parent="Input Manager/Two Player Buttons/RP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194442
+
+[node name="Right" type="Node" parent="Input Manager/Two Player Buttons/RP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194444
+
+[node name="Up" type="Node" parent="Input Manager/Two Player Buttons/RP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194446
+
+[node name="Down" type="Node" parent="Input Manager/Two Player Buttons/RP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194440
+
+[node name="Shoot" type="Node" parent="Input Manager/Two Player Buttons/RP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194322
+
+[node name="Bomb" type="Node" parent="Input Manager/Two Player Buttons/RP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194321
+
+[node name="Special" type="Node" parent="Input Manager/Two Player Buttons/RP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194438
+
+[node name="Focus" type="Node" parent="Input Manager/Two Player Buttons/RP"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194319
+
+[node name="Pause" type="Node" parent="Input Manager/Two Player Buttons"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194305
+
+[node name="Debug" type="Node" parent="Input Manager/Two Player Buttons"]
+script = ExtResource("18_b0g1x")
+defaultKey = 126
+
+[node name="Sound" type="Node" parent="."]
+
+[node name="Listener 3D" type="AudioListener3D" parent="Sound"]
+current = true
+
+[node name="Listener 2D" type="AudioListener2D" parent="Sound"]
+current = true
+
+[node name="Music" type="AudioStreamPlayer" parent="Sound"]
+script = ExtResource("52_l68ss")
+
+[node name="Common SFX Manager" type="Node" parent="Sound"]
+script = ExtResource("53_22pks")
+
+[node name="TimeoutWarning" type="AudioStreamPlayer" parent="Sound/Common SFX Manager"]
+stream = ExtResource("54_gb2so")
+
+[node name="Pop" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager"]
+stream = ExtResource("54_syovx")
+
+[node name="Enemy" type="Node" parent="Sound/Common SFX Manager"]
+
+[node name="Burst" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Enemy"]
+stream = ExtResource("55_ebwm0")
+
+[node name="Damaged" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Enemy"]
+stream = ExtResource("57_u6fux")
+
+[node name="DamagedDeep" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Enemy"]
+stream = ExtResource("58_6px5a")
+
+[node name="Deflect" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Enemy"]
+stream = ExtResource("59_mnxij")
+
+[node name="Explode" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Enemy"]
+stream = ExtResource("60_jg0ee")
+max_polyphony = 4
+
+[node name="Shot1" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Enemy"]
+stream = ExtResource("55_jx76w")
+
+[node name="Shot2" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Enemy"]
+stream = ExtResource("56_2wipd")
+
+[node name="Shot3" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Enemy"]
+stream = ExtResource("57_b4lmc")
+
+[node name="Shine" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Enemy"]
+stream = ExtResource("58_1pk8q")
+
+[node name="Player" type="Node" parent="Sound/Common SFX Manager"]
+
+[node name="Shot1" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Player"]
+stream = ExtResource("60_437af")
+
+[node name="Graze" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Player"]
+stream = ExtResource("60_mqmjd")
+max_polyphony = 2
+
+[node name="Stage Manager" type="Node" parent="."]
+script = ExtResource("62_lftpa")
+
+[node name="Stage 0" type="Node" parent="Stage Manager"]
+script = ExtResource("63_d8ira")
+
+[node name="Substage 0" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("63_d8ira")
+duration = "8"
+endWhenChildrenComplete = false
+shouldUseTimer = true
+
+[node name="Sound" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("64_w3bqr")
+commonSFXName = "Enemy/Shot3"
+
+[node name="Substage 1" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("63_d8ira")
+duration = "9"
+endWhenChildrenComplete = false
+shouldUseTimer = true
+formation = ExtResource("65_1m2vo")
+
+[node name="Wait" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("66_doh6d")
+
+[node name="Substage 2" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("63_d8ira")
+duration = "30"
+endWhenChildrenComplete = false
+shouldUseTimer = true
+formation = ExtResource("65_1m2vo")
+
+[node name="Substage 3" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("63_d8ira")
+duration = "196"
+endWhenChildrenComplete = false
+shouldUseTimer = true
+
+[node name="Bonus" type="Node" parent="."]
+
+[node name="Graze Lines" type="Node2D" parent="Bonus"]
+script = ExtResource("62_deiuq")
+
+[node name="Line" type="Line2D" parent="Bonus/Graze Lines"]
+z_index = 20
+points = PackedVector2Array(-8000, 0, -8000, 0)
+width = 4.0
+default_color = Color(1, 1, 1, 0)
+
+[node name="Primordial Disc" type="Node2D" parent="."]
+editor_description = "This allows bullets to continue having behavior when their disc is deleted."
+position = Vector2(0, -200)
+rotation = 1.5708
+script = ExtResource("26_yhurp")

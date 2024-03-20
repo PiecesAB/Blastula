@@ -1,0 +1,10 @@
+[gd_resource type="MultiMesh" load_steps=2 format=3 uid="uid://br8ppceciw5ru"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_bir0g"]
+size = Vector2(24, 12)
+
+[resource]
+instance_count = 1
+visible_instance_count = 0
+mesh = SubResource("QuadMesh_bir0g")
+buffer = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0.000453639, 0)

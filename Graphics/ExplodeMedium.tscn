@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://htuij3trjfo5"]
+
+[ext_resource type="Texture2D" uid="uid://dormg23mi7t27" path="res://addons/Blastula/Graphics/MiscTextures/dust.png" id="1_xanf8"]
+
+[sub_resource type="Curve" id="Curve_txuyk"]
+max_value = 2.0
+_data = [Vector2(0, 0.970514), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_q1rkn"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="Explode Effect" type="CPUParticles2D"]
+z_index = 80
+emitting = false
+amount = 12
+lifetime = 0.33
+one_shot = true
+explosiveness = 0.8
+texture = ExtResource("1_xanf8")
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 200.0
+initial_velocity_max = 400.0
+angle_max = 360.0
+scale_amount_min = 0.4
+scale_amount_curve = SubResource("Curve_txuyk")
+color_ramp = SubResource("Gradient_q1rkn")

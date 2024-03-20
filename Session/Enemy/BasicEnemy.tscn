@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dmjrjy2rrfll2"]
+
+[ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/Enemy.cs" id="1_jevmo"]
+[ext_resource type="Texture2D" uid="uid://cgg752h3ys7w2" path="res://addons/Blastula/Graphics/NodeIcons/enemy.png" id="2_2khxx"]
+[ext_resource type="Script" path="res://addons/Blastula/Collision/BlastulaCollider.cs" id="3_7ciy7"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Target.cs" id="4_1w061"]
+
+[node name="BasicEnemy" type="Node2D"]
+position = Vector2(100, -200)
+script = ExtResource("1_jevmo")
+
+[node name="PlaceholderSprite" type="Sprite2D" parent="."]
+modulate = Color(0.792157, 0.792157, 0.792157, 1)
+z_index = -50
+scale = Vector2(3, 3)
+texture = ExtResource("2_2khxx")
+
+[node name="Bullet Collider" type="Node2D" parent="."]
+script = ExtResource("3_7ciy7")
+size = Vector2(34, 0)
+objectLayer = "Enemy"
+showMode = 0
+
+[node name="TargetEnemy" type="Node2D" parent="."]
+script = ExtResource("4_1w061")
+ID = "Enemy"
+
+[node name="Visible Check" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-30, -30, 60, 60)
+
+[connection signal="Collision" from="Bullet Collider" to="." method="OnHit"]
+[connection signal="screen_entered" from="Visible Check" to="." method="BecameVisibleFromNotifier"]
+[connection signal="screen_exited" from="Visible Check" to="." method="NoLongerVisibleFromNotifier"]

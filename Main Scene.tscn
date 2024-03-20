@@ -1,0 +1,1236 @@
+[gd_scene load_steps=66 format=3 uid="uid://wx1rs8ldtkla"]
+
+[ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="3_yi7x3"]
+[ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="4_5jpkg"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Border/DefaultLogoController.cs" id="4_tinw7"]
+[ext_resource type="Texture2D" uid="uid://dhaplybn1jabj" path="res://addons/Blastula/Graphics/MiscTextures/logo.png" id="5_aloog"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Debug/StatsViews.cs" id="5_djmvm"]
+[ext_resource type="Script" path="res://addons/Blastula/Graphics/ScreenSetup.cs" id="5_svrfx"]
+[ext_resource type="FontFile" uid="uid://ggirehmyeo2f" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_R.otf" id="7_3d2ai"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Debug/DebugCollision.cs" id="7_nbcrq"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Border/FPSDisplay.cs" id="8_5kjcu"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Debug/DebugConsole.cs" id="8_rjlgg"]
+[ext_resource type="FontFile" uid="uid://c0msc3x0utd1o" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Italic.ttf" id="9_8k2qt"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/DefaultPauseMenu.cs" id="9_x5x4p"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/SectorTimer.cs" id="10_1h7p6"]
+[ext_resource type="FontFile" uid="uid://djia8pojyn6eq" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Regular.ttf" id="10_jjfll"]
+[ext_resource type="FontFile" uid="uid://brdkumahfmmgw" path="res://addons/Blastula/Graphics/UI/mainScoreNumbers.png" id="10_vystw"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/MainBoundary.cs" id="11_vax73"]
+[ext_resource type="FontFile" uid="uid://cdkr7rv70t74f" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Bold.ttf" id="11_wtfek"]
+[ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="12_7eb1c"]
+[ext_resource type="FontFile" uid="uid://dwexpt8v22wmh" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-BoldItalic.ttf" id="12_70ty0"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Sequence.cs" id="13_pixf2"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/CreateSingle.cs" id="14_alnw1"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Circle.cs" id="18_xfnro"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Forth.cs" id="19_q6ebi"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="19_ux787"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Comment.cs" id="20_5nn2b"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Lifespan.cs" id="21_1t60j"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Morph.cs" id="21_4k8tc"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Shift.cs" id="26_yrirr"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Variables/SetVar.cs" id="27_c8yub"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="28_bciwx"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Reference.cs" id="30_i7w6n"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Aim.cs" id="31_ikkrr"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Connect.cs" id="32_q3ddi"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Adapt.cs" id="33_pbps6"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/TimeStretch.cs" id="33_y07ts"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/ForEachChild.cs" id="34_3b0t0"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Shuffle.cs" id="34_urxjm"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ClearBehaviors.cs" id="37_2alt6"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Scrimble.cs" id="37_218jv"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Follow.cs" id="38_8cy6s"]
+[ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/Session/Player/BasicPlayer.tscn" id="38_tvlm6"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Spin.cs" id="39_n27mx"]
+[ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/BasicEnemy.tscn" id="41_3fr6s"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetMultimeshExtraData.cs" id="41_rxobj"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="41_v4q22"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Sound.cs" id="42_4nwql"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/ScheduleReference.cs" id="42_51n0m"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Trail.cs" id="42_omkvy"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/CloneInPlace.cs" id="44_buqyd"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/PlaceOnPath2D.cs" id="46_rnlww"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Variables/UnsetVar.cs" id="47_w56g6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rjsw2"]
+font = ExtResource("4_5jpkg")
+font_size = 72
+font_color = Color(0.588235, 0.588235, 0.588235, 1)
+shadow_color = Color(0.415686, 0.415686, 0.415686, 1)
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cblxf"]
+font = ExtResource("4_5jpkg")
+font_size = 36
+font_color = Color(0.588235, 0.588235, 0.588235, 1)
+shadow_color = Color(0.415686, 0.415686, 0.415686, 1)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_lp3rm"]
+line_spacing = -3.0
+font = ExtResource("4_5jpkg")
+font_size = 48
+font_color = Color(1, 1, 0, 1)
+shadow_color = Color(0.415686, 0.415686, 0.415686, 1)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xprkr"]
+content_margin_left = 12.0
+content_margin_top = 0.0
+content_margin_right = 12.0
+content_margin_bottom = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_8ttft"]
+font = ExtResource("7_3d2ai")
+font_size = 28
+shadow_color = Color(0.415686, 0.415686, 0.415686, 1)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="Sky" id="Sky_3xduf"]
+
+[sub_resource type="Environment" id="Environment_hxelk"]
+background_mode = 1
+background_color = Color(0.4, 0.533333, 0.678431, 1)
+sky = SubResource("Sky_3xduf")
+fog_enabled = true
+fog_light_color = Color(0.4, 0.533333, 0.678431, 1)
+fog_density = 0.3831
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dl8qm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x5a55"]
+content_margin_left = 12.0
+content_margin_top = 0.0
+content_margin_right = 12.0
+content_margin_bottom = 0.0
+bg_color = Color(0.152941, 0.152941, 0.152941, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aq0o8"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cwuca"]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="Curve" id="Curve_ij8ng"]
+_data = [Vector2(0, 0.504369), 0.0, -0.504369, 0, 1, Vector2(1, 0), -0.504369, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_tcygc"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="Curve2D" id="Curve2D_sn1b5"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 126, -176, -4.24264, -298.399, 4.24264, 298.399, 328, -10, 0, 0, 0, 0, 143, 148)
+}
+point_count = 3
+
+[node name="Main Scene" type="Node2D"]
+
+[node name="Rendering Zone" type="Camera2D" parent="."]
+position = Vector2(-10000, 0)
+
+[node name="Border" type="Sprite2D" parent="Rendering Zone"]
+texture = ExtResource("3_yi7x3")
+
+[node name="Pillarbox" type="ColorRect" parent="Rendering Zone/Border"]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2500.0
+offset_top = -480.0
+offset_right = 800.0
+offset_bottom = -480.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.00784314, 0.00784314, 0.164706, 1)
+
+[node name="Stats" type="Control" parent="Rendering Zone/Border"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 160.0
+offset_top = -448.0
+offset_right = 608.0
+offset_bottom = 448.0
+
+[node name="DefaultLogo" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("mainLogo", "debugNotification")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_tinw7")
+mainLogo = NodePath("MainLogo")
+debugNotification = NodePath("DebugNotification")
+
+[node name="MainLogo" type="Control" parent="Rendering Zone/Border/Stats/DefaultLogo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Text" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/MainLogo"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 314.0
+offset_bottom = 397.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "blastula"
+label_settings = SubResource("LabelSettings_rjsw2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtext" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/MainLogo"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 364.0
+offset_bottom = 447.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "danmaku framework"
+label_settings = SubResource("LabelSettings_cblxf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LogoShadow" type="TextureRect" parent="Rendering Zone/Border/Stats/DefaultLogo/MainLogo"]
+modulate = Color(0.415686, 0.415686, 0.415686, 1)
+texture_filter = 4
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 64.0
+offset_top = 35.0
+offset_right = -64.0
+offset_bottom = 355.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_aloog")
+expand_mode = 1
+
+[node name="Logo" type="TextureRect" parent="Rendering Zone/Border/Stats/DefaultLogo/MainLogo"]
+modulate = Color(0.588235, 0.588235, 0.588235, 1)
+texture_filter = 4
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 61.0
+offset_top = 32.0
+offset_right = -67.0
+offset_bottom = 352.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_aloog")
+expand_mode = 1
+
+[node name="DebugNotification" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 143.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Running via debug!
+Press ~ for console."
+label_settings = SubResource("LabelSettings_lp3rm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DebugStatsView" type="Control" parent="Rendering Zone/Border/Stats/DefaultLogo"]
+layout_mode = 1
+anchor_top = 0.55
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("5_djmvm")
+
+[node name="Timings" type="ColorRect" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("5_djmvm")
+
+[node name="Structure" type="VBoxContainer" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Total" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Total: 5.67 ms"
+
+[node name="Blank" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+
+[node name="Execute" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Exec Bhvrs: 1.23 ms "
+
+[node name="Collision" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Collision: 1.23 ms "
+
+[node name="PostExecute" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Post Exec: 1.23 ms "
+
+[node name="Render" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Render: 1.23 ms "
+
+[node name="BulletRender" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "    Bullet: 0.56 ms "
+
+[node name="LaserRender" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "    Laser: 0.56 ms "
+
+[node name="FPS" type="Label" parent="Rendering Zone/Border"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 466.0
+offset_top = -34.0
+offset_right = -1091.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "59.9 fps"
+label_settings = SubResource("LabelSettings_8ttft")
+horizontal_alignment = 2
+vertical_alignment = 1
+script = ExtResource("8_5kjcu")
+
+[node name="MainViewHolder" type="Control" parent="Rendering Zone"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -608.0
+offset_top = -448.0
+offset_right = 160.0
+offset_bottom = 448.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(384, 448)
+
+[node name="MainViewBorder" type="ColorRect" parent="Rendering Zone/MainViewHolder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.588235, 0.588235, 0.588235, 1)
+
+[node name="MainView" type="SubViewportContainer" parent="Rendering Zone/MainViewHolder"]
+light_mask = 0
+visibility_layer = 524288
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="Objects" type="SubViewport" parent="Rendering Zone/MainViewHolder/MainView"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(768, 896)
+render_target_update_mode = 4
+
+[node name="Camera" type="Camera2D" parent="Rendering Zone/MainViewHolder/MainView/Objects"]
+
+[node name="Backdrop" type="SubViewportContainer" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera"]
+light_mask = 0
+visibility_layer = 524288
+z_index = -4096
+texture_filter = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -384.0
+offset_top = -448.0
+offset_right = 384.0
+offset_bottom = 448.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="InternalBG" type="SubViewport" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop"]
+handle_input_locally = false
+size = Vector2i(768, 896)
+render_target_update_mode = 4
+
+[node name="Node3D" type="Node3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+environment = SubResource("Environment_hxelk")
+
+[node name="Camera3D" type="Camera3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 8, 0, -0.908, -2)
+mesh = SubResource("PlaneMesh_dl8qm")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 8, 1, 0, -2)
+mesh = SubResource("PlaneMesh_dl8qm")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 8, -1, 0, -2)
+mesh = SubResource("PlaneMesh_dl8qm")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 8, 0, 1, -2)
+mesh = SubResource("PlaneMesh_dl8qm")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.512964, 1.06552, -1.20129)
+light_color = Color(0.533333, 0.713726, 0.878431, 1)
+light_energy = 2.0
+
+[node name="DebugCollision" type="Node2D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera"]
+z_index = 1000
+script = ExtResource("7_nbcrq")
+
+[node name="InGameOverlay" type="Control" parent="Rendering Zone/MainViewHolder"]
+z_index = 100
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Timer" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay" node_paths=PackedStringArray("integerPart", "fractionalPart", "mainViewHolder")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.0
+offset_right = 60.0
+offset_bottom = 52.0
+grow_horizontal = 2
+scale = Vector2(0.8, 0.8)
+pivot_offset = Vector2(60, 0)
+script = ExtResource("10_1h7p6")
+integerPart = NodePath("IntegerPart")
+fractionalPart = NodePath("FractionalPart")
+mainViewHolder = NodePath("../..")
+
+[node name="IntegerPart" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/Timer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -174.0
+offset_right = -54.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_vystw")
+theme_override_font_sizes/font_size = 50
+text = "32"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Dot" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/Timer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -36.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_vystw")
+theme_override_font_sizes/font_size = 36
+text = "."
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="FractionalPart" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/Timer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_vystw")
+theme_override_font_sizes/font_size = 32
+text = "97"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="PauseMenu" type="ColorRect" parent="Rendering Zone/MainViewHolder"]
+visible = false
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.627451)
+script = ExtResource("9_x5x4p")
+
+[node name="DebugConsole" type="Control" parent="Rendering Zone" node_paths=PackedStringArray("inputLine", "lastText")]
+visible = false
+z_index = 1000
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -480.0
+offset_right = 640.0
+offset_bottom = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_rjlgg")
+inputLine = NodePath("Main/Input")
+lastText = NodePath("Main/Messages/FirstMessage")
+
+[node name="BackRect" type="ColorRect" parent="Rendering Zone/DebugConsole"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.752941)
+
+[node name="Main" type="Control" parent="Rendering Zone/DebugConsole"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Input" type="LineEdit" parent="Rendering Zone/DebugConsole/Main"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("9_8k2qt")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_x5a55")
+theme_override_styles/focus = SubResource("StyleBoxFlat_aq0o8")
+deselect_on_focus_loss_enabled = false
+caret_blink = true
+
+[node name="Messages" type="VBoxContainer" parent="Rendering Zone/DebugConsole/Main"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = -24120.0
+offset_bottom = 880.0
+grow_horizontal = 2
+alignment = 2
+
+[node name="FirstMessage" type="RichTextLabel" parent="Rendering Zone/DebugConsole/Main/Messages"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("10_jjfll")
+theme_override_fonts/bold_font = ExtResource("11_wtfek")
+theme_override_fonts/italics_font = ExtResource("9_8k2qt")
+theme_override_fonts/bold_italics_font = ExtResource("12_70ty0")
+theme_override_fonts/mono_font = ExtResource("10_jjfll")
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxEmpty_cwuca")
+bbcode_enabled = true
+text = "[font_size=40][b]Welcome ❤ Shell[/b][/font_size]
+
+Type [b][i]help[/i][/b] to view a list of commands. Type [b][i]help {command name}[/i][/b] to learn about that command, for example: [b][i]help speed[/i][/b]"
+fit_content = true
+scroll_active = false
+
+[node name="Screen Setup" type="Node2D" parent="." node_paths=PackedStringArray("objectViewports")]
+script = ExtResource("5_svrfx")
+objectViewports = [NodePath("../Rendering Zone/MainViewHolder/MainView/Objects")]
+
+[node name="Main Boundary" type="Node2D" parent="." node_paths=PackedStringArray("inheritSize")]
+script = ExtResource("11_vax73")
+ID = "Main"
+inheritSize = NodePath("../Rendering Zone/MainViewHolder")
+
+[node name="Meiling first nonspell clone" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
+position = Vector2(0, -200)
+rotation = 1.5708
+script = ExtResource("12_7eb1c")
+enabled = false
+mainSchedule = NodePath("Main schedule")
+
+[node name="Shoot circle" type="Node" parent="Meiling first nonspell clone"]
+script = ExtResource("13_pixf2")
+
+[node name="Need to define \'rot\' = rotation, \'c\' = cycles complete" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
+script = ExtResource("20_5nn2b")
+
+[node name="Every five shots" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
+script = ExtResource("13_pixf2")
+execute = "shot_count % 5 == 0"
+
+[node name="Create single3" type="Node" parent="Meiling first nonspell clone/Shoot circle/Every five shots"]
+script = ExtResource("14_alnw1")
+
+[node name="Every other shot" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
+script = ExtResource("13_pixf2")
+execute = "shot_count % 5 != 0"
+
+[node name="Create single3" type="Node" parent="Meiling first nonspell clone/Shoot circle/Every other shot"]
+script = ExtResource("14_alnw1")
+renderName = "Crystal/Red"
+
+[node name="Add mist" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
+script = ExtResource("21_4k8tc")
+appearance = "Mist/Big"
+throttle = 0.0
+
+[node name="Move forward" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
+script = ExtResource("19_q6ebi")
+speed = "300"
+
+[node name="Every five shots 2" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
+script = ExtResource("13_pixf2")
+execute = "shot_count % 5 == 0"
+
+[node name="Laser" type="Node" parent="Meiling first nonspell clone/Shoot circle/Every five shots 2"]
+script = ExtResource("42_omkvy")
+frameDelay = "4"
+laserRenderName = "Orb/Red"
+
+[node name="Make a circle" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
+script = ExtResource("18_xfnro")
+radius = "0"
+number = "min(8 + c, 12)"
+
+[node name="Rotate by \'rot\'" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
+script = ExtResource("26_yrirr")
+rotation = "rot"
+
+[node name="Set lifespan" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
+script = ExtResource("21_1t60j")
+duration = "450"
+
+[node name="Main schedule" type="Node" parent="Meiling first nonspell clone"]
+script = ExtResource("19_ux787")
+cycleCount = "1"
+
+[node name="Set dir to 1" type="Node" parent="Meiling first nonspell clone/Main schedule"]
+script = ExtResource("27_c8yub")
+varName = "dir"
+newValue = "1"
+
+[node name="BBaseOperation" type="Node" parent="Meiling first nonspell clone/Main schedule/Set dir to 1"]
+
+[node name="Main cycle" type="Node" parent="Meiling first nonspell clone/Main schedule"]
+script = ExtResource("19_ux787")
+completedCyclesVariableName = "c"
+
+[node name="Reverse dir (multiply by -1)" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle"]
+script = ExtResource("27_c8yub")
+varName = "dir"
+newValue = "-dir"
+
+[node name="Set rot to random angle" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle"]
+script = ExtResource("27_c8yub")
+varName = "rot"
+newValue = "randf() * 360"
+
+[node name="Ordered phase" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle"]
+script = ExtResource("19_ux787")
+cycleCount = "20"
+
+[node name="Change rot by a small amount" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Ordered phase"]
+script = ExtResource("27_c8yub")
+varName = "rot"
+newValue = "6 * dir + rot"
+
+[node name="Play sound" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Ordered phase"]
+script = ExtResource("42_4nwql")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Shoot Circle" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Ordered phase" node_paths=PackedStringArray("other")]
+script = ExtResource("30_i7w6n")
+other = NodePath("../../../../Shoot circle")
+
+[node name="Wait" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Ordered phase"]
+script = ExtResource("28_bciwx")
+waitTime = "0.1"
+
+[node name="Random phase" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle"]
+script = ExtResource("19_ux787")
+cycleCount = "6"
+
+[node name="Set rot to random angle" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Random phase"]
+script = ExtResource("27_c8yub")
+varName = "rot"
+newValue = "randf() * 360"
+
+[node name="Play sound" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Random phase"]
+script = ExtResource("42_4nwql")
+commonSFXName = "Enemy/Shine"
+
+[node name="Shoot Circle" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Random phase" node_paths=PackedStringArray("other")]
+script = ExtResource("30_i7w6n")
+other = NodePath("../../../../Shoot circle")
+
+[node name="Wait" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Random phase"]
+script = ExtResource("28_bciwx")
+waitTime = "0.1"
+
+[node name="Wait longer" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle"]
+script = ExtResource("28_bciwx")
+waitTime = "3"
+
+[node name="Sanae midboss nonspell clone" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
+position = Vector2(0, -200)
+rotation = -1.5708
+script = ExtResource("12_7eb1c")
+enabled = false
+mainSchedule = NodePath("Main schedule")
+
+[node name="Main schedule" type="Node" parent="Sanae midboss nonspell clone"]
+script = ExtResource("19_ux787")
+
+[node name="Begin Phase 1" type="Node" parent="Sanae midboss nonspell clone/Main schedule" node_paths=PackedStringArray("other")]
+script = ExtResource("30_i7w6n")
+other = NodePath("../../Phase 1 - Draw five stars")
+
+[node name="Wait" type="Node" parent="Sanae midboss nonspell clone/Main schedule"]
+script = ExtResource("28_bciwx")
+waitTime = "10"
+
+[node name="Phase 1 - Draw five stars" type="Node" parent="Sanae midboss nonspell clone"]
+script = ExtResource("13_pixf2")
+
+[node name="Create single" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars"]
+script = ExtResource("14_alnw1")
+renderName = "Pellet/Gray"
+
+[node name="Make a star with separate lines" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars"]
+script = ExtResource("13_pixf2")
+
+[node name="Five points" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Make a star with separate lines"]
+script = ExtResource("18_xfnro")
+radius = "160"
+number = "5"
+
+[node name="Star order" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Make a star with separate lines"]
+script = ExtResource("34_urxjm")
+n = "2"
+
+[node name="Connect the points" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Make a star with separate lines"]
+script = ExtResource("32_q3ddi")
+structure = 1
+number = "21"
+circular = true
+
+[node name="Draw it" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars"]
+script = ExtResource("13_pixf2")
+
+[node name="For each line" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Draw it"]
+script = ExtResource("34_3b0t0")
+progressVariable = ""
+countVariable = "u"
+
+[node name="For each bullet" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Draw it/For each line"]
+script = ExtResource("34_3b0t0")
+progressVariable = ""
+countVariable = "v"
+
+[node name="Delay" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Draw it/For each line/For each bullet"]
+script = ExtResource("21_4k8tc")
+appearance = ""
+duration = "20 * u + v"
+scaleMultiplier = 1.0
+throttle = 1.0
+
+[node name="Mist" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Draw it/For each line/For each bullet"]
+script = ExtResource("21_4k8tc")
+throttle = 1.0
+
+[node name="Rotate line containers away from center" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Draw it/For each line"]
+script = ExtResource("26_yrirr")
+childPlacement = 1
+rotation = "(720.0 / 5) * u + 72"
+
+[node name="Circle of 5" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars"]
+script = ExtResource("18_xfnro")
+radius = "0"
+number = "5"
+rotationMode = 1
+
+[node name="Aim at the player" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars"]
+script = ExtResource("31_ikkrr")
+
+[node name="Set lifespan" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars"]
+script = ExtResource("21_1t60j")
+duration = "1200"
+
+[node name="Perform phase 2 in a bit" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars" node_paths=PackedStringArray("operation")]
+script = ExtResource("33_pbps6")
+operation = NodePath("../../Phase 2 - Move the stars outward")
+
+[node name="Phase 2 - Move the stars outward" type="Node" parent="Sanae midboss nonspell clone"]
+script = ExtResource("13_pixf2")
+
+[node name="For each star" type="Node" parent="Sanae midboss nonspell clone/Phase 2 - Move the stars outward"]
+script = ExtResource("34_3b0t0")
+progressVariable = ""
+
+[node name="Perform phase 3 in a bit (on each star)" type="Node" parent="Sanae midboss nonspell clone/Phase 2 - Move the stars outward/For each star" node_paths=PackedStringArray("operation")]
+script = ExtResource("33_pbps6")
+operation = NodePath("../../../Phase 3 - Each star\'s lines contract")
+
+[node name="Slow to a stop" type="Node" parent="Sanae midboss nonspell clone/Phase 2 - Move the stars outward/For each star"]
+script = ExtResource("33_y07ts")
+curve = SubResource("Curve_ij8ng")
+endTime = "120"
+
+[node name="Move forth" type="Node" parent="Sanae midboss nonspell clone/Phase 2 - Move the stars outward/For each star"]
+script = ExtResource("19_q6ebi")
+speed = "500"
+
+[node name="Phase 3 - Each star\'s lines contract" type="Node" parent="Sanae midboss nonspell clone"]
+script = ExtResource("13_pixf2")
+
+[node name="Clear behaviors" type="Node" parent="Sanae midboss nonspell clone/Phase 3 - Each star\'s lines contract"]
+script = ExtResource("37_2alt6")
+
+[node name="For each line in this star" type="Node" parent="Sanae midboss nonspell clone/Phase 3 - Each star\'s lines contract"]
+script = ExtResource("34_3b0t0")
+progressVariable = ""
+
+[node name="Add spread" type="Node" parent="Sanae midboss nonspell clone/Phase 3 - Each star\'s lines contract/For each line in this star"]
+script = ExtResource("37_218jv")
+startRadius = "0"
+endRadius = "0"
+startAngle = "135"
+endAngle = "-135"
+number = "21"
+shapingMode = 1
+transformOrder = 1
+
+[node name="For each bullet" type="Node" parent="Sanae midboss nonspell clone/Phase 3 - Each star\'s lines contract/For each line in this star"]
+script = ExtResource("34_3b0t0")
+progressVariable = ""
+
+[node name="Accelerate" type="Node" parent="Sanae midboss nonspell clone/Phase 3 - Each star\'s lines contract/For each line in this star/For each bullet"]
+script = ExtResource("33_y07ts")
+curve = SubResource("Curve_tcygc")
+
+[node name="Move forth" type="Node" parent="Sanae midboss nonspell clone/Phase 3 - Each star\'s lines contract/For each line in this star/For each bullet"]
+script = ExtResource("19_q6ebi")
+speed = "120"
+
+[node name="Stress circle" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
+position = Vector2(0, -200)
+rotation = -1.5708
+script = ExtResource("12_7eb1c")
+enabled = false
+mainSchedule = NodePath("Main schedule")
+
+[node name="Main schedule" type="Node" parent="Stress circle"]
+script = ExtResource("19_ux787")
+
+[node name="10000 circle" type="Node" parent="Stress circle/Main schedule"]
+script = ExtResource("13_pixf2")
+
+[node name="Create single" type="Node" parent="Stress circle/Main schedule/10000 circle"]
+script = ExtResource("14_alnw1")
+renderName = "Pellet/Magenta"
+
+[node name="Forth" type="Node" parent="Stress circle/Main schedule/10000 circle"]
+script = ExtResource("19_q6ebi")
+speed = "300"
+
+[node name="Circle of 10000" type="Node" parent="Stress circle/Main schedule/10000 circle"]
+script = ExtResource("18_xfnro")
+radius = "0"
+number = "10000"
+rotationMode = 1
+
+[node name="Lifespan" type="Node" parent="Stress circle/Main schedule/10000 circle"]
+script = ExtResource("21_1t60j")
+duration = "60"
+
+[node name="Wait" type="Node" parent="Stress circle/Main schedule"]
+script = ExtResource("28_bciwx")
+
+[node name="Follow test" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
+position = Vector2(0, -200)
+rotation = 1.5708
+script = ExtResource("12_7eb1c")
+enabled = false
+mainSchedule = NodePath("Main schedule")
+
+[node name="Shoot circle" type="Node" parent="Follow test"]
+script = ExtResource("13_pixf2")
+
+[node name="Create single" type="Node" parent="Follow test/Shoot circle"]
+script = ExtResource("14_alnw1")
+renderName = "Pellet/White"
+
+[node name="Create single3" type="Node" parent="Follow test/Shoot circle"]
+script = ExtResource("18_xfnro")
+number = "2"
+
+[node name="Create single4" type="Node" parent="Follow test/Shoot circle"]
+script = ExtResource("39_n27mx")
+speed = "180"
+
+[node name="Create single2" type="Node" parent="Follow test/Shoot circle"]
+script = ExtResource("38_8cy6s")
+
+[node name="Set lifespan" type="Node" parent="Follow test/Shoot circle"]
+script = ExtResource("21_1t60j")
+duration = "10000"
+
+[node name="Main schedule" type="Node" parent="Follow test"]
+script = ExtResource("19_ux787")
+
+[node name="Shoot Circle" type="Node" parent="Follow test/Main schedule" node_paths=PackedStringArray("other")]
+script = ExtResource("30_i7w6n")
+other = NodePath("../../Shoot circle")
+
+[node name="Wait longer" type="Node" parent="Follow test/Main schedule"]
+script = ExtResource("28_bciwx")
+waitTime = "10000"
+units = 1
+
+[node name="BasicPlayer" parent="." instance=ExtResource("38_tvlm6")]
+position = Vector2(-100, 320)
+
+[node name="BasicEnemy" parent="." instance=ExtResource("41_3fr6s")]
+position = Vector2(0, -200)
+health = 500.0
+lowHealthCutoff = 100.0
+
+[node name="Mind Shaker clone" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+script = ExtResource("12_7eb1c")
+mainSchedule = NodePath("Main Loop")
+cleanupSchedule = NodePath("Cleanup")
+deleteAction = 1
+
+[node name="Fire Circle Left" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("13_pixf2")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+script = ExtResource("14_alnw1")
+renderName = "Bullet/Blue"
+
+[node name="Mist" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+script = ExtResource("21_4k8tc")
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+script = ExtResource("19_q6ebi")
+speed = "120"
+
+[node name="Adapt bullet on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left" node_paths=PackedStringArray("operation")]
+script = ExtResource("33_pbps6")
+operation = NodePath("../../Start illusion on bullet")
+condition = "illusion_time"
+wait = ""
+
+[node name="Circle" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left" node_paths=PackedStringArray("path2D")]
+script = ExtResource("46_rnlww")
+path2D = NodePath("Path2D")
+extraRotation = "-90"
+number = "40"
+
+[node name="Path2D" type="Path2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left/Circle"]
+curve = SubResource("Curve2D_sn1b5")
+
+[node name="Adapt circle on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left" node_paths=PackedStringArray("operation")]
+script = ExtResource("33_pbps6")
+operation = NodePath("../../Start illusion on circle")
+condition = "illusion_time"
+wait = ""
+
+[node name="Rotate in the illusion direction" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+rotation = "120"
+script = ExtResource("26_yrirr")
+childPlacement = 1
+rotation = "120"
+
+[node name="Super container to avoid lifespan getting deleted" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+script = ExtResource("44_buqyd")
+number = "1"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+script = ExtResource("21_1t60j")
+duration = "900"
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+script = ExtResource("42_4nwql")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Fire Circle Right" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("13_pixf2")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("14_alnw1")
+renderName = "Bullet/Red"
+
+[node name="Mist" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("21_4k8tc")
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("19_q6ebi")
+speed = "120"
+
+[node name="Adapt bullet on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right" node_paths=PackedStringArray("operation")]
+script = ExtResource("33_pbps6")
+operation = NodePath("../../Start illusion on bullet")
+condition = "illusion_time"
+wait = ""
+
+[node name="Circle" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("18_xfnro")
+number = "40"
+
+[node name="Adapt circle on illusion" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right" node_paths=PackedStringArray("operation")]
+script = ExtResource("33_pbps6")
+operation = NodePath("../../Start illusion on circle")
+condition = "illusion_time"
+wait = ""
+
+[node name="Rotate in the illusion direction" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+rotation = "60"
+script = ExtResource("26_yrirr")
+childPlacement = 1
+rotation = "60"
+
+[node name="Super container to avoid lifespan getting deleted" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("44_buqyd")
+number = "1"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("21_1t60j")
+duration = "900"
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("42_4nwql")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Start illusion on bullet" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("13_pixf2")
+
+[node name="Clear behaviors" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
+script = ExtResource("37_2alt6")
+
+[node name="Make transparent" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
+script = ExtResource("41_rxobj")
+color = "Color(1, 1, 1, 0.5)"
+
+[node name="Make uncollidable" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
+script = ExtResource("41_v4q22")
+newCollisionLayer = "None"
+
+[node name="Adapt bullet on illusion end" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet" node_paths=PackedStringArray("operation")]
+script = ExtResource("33_pbps6")
+operation = NodePath("../../End illusion on bullet")
+condition = "!illusion_time"
+wait = ""
+
+[node name="End illusion on bullet" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("13_pixf2")
+
+[node name="Clear behaviors" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet"]
+script = ExtResource("37_2alt6")
+
+[node name="Make opaque" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet"]
+script = ExtResource("41_rxobj")
+color = "Color(1, 1, 1, 1)"
+
+[node name="Make collidable" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet"]
+script = ExtResource("41_v4q22")
+newCollisionLayer = "EnemyShot"
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet"]
+script = ExtResource("19_q6ebi")
+speed = "120"
+
+[node name="Adapt bullet on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet" node_paths=PackedStringArray("operation")]
+script = ExtResource("33_pbps6")
+operation = NodePath("../../Start illusion on bullet")
+condition = "illusion_time"
+wait = ""
+
+[node name="Start illusion on circle" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("13_pixf2")
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on circle"]
+script = ExtResource("19_q6ebi")
+
+[node name="Adapt circle on illusion end" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on circle" node_paths=PackedStringArray("operation")]
+script = ExtResource("33_pbps6")
+operation = NodePath("../../End illusion on circle")
+condition = "!illusion_time"
+wait = ""
+
+[node name="End illusion on circle" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("13_pixf2")
+
+[node name="Clear behaviors" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on circle"]
+script = ExtResource("37_2alt6")
+
+[node name="Adapt circle on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on circle" node_paths=PackedStringArray("operation")]
+script = ExtResource("33_pbps6")
+operation = NodePath("../../Start illusion on circle")
+condition = "illusion_time"
+wait = ""
+
+[node name="Main Loop" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("19_ux787")
+
+[node name="Illusion time is false" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("27_c8yub")
+varName = "illusion_time"
+environment = 1
+newValue = "false"
+
+[node name="Fire Circle Left" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop" node_paths=PackedStringArray("other")]
+script = ExtResource("30_i7w6n")
+other = NodePath("../../Fire Circle Left")
+
+[node name="Fire Circle Right" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop" node_paths=PackedStringArray("other")]
+script = ExtResource("30_i7w6n")
+other = NodePath("../../Fire Circle Right")
+
+[node name="Wait" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("28_bciwx")
+
+[node name="Illusion time is true" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("27_c8yub")
+varName = "illusion_time"
+environment = 1
+newValue = "true"
+
+[node name="Shine sound 1" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("42_4nwql")
+commonSFXName = "Enemy/Shine"
+
+[node name="Wait2" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("28_bciwx")
+waitTime = "2"
+
+[node name="Illusion time is false again" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("27_c8yub")
+varName = "illusion_time"
+environment = 1
+newValue = "false"
+
+[node name="Shine sound" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("42_4nwql")
+commonSFXName = "Enemy/Shine"
+
+[node name="Wait3" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("28_bciwx")
+waitTime = "1.5"
+
+[node name="Cleanup" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("19_ux787")
+cycleCount = "1"
+
+[node name="Unset illusion time" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Cleanup"]
+script = ExtResource("47_w56g6")
+varName = "illusion_time"
+environment = 1
+
+[node name="BasicEnemy2" parent="." instance=ExtResource("41_3fr6s")]
+position = Vector2(0, -136)
+
+[node name="Sanae midboss nonspell clone2" type="Node2D" parent="BasicEnemy2" node_paths=PackedStringArray("mainSchedule")]
+rotation = -1.5708
+script = ExtResource("12_7eb1c")
+enabled = false
+mainSchedule = NodePath("Main schedule")
+
+[node name="Main schedule" type="Node" parent="BasicEnemy2/Sanae midboss nonspell clone2"]
+script = ExtResource("42_51n0m")

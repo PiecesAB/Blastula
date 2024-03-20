@@ -1,4 +1,4 @@
-![blastula danmaku framework](/addons/Blastula/Icons/outlined256.png)
+![blastula danmaku framework](/Icons/outlined256.png)
 
 ## Warning: WIP
 

@@ -22,9 +22,9 @@ It's inspired by amazing existing editors/frameworks as [Danmakufu](https://gith
 1. This is a C# project last updated with Godot 4.2.1, so be sure to get the .NET enabled version of the editor.
 2. Create a new Godot project, or navigate to the existing folder of the project. Close Godot (If you leave it open during the next steps, you will suffer. Everything will fall apart.)
 3. In Git Bash or equivalent Git interface, make the current working directory the "addons" folder within the project.
-4. Clone the repository into the addons folder. If using Git Bash, this is done with the command "git clone https://github.com/PiecesAB/Blastula"
+4. Clone the repository into the addons folder. If using Git Bash, this is done with the command "git clone https://github.com/PiecesAB/Blastula". This will create a "Blastula" folder within the "addons" folder. Be sure this is capital B Blastula.
 5. Now open Godot and try to build the code by clicking the hammer icon in the top right corner, just left of the play button. If the hammer isn't there, try making a new placeholder C# class, and it should appear.
-6. It likely failed to build the code because of complaining about an "/unsafe" directive. This is because Blastula uses high-performance C# which involves pointers. To fix this, navigate to the .csproj file in the root of the Godot project (which has been generated for you by Godot when we tried to build) and add "&lt;AllowUnsafeBlocks&gt;true&lt;/AllowUnsafeBlocks&gt;" as an extra PropertyGroup.
+6. It likely failed to build the code because of complaining about an "/unsafe" directive. This is because Blastula sacrifices guaranteed memory safety for performance. To fix this, navigate to the .csproj file in the root of the Godot project (which has been generated for you by Godot when we tried to build) and add "&lt;AllowUnsafeBlocks&gt;true&lt;/AllowUnsafeBlocks&gt;" as an extra PropertyGroup.
 7. Try to build with the hammer again. It should succeed.
 8. In the Plugins tab of Project Settings in Godot, be sure to enable the Blastula plugin. This should automatically set it up so that the start scene is "Main Scene.tscn", and other things such as the resolution are modified.
 9. Everything should now be in place!

@@ -1,11 +1,11 @@
 using Blastula.VirtualVariables;
 using Godot;
 
-/// <summary>
-/// Holds the data to a type of rainbow, for use in applying them to bullet appearances.
-/// </summary>
 namespace Blastula.Graphics
 {
+    /// <summary>
+    /// Holds the data to a type of rainbow, for use in applying them to bullet appearances.
+    /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/rainbow.png")]
     public partial class RainbowInfo : Node

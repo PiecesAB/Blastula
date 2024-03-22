@@ -7,6 +7,9 @@ namespace Blastula.LowLevel
     /// <summary>
     /// Stores a list of VALUES (it copies them.)
     /// </summary>
+    /// <typeparam name="T">
+    /// Unmanaged type of the array.
+    /// </typeparam>
     public unsafe struct UnsafeArray<T> where T : unmanaged
     {
         public T* array;

@@ -4,11 +4,22 @@ using Godot;
 
 namespace Blastula
 {
+    /// <summary>
+    /// A node used to track a point in 2D space, so that bullet structures can behave in ways relating to these positions.
+    /// </summary>
+    /// <example>
+    /// Aiming and following uses targets.
+    /// </example>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/crosshair.png")]
     public unsafe partial class Target : Node2D
     {
-        // Multiple targets can have the same ID.
+        /// <summary>
+        /// Globally identify this target. 
+        /// </summary>
+        /// <remarks>
+        /// Multiple targets may have the same ID.
+        /// </remarks>
         [Export] public string ID = "Target";
         private int IDNumber = -1;
 
@@ -18,6 +29,13 @@ namespace Blastula
 
         private static System.Collections.Generic.Dictionary<string, int> IDNumbers = new System.Collections.Generic.Dictionary<string, int>();
 
+        /// <summary>
+        /// Gets an internal numerical form of a target ID.
+        /// </summary>
+        /// <remarks>
+        /// Bullet behaviors can't reference strings, because they are managed types.
+        /// For optimization purposes (to avoid garbage collection mainly), the data used by a behavior is designed to be unmanaged.
+        /// </remarks>
         public static int GetNumberFromID(string ID)
         {
             if (!IDNumbers.ContainsKey(ID)) { return -1; }
@@ -31,7 +49,14 @@ namespace Blastula
             return globalPositions[IDNumber].count;
         }
 
+        /// <summary>
+        /// Gets the closest target to pos that has this ID.
+        /// </summary>
         public static Transform2D GetClosest(string ID, Vector2 pos) { return GetClosest(GetNumberFromID(ID), pos); }
+
+        /// <summary>
+        /// Gets the closest target to pos that has this numerical ID.
+        /// </summary>
         public static Transform2D GetClosest(int IDNumber, Vector2 pos)
         {
             Transform2D closest = Transform2D.Identity;
@@ -52,6 +77,13 @@ namespace Blastula
             return closest;
         }
 
+        /// <summary>
+        /// Gets a pointer to this target's transform, which is updated every frame.
+        /// </summary>
+        /// <remarks>
+        /// Bullet behaviors can't reference classes (such as Node), because they are managed types.
+        /// For optimization purposes (to avoid garbage collection mainly), the data used by a behavior is designed to be unmanaged.
+        /// </remarks>
         public Transform2D* GetPointerToTransform()
         {
             if (myNode == null) { return null; }

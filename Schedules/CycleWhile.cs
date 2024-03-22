@@ -13,11 +13,11 @@ namespace Blastula.Schedules
     public partial class CycleWhile : BaseSchedule
     {
         [Export] public string cycleCondition = "t < 5";
-        [ExportGroup("Advanced")]
         /// <summary>
         /// This would the variable name of the current cycle we are on, starting at 0.
         /// When nonempty, it populates that temporary variable, to use in operations.
         /// </summary>
+        [ExportGroup("Advanced")]
         [Export] public string completedCyclesVariableName = "";
 
         public override async Task Execute(IVariableContainer source)

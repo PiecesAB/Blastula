@@ -9,27 +9,79 @@ using System.Collections.Generic;
 namespace Blastula
 {
     /// <summary>
-    /// Fires bullet structures!
+    /// This is the most important non-bullet element in the framework.
+    /// It initiates a schedule to fire bullet structures, and handles their execution every frame.
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/blastodisc.png")]
     public unsafe partial class Blastodisc : Node2D, IVariableContainer
     {
+        /// <summary>
+        /// Used in deleteAction field to determine what happens when this Blastodisc is deleted.
+        /// </summary>
+        /// <remarks>
+        /// We can't take no action, because Blastodiscs have to manage bullet structure deletion.
+        /// If we abandon the bullet structures, they would remain in the master queue forever,
+        /// and we would soon run out of bullets to fire.
+        /// </remarks>
         public enum DeleteAction
         {
+            /// <summary>
+            /// The primordial Blastodisc inherits the bullet structures of this Blastodisc,
+            /// so that they may continue executing every frame.
+            /// </summary>
             BulletsRemain,
+            /// <summary>
+            /// The bullet structures of this Blastodisc are cleared.
+            /// </summary>
             ClearMyBullets,
+            /// <summary>
+            /// The bullet structures of all Blastodiscs are cleared.
+            /// </summary>
+            /// <remarks>
+            /// This includes collectibles and player shots, which is strange.
+            /// More granular deletion will be implemented soon.
+            /// </remarks>
             ClearAllBullets
         }
 
         [Export] public bool enabled = true;
+        /// <summary>
+        /// This schedule begins once the Blastodisc is enabled.
+        /// </summary>
         [Export] public BaseSchedule mainSchedule;
+        /// <summary>
+        /// If false, bullet structures will not be executed every frame.
+        /// </summary>
         [Export] public bool bulletsExecutable = true;
+        /// <summary>
+        /// This schedule runs when the Blastodisc is about to be deleted. 
+        /// </summary>
+        /// <remarks>
+        /// Be careful if the schedule is a child of this Blastodisc and waits, even one frame.
+        /// A deleted schedule won't do anything.
+        /// </remarks>
         [ExportGroup("Advanced")]
         [Export] public BaseSchedule cleanupSchedule;
+        /// <summary>
+        /// For more info, see comments on the enum DeleteAction.
+        /// </summary>
         [Export] public DeleteAction deleteAction = DeleteAction.BulletsRemain;
+        /// <summary>
+        /// Multiplier for the time scale at which bullets are executed.
+        /// </summary>
+        /// <example>
+        /// Try animating this between 0 and 1 to produce a Freeze Sign "Perfect Freeze" effect.
+        /// </example>
+        /// <remarks>
+        /// Setting speed multiplier to 0 is not necessarily the same as stopping execution.
+        /// There are some behaviors which occur regardless of time scale, such as instant aiming.
+        /// </remarks>
         [Export] public float speedMultiplier = 1f;
 
+        /// <summary>
+        /// Implemented for IVariableContainer; holds local variables.
+        /// </summary>
         public Dictionary<string, Variant> customData { get; set; } = new Dictionary<string, Variant>();
 
         private int shotsFired = 0;
@@ -54,6 +106,9 @@ namespace Blastula
         private int lastRefreshHead = 0;
         private bool scheduleBegan = false;
 
+        /// <summary>
+        /// References all Blastodiscs that currently exist in any scene tree.
+        /// </summary>
         public static HashSet<Blastodisc> all = new HashSet<Blastodisc>();
         /// <summary>
         /// This must be the first blastodisc that exists, and is within the kernel.
@@ -76,11 +131,17 @@ namespace Blastula
             return operation.ProcessStructure(-1);
         }
 
+        /// <summary>
+        /// Implemented for IVariableContainer; holds special variable names.
+        /// </summary>
         public HashSet<string> specialNames { get; set; } = new HashSet<string>()
         {
             "t", "shot_count"
         };
 
+        /// <summary>
+        /// Implemented for IVariableContainer; solves special variable names.
+        /// </summary>
         public Variant GetSpecial(string varName)
         {
             switch (varName)
@@ -93,6 +154,15 @@ namespace Blastula
             return default;
         }
 
+        /// <summary>
+        /// Using an operation, create a bullet structure, and inherit it.
+        /// </summary>
+        /// <param name="operation">Usually a Sequence.</param>
+        /// <remarks>
+        /// You don't actually need to make a bullet structure here.
+        /// There are some operations which can exist independently of any bullet structure, such as playing a sound.
+        /// When that happens, we correctly "shoot" it and not inherit anything.
+        /// </remarks>
         public void Shoot(BaseOperation operation)
         {
             if (operation == null) { return; }
@@ -109,8 +179,15 @@ namespace Blastula
         }
 
         /// <summary>
-        /// Makes the BNode a child of the Blastodisc's master structure.
+        /// Makes the bullet structure a child of the Blastodisc's master structure, inheriting it.
         /// </summary>
+        /// <remarks>
+        /// Inheriting is an important operation to avoid abandoning bullet structures; they must be tracked
+        /// to avoid strange problems.
+        /// <br /><br />
+        /// The "master structure" of a Blastodisc is its way of tracking and inheriting bullet structures,
+        /// using an overarching bullet structure.
+        /// </remarks>
 		public bool Inherit(int bNodeIndex)
         {
             if (masterStructure == -1)
@@ -226,7 +303,7 @@ namespace Blastula
                     int childIndex = BNodeFunctions.masterQueue[newMS].children[j];
                     BNodeFunctions.masterQueue[childIndex].parentIndex = newMS;
                 }
-                BNodeFunctions.MasterQueuePushOne(masterStructure);
+                BNodeFunctions.MasterQueuePushIndependent(masterStructure);
                 masterStructure = newMS;
             }
         }
@@ -246,6 +323,13 @@ namespace Blastula
             }
         }
 
+        /// <summary>
+        /// Deletes all bullets associated with all Blastodiscs, which should be every bullet in the game.
+        /// </summary>
+        /// <remarks>
+        /// This includes collectibles and player shots, which is strange.
+        /// More granular deletion will be implemented soon.
+        /// </remarks>
         public static void ClearBulletsForAll()
         {
             foreach (Blastodisc bd in all)
@@ -254,6 +338,14 @@ namespace Blastula
             }
         }
 
+        /// <summary>
+        /// Used mainly internally for executing the master structure of all Blastodiscs.
+        /// Because execution always cascades to children, this executes all true bullet structures.
+        /// </summary>
+        /// <remarks>
+        /// The "master structure" of a Blastodisc is its way of tracking and inheriting bullet structures,
+        /// using an overarching bullet structure.
+        /// </remarks>
         public static void ExecuteAll()
         {
             if (Session.IsPaused() || Debug.GameFlow.frozen) { return; }

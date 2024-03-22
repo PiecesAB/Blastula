@@ -6,6 +6,11 @@ using System.Runtime.InteropServices;
 
 namespace Blastula
 {
+    /// <summary>
+    /// Describes a boundary, for which it matters whether something is inside or outside.
+    /// </summary>
+    /// <example>It is used to constrain the player so that they remain within the playfield.</example>
+    /// <example>It is a major part of reflecting bullets on the playfield boundary.</example>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/boundary.png")]
     [Tool]
@@ -16,6 +21,9 @@ namespace Blastula
             Rectangle, Circle
         }
 
+        /// <summary>
+        /// Used to uniquely and globally identify this boundary.
+        /// </summary>
         [Export] public string ID;
         [Export] public Form form = Form.Rectangle;
         [Export] public Vector2 defaultSize = new Vector2(500, 500);
@@ -24,6 +32,9 @@ namespace Blastula
         [Export] public bool moveToGlobalPosition = false;
         [Export] public Color colorInEditor = Colors.White;
 
+        /// <summary>
+        /// Resolves Boundary object from its ID.
+        /// </summary>
         public static Dictionary<string, Boundary> boundaryFromID = new Dictionary<string, Boundary>();
 
         public struct LowLevelInfo
@@ -34,7 +45,13 @@ namespace Blastula
             public Vector2 extent;
         }
 
-        // We can pass it to bullet behaviors.
+        /// <summary>
+        /// Exists so that bullet behaviors can use this boundary's information without having to reference a class.
+        /// </summary>
+        /// <remarks>
+        /// Bullet behaviors can't reference classes or strings because these are managed types.
+        /// For optimization purposes (to avoid garbage collection mainly), the data used by a behavior is designed to be unmanaged.
+        /// </remarks>
         public LowLevelInfo* lowLevelInfo = null;
 
         private Vector2 CalculateSize()
@@ -43,6 +60,12 @@ namespace Blastula
             return inheritSize.Size;
         }
 
+        /// <summary>
+        /// Determines whether a position is within the boundary.
+        /// </summary>
+        /// <param name="shrink">Pretend the boundary is smaller than it really is, by shrinking this number of units in all directions.
+        /// We can also pretend the boundary is larger when this parameter is negative.
+        /// </param>
         public static bool IsWithin(LowLevelInfo* boundInfo, Vector2 globalPos, float shrink)
         {
             if (boundInfo == null) { return true; }
@@ -61,6 +84,12 @@ namespace Blastula
             }
         }
 
+        /// <summary>
+        /// Returns the same position when it's within the boundary, or otherwise the nearest position within the boundary.
+        /// </summary>
+        /// <param name="shrink">Pretend the boundary is smaller than it really is, by shrinking this number of units in all directions.
+        /// We can also pretend the boundary is larger when this parameter is negative.
+        /// </param>
         public static Vector2 Clamp(LowLevelInfo* boundInfo, Vector2 globalPos, float shrink)
         {
             if (boundInfo == null) { return globalPos; }
@@ -82,6 +111,13 @@ namespace Blastula
             }
         }
 
+        /// <summary>
+        /// Returns the same position when it's within the boundary, or otherwise the position wrapped to the boundary's other side
+        /// (like in the Asteroids arcade game).
+        /// </summary>
+        /// <param name="shrink">Pretend the boundary is smaller than it really is, by shrinking this number of units in all directions.
+        /// We can also pretend the boundary is larger when this parameter is negative.
+        /// </param>
         public static Vector2 Wrap(LowLevelInfo* boundInfo, Vector2 globalPos, float shrink)
         {
             if (boundInfo == null) { return globalPos; }
@@ -111,12 +147,25 @@ namespace Blastula
             }
         }
 
+        /// <summary>
+        /// Position + rotation; input and output for reflecting off a boundary.
+        /// </summary>
         public struct ReflectData
         {
             public Vector2 globalPosition;
             public float rotation;
         }
 
+        /// <summary>
+        /// Returns the same position + rotation when it's within the boundary, 
+        /// or otherwise the position + rotation after being reflected off the boundary's wall.
+        /// </summary>
+        /// <param name="shrink">Pretend the boundary is smaller than it really is, by shrinking this number of units in all directions.
+        /// We can also pretend the boundary is larger when this parameter is negative.
+        /// </param>
+        /// <param name="reflectPerpendicular">
+        /// If true, it will bounce directly away from the wall, instead of the natural reflection direction.
+        /// </param>
         public static ReflectData Reflect(LowLevelInfo* boundInfo, ReflectData rdIn, float shrink, bool reflectPerpendicular)
         {
             if (boundInfo == null) { return rdIn; }

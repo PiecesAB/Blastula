@@ -2,6 +2,9 @@ using Godot;
 
 namespace Blastula
 {
+    /// <summary>
+    /// Extra math functions.
+    /// </summary>
     public static class MoreMath
     {
         /// <summary>

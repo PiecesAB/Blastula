@@ -29,7 +29,7 @@ namespace Blastula.Collision
         public Shape shape;
         public Vector2 size;
         /// <summary>
-        /// Leads to a Blastula.LowLevel.LinkedList<CollisionData>.
+        /// Leads to a Blastula.LowLevel.LinkedList&lt;CollisionData&gt;.
         /// Represents the bullets that collided with this object this frame; processed appropriately.
         /// </summary>
         public IntPtr collisionListPtr;
@@ -104,7 +104,7 @@ namespace Blastula.Collision
 
         /// <summary>
         /// Register an object for bullets to collide with.
-        /// IntPtr returned is a LinkedList<IntPtr>.Node* for future deletion.
+        /// IntPtr returned is a LinkedList&lt;IntPtr&gt;.Node for future deletion.
         /// </summary>
         public static IntPtr RegisterObject(IntPtr objectInfoPtr, int objectLayer)
         {

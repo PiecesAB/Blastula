@@ -11,6 +11,10 @@ using System.Collections.Generic;
 
 namespace Blastula
 {
+    /// <summary>
+    /// Do I really need to explain what a player is? Fine.
+    /// This is an entity driven by the user's input, and the user is supposed to help them survive.
+    /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/player.png")]
     public partial class Player : Node2D
@@ -34,10 +38,10 @@ namespace Blastula
         /// Determines the player's role.
         /// </summary>
         [Export] public Control control = Control.SinglePlayer;
-        [ExportGroup("Mobility")]
         /// <summary>
         /// Player's normal speed.
         /// </summary>
+        [ExportGroup("Mobility")]
         [Export] public float normalSpeed = 500;
         /// <summary>
         /// Player's speed during the focus input.
@@ -148,6 +152,10 @@ namespace Blastula
             SetVarsInDiscs();
         }
 
+        /// <summary>
+        /// Response to a collider being hit by a bullet on the "EnemyShot" collision layer.
+        /// Also handles grazing, naturally.
+        /// </summary>
         public unsafe void OnHit(BlastulaCollider collider, int bNodeIndex)
         {
             // bNodeIndex is always >= 0, how could we get here otherwise???
@@ -221,7 +229,11 @@ namespace Blastula
         public bool IsFocused() { return InputManager.ButtonIsDown(focusName); }
 
         private FrameCounter.Cache<Vector2> mvtDirCache = new FrameCounter.Cache<Vector2>();
-        public Vector2 GetMovementDirection(bool normalized = false)
+
+        /// <summary>
+        /// Calculates this frame's movement direction vector, which has length 1 when moving, and is the zero vector when not moving.
+        /// </summary>
+        public Vector2 GetMovementDirection()
         {
             if (mvtDirCache.IsValid()) { return mvtDirCache.data; }
             Vector2 v = Vector2.Zero;
@@ -229,7 +241,7 @@ namespace Blastula
             if (InputManager.ButtonIsDown(rightName)) { v += Vector2.Right; }
             if (InputManager.ButtonIsDown(upName)) { v += Vector2.Up; }
             if (InputManager.ButtonIsDown(downName)) { v += Vector2.Down; }
-            Vector2 result = (normalized && v != Vector2.Zero) ? v.Normalized() : v;
+            Vector2 result = (v != Vector2.Zero) ? v.Normalized() : v;
             mvtDirCache.Update(result);
             return result;
         }
@@ -240,7 +252,7 @@ namespace Blastula
             float speed = IsFocused() ? focusedSpeed : normalSpeed;
             speed *= (float)Engine.TimeScale;
             speed /= Persistent.SIMULATED_FPS;
-            GlobalPosition += speed * GetMovementDirection(true);
+            GlobalPosition += speed * GetMovementDirection();
             if (mainBoundary == null) { FindMainBoundary(); }
             if (mainBoundary != null)
             {

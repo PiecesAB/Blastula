@@ -49,16 +49,15 @@ namespace Blastula.Operations
         /// If defined, it's a Vector2 with (X, Y) being the (start frame count, end frame count) of following.
         /// </summary>
         [Export] public string followingWindow = "";
-        [ExportGroup("Linear")]
         /// <summary>
         /// The distance that the bullet will begin to slow down in its approach.
         /// </summary>
+        [ExportGroup("Linear")]
         [Export] public string approachRadius = "0";
-
-        [ExportGroup("Elastic")]
         /// <summary>
         /// With elastic movement, how quickly we can change the speed? In units per second^2.
         /// </summary>
+        [ExportGroup("Elastic")]
         [Export] public string accel = "300";
         [Export] public string initialVelocity = "Vector2(0, 0)";
 

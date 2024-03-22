@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace Blastula
 {
+    /// <summary>
+    /// Display for remaining seconds until the StageSector times out (ends forcibly).
+    /// It turns red and makes warning sounds when the time gets low, and disappears when time is irrelevant.
+    /// </summary>
     public partial class SectorTimer : Control
     {
         [Export] public Label integerPart;

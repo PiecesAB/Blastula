@@ -5,9 +5,8 @@ using System.Runtime.InteropServices;
 namespace Blastula
 {
     /// <summary>
-    /// We obviously don't want true randomness in patterns and collectibles for a bullet game - that would ruin replays!
-    /// But we also don't want the same game every time.
-    /// Be sure to reseed and save the seed value at the beginning of every stage!
+    /// This is a custom pseudorandom generator class that I reuse for many projects.
+    /// However, Godot's random functions in the global scope effectively serve nearly the same purpose.
     /// </summary>
     public static class RNG
     {

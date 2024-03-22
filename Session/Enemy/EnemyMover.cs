@@ -4,6 +4,9 @@ using System;
 
 namespace Blastula
 {
+    /// <summary>
+    /// A class that enemies use to move around. These should be created by the movement schedule of an enemy.
+    /// </summary>
     public partial class EnemyMover : Node
     {
         [Export] public Tween.TransitionType easingTransition = Tween.TransitionType.Quad;

@@ -39,19 +39,19 @@ namespace Blastula.Operations
         /// How much this throttles the following behaviors. 0 = behavior proceeds as normal. 1 = behavior stops.
         /// </summary>
         [Export] public float throttle = 0.8f;
-        [ExportGroup("Multimesh interpolation")]
         /// <summary>
         /// We expect a Color here. Interpolates to this over the duration of the behavior. 
         /// </summary>
+        [ExportGroup("Multimesh interpolation")]
         [Export] public string multimeshColor = "";
         /// <summary>
         /// We expect a Vector4 here. Interpolates to this over the duration of the behavior. 
         /// </summary>
         [Export] public string multimeshCustom = "";
-        [ExportGroup("Advanced")]
         /// <summary>
         /// Whether this throttles on the last frame before it ends.
         /// </summary>
+        [ExportGroup("Advanced")]
         [Export] public bool throttleOnEndFrame = false;
         
 

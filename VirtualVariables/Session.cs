@@ -83,6 +83,7 @@ namespace Blastula.VirtualVariables
             difficulty = newDifficulty;
         }
 
+        /// <param name="newRank">Rank value to replace the old one.</param>
         /// <param name="force">If true, change the rank even while it's frozen.</param>
         public void SetRank(float newRank, bool force = false)
         {

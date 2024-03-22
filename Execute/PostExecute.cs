@@ -7,8 +7,9 @@ using static Blastula.BNodeFunctions;
 namespace Blastula
 {
     /// <summary>
-    /// There exist operations we want to do on the main thread after Execute.
-    /// This class handles the scheduling and performing of such operations.
+    /// There exist operations we want to do on the main thread after Execute, as scheduled by bullet structures.
+    /// This class contains functions to handle the scheduling and performing of such operations.
+    /// This is a static utility class, and relies on a manager node to actually do anything.
     /// </summary>
     public unsafe static class PostExecute
     {
@@ -41,9 +42,6 @@ namespace Blastula
 
         private static object initLock = new object();
 
-        /// <summary>
-        /// No need to delete pointers, this class exists for the whole game, whether you like it or not.
-        /// </summary>
         public static void Initialize()
         {
             lock (initLock)
@@ -67,8 +65,11 @@ namespace Blastula
         private static object[] lockScheduleDeletions;
         /// <summary>
         /// This will delete the BNode the next time PerformScheduled runs.
-        /// Because this is called from Execute, we make sure multithreading doesn't fray our list.
         /// </summary>
+        /// <remarks>
+        /// A bullet structure must never try to delete itself during execution, because of potential multithreading.
+        /// If we tried that, the integrity of our master queue, among other things, could be mutilated by race conditions.
+        /// </remarks>
         public static void ScheduleDeletion(int bNodeIndex, bool useDeletionEffect)
         {
             if (!initialized) { Initialize(); }
@@ -97,7 +98,7 @@ namespace Blastula
         }
 
         /// <summary>
-        /// Only run on the main thread.
+        /// Performs all scheduled deletions and operations on bullet structures.
         /// </summary>
         public static void PerformScheduled()
         {

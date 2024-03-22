@@ -9,8 +9,11 @@ using Blastula.Sounds;
 namespace Blastula
 {
     /// <summary>
-    /// This contains variables for the purpose of movement scheduling.
+    /// Base for all those entities that generally oppose and try to destroy the player, so naturally, the player has to destroy them first.
     /// </summary>
+    /// <remarks>
+    /// It's an IVariableContainer for movement schedule purposes.
+    /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/enemy.png")]
     public partial class Enemy : Node2D, IVariableContainer
@@ -29,32 +32,60 @@ namespace Blastula
 
         [ExportGroup("Health & Defense")]
         [Export] public float health = 100;
+        /// <summary>
+        /// If the enemy is damaged and the health becomes below this cutoff, another sound effect will play.
+        /// This lets the player know that their attacks have not been in vain, and it will be over soon.
+        /// </summary>
         [Export] public float lowHealthCutoff = -1;
+        /// <summary>
+        /// Determines how "defense" is used.
+        /// </summary>
         [Export] public DefenseMode defenseMode = DefenseMode.Scale;
         [Export] public float defense = 0;
 
+        /// <summary>
+        /// Schedule that is executed primarily for the purpose of moving this enemy around.
+        /// </summary>
         [ExportGroup("Movement")]
         [Export] public BaseSchedule movementSchedule;
 
         private Vector2 startPosition;
 
-        [ExportGroup("Shooting")]
         /// <summary>
         /// Blastodiscs in this list will recieve variables such as "enemy_count" and "health_frac".
         /// Auto-generated from children recursively.
         /// </summary>
+        [ExportGroup("Shooting")]
         private List<Blastodisc> varDiscs = new List<Blastodisc>();
 
-        [ExportGroup("Deletion")]
         /// <summary>
-        /// A child of the enemy which is activated and placed into the parent when destroyed.
+        /// References a ParticleEffectPool that activates at the enemy's position when it is destroyed on-screen.
         /// </summary>
+        [ExportGroup("Deletion")]
         [Export] public string deletionParticlePool = "ExplodeMedium";
+        /// <remarks>
+        /// By default, an enemy contains a visibility notifier that deletes the enemy when it goes offscreen.
+        /// This minimum lifespan was added in the possibility that even if the enemy goes off the screen for some time,
+        /// we might want it to return.<br /><br />
+        /// A negative value is interpreted as an infinite duration.
+        /// </remarks>
         [Export] public float selfMinLifespan = -1;
+        /// <summary>
+        /// After this duration, the enemy will destroy itself no matter what.
+        /// </summary>
+        /// <remarks>
+        /// A negative value is interpreted as an infinite duration.
+        /// </remarks>
         [Export] public float selfMaxLifespan = -1;
         [Export] public Wait.TimeUnits lifespanUnits = Wait.TimeUnits.Frames;
 
+        /// <summary>
+        /// The time remaining (in the same units as selfMaxLifespan) until the enemy is destroyed no matter what.
+        /// </summary>
         public float lifeLeft { get; private set; } = float.PositiveInfinity;
+        /// <summary>
+        /// The amount of health the enemy spawned in with.
+        /// </summary>
         public float maxHealth { get; private set; }
         public bool defeated { get; private set; } = false;
         public bool onScreen { get; private set; } = false;
@@ -66,12 +97,20 @@ namespace Blastula
         private EnemyFormation formation;
         private System.Collections.Generic.Dictionary<string, EnemyMover> myMovers = new System.Collections.Generic.Dictionary<string, EnemyMover>();
 
+        /// <summary>
+        /// Implemented for IVariableContainer; holds local variables.
+        /// </summary>
         public System.Collections.Generic.Dictionary<string, Variant> customData { get; set; } = new System.Collections.Generic.Dictionary<string, Variant>();
+        /// <summary>
+        /// Implemented for IVariableContainer; holds special variable names.
+        /// </summary>
         public HashSet<string> specialNames { get; set; } = new HashSet<string>()
         {
             "pos", "dpos", "enemy_count", "health_frac", "on_screen"
         };
-
+        /// <summary>
+        /// Implemented for IVariableContainer; solves special variable names.
+        /// </summary>
         public Variant GetSpecial(string varName)
         {
             switch (varName)
@@ -88,7 +127,9 @@ namespace Blastula
             }
             return default;
         }
-
+        /// <summary>
+        /// Response to a collider being hit by a bullet on the "PlayerShot" collision layer.
+        /// </summary>
         public virtual unsafe void OnHit(BlastulaCollider collider, int bNodeIndex)
         {
             BNode* nodePtr = BNodeFunctions.masterQueue + bNodeIndex;
@@ -152,11 +193,17 @@ namespace Blastula
             QueueFree();
         }
 
+        /// <summary>
+        /// Response to a visibility notifier.
+        /// </summary>
         public void BecameVisibleFromNotifier()
         {
             onScreen = true;
         }
 
+        /// <summary>
+        /// Response to a visibility notifier.
+        /// </summary>
         public void NoLongerVisibleFromNotifier()
         {
             onScreen = false;
@@ -246,7 +293,7 @@ namespace Blastula
                 lifeLeft -= 
                     (float)((lifespanUnits == Wait.TimeUnits.Seconds) 
                     ? (Engine.TimeScale / Persistent.SIMULATED_FPS) 
-                    : (Engine.TimeScale));
+                    : ((Engine.TimeScale > 0) ? 1 : 0));
                 if (lifeLeft <= 0.0001)
                 {
                     lifeLeft = 0;

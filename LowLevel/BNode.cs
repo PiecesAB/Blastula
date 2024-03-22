@@ -10,18 +10,33 @@ namespace Blastula
 {
 
     /// <summary>
-    /// A BNode can be a bullet, or a bullet acting as a container for other bullets.
-    /// I refer to the collection of a root BNode with its child bullets as a structure.
+    /// A BNode is a tree-based bullet structure, which can appear as a bullet itself, or be an invisible parent of bullets.
     /// </summary>
+    /// <remarks>
+    /// Widely in the documentation, the collection of a root BNode with its child bullets is usually called a bullet structure.
+    /// </remarks>
     public unsafe struct BNode
     {
+        /// <summary>
+        /// Internal tracking mechanism to ensure a BNode spot in the master queue is free.
+        /// </summary>
         public bool initialized;
         /// <summary>
-        /// If true, transform is the world transform (for optimization purposes), otherwise the local transform.
+        /// If true, variable transform is the world transform (for optimization purposes), 
+        /// otherwise transform is the local transform relative to the BNode's parent.
         /// </summary>
         public bool worldTransformMode;
+        /// <summary>
+        /// Normally, the local transform of the BNode.
+        /// </summary>
         public Transform2D transform;
+        /// <summary>
+        /// Indices of child BNodes in the master queue.
+        /// </summary>
         public UnsafeArray<int> children;
+        /// <summary>
+        /// List of behaviors for execution.
+        /// </summary>
         public UnsafeArray<BehaviorOrder> behaviors;
         /// <summary>
         /// ID for bullet rendering. No graphic nor collision if renderID &lt; 0.
@@ -30,25 +45,32 @@ namespace Blastula
         /// <summary>
         /// ID for laser rendering. For any bullet that makes up the laser. No graphic nor collision if renderID &lt; 0.
         /// </summary>
+        /// <remarks>
+        /// It should be that when bulletRenderID &gt;= 0, the bulletRenderID takes precedence over laserRenderID for collision.
+        /// </remarks>
         public int laserRenderID;
         /// <summary>
-        /// treeSize = 1 + (treeSize of all children).<br />
-        /// We aren't lazy to set it. It should always be accurate.
+        /// treeSize = 1 + (treeSize of all children).
         /// </summary>
         public int treeSize;
         /// <summary>
         /// treeDepth = 0 with no children, otherwise 1 + max(treeDepth of all children).
-        /// We are lazy here: removing children won't decrease the depth even though it should sometimes.
-        /// To be sure, please recalculate it.
         /// </summary>
+        /// <remarks>
+        /// We are lazy to set this. Removing children won't automatically decrease the depth, even though it accurately should.
+        /// If a correct depth is needed, please recalculate it.
+        /// </remarks>
         public int treeDepth;
         /// <summary>
-        /// Index of the parent.
+        /// Index of the parent in the master queue.
         /// </summary>
         public int parentIndex;
         /// <summary>
         /// Position within the parent's child list.
         /// </summary>
+        /// <remarks>
+        /// Used so that when this BNode is deleted, a hole is made in the parent's child list.
+        /// </remarks>
         public int positionInParent;
 
         /// <summary>
@@ -88,9 +110,16 @@ namespace Blastula
         public Vector4 custom;
     }
 
+    /// <summary>
+    /// Functions that are related to BNode management or master queue management.
+    /// </summary>
     public unsafe static class BNodeFunctions
     {
-        public static BNode* masterQueue = null; // circular queue
+        /// <summary>
+        /// The master queue of legends. It is used as a circular queue that holds all BNodes.
+        /// At the game's start, it is initialized to have a capacity of mqSize.
+        /// </summary>
+        public static BNode* masterQueue = null;
         /// <summary>
         /// This should always be the earliest uninitialized BNode in the master queue.
         /// </summary>
@@ -99,15 +128,16 @@ namespace Blastula
         /// This should always be the earliest initialized BNode in the master queue, or the head for an empty queue.
         /// </summary>
         public static int mqTail = 0;
-        /// <summary>
-        /// If mqSize is a power of 2, modulus is a bitmask; counting on the compiler to help. <br />
-        /// Also, we can only store one less than this, lest mqHead == mqTail when full.
-        /// </summary>
+        /// <remarks>
+        /// We can only store one less than this, or else mqHead == mqTail when full, which is already used for emptiness.
+        /// </remarks>
         public const int mqSize = 262144;
         /// <summary>
-        /// If the bullet's tree is larger than this, we use multithreading for certain operations.<br />
-        /// We don't always multithread because Parallel.For has scheduling overhead.
+        /// If the bullet's tree is larger than this, we use multithreading for certain operations.
         /// </summary>
+        /// <remarks>
+        /// We don't always multithread because Parallel.For has scheduling overhead.
+        /// </remarks>
         public const int multithreadCutoff = 256;
 
         public static BNode* starterBNode = null;
@@ -179,9 +209,17 @@ namespace Blastula
             }
         }
 
-        // Warning: this doesn't subtract from treeSize or treeDepth of the parent. That would make deletion take longer.
-        // Please adjust it externally.
-        public static bool MasterQueuePushOne(int i)
+        /// <summary>
+        /// Frees (deletes) the BNode from the master queue.
+        /// </summary>
+        /// <returns>Whether the deletion was performed.</returns>
+        /// <remarks>
+        /// This is specifically for independent BNode deletion like Blastodisc master structures.
+        /// We expect no parent to exist, because it will not know this BNode is missing.
+        /// We also expect any childrens' parent index to be handled separately as well.
+        /// (For example, Blastodiscs create a new master structure immediately to "move" it, and children are reparented there.)
+        /// </remarks>
+        public static bool MasterQueuePushIndependent(int i)
         {
             if (i < 0 || i >= mqSize) { return false; }
             if (!masterQueue[i].initialized) { return false; }
@@ -199,8 +237,6 @@ namespace Blastula
             return true;
         }
 
-        // Warning: this doesn't subtract from treeSize or treeDepth of the parent. That would make deletion take longer.
-        // Please adjust it externally.
         private static bool MasterQueuePushTree(int i, int recursionDepth)
         {
             if (i < 0 || i >= mqSize) { return false; }
@@ -228,6 +264,10 @@ namespace Blastula
             return true;
         }
 
+        /// <summary>
+        /// Frees (deletes) the BNode from the master queue, and also frees all children.
+        /// </summary>
+        /// <returns>Whether the deletion was performed.</returns>
         public static bool MasterQueuePushTree(int i)
         {
             return MasterQueuePushTree(i, 0);
@@ -408,6 +448,7 @@ namespace Blastula
             AddToTreeSize(masterQueue[i].parentIndex, howMany);
         }
 
+        /// <param name="i">BNode index in masterQueue.</param>
         /// <param name="ci">Position to modify within the children list</param>
         /// <param name="ti">BNode index of target new child in masterQueue</param>
         /// <returns>The possible index of the old child (in case you want to destroy it)</returns>

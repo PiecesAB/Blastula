@@ -3,6 +3,9 @@ using Godot;
 
 namespace Blastula
 {
+    /// <summary>
+    /// A fundamental class for counting how many frames have passed. Also contains helper classes related to frame counting.
+    /// </summary>
     public partial class FrameCounter : Node
     {
         /// <summary>
@@ -29,6 +32,14 @@ namespace Blastula
             ResetStageFrame();
         }
 
+        /// <summary>
+        /// Used to determine whether a number of frames has elapsed since the buffer was created or replenished.
+        /// </summary>
+        /// <example>
+        /// Deathbombing is the phenomenon in which you can use a bomb several frames after the player was hit,
+        /// to compensate for reaction times. If you were to create a player with deathbombing,
+        /// you wouldn't need to create an async function or count frames yourself: just use a Buffer object!
+        /// </example>
         public class Buffer
         {
             public ulong startFrame { get; private set; }
@@ -99,7 +110,10 @@ namespace Blastula
             }
         }
 
-        // Stores results from the current frame, to avoid recalculating.
+        /// <summary>
+        /// Stores a result from the current frame, to avoid recalculating it.
+        /// </summary>
+        /// <typeparam name="T">The type of the result.</typeparam>
         public class Cache<T>
         {
             private bool dataExists;
@@ -113,6 +127,9 @@ namespace Blastula
                 this.data = default;
             }
 
+            /// <summary>
+            /// Returns true if the value was updated this frame, so we can reuse it.
+            /// </summary>
             public bool IsValid()
             {
                 return dataExists && validFrame == realGameFrame;
@@ -131,7 +148,11 @@ namespace Blastula
             }
         }
 
-        // Stores results from the current frame, to avoid recalculating.
+        /// <summary>
+        /// Stores a set of indexed results from the current frame, to avoid recalculating.
+        /// </summary>
+        /// <typeparam name="K">The type of index to find results.</typeparam>
+        /// <typeparam name="V">The type of the results.</typeparam>
         public class DictCache<K, V>
         {
             private System.Collections.Generic.Dictionary<K, Cache<V>> caches;
@@ -159,7 +180,9 @@ namespace Blastula
             }
         }
 
-        // True if at least "count" frames passed since "startFrame"
+        /// <summary>
+        /// Determine whether at least "count" frames have passed since "startFrame".
+        /// </summary>
         public static bool Elapsed(ulong startFrame, ulong frameCount)
         {
             return (realGameFrame - startFrame) >= frameCount;

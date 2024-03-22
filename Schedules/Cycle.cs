@@ -16,11 +16,11 @@ namespace Blastula.Schedules
         /// Solves this expression at the beginning of execution to determine how many times to loop. Empty string means it loops forever.
         /// </summary>
         [Export] public string cycleCount = "";
-        [ExportGroup("Advanced")]
         /// <summary>
         /// This would the variable name of the current cycle we are on, starting at 0.
         /// When nonempty, it populates that temporary variable, to use in operations.
         /// </summary>
+        [ExportGroup("Advanced")]
         [Export] public string completedCyclesVariableName = "";
 
         public override async Task Execute(IVariableContainer source)

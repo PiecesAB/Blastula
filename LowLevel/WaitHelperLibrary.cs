@@ -6,16 +6,28 @@ using System.Threading.Tasks;
 
 namespace Blastula
 {
+    /// <summary>
+    /// Async helpers that wait. 
+    /// </summary>
     public static class Waiters
     {
+        /// <summary>
+        /// If this changes, all waits will terminate.
+        /// </summary>
         public static long sceneLoadCounter { get; private set; } = 0;
         public static void IncrementSceneLoadCounter() { sceneLoadCounter++; }
 
+        /// <summary>
+        /// Wait one frame. Not affected by time scale.
+        /// </summary>
         public static async Task WaitOneFrame(this Node dispatcher, bool ignorePause = false)
         {
             await dispatcher.WaitFrames(1, ignorePause);
         }
 
+        /// <summary>
+        /// Wait a number of frames. Not affected by time scale.
+        /// </summary>
         public static async Task WaitFrames(this Node dispatcher, int frames, bool ignorePause = false)
         {
             long slc2 = sceneLoadCounter;
@@ -29,6 +41,9 @@ namespace Blastula
             }
         }
 
+        /// <summary>
+        /// Wait a number of seconds. Affected by time scale.
+        /// </summary>
         public static async Task WaitSeconds(this Node dispatcher, float seconds, bool ignorePause = false)
         {
             long slc2 = sceneLoadCounter;
@@ -42,6 +57,9 @@ namespace Blastula
             }
         }
 
+        /// <summary>
+        /// Wait until a condition is true.
+        /// </summary>
         public static async Task WaitUntil(this Node dispatcher, Func<bool> Condition)
         {
             long slc2 = sceneLoadCounter;
@@ -53,6 +71,9 @@ namespace Blastula
             }
         }
 
+        /// <summary>
+        /// Runs QueueFree on (deletes) the Node after frames or seconds.
+        /// </summary>
         public static async void DelayedQueueFree(Node toDelete, float waitTime, Wait.TimeUnits units)
         {
             if (Session.main == null) { return; }
@@ -70,6 +91,9 @@ namespace Blastula
             }
         }
 
+        /// <summary>
+        /// BoxedBool encapsulates a bool as a reference, so that it can be changed everywhere it's used.
+        /// </summary>
         public class BoxedBool
         {
             public bool b;
@@ -79,6 +103,13 @@ namespace Blastula
             public static implicit operator BoxedBool(bool s) { return new BoxedBool(s); }
         }
 
+        /// <summary>
+        /// Wait until BoxedBool is true.
+        /// </summary>
+        /// <example>
+        /// This can be used to wait
+        /// for a condition that hasn't even been determined yet.
+        /// </example>
         public static async Task WaitUntilBoxedBool(this Node dispatcher, BoxedBool b)
         {
             long slc2 = sceneLoadCounter;

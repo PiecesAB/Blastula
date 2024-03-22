@@ -4,6 +4,10 @@ using System;
 
 namespace Blastula
 {
+    /// <summary>
+    /// Handles actually starting stages in order. But it's incomplete. At the moment, it just spawns the first
+    /// stage that is a child of this node.
+    /// </summary>
 	public partial class StageManager : Node
 	{
         [Signal] public delegate void StageSectorChangedEventHandler(StageSector newSector);

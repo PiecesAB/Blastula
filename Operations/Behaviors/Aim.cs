@@ -47,13 +47,15 @@ namespace Blastula.Operations
         /// Degrees offset, to aim around the target instead of directly toward it.
         /// </summary>
         [Export] public string angularOffset = "0";
+        /// <summary>
+        /// How many parents up must we go to solve a local position?
+        /// </summary> 
         [ExportGroup("Local Position Settings")]
-        // How many parents up must we go to solve a local position?
         [Export] public int parentLevel = 1;
-        [ExportGroup("Homing Settings")]
         /// <summary>
         /// Degrees per second to rotate towards a target.
         /// </summary>
+        [ExportGroup("Homing Settings")]
         [Export] public string homingSpeed = "120";
         /// <summary>
         /// If defined, it's a Vector2 with (X, Y) being the (start frame count, end frame count) of homing.
@@ -78,9 +80,9 @@ namespace Blastula.Operations
 
         public static BehaviorReceipt Execute(int nodeIndex, float stepSize, void* dataPtr)
         {
-            if (stepSize == 0) { return new BehaviorReceipt(); }
             BNode* nodePtr = BNodeFunctions.masterQueue + nodeIndex;
             Data* data = (Data*)dataPtr;
+            if (stepSize == 0 && data->aimMode != AimMode.Instant) { return new BehaviorReceipt(); }
             if (data->aimMode == AimMode.Homing && data->currentFrame >= data->homingWindow.Y) { data->aimComplete = true; }
             if (data->aimComplete) { return new BehaviorReceipt(); }
             Transform2D myWorldTransform = BulletWorldTransforms.Get(nodeIndex);

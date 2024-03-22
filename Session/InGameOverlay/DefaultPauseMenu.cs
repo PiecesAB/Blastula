@@ -4,6 +4,9 @@ using Godot;
 
 namespace Blastula
 {
+    /// <summary>
+    /// A pause menu that appears when an input named "Pause" occurs.
+    /// </summary>
     public partial class DefaultPauseMenu : Control
     {
         public enum State

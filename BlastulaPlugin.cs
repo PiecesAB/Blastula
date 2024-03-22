@@ -1,9 +1,6 @@
 #if TOOLS
 using Blastula.Graphics;
-using Blastula.VirtualVariables;
 using Godot;
-using System.Collections.Generic;
-using System.Reflection;
 
 [Tool]
 public partial class BlastulaPlugin : EditorPlugin
@@ -29,6 +26,9 @@ public partial class BlastulaPlugin : EditorPlugin
         RenderingServer.GlobalShaderParameterAdd(BulletRendererManager.STAGE_TIME_NAME, RenderingServer.GlobalShaderParameterType.Float, 0);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public override void _ExitTree()
     {
         RemoveAutoloadSingleton("BlastulaKernel");

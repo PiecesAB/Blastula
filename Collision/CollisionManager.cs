@@ -4,6 +4,10 @@ using System.Diagnostics;
 
 namespace Blastula.Collision
 {
+    /// <summary>
+    /// This node is meant to be a singleton in the kernel. It executes collision checks every frame,
+    /// and handles the setup of collision layers for BNodes and BlastulaColliders.
+    /// </summary>
     public partial class CollisionManager : Node
     {
         [Export] public Node objectLayersHolder;

@@ -11,6 +11,9 @@ namespace Blastula.Schedules
     /// When it is an integer, it will choose the child at that index. Negative integers work as they do in Python,
     /// counting from the list's end.
     /// </summary>
+    /// <remarks>
+    /// Out of bounds selection index will attempt to loop the index so that it's in range.
+    /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/scheduleSelect.png")]
     public partial class Select : BaseSchedule

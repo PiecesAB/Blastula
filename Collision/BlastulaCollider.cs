@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Blastula.Collision
 {
+    /// <summary>
+    /// A collider that only checks when BNodes have entered.
+    /// </summary>
     [GlobalClass]
     [Tool]
     [Icon(Persistent.NODE_ICON_PATH + "/collider.png")]
@@ -16,18 +19,40 @@ namespace Blastula.Collision
             Never, Editor, Always
         }
 
+        /// <summary>
+        /// The shape of the collider.
+        /// </summary>
         [Export] public Shape shape = Shape.Circle;
+        /// <summary>
+        /// The size of the collider, which is directly related to the shape.
+        /// </summary>
         [Export] public Vector2 size = new Vector2(12, 0);
+        /// <summary>
+        /// The layer name used for detecting collisions.
+        /// </summary>
         [Export] public string objectLayer = "None";
         private int objectLayerID = 0;
+        /// <summary>
+        /// Determines when the collider is visible, for debug purposes.
+        /// </summary>
         [Export] public ShowMode showMode = ShowMode.Editor;
 
         [Signal] public delegate void CollisionEventHandler(int bNodeIndex);
 
+        /// <summary>
+        /// Low-level collider info for unmanaged reference in the collision solver.
+        /// </summary>
         public ObjectColliderInfo* colliderInfo = null;
-        public LinkedList<Collision>* collisions = null;
-        public IntPtr deletionPtr = IntPtr.Zero;
+        private LinkedList<Collision>* collisions = null;
+        private IntPtr deletionPtr = IntPtr.Zero;
 
+        /// <summary>
+        /// A simple unique ID number for each collider.
+        /// </summary>
+        /// <remarks>
+        /// At the moment this is only used for a strategy to ensure 
+        /// the queue of collision events isn't mangled by multithreaded race conditions.
+        /// </remarks>
         public long ID = -1;
         private long IDCounter = 0;
 

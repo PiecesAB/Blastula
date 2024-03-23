@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Blastula.Schedules.EnemySchedules
 {
     /// <summary>
-    /// Set the target velocity of an enemy.
+    /// Set the target velocity of an EnemyMover.
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/setVelocityEnemy.png")]

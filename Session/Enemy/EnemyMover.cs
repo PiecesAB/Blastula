@@ -7,6 +7,14 @@ namespace Blastula
     /// <summary>
     /// A class that enemies use to move around. These should be created by the movement schedule of an enemy.
     /// </summary>
+    /// <remarks>
+    /// The reason this is separate from the Enemy is to increase the possible complexity of enemy movement.
+    /// Also, any position interpolation will take precedence over all movement from all other EnemyMovers.
+    /// </remarks>
+    /// <example>
+    /// If we want an Enemy to move in a circle while also moving downward, two EnemyMovers together can create that complex movement.
+    /// The circular movement can be created by updating velocity in a cyclic movement schedule.
+    /// </example>
     public partial class EnemyMover : Node
     {
         [Export] public Tween.TransitionType easingTransition = Tween.TransitionType.Quad;

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Blastula.Sounds
 {
+    /// <summary>
+    /// Container of sound effects that can be referenced and played globally by ID.
+    /// </summary>
     public unsafe partial class CommonSFXManager : Node
     {
         /// <summary>
@@ -10,6 +13,9 @@ namespace Blastula.Sounds
         /// </summary>
         [Export] public string sfxBusName = "SFX";
 
+        /// <summary>
+        /// There should only be one CommonSFXManager, and this is the one.
+        /// </summary>
         public static CommonSFXManager main { get; private set; } = null;
 
         private static Dictionary<int, string> nameFromID = new Dictionary<int, string>();
@@ -18,6 +24,10 @@ namespace Blastula.Sounds
 
         private int registeredCount = 0;
 
+        /// <summary>
+        /// Play a sound by direct reference to the AudioStreamPlayer.
+        /// </summary>
+        /// <param name="position">If move == true, moves spatial sounds to this position.</param>
         public static void Play(Node n, float pitch = 1f, float volume = 1f, Vector2 position = default, bool move = false)
         {
             // Dreams of multiple inheritance...
@@ -46,6 +56,10 @@ namespace Blastula.Sounds
             }
         }
 
+        /// <summary>
+        /// Play a sound by ID.
+        /// </summary>
+        /// <param name="position">If move == true, moves spatial sounds to this position.</param>
         public static void PlayByName(string name, float pitch = 1f, float volume = 1f, Vector2 position = default, bool move = false)
         {
             if (!IDFromName.ContainsKey(name)) { return; }

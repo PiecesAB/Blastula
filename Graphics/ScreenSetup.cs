@@ -2,6 +2,9 @@ using Godot;
 
 namespace Blastula.Graphics
 {
+    /// <summary>
+    /// Ensures the playfield is a window to the main game world.
+    /// </summary>
     public partial class ScreenSetup : Node
     {
         [Export] public SubViewport[] objectViewports;

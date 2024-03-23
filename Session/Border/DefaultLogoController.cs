@@ -2,7 +2,10 @@ using Godot;
 
 namespace Blastula.Graphics
 {
-
+    /// <summary>
+    /// Handles displaying the Blastula default logo and notifying the developer that they can open a debug console.
+    /// This is otherwise inconsequential, easily removed from the main scene.
+    /// </summary>
     public partial class DefaultLogoController : Node
     {
         [Export] public Control mainLogo;

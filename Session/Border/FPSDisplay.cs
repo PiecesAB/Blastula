@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace Blastula.Graphics
 {
+    /// <summary>
+    /// Displays framerate info in the bottom right corner of the main scene.
+    /// </summary>
     public partial class FPSDisplay : Label
     {
         private Stopwatch stopwatch;

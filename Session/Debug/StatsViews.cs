@@ -4,6 +4,9 @@ using Godot;
 
 namespace Blastula.Debug
 {
+    /// <summary>
+    /// Debug commands used to see certain performance or internal game stats.
+    /// </summary>
     public partial class StatsViews : Control
     {
         private static Control currentView = null;

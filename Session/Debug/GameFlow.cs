@@ -3,6 +3,9 @@ using Godot;
 
 namespace Blastula.Debug
 {
+    /// <summary>
+    /// Debug commands used to alter the flow of the game, such as the difficulty, rank, or speed.
+    /// </summary>
     public class GameFlow
     {
         public static bool frozen = false;

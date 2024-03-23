@@ -4,7 +4,10 @@ using System;
 
 namespace Blastula.Graphics
 {
-
+    /// <summary>
+    /// Used to denote graphic info for the BulletRendererManager or LaserRendererManager 
+    /// to find and integrate.
+    /// </summary>
     [Icon(Persistent.NODE_ICON_PATH + "/paint.png")]
     [Tool]
     public partial class GraphicInfo : Node
@@ -13,10 +16,26 @@ namespace Blastula.Graphics
         [Export] public Color modulate = Colors.White;
         [Export] public Vector2 size = Vector2.One * 8;
         [Export] public ShaderMaterial material;
+        /// <summary>
+        /// If true, bullets will be un-rotated to always appear in the texture's rotation.
+        /// </summary>
         [Export] public bool unrotatedGraphic = false;
         [Export] public int zIndex = 0;
+        /// <summary>
+        /// If this is a RainbowInfo, auto-generates child GraphicInfos using it.
+        /// </summary>
+        /// <example>
+        /// If you apply a rainbow with names Green and Blue to a GraphicInfo which has ID "Orb/Big", 
+        /// It will generate "Orb/Big/Green" and "Orb/Big/Blue" with the appropriate shader parameter changed.
+        /// </example>
         [Export] public Node autoRainbow = null;
+        /// <summary>
+        /// The shape of the bullet collider.
+        /// </summary>
         [Export] public Collision.Shape collisionShape = Collision.Shape.Circle;
+        /// <summary>
+        /// The size of the bullet collider, which is directly related to the shape.
+        /// </summary>
         [Export] public Vector2 collisionSize = new Vector2(12, 0);
         [Flags] public enum ExtraMultimeshFields { Color = 1, CustomData = 2 }
         [Export] public ExtraMultimeshFields extraMultimeshFields = 0;

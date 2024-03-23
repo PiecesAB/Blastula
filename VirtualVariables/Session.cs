@@ -22,16 +22,24 @@ namespace Blastula.VirtualVariables
         public double timeScale { get; private set; } = 1.0;
         /// <summary>
         /// This integer is the game's difficulty, if you choose to use it.
-        /// Standard convention is 0: easy, 1: normal, 2: hard, 3: (whatever funny name you give to the hardest difficulty)
-        /// But anything's possible!
         /// </summary>
+        /// <example>
+        /// Standard convention is 0: easy, 1: normal, 2: hard, 3: (whatever funny name you give to the hardest difficulty).
+        /// This allows you to select values in expressions using the difficulty as an array index, like
+        /// [8, 16, 20, 24][dif] for the number of bullets in a ring.
+        /// </example>
         public int difficulty { get; private set; } = 1;
         /// <summary>
         /// This is the game's rank, if you choose to use it.
-        /// Rank is a common element in classic STGs, similar to a sub-difficulty, and usually adapts to how well the player progresses
-        /// by changing bullet pattern density or speed.
-        /// I suggest varying it within the interval [0, 1].
         /// </summary>
+        /// <remarks>
+        /// Rank is a common element in classic STGs, similar to a sub-difficulty, and usually adapts to how well the player progresses
+        /// by changing bullet pattern density or speed. 
+        /// </remarks>
+        /// <example>
+        /// I suggest varying it within the interval [0, 1]. This allows you to interpolate values in expressions, like
+        /// lerp(400, 800, rank) for a bullet's speed.
+        /// </example>
         public float rank { get; private set; } = 0.5f;
         /// <summary>
         /// True if we don't want the rank to change. Good for testing and practicing.

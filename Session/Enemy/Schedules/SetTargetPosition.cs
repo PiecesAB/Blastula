@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Blastula.Schedules.EnemySchedules
 {
     /// <summary>
-    /// Set the position of an enemy.
+    /// Set the target position of an EnemyMover.
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/setPositionEnemy.png")]

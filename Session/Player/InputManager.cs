@@ -5,7 +5,9 @@ using System.Collections.Generic;
 namespace Blastula.Input
 {
     /// <summary>
-    /// Handles input for us in a centralized way.
+    /// This node is meant to be a singleton in the kernel. It handles all game input in a centralized and abstracted way.
+    /// It also gathers ButtonInfos to set up the names of inputs and their default keybind.
+    /// Expect this class to gain maturity once rebindable inputs are added.
     /// </summary>
     public partial class InputManager : Node
     {
@@ -113,22 +115,22 @@ namespace Blastula.Input
             startedInputState = endedInputState = 0;
         }
 
-        public static ulong GetRawCurrentState()
+        private static ulong GetRawCurrentState()
         {
             return main?.currentInputState ?? 0;
         }
 
-        public static ulong GetRawStartedState()
+        private static ulong GetRawStartedState()
         {
             return main?.startedInputState ?? 0;
         }
 
-        public static ulong GetRawEndedState()
+        private static ulong GetRawEndedState()
         {
             return main?.endedInputState ?? 0;
         }
 
-        public static bool ButtonPressedThisFrame(ulong comp)
+        private static bool ButtonPressedThisFrame(ulong comp)
         {
             if (main == null) { return false; }
             return (comp & main.startedInputState) != 0;
@@ -140,7 +142,7 @@ namespace Blastula.Input
             return ButtonPressedThisFrame(codeFromName[comp]);
         }
 
-        public static bool ButtonReleasedThisFrame(ulong comp)
+        private static bool ButtonReleasedThisFrame(ulong comp)
         {
             if (main == null) { return false; }
             return (comp & main.endedInputState) != 0;
@@ -152,7 +154,7 @@ namespace Blastula.Input
             return ButtonReleasedThisFrame(codeFromName[comp]);
         }
 
-        public static bool ButtonIsDown(ulong comp)
+        private static bool ButtonIsDown(ulong comp)
         {
             if (main == null) { return false; }
             return (comp & main.currentInputState) != 0;
@@ -168,14 +170,11 @@ namespace Blastula.Input
         /// <summary>
         /// Warning: this is always false when testing multiple buttons.
         /// </summary>
-        public static bool ButtonIsHeldLongEnough(ulong comp, ulong frames)
+        private static bool ButtonIsHeldLongEnough(ulong comp, ulong frames)
         {
             return GetButtonHeldFrames(comp) >= frames;
         }
 
-        /// <summary>
-        /// Warning: this is always 0 when testing multiple buttons.
-        /// </summary>
         public static bool ButtonIsHeldLongEnough(string comp, ulong frames)
         {
             if (!codeFromName.ContainsKey(comp)) { return false; }
@@ -185,15 +184,12 @@ namespace Blastula.Input
         /// <summary>
         /// Warning: this is always 0 when testing multiple buttons.
         /// </summary>
-        public static ulong GetButtonHeldFrames(ulong comp)
+        private static ulong GetButtonHeldFrames(ulong comp)
         {
             if (main == null || !ButtonIsDown(comp) || !lastChangedInputFrame.ContainsKey(comp)) { return 0; }
             return FrameCounter.realSessionFrame - lastChangedInputFrame[comp];
         }
 
-        /// <summary>
-        /// Warning: this is always 0 when testing multiple buttons.
-        /// </summary>
         public static ulong GetButtonHeldFrames(string comp)
         {
             if (!codeFromName.ContainsKey(comp)) { return 0; }

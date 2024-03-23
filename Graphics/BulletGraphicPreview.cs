@@ -2,6 +2,10 @@ using Godot;
 
 namespace Blastula.Graphics
 {
+    /// <summary>
+    /// A tool to preview bullet graphics and their collision shape in the editor.
+    /// Doesn't support RainbowInfo generation yet.
+    /// </summary>
     [Tool]
     public partial class BulletGraphicPreview : Node2D
     {

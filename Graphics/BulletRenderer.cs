@@ -10,6 +10,9 @@ using static Blastula.BNodeFunctions;
 
 namespace Blastula.Graphics
 {
+    /// <summary>
+    /// Functions to track and render bullet graphics. 
+    /// </summary>
     public unsafe static class BulletRenderer
     {
         public static CircularQueue<int>* bNodesFromRenderIDs = null;
@@ -23,10 +26,12 @@ namespace Blastula.Graphics
         /// </summary>
         public static float[][] renderedTransformArrays = null;
         /// <summary>
-        /// Stores positions in the render queue, for later deletion.
+        /// Stores positions of BNodes in their respective render queue, for later deletion.
         /// </summary>
         public static int* queuePositions;
-
+        /// <summary>
+        /// Shader parameter used to infer the color of the bullet for the deletion effect.
+        /// </summary>
         public static readonly string DELETION_COLOR_SHADER_PARAM = "tint";
         public static Color* deletionColorFromRenderIDs = null;
         public static Vector2* meshSizeFromRenderIDs = null;
@@ -192,6 +197,13 @@ namespace Blastula.Graphics
             //if (depth == 0) { st.Stop(); GD.Print("apply deletion effect took ", st.Elapsed.TotalMilliseconds, " ms"); }
         }
 
+        /// <summary>
+        /// Turns all visible BNodes rooted at this index into deletion effects.
+        /// </summary>
+        /// <remarks>
+        /// The deletion effect is made of the same BNodes.
+        /// They just now have an altered appearance and behavior.
+        /// </remarks>
         public static void ConvertToDeletionEffects(int bNodeIndex)
         {
             ConvertToDeletionEffects(bNodeIndex, 0);
@@ -282,9 +294,9 @@ namespace Blastula.Graphics
         }
 
         /// <summary>
-        /// Returns the list of structures that have been removed due to being empty.
+        /// Populates the series of arrays which will be used for MultiMesh data in this frame's rendering.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The list of structures that have been removed due to being empty.</returns>
         public static List<int> RenderAll()
         {
             // Resize render buffers to be large enough to hold all items,

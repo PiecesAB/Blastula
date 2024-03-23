@@ -8,6 +8,10 @@ namespace Blastula.Schedules
     /// Executes child sequences and schedules in their tree order.
     /// Loops until the condition expression becomes false.
     /// </summary>
+    /// <remarks>
+    /// There's nothing stopping you from creating an infinite loop which runs without waiting, forever. Doing so will crash the game. 
+    /// To prevent one, ensure you always wait at some point, or end the cycle after some number of iterations.
+    /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/scheduleCycle.png")]
     public partial class CycleWhile : BaseSchedule

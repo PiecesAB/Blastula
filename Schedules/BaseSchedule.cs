@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Blastula.Schedules
 {
+    /// <summary>
+    /// Base class for all schedules.
+    /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/scheduleDefault.png")]
     public abstract partial class BaseSchedule : Node

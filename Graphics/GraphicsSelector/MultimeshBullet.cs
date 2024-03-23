@@ -2,14 +2,14 @@ using Godot;
 
 namespace Blastula.Graphics
 {
+    /// <summary>
+    /// MultiMeshInstance2D used to render bullets.
+    /// </summary>
     public unsafe partial class MultimeshBullet : MultiMeshInstance2D
     {
-        public int GetBufferCount()
-        {
-            return Multimesh.InstanceCount * 8;
-        }
-
-        // This memcpys your buffer to the multimesh buffer. Slow! But there's no other way yet.
+        /// <summary>
+        /// Setting the buffer indirectly for the multimesh is pretty slow! But at the moment I don't see a way around it.
+        /// </summary>
         public void SetBuffer(float[] buf, int visibleLength, int stride)
         {
             Multimesh.InstanceCount = buf.Length / stride;

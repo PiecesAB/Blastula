@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Blastula.VirtualVariables
 {
+    /// <summary>
+    /// Implemented by classes that can store variables as used in expressions, including custom user-defined variables.
+    /// </summary>
     public interface IVariableContainer
     {
         public Dictionary<string, Variant> customData { get; set; }

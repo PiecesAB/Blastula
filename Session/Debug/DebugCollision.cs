@@ -6,6 +6,9 @@ using static Blastula.BNodeFunctions;
 
 namespace Blastula.Debug
 {
+    /// <summary>
+    /// Debug commands used for collision testing.
+    /// </summary>
     public partial class DebugCollision : Node2D
     {
         public static bool showCollisionShapes = false;

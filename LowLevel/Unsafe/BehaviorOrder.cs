@@ -23,8 +23,12 @@ namespace Blastula.LowLevel
     }
 
     /// <summary>
-    /// Orders a behavior to occur; stores data needed to execute it.
+    /// This is the main element of the list a BNode uses to execute behaviors, and also storing data needed to perform those behaviors.
     /// </summary>
+    /// <remarks>
+    /// This is the modular way in which bullet behavior occurs, to avoid unused calculations that are only relevant for rare behaviors. 
+    /// Even moving forward is not included in bullets by default!
+    /// </remarks>
     public unsafe struct BehaviorOrder
     {
         /// <summary>

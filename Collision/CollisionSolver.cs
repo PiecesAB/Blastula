@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Blastula.Collision
 {
+    /// <summary>
+    /// Collider shape. For now only a circle shape is available.
+    /// </summary>
     public enum Shape
     {
         None,
@@ -18,11 +21,18 @@ namespace Blastula.Collision
         Circle
     }
 
+    /// <summary>
+    /// Information sent to a BlastulaCollider every frame a collision is occurring.
+    /// For now it just contains the bNodeIndex.
+    /// </summary>
     public struct Collision
     {
         public int bNodeIndex;
     }
 
+    /// <summary>
+    /// Low-level information that is provided and updated by a BlastulaCollider.
+    /// </summary>
     public struct ObjectColliderInfo
     {
         public Transform2D transform;
@@ -36,18 +46,32 @@ namespace Blastula.Collision
         public long colliderID; // used to help lock the LinkedList.
     }
 
+    /// <summary>
+    /// Collider information for a BNode.
+    /// </summary>
     public struct BulletColliderInfo
     {
         public Shape shape;
         public Vector2 size;
     }
 
+    /// <summary>
+    /// Determines BNode sleeping strategy and state.
+    /// </summary>
+    /// <remarks>
+    /// Sleeping is an optional performance optimization for collision, which assumes BNodes and BlastulaColliders
+    /// move slowly in general. When a BNode is far away enough from all relevant BlastulaColliders,
+    /// it will fall asleep for up to six frames, not checking any collision.
+    /// </remarks>
     public struct SleepStatus
     {
         public bool canSleep;
         public bool isSleeping;
     }
 
+    /// <summary>
+    /// Performs collision checks. This is a static utility class, and relies on a manager node to actually do anything.
+    /// </summary>
     public unsafe static class CollisionSolver
     {
         private static bool initialized = false;

@@ -24,6 +24,18 @@ namespace Blastula.VirtualVariables
         /// </summary>
         public const float LAZY_SAFE_DISTANCE = 140;
 
+        /// <summary>
+        /// Constants used to set ProcessPriority for specific nodes used by Blastula.
+        /// </summary>
+        /// <example>
+        /// FRAME_COUNTER_INCREMENT is as early as possible to increment the frame,
+        /// so that caches are correctly invalidated, and all other programming gets the same frame count.
+        /// </example>
+        /// <example>
+        /// CONSUME_INPUT is as late as possible to reset player input state,
+        /// so that everything in the frame is able to consistently react to the player's input.
+        /// This works because inputs are updated by Godot before all _Process.
+        /// </example>
         public static class Priorities
         {
             public const int FRAME_COUNTER_INCREMENT = int.MinValue;

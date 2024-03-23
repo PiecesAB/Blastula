@@ -4,6 +4,12 @@ using System.Threading.Tasks;
 
 namespace Blastula.Schedules
 {
+    /// <summary>
+    /// Executes an external schedule by proxy. Good for reusing schedule portions.
+    /// </summary>
+    /// <remarks>
+    /// The source that started this ScheduleReference will be propagated to the referred schedule.
+    /// </remarks>
     [GlobalClass]
     public partial class ScheduleReference : BaseSchedule
     {

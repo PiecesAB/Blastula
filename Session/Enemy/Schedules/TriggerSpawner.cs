@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Blastula.Schedules.EnemySchedules
 {
+    /// <summary>
+    /// Tells the spawner which initiated this schedule to spawn a new enemy.
+    /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/yellowCross.png")]
     public partial class TriggerSpawner : EnemySchedule

@@ -7,6 +7,10 @@ using System.Text;
 
 namespace Blastula.Debug
 {
+    /// <summary>
+    /// Console that allows the developer to have control over the game in ways
+    /// that are important for debugging.
+    /// </summary>
     public partial class DebugConsole : Control
     {
         public bool paused = false;
@@ -150,13 +154,30 @@ namespace Blastula.Debug
         private static List<string> stringsLikeTrue = new List<string> { "yes", "true", "t", "y", "on", "1" };
         private static List<string> stringsLikeFalse = new List<string> { "no", "false", "f", "n", "off", "0" };
 
+        /// <summary>
+        /// If the text is true-like or false-like, set an external bool value according to that truth value.
+        /// </summary>
+        /// <example>
+        /// "yes", "true", "t", "y", "on", "1" are true-like.
+        /// </example>
+        /// <example>
+        /// "no", "false", "f", "n", "off", "0" are false-like.
+        /// </example>
+        /// <param name="text">Text to evaluate for a truth value.</param>
+        /// <param name="set">reference to a bool value to set based on the string's truth value.</param>
         public static void SetTruthValue(string text, ref bool set)
         {
             text = text.ToLower();
-            if (stringsLikeTrue.Contains(text)) { set = true; }
-            if (stringsLikeFalse.Contains(text)) { set = false; }
+            if (stringsLikeTrue.Contains(text.ToLower())) { set = true; }
+            if (stringsLikeFalse.Contains(text.ToLower())) { set = false; }
         }
 
+        /// <summary>
+        /// Split a string into tokens delimited by spaces.
+        /// </summary>
+        /// <remarks>
+        /// You can escape a space character using backslash.
+        /// </remarks>
         public static List<string> Tokenize(string text)
         {
             List<string> tokens = new List<string>();
@@ -177,6 +198,9 @@ namespace Blastula.Debug
             return tokens;
         }
 
+        /// <summary>
+        /// Creates a RichTextLabel to display output.
+        /// </summary>
         public void Print(string text)
         {
             RichTextLabel newText = lastText.Duplicate(7) as RichTextLabel;
@@ -189,6 +213,9 @@ namespace Blastula.Debug
             lastText = newText;
         }
 
+        /// <summary>
+        /// Can be run to close this debug console for external reasons.
+        /// </summary>
         public void CloseExternal()
         {
             if (paused && Session.main.paused)

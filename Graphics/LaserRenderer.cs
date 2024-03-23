@@ -8,10 +8,14 @@ using static Blastula.BNodeFunctions;
 namespace Blastula.Graphics
 {
     /// <summary>
-    /// Used by the Renderer class. We only draw lasers here.
+    /// Functions to track and render laser graphics. 
     /// </summary>
     public unsafe static class LaserRenderer
     {
+        /// <summary>
+        /// An element in a queue which links to its BNode
+        /// and describes its role in the laser.
+        /// </summary>
         public struct LaserDataEntry
         {
             public int bNodeIndex;
@@ -24,6 +28,9 @@ namespace Blastula.Graphics
         /// Outer index: laser render ID.
         /// Stores lasers contiguously in the queue.
         /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         public static CircularQueue<LaserDataEntry>* laserDataEntries = null;
 
         /// <summary>
@@ -39,7 +46,7 @@ namespace Blastula.Graphics
         public static Vector2[][] renderedUVs = null;
 
         /// <summary>
-        /// Stores positions in the render queue, for later deletion.
+        /// Stores positions of BNodes in their respective render queue, for later deletion.
         /// </summary>
         public static int* queuePositions;
 
@@ -389,9 +396,9 @@ namespace Blastula.Graphics
         }
 
         /// <summary>
-        /// Returns the list of structures that have been removed due to being empty.
+        /// Populates the series of arrays which will be used for ArrayMesh data in this frame's rendering.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The list of structures that have been removed due to being empty.</returns>
         public static List<int> RenderAll()
         {
             List<int> toRemove = new List<int>();

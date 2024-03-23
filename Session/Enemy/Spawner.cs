@@ -23,6 +23,9 @@ namespace Blastula
         /// <summary>
         /// A list of enemies to draw from. This way, we can spawn different kinds of enemies in a series.
         /// </summary>
+        /// <remarks>
+        /// It doesn't necessary need to spawn enemies. In fact, you can spawn effects or other spawners. Why not?
+        /// </remarks>
         [Export] public PackedScene[] enemySamples;
         /// <summary>
         /// The way in which enemies are selected for the series.
@@ -75,6 +78,9 @@ namespace Blastula
 
         private Node cachedParent = null;
 
+        /// <summary>
+        /// Enemies will spawn at this spawner's position.
+        /// </summary>
         public void Spawn()
         {
             //Stopwatch s = Stopwatch.StartNew();

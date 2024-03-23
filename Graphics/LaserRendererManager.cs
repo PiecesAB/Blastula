@@ -5,14 +5,22 @@ using System.Diagnostics;
 namespace Blastula.Graphics
 {
     /// <summary>
-    /// Drives the rendering of lasers.
+    /// This node is meant to be a singleton in the kernel. 
+    /// Drives the rendering of lasers, not bullets.
     /// </summary>
     public partial class LaserRendererManager : Node
     {
+        /// <summary>
+        /// Descendants of this node will have graphics registered using a GraphicInfo,
+        /// with names generated as described in UtilityFunctions.PathBuilder.
+        /// </summary>
         [Export] public Node laserGraphicsRoot;
         [Export] public MeshInstance2D meshInstanceSample;
         [Export] public ArrayMesh arrayMeshSample;
 
+        /// <summary>
+        /// The single instance of LaserRendererManager.
+        /// </summary>
         public static LaserRendererManager main;
 
         private System.Collections.Generic.Dictionary<int, string> nameFromID = new System.Collections.Generic.Dictionary<int, string>();
@@ -50,6 +58,9 @@ namespace Blastula.Graphics
             return main.graphicInfoFromID[id];
         }
 
+        /// <summary>
+        /// Converts a readable name into an internal laser render ID.
+        /// </summary>
         public static int GetIDFromName(string name)
         {
             if (main == null) { return -1; }
@@ -57,6 +68,9 @@ namespace Blastula.Graphics
             return main.IDFromName[name];
         }
 
+        /// <summary>
+        /// Converts an internal laser render ID to a readable name.
+        /// </summary>
         public static string GetNameFromID(int ID)
         {
             if (main == null) { return "None"; }

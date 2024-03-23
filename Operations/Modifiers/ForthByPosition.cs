@@ -14,14 +14,31 @@ namespace Blastula.Operations
     {
         [Export] public Forth.Mode forthMode = Forth.Mode.MoveAfter;
 
+        /// <summary>
+        /// Forth only moves forward, so we should rotate appropriately to form the shape as movement occurs.
+        /// Set type is the most sensible for this purpose, but other rotation types can be used for unusual patterns.
+        /// </summary>
         public enum RotationMode
         {
-            DoNothing, Set, Add
+            /// <summary>
+            /// Doesn't rotate.
+            /// </summary>
+            DoNothing,
+            /// <summary>
+            /// Sets rotation to form the shape as movement occurs.
+            /// </summary>
+            Set, 
+            /// <summary>
+            /// Adds to existing rotation.
+            /// </summary>
+            Add
         }
         [Export] public RotationMode rotationMode = RotationMode.Set;
         /// <summary>
         /// How much to retain the original positions?
         /// </summary>
+        /// <example>0: all bullet structures are now at the center.</example>
+        /// <example>1: the bullet positions are retained.</example>
         [Export] public string positionMultiplier = "0";
 
         public override void ModifyStructure(int inStructure)

@@ -6,9 +6,7 @@ using static Blastula.BNodeFunctions;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// Applies graphics automatically to children in patterns.
-    /// Of course nothing's stopping you from using only one graphic,
-    /// if you just want to replace them.
+    /// Applies graphics automatically to self or children. Can create patterns.
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/paint.png")]
@@ -17,30 +15,46 @@ namespace Blastula.Operations
         public enum ReplaceMode
         {
             /// <summary>
-            /// Set the graphic of this parent of the structure.
+            /// Set the graphic of this BNode.
             /// </summary>
             Self,
             /// <summary>
-            /// Directly sets the graphic of the children.
+            /// Set the graphic of this BNode's direct children (no grandchildren or etc.).
             /// </summary>
             Direct,
             /// <summary>
-            /// Looks deeply into each child for all bullets within that are rendered,
-            /// and replaces those graphics.
+            /// Set the graphic of this BNode's descendants (children, grandchildren, etc.)
+            /// However, it ignores BNodes which are currently invisible.
             /// </summary>
             DeepReplace
         }
 
         public enum PatternMode
         {
+            /// <summary>
+            /// If trying to index before the first element in the list, clamp to the first element.
+            /// If trying to index after the last element in the list clamp to the last element.
+            /// </summary>
             Clamp,
+            /// <summary>
+            /// Loops the list so that before the first element is the last, and after the last element is the first.
+            /// </summary>
             Loop,
+            /// <summary>
+            /// Chooses a random element from the list, disregards chosen index.
+            /// </summary>
             Random
         }
 
         [Export] public ReplaceMode replaceMode = ReplaceMode.DeepReplace;
         [Export] public PatternMode repeatMode = PatternMode.Loop;
+        /// <summary>
+        /// List of graphic names as created by BulletRendererManager.
+        /// </summary>
         [Export] public string[] graphicsList;
+        /// <summary>
+        /// Adds to list indices when determining the pattern.
+        /// </summary>
         [Export] public string startOffset = "0";
 
         private int[] renderIDTabulation;

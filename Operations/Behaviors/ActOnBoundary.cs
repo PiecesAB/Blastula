@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// After a number of frames, the structure rooted at this node will be deleted.
+    /// Add bullet behavior that reacts to being out of bounds.
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/boundary.png")]
@@ -44,7 +44,7 @@ namespace Blastula.Operations
         /// </summary>
         [Export] public bool reflectPerpendicular = false;
 
-        public struct Data
+        private struct Data
         {
             public Boundary.LowLevelInfo* boundInfo;
             public SpecialAction specialAction;

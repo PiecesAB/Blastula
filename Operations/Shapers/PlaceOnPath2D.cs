@@ -12,7 +12,13 @@ namespace Blastula.Operations
     public partial class PlaceOnPath2D : Shaper
     {
         [Export] public Path2D path2D;
+        /// <summary>
+        /// Trims off the edges by this amount of Godot units, because rotation at path endpoints becomes strange.
+        /// </summary>
         [Export] public float shrink = 10;
+        /// <summary>
+        /// Rotation offset for all structures placed along the path. The 0 rotation faces every element along the path.
+        /// </summary>
         [Export] public string extraRotation = "0";
         [Export] public bool circular;
 

@@ -4,8 +4,12 @@ using Godot;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// A row of bullets with the same direction from the center, but different distance from the center.
+    /// <b>Places</b> a row of bullets with the same direction from the center, but different distance from the center.
     /// </summary>
+    /// <remarks>
+    /// There is emphasis on <b>places</b> because shapers only position and rotate structures. They don't create movement behavior.
+    /// You can use a ForthByPosition operation to convert position + rotation to movement.
+    /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/Shapes/stack.png")]
     public partial class Stack : Shaper

@@ -5,9 +5,12 @@ using static Blastula.BNodeFunctions;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// Puts the children into groups of a new structure such that they become the childrens' children.<br />
+    /// Puts the children of this bullet structure into groups of a new structure such that they become grandchildren.<br />
     /// You can choose the size of the groups. Extraneous children that can't form a group are deleted.
     /// </summary>
+    /// <remarks>
+    /// In a sense, this is the opposite of Flatten operation.
+    /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/deepen.png")]
     public unsafe partial class Deepen : BaseOperation

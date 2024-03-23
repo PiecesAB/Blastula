@@ -22,7 +22,7 @@ namespace Blastula
         }
 
         /// <summary>
-        /// Used to uniquely and globally identify this boundary.
+        /// Name to uniquely and globally identify this boundary.
         /// </summary>
         [Export] public string ID;
         [Export] public Form form = Form.Rectangle;

@@ -5,8 +5,8 @@ using static Blastula.BNodeFunctions;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// Operates on all nodes at a certain depth level within a BNode's structure.
-    /// Only ModifyOperation is allowed.
+    /// Operates on all nodes at a certain depth level within a bullet structure tree.
+    /// Only Modifiers are allowed, such that the tree structure doesn't change.
     /// Depth is the maximum distance to a BNode with no children.
     /// </summary>
     [GlobalClass]

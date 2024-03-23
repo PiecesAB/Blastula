@@ -42,7 +42,9 @@ namespace Blastula.Operations
         [Export] public Mode mode = Mode.ApplyAfter;
         [Export] public ChildPlacement childPlacement = ChildPlacement.Attached;
         [ExportGroup("Transform")]
-        // Rotation in degrees.
+        /// <summary>
+        /// Rotation is in degrees.
+        /// </summary>
         [Export] public string rotation = "0";
         [Export] public string offsetX = "0";
         [Export] public string offsetY = "0";

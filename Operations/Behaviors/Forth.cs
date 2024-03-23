@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// Move forward. The simplest behavior for all bullets. Ubiquitious in all bullet games!
+    /// Behavior for bullets to move forward.
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/behaviorForth.png")]
@@ -40,7 +40,7 @@ namespace Blastula.Operations
         [Export()]
         public bool worldSpaceHack = false;
 
-        public struct Data
+        private struct Data
         {
             public float speed;
             public Mode mode;
@@ -100,6 +100,9 @@ namespace Blastula.Operations
             return new BehaviorOrder() { data = dataPtr, dataSize = sizeof(Data), func = &Execute };
         }
 
+        /// <summary>
+        /// Allows a Forth behavior to be added to bullet structures externally.
+        /// </summary>
         public static void Add(int inStructure, float speed, Mode mode)
         {
             if (inStructure < 0 || inStructure >= BNodeFunctions.mqSize) { return; }

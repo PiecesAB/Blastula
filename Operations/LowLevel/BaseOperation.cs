@@ -39,6 +39,12 @@ namespace Blastula.Operations
 
         private System.Collections.Generic.Dictionary<string, Variant> constants = new System.Collections.Generic.Dictionary<string, Variant>();
 
+        /// <summary>
+        /// Shorthand for using ExpressionSolver.Solve on variables in classes that descend from BaseOperation.
+        /// </summary>
+        /// <remarks>
+        /// The local variable container should always be a Blastodisc when this is called.
+        /// </remarks>
         public Variant Solve(string varName)
         {
             if (constants.TryGetValue(varName, out Variant cachedResult)) { return cachedResult; }

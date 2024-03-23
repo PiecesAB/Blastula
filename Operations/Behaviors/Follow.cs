@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// Causes a bullet structure to follow a Target. Can follow smoothly!
+    /// This behavior causes a bullet structure to follow a Target. Can follow smoothly!
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/crosshairYellow.png")]
@@ -61,7 +61,7 @@ namespace Blastula.Operations
         [Export] public string accel = "300";
         [Export] public string initialVelocity = "Vector2(0, 0)";
 
-        public struct Data
+        private struct Data
         {
             public Mode mode;
             public Transform2D* specificTarget;

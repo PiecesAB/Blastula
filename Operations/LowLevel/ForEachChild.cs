@@ -7,6 +7,9 @@ namespace Blastula.Operations
     /// <summary>
     /// Applies an operation on all children, while linearly interpolating several numeric properties.
     /// </summary>
+    /// <remarks>
+    /// Counting will not skip over the holes left by deleted children.
+    /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/count.png")]
     public unsafe partial class ForEachChild : BaseOperation
@@ -16,7 +19,8 @@ namespace Blastula.Operations
         /// </summary>
         [Export] public string progressVariable = "t";
         /// <summary>
-        /// If true, 
+        /// If true, progressVariable is basically count/total, to correctly "wrap around".
+        /// otherwise it's basically count/(total - 1) so that the last child has a progressVariable of 1.
         /// </summary>
         [Export] public bool circular = false;
         /// <summary>

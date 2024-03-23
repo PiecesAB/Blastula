@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=67 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="3_yi7x3"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="4_5jpkg"]
@@ -51,6 +51,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/CloneInPlace.cs" id="44_buqyd"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/PlaceOnPath2D.cs" id="46_rnlww"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Variables/UnsetVar.cs" id="47_w56g6"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Repaint.cs" id="48_3voct"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rjsw2"]
 font = ExtResource("4_5jpkg")
@@ -1103,6 +1104,11 @@ script = ExtResource("13_pixf2")
 
 [node name="Clear behaviors" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
 script = ExtResource("37_2alt6")
+
+[node name="Make transparent2" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
+script = ExtResource("48_3voct")
+replaceMode = 0
+graphicsList = PackedStringArray("Bullet/Orange")
 
 [node name="Make transparent" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
 script = ExtResource("41_rxobj")

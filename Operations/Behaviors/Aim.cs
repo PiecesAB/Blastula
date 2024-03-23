@@ -62,7 +62,7 @@ namespace Blastula.Operations
         /// </summary>
         [Export] public string homingWindow = "Vector2(0, 60)";
 
-        public struct Data
+        private struct Data
         {
             public AimMode aimMode;
 

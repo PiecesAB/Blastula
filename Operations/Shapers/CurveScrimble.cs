@@ -5,21 +5,37 @@ using Godot;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// An extra-versatile shaper that can trace any parametric polar equation.<br />
+    /// An extra-versatile shaper that can place clones along any parametric polar graph.<br />
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/Shapes/scrimble.png")]
     public partial class CurveScrimble : Shaper
     {
+        /// <summary>
+        /// How the radius varies over the course of this shape.
+        /// </summary>
         [Export] public Curve radius;
+        /// <summary>
+        /// How the angle varies over the course of this shape. The output is in degrees.
+        /// </summary>
         [Export] public Curve angle;
         /// <summary>
         /// If true, interpolation is contracted so that a circle doesn't have a redundant first point.
         /// </summary>
         [Export] public bool circular = false;
+        /// <summary>
+        /// An array of four numbers [a, b, c, d] that stretches or shifts the radius curve.
+        /// Suppose that the radius curve is a function F. Normally, we are calculating F(t) to determine the radius.
+        /// If this is defined, we will instead determine the radius as cF(at + b) + d.
+        /// </summary>
         [ExportGroup("Advanced")]
         [Export] public string radiusShift = "";
         [Export] public UnsafeCurve.LoopMode radiusLoopMode = UnsafeCurve.LoopMode.Neither;
+        /// <summary>
+        /// An array of four numbers [a, b, c, d] that stretches the angle curve.
+        /// Suppose that the angle curve is a function F. Normally, we are calculating F(t) to determine the angle.
+        /// If this is defined, we will instead determine the angle as cF(at + b) + d.
+        /// </summary>
         [Export] public string angleShift = "";
         [Export] public UnsafeCurve.LoopMode angleLoopMode = UnsafeCurve.LoopMode.Neither;
 

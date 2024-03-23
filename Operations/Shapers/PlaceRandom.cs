@@ -4,7 +4,7 @@ using Godot;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// Makes clones appear in a random sector of a washer: 
+    /// Places clones in a random sector of a washer: 
     /// a region bounded by two lines through the center and two circles around the center.
     /// </summary>
     [GlobalClass]

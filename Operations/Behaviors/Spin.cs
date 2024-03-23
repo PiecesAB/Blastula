@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// Also known as angular velocity!
+    /// Also known as "angular velocity". This behavior makes the bullet structure change its facing direction over time.
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/behaviorSpin.png")]
@@ -34,7 +34,7 @@ namespace Blastula.Operations
         public string speed = "60";
 
 
-        public struct Data
+        private struct Data
         {
             public float speed;
             public Mode mode;

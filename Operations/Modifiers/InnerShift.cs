@@ -5,7 +5,7 @@ using static Blastula.BNodeFunctions;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// We create an auxiliary structure homologous to this one,
+    /// We create an auxiliary structure homologous (same tree shape) to this one,
     /// apply its position information to the main structure,
     /// and then delete the auxiliary structure.
     /// </summary>
@@ -15,13 +15,39 @@ namespace Blastula.Operations
     {
         public enum RotationMode
         {
-            None, FromOtherRotation, FromOtherPosition
+            /// <summary>
+            /// Nullify the auxiliary structures' rotations.
+            /// </summary>
+            None, 
+            /// <summary>
+            /// Use the auxiliary structures' rotations as they exist.
+            /// </summary>
+            FromOtherRotation, 
+            /// <summary>
+            /// Force auxiliary structures' rotations to always fade away from their local origin.
+            /// </summary>
+            FromOtherPosition
         }
 
+        /// <summary>
+        /// Usually a sequence, which is expected to create a homologous structure.
+        /// </summary>
         [Export] public BaseOperation auxiliary;
+        /// <summary>
+        /// Determines how transform info from the auxiliary structures are multiplied.
+        /// </summary>
         [Export] public Shift.Mode transformMode;
+        /// <summary>
+        /// Determines how the auxiliary structures' rotations are used when applying the transform.
+        /// </summary>
         [Export] public RotationMode rotationMode = RotationMode.FromOtherRotation;
+        /// <summary>
+        /// If false, nullifies auxiliary position.
+        /// </summary>
         [Export] public bool placement = true;
+        /// <summary>
+        /// If true, behaviors are added to move structures Forth at speeds determined by distance from their local origin.
+        /// </summary>
         [Export] public bool movementSpeed = false;
         private Forth moveForwardNode;
 

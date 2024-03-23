@@ -5,7 +5,7 @@ namespace Blastula.Operations
 {
     /// <summary>
     /// A parametric "line segment", in polar coordinates. <br />
-    /// This versatile shaper can create rings, spreads, stacks, and more!<br />
+    /// This versatile shaper can place clones in rings, spreads, stacks, and more!<br />
     /// (Of course the classic shapes still exist for convenience.)
     /// </summary>
     [GlobalClass]

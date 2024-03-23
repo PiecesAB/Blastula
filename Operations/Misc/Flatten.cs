@@ -7,9 +7,12 @@ using static Blastula.BNodeFunctions;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// Puts the children into groups of a new structure such that they become the childrens' children.<br />
-    /// You can choose the size of the groups. Extraneous children that can't form a group are deleted.
+    /// Finds grandchildren (or further) of this bullet structure, promotes them to children, 
+    /// and deletes the original children (or keeps some of them, depending on the mode).
     /// </summary>
+    /// <remarks>
+    /// In a sense, this is the opposite of Deepen operation.
+    /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/flatten.png")]
     public unsafe partial class Flatten : BaseOperation
@@ -22,6 +25,7 @@ namespace Blastula.Operations
         [Export] public bool keepEmptyChildren = false;
         /// <summary>
         /// If true, this will repeatedly flatten the structure until no child has children.
+        /// That is, all depth 0 BNodes in the tree are the new children of this BNode.
         /// </summary>
         [Export] public bool complete = true;
 

@@ -21,6 +21,9 @@ namespace Blastula.Operations
         [Export] public string referenceID = "";
         public static Dictionary<string, Sequence> referencesByID = new Dictionary<string, Sequence>();
 
+        /// <summary>
+        /// Allows any Node to process structures in children, as if they were a Sequence.
+        /// </summary>
         public static int ProcessStructureLikeSequence(Node holder, int inStructure)
         {
             int currentStructure = inStructure;
@@ -28,7 +31,7 @@ namespace Blastula.Operations
             {
                 if (child == null || !(child is BaseOperation)) { continue; }
                 currentStructure = (child as BaseOperation).ProcessStructure(currentStructure);
-                if (currentStructure == -1 && child is not Comment) { break; }
+                //if (currentStructure == -1 && child is not Comment) { break; }
             }
             return currentStructure;
         }

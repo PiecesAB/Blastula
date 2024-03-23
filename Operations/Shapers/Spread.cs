@@ -4,8 +4,12 @@ using Godot;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// Also known as a fan. Places an arc of bullets.
+    /// Also known as a fan. Places an arc of bullet structures.
     /// </summary>
+    /// <example>
+    /// To shoot a spread that expands from a central point, add the Forth behavior first,
+    /// then create a spread of those bullets with radius 0. This changes only the direction of the bullets without displacement.
+    /// </example>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/Shapes/spread.png")]
     public partial class Spread : Shaper

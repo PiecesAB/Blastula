@@ -58,12 +58,12 @@ namespace Blastula.Operations
         private int storedRenderID;
         private bool mistAppearanceDirty = true;
 
-        public enum State
+        private enum State
         {
             Unstarted, Playing, Complete
         }
 
-        public struct Data
+        private struct Data
         {
             public float throttle;
             public bool throttleOnEndFrame;

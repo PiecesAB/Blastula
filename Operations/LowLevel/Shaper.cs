@@ -6,8 +6,13 @@ using static Blastula.BNodeFunctions;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// A Shaper will add a defined shape to bullets. The way it adds shape is customizable.
+    /// A base class for operations which create clones of bullet structures,
+    /// make the clones children of an overarching bullet structure at the original position + rotation,
+    /// then apply new position + rotations for each child.
     /// </summary>
+    /// <example>
+    /// Blastula has several built-in shapers which can create common shapes such as circles and spreads of bullets.
+    /// </example>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/shaper.png")]
     public unsafe abstract partial class Shaper : BaseOperation
@@ -31,7 +36,14 @@ namespace Blastula.Operations
 
         public enum TransformOrder
         {
-            ApplyBefore, ApplyAfter
+            /// <summary>
+            /// Add our transform before the existing one: as if our transform were a "parent".
+            /// </summary>
+            ApplyBefore,
+            /// <summary>
+            /// Add our transform after the existing one: as if our transform were a "child".
+            /// </summary>
+            ApplyAfter
         }
 
         public enum RotationMode

@@ -20,7 +20,7 @@ namespace Blastula.Operations
         // Transforms visible bullets into deletion effects
         [Export] public bool deletionEffect = false;
 
-        public struct Data
+        private struct Data
         {
             public float duration;
             public bool deletionEffect;

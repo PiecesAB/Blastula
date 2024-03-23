@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// After a number of frames, the structure rooted at this node will be deleted.
+    /// After a number of frames, the structure rooted at this node will cause an operation to be applied to itself.
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/adapt.png")]
@@ -27,7 +27,7 @@ namespace Blastula.Operations
 
         public bool* conditionValue = null;
 
-        public struct Data
+        private struct Data
         {
             public bool useCondition;
             public bool* conditionValue;

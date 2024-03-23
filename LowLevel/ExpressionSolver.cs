@@ -75,7 +75,8 @@ namespace Blastula
         };
 
         /// <summary>
-        /// This is the current blastodisc, if it exists. Used to resolve local variables.
+        /// This is the current local variable context, if it exists. 
+        /// Required to set this when local variables are expected.
         /// </summary>
         public static IVariableContainer currentLocalContainer;
 

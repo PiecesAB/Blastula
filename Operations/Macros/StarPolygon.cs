@@ -15,9 +15,12 @@ namespace Blastula.Operations
         /// <summary>
         /// If true, this makes a deeper container with copies of the lower-sided stars,
         /// if the leapSize and sides share a common factor.
-        /// This will make a star look complete even in that case -- for example the Star of David is two triangles;
-        /// it can be produced with sides = 6 and leapSize = 2 and makeGCDCopies = true.
+        /// This will make a star complete even when made up of lower-order stars. 
         /// </summary>
+        /// <example>
+        /// The Star of David is two triangles;
+        /// it can be produced with sides = 6 and leapSize = 2 and makeGCDCopies = true.
+        /// </example>
         [Export] public bool makeGCDCopies = false;
 
         protected override void CreateSuboperations()

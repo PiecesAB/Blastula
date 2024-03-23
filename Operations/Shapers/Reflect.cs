@@ -8,6 +8,9 @@ namespace Blastula.Operations
     /// <summary>
     /// Clone the BNode and reflect it across an axis. Useful for bilaterally symmetric patterns.
     /// </summary>
+    /// <remarks>
+    /// "number" variable as inherited from Shaper should always be 2.
+    /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/reflect.png")]
     public unsafe partial class Reflect : Shaper
@@ -15,6 +18,7 @@ namespace Blastula.Operations
         /// <summary>
         /// Angle the reflection axis makes with the transform's rightwards direction, in degrees. Clockwise by Godot convention.
         /// </summary>
+        /// <example>0: the reflection occurs across the axis which this structure points along.</example>
         [Export] public string axisAngle = "90";
 
         public override Transform2D GetElementTransform(int i, int totalCount)

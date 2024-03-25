@@ -34,7 +34,7 @@ namespace Blastula.Operations
             if (inStructure >= 0 && inStructure < mqSize) { MasterQueuePushTree(inStructure); }
             if (MasterQueueRemainingCapacity() < 1) { return -1; } // not even room for one... wow...
             int newBullet = MasterQueuePopOne();
-            if (newBullet == -1) { return -1; }
+            if (newBullet < 0) { return -1; }
             int newID = BulletRendererManager.GetIDFromName(renderName);
             BulletRenderer.SetRenderID(newBullet, newID);
             int colLayerID = CollisionManager.GetBulletLayerIDFromName(collisionLayerName);

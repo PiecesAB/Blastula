@@ -26,7 +26,7 @@ namespace Blastula.Operations
             if (groupCount == 0) { MasterQueuePushTree(inStructure); return -1; }
             // These are the containers.
             int outChildren = MasterQueuePopN(groupCount);
-            if (outChildren == -1) { MasterQueuePushTree(inStructure); return -1; }
+            if (outChildren < 0) { MasterQueuePushTree(inStructure); return -1; }
             int origChildTotal = masterQueue[inStructure].children.count;
             int origChildCounter = 0;
             for (int k = 0; k < groupCount; ++k)

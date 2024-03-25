@@ -190,11 +190,11 @@ namespace Blastula
         /// </remarks>
 		public bool Inherit(int bNodeIndex)
         {
-            if (masterStructure == -1)
+            if (masterStructure < 0)
             {
                 masterStructure = BNodeFunctions.MasterQueuePopOne();
                 //GD.Print($"{Name} created master structure; now at index {masterStructure}");
-                if (masterStructure == -1) { return false; }
+                if (masterStructure < 0) { return false; }
             }
             int ci = masterNextChildIndex;
             UnsafeArray<int> msc = BNodeFunctions.masterQueue[masterStructure].children;
@@ -276,7 +276,7 @@ namespace Blastula
                     k < masterLowerChildSearch + 100 && k < masterNextChildIndex && k < msc.count;
                     ++k)
                 {
-                    if (msc[k] == -1)
+                    if (msc[k] < 0)
                     {
                         masterNextChildIndex = k; break;
                     }
@@ -289,10 +289,10 @@ namespace Blastula
         // Keeps the tail of the masterQueue from staying put
         private void RefreshMasterStructure()
         {
-            if (masterStructure == -1) { return; }
+            if (masterStructure < 0) { return; }
             int newMS = BNodeFunctions.MasterQueuePopOne();
             //GD.Print($"{Name} refreshed master structure; now at index {newMS}");
-            if (newMS == -1) { return; }
+            if (newMS < 0) { return; }
             else
             {
                 BNodeFunctions.masterQueue[newMS].treeSize = BNodeFunctions.masterQueue[masterStructure].treeSize;

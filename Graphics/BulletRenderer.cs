@@ -131,7 +131,7 @@ namespace Blastula.Graphics
         }
 
         /// <summary>
-        /// May give false positives.
+        /// May give false positives due to padding around bullets. Used to ensure when a bullet is NOT on the screen.
         /// </summary>
         public static bool IsBulletOnScreen(int bNodeIndex)
         {
@@ -156,7 +156,7 @@ namespace Blastula.Graphics
             if (depth == 0)
             {
                 Lifespan.Add(bNodeIndex, DELETION_EFFECT_FRAMES, Schedules.Wait.TimeUnits.Frames);
-                if (cachedDeletionRenderID == -1)
+                if (cachedDeletionRenderID < 0)
                 {
                     cachedDeletionRenderID = BulletRendererManager.GetIDFromName("Deletion");
                 }
@@ -164,28 +164,31 @@ namespace Blastula.Graphics
             }
             
             int bulletRenderID = bNodePtr->bulletRenderID;
-            if (IsBulletOnScreen(bNodeIndex) && bulletRenderID != cachedDeletionRenderID)
+            if (bulletRenderID != cachedDeletionRenderID)
             {
-                float averageRectSize = 0f; 
-                if (bulletRenderID >= 0)
+                if (IsBulletOnScreen(bNodeIndex))
                 {
-                    averageRectSize = meshSizeFromRenderIDs[bulletRenderID].X + meshSizeFromRenderIDs[bulletRenderID].Y;
-                    averageRectSize = Mathf.Lerp(averageRectSize, DELETION_EFFECT_RECT_SIZE, 0.8f);
-                } 
-                else if (bNodePtr->laserRenderID >= 0)
-                {
-                    averageRectSize = 2f * LaserRenderer.laserRenderWidthFromRenderIDs[bNodePtr->laserRenderID];
+                    float averageRectSize = 0f;
+                    if (bulletRenderID >= 0)
+                    {
+                        averageRectSize = meshSizeFromRenderIDs[bulletRenderID].X + meshSizeFromRenderIDs[bulletRenderID].Y;
+                        averageRectSize = Mathf.Lerp(averageRectSize, DELETION_EFFECT_RECT_SIZE, 0.8f);
+                    }
+                    else if (bNodePtr->laserRenderID >= 0)
+                    {
+                        averageRectSize = 2f * LaserRenderer.laserRenderWidthFromRenderIDs[bNodePtr->laserRenderID];
+                    }
+                    float newScale = averageRectSize / DELETION_EFFECT_RECT_SIZE;
+                    BulletRenderer.SetRenderID(bNodeIndex, cachedDeletionRenderID);
+                    if (bNodePtr->multimeshExtras == null) { bNodePtr->multimeshExtras = SetMultimeshExtraData.NewPointer(); }
+                    bNodePtr->multimeshExtras->color = deletionColorFromRenderIDs[bulletRenderID];
+                    bNodePtr->multimeshExtras->custom = new Vector4(newScale, currentStageTime, 0, 0);
                 }
-                float newScale = averageRectSize / DELETION_EFFECT_RECT_SIZE;
-                BulletRenderer.SetRenderID(bNodeIndex, cachedDeletionRenderID);
-                if (bNodePtr->multimeshExtras == null) { bNodePtr->multimeshExtras = SetMultimeshExtraData.NewPointer(); }
-                bNodePtr->multimeshExtras->color = deletionColorFromRenderIDs[bulletRenderID];
-                bNodePtr->multimeshExtras->custom = new Vector4(newScale, currentStageTime, 0, 0);
-            }
-            else
-            {
-                // No chance to re-appear on screen later!
-                BulletRenderer.SetRenderID(bNodeIndex, -1);
+                else
+                {
+                    // No chance to re-appear on screen later!
+                    BulletRenderer.SetRenderID(bNodeIndex, -1);
+                }
             }
             LaserRenderer.RemoveLaserEntry(bNodeIndex);
 
@@ -218,7 +221,7 @@ namespace Blastula.Graphics
             // This is the array in which we need to enter multimesh data.
             float[] renderedTransformArray = renderedTransformArrays[nonzeroRenderID];
             int offset = i * stride;
-            if (bNodeIndex == -1)
+            if (bNodeIndex < 0)
             {
                 // Render nothing; there is no bullet here.
                 renderedTransformArray[offset + 0] = 0;

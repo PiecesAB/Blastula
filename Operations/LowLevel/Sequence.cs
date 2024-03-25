@@ -31,7 +31,7 @@ namespace Blastula.Operations
             {
                 if (child == null || !(child is BaseOperation)) { continue; }
                 currentStructure = (child as BaseOperation).ProcessStructure(currentStructure);
-                //if (currentStructure == -1 && child is not Comment) { break; }
+                //if (currentStructure < 0 && child is not Comment) { break; }
             }
             return currentStructure;
         }

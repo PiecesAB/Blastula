@@ -85,7 +85,7 @@ namespace Blastula
         {
             //Stopwatch s = Stopwatch.StartNew();
             int selectIndex = Repaint.SolvePatternIndex(spawnID, enemySamples.Length, repeatMode);
-            if (selectIndex == -1) { return; }
+            if (selectIndex < 0) { return; }
             Node2D newNode = enemySamples[selectIndex].Instantiate<Node2D>();
             if (newNode == null) { return; }
             if (newNode is not Enemy) { newNode.QueueFree(); return; }

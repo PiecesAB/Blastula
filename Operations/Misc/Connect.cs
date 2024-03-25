@@ -92,7 +92,7 @@ namespace Blastula.Operations
                 int newChildOffset = j * number;
                 SetChild(inStructure, newChildOffset, startIndex);
                 int childClones = CloneN(startIndex, number - 1);
-                if (childClones == -1) { origChildren.Dispose(); EmergencyDelete(origChildren, inStructure); return -1; }
+                if (childClones < 0) { origChildren.Dispose(); EmergencyDelete(origChildren, inStructure); return -1; }
                 for (int k = 1; k < number; ++k)
                 {
                     int cloneIndex = (childClones + k - 1) % mqSize;
@@ -111,7 +111,7 @@ namespace Blastula.Operations
         private int ProcessSeparateLines(int number, int inStructure)
         {
             int outStructure = MasterQueuePopOne();
-            if (outStructure == -1) { MasterQueuePushTree(inStructure); return -1; }
+            if (outStructure < 0) { MasterQueuePushTree(inStructure); return -1; }
             SetTransform2D(outStructure, masterQueue[inStructure].transform);
             if (number == 1) { return inStructure; }
             UnsafeArray<int> origChildren = masterQueue[inStructure].children.Clone();
@@ -129,12 +129,12 @@ namespace Blastula.Operations
                 Transform2D startT = masterQueue[startIndex].transform;
                 Transform2D endT = masterQueue[endIndex].transform;
                 int subStructure = MasterQueuePopOne();
-                if (subStructure == -1) { origChildren.Dispose(); EmergencyDelete(origChildren, outStructure); return -1; }
+                if (subStructure < 0) { origChildren.Dispose(); EmergencyDelete(origChildren, outStructure); return -1; }
                 SetChild(outStructure, j, subStructure);
                 MakeSpaceForChildren(subStructure, number);
                 SetChild(subStructure, 0, startIndex);
                 int childClones = CloneN(startIndex, number - 1);
-                if (childClones == -1) { origChildren.Dispose(); EmergencyDelete(origChildren, outStructure); return -1; }
+                if (childClones < 0) { origChildren.Dispose(); EmergencyDelete(origChildren, outStructure); return -1; }
                 for (int k = 1; k < number; ++k)
                 {
                     int cloneIndex = (childClones + k - 1) % mqSize;

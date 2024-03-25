@@ -85,7 +85,7 @@ namespace Blastula.Operations
             if (MasterQueueRemainingCapacity() < spaceNeeded) { MasterQueuePushTree(inStructure); return -1; }
 
             int outStructure = MasterQueuePopOne();
-            if (outStructure == -1) { return -1; }
+            if (outStructure < 0) { return -1; }
             BulletRenderer.SetRenderID(outStructure, -1);
             MakeSpaceForChildren(outStructure, number);
             Transform2D inTransform = masterQueue[inStructure].transform;

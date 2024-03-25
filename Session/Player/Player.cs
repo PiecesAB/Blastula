@@ -179,8 +179,17 @@ namespace Blastula
                     else
                     {
                         bNodePtr->health = 0;
-                        BulletRenderer.SetRenderID(bNodeIndex, -1);
-                        LaserRenderer.RemoveLaserEntry(bNodeIndex);
+                        if (bNodePtr->laserRenderID < 0)
+                        {
+                            bNodePtr->transform = BulletWorldTransforms.Get(bNodeIndex);
+                            bNodePtr->worldTransformMode = true;
+                            PostExecute.ScheduleDeletion(bNodeIndex, true);
+                        }
+                        else
+                        {
+                            BulletRenderer.SetRenderID(bNodeIndex, -1);
+                            LaserRenderer.RemoveLaserEntry(bNodeIndex);
+                        }
                     }
                 }
             }

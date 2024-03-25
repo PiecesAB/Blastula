@@ -309,7 +309,7 @@ namespace Blastula
         {
             if (i < 0 || i >= mqSize) { throw new IndexOutOfRangeException(); }
             int newSpace = MasterQueuePopOne();
-            if (newSpace == -1) { return -1; }
+            if (newSpace < 0) { return -1; }
             Buffer.MemoryCopy(masterQueue + i, masterQueue + newSpace, sizeof(BNode), sizeof(BNode));
             masterQueue[newSpace].children = masterQueue[newSpace].children.Clone();
             int childCount = masterQueue[newSpace].children.count;
@@ -351,7 +351,7 @@ namespace Blastula
             if (i < 0 || i >= mqSize) { throw new IndexOutOfRangeException(); }
             if (n <= 0) { return -1; }
             int newSpace = MasterQueuePopN(n);
-            if (newSpace == -1) { return -1; }
+            if (newSpace < 0) { return -1; }
             for (int offset = 0; offset < n; ++offset)
             {
                 int j = (newSpace + offset) % mqSize;

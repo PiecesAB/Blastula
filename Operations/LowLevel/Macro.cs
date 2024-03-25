@@ -48,7 +48,7 @@ namespace Blastula.Operations
             foreach (BaseOperation op in suboperations)
             {
                 outStructure = op.ProcessStructure(outStructure);
-                if (outStructure == -1) { break; }
+                if (outStructure < 0) { break; }
             }
             return outStructure;
         }

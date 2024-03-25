@@ -107,7 +107,7 @@ namespace Blastula.Operations
         public override void ModifyStructure(int inStructure)
         {
             int auxOut = auxiliary.ProcessStructure(-1);
-            if (auxOut == -1) { return; }
+            if (auxOut < 0) { return; }
             Correspond(inStructure, auxOut);
             MasterQueuePushTree(auxOut);
         }

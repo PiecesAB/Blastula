@@ -152,6 +152,8 @@ namespace Blastula
             SetVarsInDiscs();
         }
 
+        private int grazeGetThisFrame = 0;
+
         /// <summary>
         /// Response to a collider being hit by a bullet on the "EnemyShot" collision layer.
         /// Also handles grazing, naturally.
@@ -224,11 +226,16 @@ namespace Blastula
                     
                     if (grazeGet)
                     {
-                        CommonSFXManager.PlayByName("Player/Graze", 1, 1f, GlobalPosition, true);
-                        GrazeLines.ShowLine(GlobalPosition, BulletWorldTransforms.Get(bNodeIndex).Origin);
-                        // Without this the bullet wiggles because we tried to calculate the position before the movement.
-                        // We don't want that to happen, so force recalculate when the time is right.
-                        BulletWorldTransforms.Invalidate(bNodeIndex);
+                        ++grazeGetThisFrame;
+                        // TODO: implement and increment graze counter
+                        if (grazeGetThisFrame < 5)
+                        {
+                            CommonSFXManager.PlayByName("Player/Graze", 1, 1f, GlobalPosition, true);
+                            GrazeLines.ShowLine(GlobalPosition, BulletWorldTransforms.Get(bNodeIndex).Origin);
+                            // Without this the bullet wiggles because we tried to calculate the position before the movement.
+                            // We don't want that to happen, so force recalculate when the time is right.
+                            BulletWorldTransforms.Invalidate(bNodeIndex);
+                        }
                     }
                 }
             }
@@ -268,6 +275,7 @@ namespace Blastula
                 GlobalPosition = Boundary.Clamp(mainBoundary.lowLevelInfo, GlobalPosition, boundaryShrink);
             }
             SetVarsInDiscs();
+            grazeGetThisFrame = 0;
         }
     }
 }

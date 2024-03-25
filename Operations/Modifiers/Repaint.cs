@@ -43,7 +43,11 @@ namespace Blastula.Operations
             /// <summary>
             /// Chooses a random element from the list, disregards chosen index.
             /// </summary>
-            Random
+            Random,
+            /// <summary>
+            /// Do nothing to the index unless it's out of bounds, where it just returns -1.
+            /// </summary>
+            None,
         }
 
         [Export] public ReplaceMode replaceMode = ReplaceMode.DeepReplace;
@@ -64,6 +68,7 @@ namespace Blastula.Operations
             if (listLength <= 0) { return -1; }
             switch (mode)
             {
+                case PatternMode.None: return (index == Mathf.Clamp(index, 0, listLength - 1)) ? index : -1;
                 case PatternMode.Clamp: return Mathf.Clamp(index, 0, listLength - 1);
                 case PatternMode.Loop: default: return MoreMath.RDMod(index, listLength);
                 case PatternMode.Random: return RNG.Int(0, listLength);

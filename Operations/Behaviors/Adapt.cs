@@ -7,17 +7,27 @@ using System.Runtime.InteropServices;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// After a number of frames, the structure rooted at this node will cause an operation to be applied to itself.
-    /// </summary>
+    /// After the wait time elapses or the condition becomes true (whichever is earlier),
+    /// the bullet structure will cause an operation to be applied to itself.
+    /// <remarks>
+    /// It will only adapt once, and never again. For more advanced adaptive behavior, use AdaptPattern.
+    /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/adapt.png")]
     public unsafe partial class Adapt : AddBehavior
     {
-        /// <summary>
-        /// The operation that applies to this BNode after the wait time elapses or the condition becomes true, whichever is earlier.
-        /// </summary>
         [Export] public BaseOperation operation;
+        /// <summary>
+        /// If a nonempty expression, this condition is updated every frame to a boolean value.
+        /// The behavior will trigger when it is true.
+        /// </summary>
+        /// <remarks>
+        /// This evaluates to "false" when empty.
+        /// </remarks>
         [Export] public string condition = "";
+        /// <summary>
+        /// The operation will apply after this amount of time.
+        /// </summary>
         [Export] public string wait = "120";
         [Export] public Wait.TimeUnits waitUnits = Wait.TimeUnits.Frames;
         /// <summary>

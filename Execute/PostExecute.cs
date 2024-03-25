@@ -126,7 +126,7 @@ namespace Blastula
                     {
                         operation = BaseOperation.operationFromID[order.operationID];
                     }
-                    if (operation == null) { MasterQueuePushTree(order.bNodeIndex); continue; }
+                    if (operation == null) { BulletRenderer.ConvertToDeletionEffects(order.bNodeIndex); continue; }
                     if (!masterQueue[order.bNodeIndex].initialized) { continue; }
                     int parent = masterQueue[order.bNodeIndex].parentIndex;
                     int positionInParent = masterQueue[order.bNodeIndex].positionInParent;

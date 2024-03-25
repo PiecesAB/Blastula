@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=69 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="3_yi7x3"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="4_5jpkg"]
@@ -52,6 +52,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/PlaceOnPath2D.cs" id="46_rnlww"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Variables/UnsetVar.cs" id="47_w56g6"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Repaint.cs" id="48_3voct"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/AdaptPattern.cs" id="52_fvk7r"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rjsw2"]
 font = ExtResource("4_5jpkg")
@@ -127,6 +128,10 @@ _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 126, -176, -4.24264, -298.399, 4.24264, 298.399, 328, -10, 0, 0, 0, 0, 143, 148)
 }
 point_count = 3
+
+[sub_resource type="Curve" id="Curve_wmp8t"]
+_data = [Vector2(0, 1), 0.0, -0.977923, 0, 1, Vector2(1, 0.022077), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [node name="Main Scene" type="Node2D"]
 
@@ -994,6 +999,7 @@ lowHealthCutoff = 100.0
 
 [node name="Mind Shaker clone" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("12_7eb1c")
+enabled = false
 mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("Cleanup")
 deleteAction = 1
@@ -1228,6 +1234,115 @@ cycleCount = "1"
 script = ExtResource("47_w56g6")
 varName = "illusion_time"
 environment = 1
+
+[node name="Lightning" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+script = ExtResource("12_7eb1c")
+mainSchedule = NodePath("Main Loop")
+cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
+deleteAction = 1
+
+[node name="Rotate left and leap forth" type="Node" parent="BasicEnemy/Lightning"]
+script = ExtResource("13_pixf2")
+
+[node name="Truncate" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
+position = Vector2(0, -200)
+script = ExtResource("37_2alt6")
+remain = "2"
+
+[node name="Rotate left" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
+position = Vector2(0, -200)
+rotation = "30"
+script = ExtResource("26_yrirr")
+rotation = "30"
+
+[node name="Slow" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
+position = Vector2(0, -200)
+script = ExtResource("33_y07ts")
+curve = SubResource("Curve_wmp8t")
+endTime = "30"
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
+position = Vector2(0, -200)
+script = ExtResource("19_q6ebi")
+speed = "500"
+
+[node name="Rotate right and leap forth" type="Node" parent="BasicEnemy/Lightning"]
+script = ExtResource("13_pixf2")
+
+[node name="Truncate" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
+position = Vector2(0, -200)
+script = ExtResource("37_2alt6")
+remain = "2"
+
+[node name="Rotate right" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
+position = Vector2(0, -200)
+rotation = "-30"
+script = ExtResource("26_yrirr")
+rotation = "-30"
+
+[node name="Slow" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
+position = Vector2(0, -200)
+script = ExtResource("33_y07ts")
+curve = SubResource("Curve_wmp8t")
+endTime = "30"
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
+position = Vector2(0, -200)
+script = ExtResource("19_q6ebi")
+speed = "500"
+
+[node name="Main Loop" type="Node2D" parent="BasicEnemy/Lightning"]
+script = ExtResource("19_ux787")
+
+[node name="Lines" type="Node2D" parent="BasicEnemy/Lightning/Main Loop"]
+script = ExtResource("19_ux787")
+cycleCount = "6"
+
+[node name="Make the it" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines"]
+script = ExtResource("13_pixf2")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+script = ExtResource("14_alnw1")
+renderName = "Arrow/Yellow"
+
+[node name="Mist" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+script = ExtResource("21_4k8tc")
+
+[node name="Adapt bullet on illusion start" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+script = ExtResource("52_fvk7r")
+wait = "30"
+
+[node name="RL" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it/Adapt bullet on illusion start" node_paths=PackedStringArray("other")]
+script = ExtResource("30_i7w6n")
+other = NodePath("../../../../../Rotate left and leap forth")
+
+[node name="RR" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it/Adapt bullet on illusion start" node_paths=PackedStringArray("other")]
+script = ExtResource("30_i7w6n")
+other = NodePath("../../../../../Rotate right and leap forth")
+
+[node name="RL" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it" node_paths=PackedStringArray("other")]
+script = ExtResource("30_i7w6n")
+other = NodePath("../../../../Rotate left and leap forth")
+
+[node name="Circle" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+script = ExtResource("18_xfnro")
+radius = "0"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+script = ExtResource("21_1t60j")
+duration = "450"
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+script = ExtResource("42_4nwql")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Wait" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines"]
+script = ExtResource("28_bciwx")
+waitTime = "15"
+units = 1
+
+[node name="Wait" type="Node2D" parent="BasicEnemy/Lightning/Main Loop"]
+script = ExtResource("28_bciwx")
 
 [node name="BasicEnemy2" parent="." instance=ExtResource("41_3fr6s")]
 position = Vector2(0, -136)

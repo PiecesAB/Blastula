@@ -75,6 +75,19 @@ namespace Blastula.LowLevel
             a.count = howMany;
         }
 
+        public static void Truncate<T>(this ref UnsafeArray<T> a, int remain) where T : unmanaged
+        {
+            if (remain < 0) { remain = 0; }
+            if (a.count <= remain) { return; }
+            T* oldMem = a.array;
+            int st = sizeof(T);
+            T* newMem = (remain > 0) ? (T*)Marshal.AllocHGlobal(st * remain) : null;
+            if (remain > 0) { Buffer.MemoryCopy(oldMem, newMem, st * remain, st * remain); } 
+            Marshal.FreeHGlobal((IntPtr)oldMem);
+            a.array = newMem;
+            a.count = remain;
+        }
+
         public static void Dispose<T>(this ref UnsafeArray<T> a) where T : unmanaged
         {
             if (a.count > 0) { Marshal.FreeHGlobal((IntPtr)a.array); }

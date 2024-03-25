@@ -1,5 +1,6 @@
 using Blastula.Collision;
 using Blastula.Graphics;
+using Blastula.VirtualVariables;
 using Godot;
 using static Blastula.BNodeFunctions;
 
@@ -9,6 +10,7 @@ namespace Blastula.Operations
     /// Where it all begins... initializes a single bullet with no behavior.
     /// </summary>
     [GlobalClass]
+    [Icon(Persistent.NODE_ICON_PATH + "/creation.png")]
     public partial class CreateSingle : BaseOperation
     {
         /// <summary>

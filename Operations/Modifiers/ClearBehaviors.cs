@@ -36,7 +36,7 @@ namespace Blastula.Operations
             }
             else
             {
-                masterQueue[inStructure].behaviors.Truncate(n);
+                masterQueue[inStructure].behaviors.TruncateBehaviorOrder(n);
             }
         }
     }

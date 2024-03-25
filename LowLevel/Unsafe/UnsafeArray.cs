@@ -88,6 +88,12 @@ namespace Blastula.LowLevel
             a.count = remain;
         }
 
+        public static void TruncateBehaviorOrder(this ref UnsafeArray<BehaviorOrder> a, int remain)
+        {
+            for (int i = remain; i < a.count; ++i) { BehaviorOrderFunctions.Dispose(a.array + i); }
+            Truncate(ref a, remain);
+        }
+
         public static void Dispose<T>(this ref UnsafeArray<T> a) where T : unmanaged
         {
             if (a.count > 0) { Marshal.FreeHGlobal((IntPtr)a.array); }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=70 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="3_yi7x3"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="4_5jpkg"]
@@ -53,6 +53,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Variables/UnsetVar.cs" id="47_w56g6"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Repaint.cs" id="48_3voct"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/AdaptPattern.cs" id="52_fvk7r"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetZIndex.cs" id="53_qe1it"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rjsw2"]
 font = ExtResource("4_5jpkg")
@@ -1237,6 +1238,7 @@ environment = 1
 
 [node name="Lightning" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("12_7eb1c")
+enabled = false
 mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
 deleteAction = 1
@@ -1342,6 +1344,131 @@ waitTime = "15"
 units = 1
 
 [node name="Wait" type="Node2D" parent="BasicEnemy/Lightning/Main Loop"]
+script = ExtResource("28_bciwx")
+
+[node name="overlap test" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+script = ExtResource("12_7eb1c")
+mainSchedule = NodePath("Main Loop")
+cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
+deleteAction = 1
+
+[node name="Main Loop" type="Node2D" parent="BasicEnemy/overlap test"]
+script = ExtResource("19_ux787")
+
+[node name="Wait4" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("53_qe1it")
+graphicType = 1
+graphicName = "Orb/Yellow"
+
+[node name="Wait5" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("53_qe1it")
+graphicType = 1
+graphicName = "Orb/Blue"
+newZIndex = "1"
+
+[node name="Make the it" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("13_pixf2")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+script = ExtResource("14_alnw1")
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+script = ExtResource("19_q6ebi")
+speed = "300"
+
+[node name="Circle" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+script = ExtResource("18_xfnro")
+radius = "0"
+number = "100"
+
+[node name="Circle2" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+script = ExtResource("34_3b0t0")
+progressVariable = ""
+countVariable = "i"
+
+[node name="Circle3" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it/Circle2"]
+script = ExtResource("13_pixf2")
+execute = "i % 2 == 0"
+
+[node name="Trail" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it/Circle2/Circle3"]
+script = ExtResource("42_omkvy")
+laserRenderName = "Orb/Blue"
+
+[node name="Circle4" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it/Circle2"]
+script = ExtResource("13_pixf2")
+execute = "i % 2 == 1"
+
+[node name="Trail" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it/Circle2/Circle4"]
+script = ExtResource("42_omkvy")
+laserRenderName = "Orb/Yellow"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+script = ExtResource("21_1t60j")
+duration = "300"
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+script = ExtResource("42_4nwql")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Wait" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("28_bciwx")
+
+[node name="Wait2" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("53_qe1it")
+graphicType = 1
+graphicName = "Orb/Yellow"
+newZIndex = "1"
+
+[node name="Wait3" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("53_qe1it")
+graphicType = 1
+graphicName = "Orb/Blue"
+
+[node name="Make the it2" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("13_pixf2")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+script = ExtResource("14_alnw1")
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+script = ExtResource("19_q6ebi")
+speed = "300"
+
+[node name="Circle" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+script = ExtResource("18_xfnro")
+radius = "0"
+number = "100"
+
+[node name="Circle2" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+script = ExtResource("34_3b0t0")
+progressVariable = ""
+countVariable = "i"
+
+[node name="Circle3" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2/Circle2"]
+script = ExtResource("13_pixf2")
+execute = "i % 2 == 0"
+
+[node name="Trail" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2/Circle2/Circle3"]
+script = ExtResource("42_omkvy")
+laserRenderName = "Orb/Blue"
+
+[node name="Circle4" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2/Circle2"]
+script = ExtResource("13_pixf2")
+execute = "i % 2 == 1"
+
+[node name="Trail" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2/Circle2/Circle4"]
+script = ExtResource("42_omkvy")
+laserRenderName = "Orb/Yellow"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+script = ExtResource("21_1t60j")
+duration = "300"
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+script = ExtResource("42_4nwql")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Wait6" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
 script = ExtResource("28_bciwx")
 
 [node name="BasicEnemy2" parent="." instance=ExtResource("41_3fr6s")]

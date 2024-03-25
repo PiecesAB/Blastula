@@ -33,19 +33,45 @@ namespace Blastula.Graphics
         /// Shader parameter used to infer the color of the bullet for the deletion effect.
         /// </summary>
         public static readonly string DELETION_COLOR_SHADER_PARAM = "tint";
+        /// <summary>
+        /// Maps internal render ID to the color of the deletion effect.
+        /// </summary>
         public static Color* deletionColorFromRenderIDs = null;
+        /// <summary>
+        /// Maps internal render ID to mesh size (for the purpose of determining deletion effect size).
+        /// </summary>
         public static Vector2* meshSizeFromRenderIDs = null;
+        /// <summary>
+        /// Maps internal render ID to collider info.
+        /// </summary>
         public static Collision.BulletColliderInfo* colliderInfoFromRenderIDs = null;
+        /// <summary>
+        /// Maps internal render ID to whether the graphic should be rotated.
+        /// </summary>
         public static bool* unrotatedGraphicFromRenderIDs = null;
+        /// <summary>
+        /// Maps internal render ID to information determining which multimesh fields (color / custom data) exist.
+        /// </summary>
         public static GraphicInfo.ExtraMultimeshFields* extraMultimeshFieldsFromRenderIDs = null;
+        /// <summary>
+        /// Used to help populate the MultiMesh. 
+        /// "Stride" is the number of floats per mesh instance in the buffer.
+        /// It can be 8, 12, or 16.
+        /// </summary>
         public static int* strideFromRenderIDs = null;
+        /// <summary>
+        /// Stores z-index of render IDs to make them dynamically editable in-game.
+        /// </summary>
+        public static int* zIndexFromRenderIDs = null;
 
+        private static int idCount = 0;
         private static object lockSetRenderID = new object();
 
         public static void Initialize(int idCount)
         {
             if (bNodesFromRenderIDs == null)
             {
+                BulletRenderer.idCount = idCount;
                 bNodesFromRenderIDs = (CircularQueue<int>*)Marshal.AllocHGlobal(sizeof(CircularQueue<int>) * idCount);
                 renderedTransformArrays = new float[idCount][];
                 deletionColorFromRenderIDs = (Color*)Marshal.AllocHGlobal(sizeof(Color) * idCount);
@@ -54,6 +80,7 @@ namespace Blastula.Graphics
                 unrotatedGraphicFromRenderIDs = (bool*)Marshal.AllocHGlobal(sizeof(bool) * idCount);
                 extraMultimeshFieldsFromRenderIDs = (GraphicInfo.ExtraMultimeshFields*)Marshal.AllocHGlobal(sizeof(GraphicInfo.ExtraMultimeshFields) * idCount);
                 strideFromRenderIDs = (int*)Marshal.AllocHGlobal(sizeof(int) * idCount);
+                zIndexFromRenderIDs = (int*)Marshal.AllocHGlobal(sizeof(int) * idCount);
                 queuePositions = (int*)Marshal.AllocHGlobal(sizeof(int) * mqSize);
                 GraphicInfo.ExtraMultimeshFields bothMMFields = GraphicInfo.ExtraMultimeshFields.CustomData | GraphicInfo.ExtraMultimeshFields.Color;
                 for (int i = 0; i < idCount; ++i)
@@ -73,8 +100,25 @@ namespace Blastula.Graphics
                     if (gi.extraMultimeshFields == 0) { strideFromRenderIDs[i] = 8; }
                     else if (gi.extraMultimeshFields == bothMMFields) { strideFromRenderIDs[i] = 16; }
                     else { strideFromRenderIDs[i] = 12; }
+                    zIndexFromRenderIDs[i] = gi.zIndex;
                 }
             }
+        }
+
+        public static void ChangeZIndex(int renderID, int newZIndex)
+        {
+            if (renderID < 0 || renderID >= idCount) { return; }
+            zIndexFromRenderIDs[renderID] = newZIndex;
+            MultimeshBullet multimesh = BulletRendererManager.GetMultiMeshInstanceFromID(renderID);
+            if (multimesh != null)
+            {
+                multimesh.ZIndex = (int)Math.Clamp(newZIndex, RenderingServer.CanvasItemZMin, RenderingServer.CanvasItemZMax);
+            }
+        }
+
+        public static void ChangeZIndex(string renderName, int newZIndex)
+        {
+            ChangeZIndex(BulletRendererManager.GetIDFromName(renderName), newZIndex);
         }
 
         public static void SetRenderID(int bNodeIndex, int newRenderID)

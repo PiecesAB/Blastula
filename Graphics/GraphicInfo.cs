@@ -20,6 +20,12 @@ namespace Blastula.Graphics
         /// If true, bullets will be un-rotated to always appear in the texture's rotation.
         /// </summary>
         [Export] public bool unrotatedGraphic = false;
+        /// <summary>
+        /// The default z-index of the bullet shape.
+        /// </summary>
+        /// <remarks>
+        /// You may dynamically change it during the game using a SetZIndex operation.
+        /// </remarks>
         [Export] public int zIndex = 0;
         /// <summary>
         /// If this is a RainbowInfo, auto-generates child GraphicInfos using it.
@@ -70,7 +76,7 @@ namespace Blastula.Graphics
             }
         }
 
-        public MultimeshBullet MakeMultimeshBullet(MultimeshBullet selectorSample, MultiMesh multiMeshSample, string newName)
+        public MultimeshBullet MakeMultimeshBullet(MultimeshBullet selectorSample, MultiMesh multiMeshSample, int renderID, string newName)
         {
             MultimeshBullet newSelector = (MultimeshBullet)selectorSample.Duplicate(7);
             newSelector.Name = newName;
@@ -92,11 +98,18 @@ namespace Blastula.Graphics
             newMesh.Size = size;
             newSelector.Material = material;
             newSelector.ZIndex = zIndex;
+            unsafe
+            {
+                if (BulletRenderer.zIndexFromRenderIDs != null) 
+                {
+                    newSelector.ZIndex = BulletRenderer.zIndexFromRenderIDs[renderID];
+                }
+            }
 
             return newSelector;
         }
 
-        public MeshInstance2D MakeLaserMeshInstance(MeshInstance2D meshInstanceSample, ArrayMesh arrayMeshSample, string newName)
+        public MeshInstance2D MakeLaserMeshInstance(MeshInstance2D meshInstanceSample, ArrayMesh arrayMeshSample, int renderID, string newName)
         {
             MeshInstance2D newMI = (MeshInstance2D)meshInstanceSample.Duplicate(7);
             newMI.Name = newName;
@@ -107,6 +120,13 @@ namespace Blastula.Graphics
             // Size must be rendered by the mesh generation algorithm.
             newMI.Material = material;
             newMI.ZIndex = zIndex;
+            unsafe
+            {
+                if (LaserRenderer.zIndexFromRenderIDs != null)
+                {
+                    newMI.ZIndex = LaserRenderer.zIndexFromRenderIDs[renderID];
+                }
+            }
             return newMI;
         }
     }

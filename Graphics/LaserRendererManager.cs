@@ -28,7 +28,7 @@ namespace Blastula.Graphics
         private System.Collections.Generic.Dictionary<int, GraphicInfo> graphicInfoFromID = new System.Collections.Generic.Dictionary<int, GraphicInfo>();
 
         private int registeredCount = 0;
-        private MeshInstance2D[] meshInstancesByID = null;
+        private static MeshInstance2D[] meshInstancesByID = null;
 
         public static Stopwatch debugTimer;
 
@@ -78,6 +78,11 @@ namespace Blastula.Graphics
             return main.nameFromID[ID];
         }
 
+        public static MeshInstance2D GetMeshInstanceFromID(int ID)
+        {
+            return meshInstancesByID[ID];
+        }
+
         public override void _Ready()
         {
             base._Ready();
@@ -100,7 +105,7 @@ namespace Blastula.Graphics
                 {
                     GraphicInfo gi = graphicInfoFromID[nonzeroID];
                     string newName = nameFromID[nonzeroID];
-                    meshInstancesByID[nonzeroID] = gi.MakeLaserMeshInstance(meshInstanceSample, arrayMeshSample, newName);
+                    meshInstancesByID[nonzeroID] = gi.MakeLaserMeshInstance(meshInstanceSample, arrayMeshSample, nonzeroID, newName);
                 }
                 Godot.Collections.Array newMesh = new Godot.Collections.Array();
                 newMesh.Resize((int)Mesh.ArrayType.Max);

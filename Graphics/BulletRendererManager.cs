@@ -30,7 +30,7 @@ namespace Blastula.Graphics
         private Dictionary<int, GraphicInfo> graphicInfoFromID = new Dictionary<int, GraphicInfo>();
 
         private int registeredCount = 0;
-        private MultimeshBullet[] multimeshInstancesByID = null;
+        private static MultimeshBullet[] multimeshInstancesByID = null;
 
         public static Stopwatch debugTimer;
 
@@ -98,6 +98,11 @@ namespace Blastula.Graphics
             return main.nameFromID[ID];
         }
 
+        public static MultimeshBullet GetMultiMeshInstanceFromID(int ID)
+        {
+            return multimeshInstancesByID[ID];
+        }
+
         public override void _Ready()
         {
             base._Ready();
@@ -121,7 +126,7 @@ namespace Blastula.Graphics
                 {
                     GraphicInfo gi = graphicInfoFromID[nonzeroID];
                     string newName = nameFromID[nonzeroID];
-                    multimeshInstancesByID[nonzeroID] = gi.MakeMultimeshBullet(selectorSample, multiMeshSample, newName);
+                    multimeshInstancesByID[nonzeroID] = gi.MakeMultimeshBullet(selectorSample, multiMeshSample, nonzeroID, newName);
                 }
                 int stride = BulletRenderer.strideFromRenderIDs[nonzeroID];
                 multimeshInstancesByID[nonzeroID].SetBuffer(

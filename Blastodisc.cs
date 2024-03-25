@@ -5,6 +5,7 @@ using Blastula.Schedules;
 using Blastula.VirtualVariables;
 using Godot;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Blastula
 {

@@ -10,6 +10,11 @@ namespace Blastula.Operations
     /// <summary>
     /// Advanced adaptation. Uses the child operations of this Node as a list to apply in a pattern.
     /// </summary>
+    /// <remarks>
+    /// If you set "repeatMode" to random, beware of desyncing replays! 
+    /// Multithreading can cause the randomness functions to be called in unknown order.
+    /// To mitigate this, use StunMultithreading.
+    /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/adapt.png")]
     public unsafe partial class AdaptPattern : AddBehavior

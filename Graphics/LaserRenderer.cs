@@ -1,5 +1,6 @@
 using Blastula.LowLevel;
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -28,9 +29,6 @@ namespace Blastula.Graphics
         /// Outer index: laser render ID.
         /// Stores lasers contiguously in the queue.
         /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
         public static CircularQueue<LaserDataEntry>* laserDataEntries = null;
 
         /// <summary>
@@ -53,8 +51,13 @@ namespace Blastula.Graphics
         public static float* laserRenderWidthFromRenderIDs = null;
         public static float* laserRenderStretchFromRenderIDs = null;
         public static Collision.BulletColliderInfo* colliderInfoFromRenderIDs = null;
+        /// <summary>
+        /// Stores z-index of render IDs to make them dynamically editable in-game.
+        /// </summary>
+        public static int* zIndexFromRenderIDs = null;
 
         private static object lockSetRenderID = new object();
+        private static int idCount = 0;
 
         private static UnsafeArray<int> GetTrail(int headBNodeIndex)
         {
@@ -269,12 +272,14 @@ namespace Blastula.Graphics
         {
             if (laserDataEntries == null)
             {
+                LaserRenderer.idCount = idCount;
                 laserDataEntries = (CircularQueue<LaserDataEntry>*)Marshal.AllocHGlobal(sizeof(CircularQueue<LaserDataEntry>) * idCount);
                 renderedVertices = new Vector2[idCount][];
                 renderedUVs = new Vector2[idCount][];
                 laserRenderWidthFromRenderIDs = (float*)Marshal.AllocHGlobal(sizeof(float) * idCount);
                 laserRenderStretchFromRenderIDs = (float*)Marshal.AllocHGlobal(sizeof(float) * idCount);
                 colliderInfoFromRenderIDs = (Collision.BulletColliderInfo*)Marshal.AllocHGlobal(sizeof(Collision.BulletColliderInfo) * idCount);
+                zIndexFromRenderIDs = (int*)Marshal.AllocHGlobal(sizeof(int) * idCount);
                 queuePositions = (int*)Marshal.AllocHGlobal(sizeof(int) * mqSize);
                 for (int i = 0; i < idCount; ++i)
                 {
@@ -290,8 +295,25 @@ namespace Blastula.Graphics
                         shape = gi.collisionShape,
                         size = gi.collisionSize
                     };
+                    zIndexFromRenderIDs[i] = gi.zIndex;
                 }
             }
+        }
+
+        public static void ChangeZIndex(int renderID, int newZIndex)
+        {
+            if (renderID < 0 || renderID >= idCount) { return; }
+            zIndexFromRenderIDs[renderID] = newZIndex;
+            MeshInstance2D mesh = LaserRendererManager.GetMeshInstanceFromID(renderID);
+            if (mesh != null)
+            {
+                mesh.ZIndex = (int)Math.Clamp(newZIndex, RenderingServer.CanvasItemZMin, RenderingServer.CanvasItemZMax);
+            }
+        }
+
+        public static void ChangeZIndex(string renderName, int newZIndex)
+        {
+            ChangeZIndex(LaserRendererManager.GetIDFromName(renderName), newZIndex);
         }
 
         /// <summary>

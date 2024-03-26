@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dy1rv3s4i26wp"]
+[gd_scene load_steps=24 format=3 uid="uid://dy1rv3s4i26wp"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/EnemyFormation.cs" id="1_yxvkk"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/Spawner.cs" id="2_k213j"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Repaint.cs" id="10_e3poy"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Forth.cs" id="11_earjt"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Spread.cs" id="12_qw2wm"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Shift.cs" id="13_mfd3r"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Aim.cs" id="13_wyjvt"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Lifespan.cs" id="14_duae6"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Sound.cs" id="15_pxyl1"]
@@ -79,6 +80,10 @@ script = ExtResource("10_bqlsg")
 script = ExtResource("11_earjt")
 speed = "400"
 
+[node name="Forth2" type="Node2D" parent="Fire Spread"]
+script = ExtResource("13_mfd3r")
+mode = 0
+
 [node name="Spread" type="Node2D" parent="Fire Spread"]
 script = ExtResource("12_qw2wm")
 radius = "0"
@@ -90,8 +95,7 @@ script = ExtResource("13_wyjvt")
 
 [node name="Lifespan" type="Node2D" parent="Fire Spread"]
 script = ExtResource("14_duae6")
-duration = "60"
-deletionEffect = true
+duration = "300"
 
 [node name="Shot Sound" type="Node2D" parent="Fire Spread"]
 script = ExtResource("15_pxyl1")

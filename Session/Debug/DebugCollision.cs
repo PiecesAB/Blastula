@@ -101,7 +101,13 @@ namespace Blastula.Debug
                 case Collision.Shape.None:
                     break;
                 case Collision.Shape.Circle:
-                    canvas.DrawCircle(Vector2.Zero, Mathf.Max(0, graphicInfo.collisionSize.X), collisionShapesColor);
+                    Vector2 scale = BulletWorldTransforms.Get(bNodeIndex).Scale;
+                    BulletWorldTransforms.Invalidate(bNodeIndex);
+                    canvas.DrawCircle(
+                        Vector2.Zero, 
+                        Mathf.Max(0, graphicInfo.collisionSize.X), 
+                        collisionShapesColor
+                    );
                     break;
                 default:
                     GD.PushWarning("I can't draw this collision shape. Unsupported?");

@@ -110,12 +110,19 @@ namespace Blastula.Collision
             if (showMode == ShowMode.Never && !Debug.DebugCollision.showCollisionShapes) { return; }
             if (!Engine.IsEditorHint() && showMode == ShowMode.Editor && !Debug.DebugCollision.showCollisionShapes) { return; }
             Color c = Colors.White;
-            if (Debug.DebugCollision.showCollisionShapes) { c = Debug.DebugCollision.collisionShapesColor; }
+            if (Debug.DebugCollision.showCollisionShapes) 
+            { 
+                c = Debug.DebugCollision.collisionShapesColor; 
+                if (showMode == ShowMode.Never)
+                {
+                    c = new Color(c.R, c.G, c.B, c.A * 0.3f);
+                }
+            }
             switch (shape)
             {
                 case Shape.Circle:
                 default:
-                    DrawCircle(Vector2.Zero, size.X, c);
+                    DrawCircle(Vector2.Zero, size.X * (0.5f * (Scale.X + Scale.Y)), c);
                     break;
                 case Shape.None:
                     break;

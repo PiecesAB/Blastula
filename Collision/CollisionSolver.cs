@@ -181,7 +181,12 @@ namespace Blastula.Collision
                     if (bColInfo.shape == Shape.Circle && oColInfo.shape == Shape.Circle)
                     {
                         float dist = (oColInfo.transform.Origin - bTrs.Origin).Length();
-                        sep = dist - bColInfo.size.X - oColInfo.size.X;
+                        // We can safely calculate cached position, because the Execute stage of this frame is over.
+                        Vector2 bScale = BulletWorldTransforms.Get(bNodeIndex).Scale;
+                        float bulletSize = bColInfo.size.X * (0.5f * (bScale.X + bScale.Y));
+                        Vector2 oScale = oColInfo.transform.Scale;
+                        float objectSize = oColInfo.size.X * (0.5f * (oScale.X + oScale.Y));
+                        sep = dist - bulletSize - objectSize;
                         if (sep < minSep) { minSep = sep; }
                         if (sep < 0)
                         {

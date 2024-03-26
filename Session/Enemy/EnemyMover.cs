@@ -5,7 +5,7 @@ using System;
 namespace Blastula
 {
     /// <summary>
-    /// A class that enemies use to move around. These should be created by the movement schedule of an enemy.
+    /// A class that enemies use to move around. These are meant to be created by the movement schedule of an enemy.
     /// </summary>
     /// <remarks>
     /// The reason this is separate from the Enemy is to increase the possible complexity of enemy movement.
@@ -58,9 +58,10 @@ namespace Blastula
                 velocity = RadialToCartesian(velocity);
                 velocityIsRadial = false;
             }
-            if (velocityIsRadial)
+            if (tweenDuration <= 0f)
             {
-                newVelocity = CartesianToRadial(newVelocity);
+                velocity = newVelocity;
+                return;
             }
             velTween = CreateTween();
             velTween.SetTrans(easingTransition).SetEase(easingType);
@@ -70,6 +71,11 @@ namespace Blastula
         public void SetTargetPosition(Vector2 newPosition)
         {
             if (posTween != null && posTween.IsRunning()) { posTween.Kill(); }
+            if (tweenDuration <= 0f)
+            {
+                enemy.GlobalPosition = newPosition;
+                return;
+            }
             posTween = enemy.CreateTween();
             posTween.SetTrans(easingTransition).SetEase(easingType);
             posTween.TweenProperty(enemy, "global_position", newPosition, tweenDuration);

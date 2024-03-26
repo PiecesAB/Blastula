@@ -987,7 +987,7 @@ script = ExtResource("63_d8ira")
 
 [node name="Substage 0" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("63_d8ira")
-duration = "800"
+duration = "9"
 endWhenChildrenComplete = false
 shouldUseTimer = true
 

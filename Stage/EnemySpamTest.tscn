@@ -21,7 +21,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Reference.cs" id="18_4jog4"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/Schedules/SetTargetVelocity.cs" id="19_2w2f0"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/Schedules/SetInterpolationData.cs" id="20_abw3x"]
-[ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/Schedules/SetTargetPosition.cs" id="21_a1w2e"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Select.cs" id="22_4ff0d"]
 
 [node name="EnemySpamTest" type="Node2D"]
 script = ExtResource("1_yxvkk")
@@ -129,18 +129,73 @@ referenceID = "MovementA"
 
 [node name="Move down" type="Node" parent="Movement Schedule"]
 script = ExtResource("19_2w2f0")
-moverID = "V"
-Y = "60"
+Y = "200"
 
-[node name="Wait" type="Node" parent="Movement Schedule"]
-script = ExtResource("5_lj0d6")
-waitTime = "2"
+[node name="Movement Schedule2" type="Node2D" parent="Movement Schedule"]
+script = ExtResource("4_gqhg7")
 
-[node name="Change sides easing style" type="Node" parent="Movement Schedule"]
+[node name="Change sides easing style" type="Node" parent="Movement Schedule/Movement Schedule2"]
 script = ExtResource("20_abw3x")
-
-[node name="Change sides" type="Node" parent="Movement Schedule"]
-script = ExtResource("21_a1w2e")
 moverID = "B"
-X = "-pos[0]"
-Y = "pos[1]"
+easingTransition = 0
+radialVelocityInterpolation = true
+
+[node name="Move down" type="Node" parent="Movement Schedule/Movement Schedule2"]
+script = ExtResource("19_2w2f0")
+moverID = "B"
+X = "200"
+Y = "90"
+
+[node name="Wait" type="Node" parent="Movement Schedule/Movement Schedule2"]
+script = ExtResource("5_lj0d6")
+
+[node name="Move up" type="Node" parent="Movement Schedule/Movement Schedule2"]
+script = ExtResource("19_2w2f0")
+Y = "0"
+
+[node name="Movement Schedule3" type="Node2D" parent="Movement Schedule/Movement Schedule2"]
+script = ExtResource("22_4ff0d")
+selection = "pos[0] <= 0"
+
+[node name="Move down2" type="Node" parent="Movement Schedule/Movement Schedule2/Movement Schedule3"]
+script = ExtResource("19_2w2f0")
+moverID = "B"
+X = "200"
+Y = "-90"
+
+[node name="Move down3" type="Node" parent="Movement Schedule/Movement Schedule2/Movement Schedule3"]
+script = ExtResource("19_2w2f0")
+moverID = "B"
+X = "200"
+Y = "270"
+
+[node name="Wait2" type="Node" parent="Movement Schedule/Movement Schedule2"]
+script = ExtResource("5_lj0d6")
+
+[node name="Move down4" type="Node" parent="Movement Schedule/Movement Schedule2"]
+script = ExtResource("19_2w2f0")
+moverID = "B"
+X = "200"
+Y = "90"
+
+[node name="Wait3" type="Node" parent="Movement Schedule/Movement Schedule2"]
+script = ExtResource("5_lj0d6")
+
+[node name="Movement Schedule4" type="Node2D" parent="Movement Schedule/Movement Schedule2"]
+script = ExtResource("22_4ff0d")
+selection = "pos[0] <= 0"
+
+[node name="Move down2" type="Node" parent="Movement Schedule/Movement Schedule2/Movement Schedule4"]
+script = ExtResource("19_2w2f0")
+moverID = "B"
+X = "200"
+Y = "270"
+
+[node name="Move down3" type="Node" parent="Movement Schedule/Movement Schedule2/Movement Schedule4"]
+script = ExtResource("19_2w2f0")
+moverID = "B"
+X = "200"
+Y = "-90"
+
+[node name="Wait4" type="Node" parent="Movement Schedule/Movement Schedule2"]
+script = ExtResource("5_lj0d6")

@@ -14,11 +14,13 @@ namespace Blastula.Schedules.EnemySchedules
     {
         [Export] public string moverID = "A";
         /// <summary>
-        /// If radial mode is on: X is the speed, and Y is the angle of travel in degrees.
-        /// If radial mode is off: X and Y are the speeds along their axes.
+        /// In radial mode, X is the magnitude. Otherwise it is the X-component of the velocity.
         /// </summary>
-        [Export] public bool radialMode = false;
         [Export] public string X = "0";
+        /// <summary>
+        /// In radial mode, Y is the direction in degrees (clockwise of the rightward direction). 
+        /// Otherwise it is the Y-component of the velocity.
+        /// </summary>
         [Export] public string Y = "100";
 
         public override Task Execute(IVariableContainer source)
@@ -27,11 +29,9 @@ namespace Blastula.Schedules.EnemySchedules
             ExpressionSolver.currentLocalContainer = source;
             EnemyMover mover = ((Enemy)source).AddOrGetEnemyMover(moverID);
             Vector2 newVelocity = new Vector2(Solve("X").AsSingle(), Solve("Y").AsSingle());
-            if (radialMode)
+            if (mover.radialVelocityInterpolation)
             {
-                newVelocity = EnemyMover.RadialToCartesian(
-                    new Vector2(newVelocity.X, Mathf.DegToRad(newVelocity.Y))
-                );
+                newVelocity = new Vector2(newVelocity.X, Mathf.DegToRad(newVelocity.Y));
             }
             mover.SetTargetVelocity(newVelocity);
             return Task.CompletedTask;

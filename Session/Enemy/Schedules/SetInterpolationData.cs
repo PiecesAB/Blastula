@@ -23,7 +23,7 @@ namespace Blastula.Schedules.EnemySchedules
         /// </summary>
         [Export] public string tweenDuration = "0.5";
         /// <summary>
-        /// If true, interpolates velocity by speed and direction, instead of by X and Y.
+        /// If true, interpolates velocity by X = magnitude and Y = degrees direction, instead of by X and Y directly.
         /// </summary>
         /// <example>You can produce circular arcs of motion.</example>
         [Export] public bool radialVelocityInterpolation = false;

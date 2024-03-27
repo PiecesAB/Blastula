@@ -40,8 +40,8 @@ namespace Blastula.VirtualVariables
         {
             public const int FRAME_COUNTER_INCREMENT = int.MinValue;
             public const int EXECUTE = 40000;
-            public const int COLLISION = 50000;
-            public const int POST_EXECUTE = 60000;
+            public const int POST_EXECUTE = 50000;
+            public const int COLLISION = 60000;
             public const int RENDER = 70000;
             public const int RENDER_DEBUG_COLLISIONS = 70001;
             public const int PAUSE = 100000;

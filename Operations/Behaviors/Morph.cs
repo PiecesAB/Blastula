@@ -39,6 +39,7 @@ namespace Blastula.Operations
         /// How much this throttles the following behaviors. 0 = behavior proceeds as normal. 1 = behavior stops.
         /// </summary>
         [Export] public float throttle = 0.8f;
+        [Export] public ThrottleMode throttleMode = ThrottleMode.Full;
         /// <summary>
         /// We expect a Color here. Interpolates to this over the duration of the behavior. 
         /// </summary>
@@ -66,6 +67,7 @@ namespace Blastula.Operations
         private struct Data
         {
             public float throttle;
+            public ThrottleMode throttleMode;
             public bool throttleOnEndFrame;
 
             public State state;
@@ -172,7 +174,7 @@ namespace Blastula.Operations
                             }
                         }
                     }
-                    return new BehaviorReceipt { throttle = data->throttle };
+                    return new BehaviorReceipt { throttle = data->throttle, throttleMode = data->throttleMode };
                 case State.Complete:
                     return new BehaviorReceipt();
             }
@@ -183,6 +185,7 @@ namespace Blastula.Operations
             Data* dataPtr = (Data*)Marshal.AllocHGlobal(sizeof(Data));
 
             dataPtr->throttle = throttle;
+            dataPtr->throttleMode = throttleMode;
             dataPtr->throttleOnEndFrame = throttleOnEndFrame;
 
             float duration = Solve("duration").AsSingle();

@@ -514,15 +514,23 @@ namespace Blastula
             if (i < 0 || i >= mqSize) { throw new IndexOutOfRangeException(); }
             if (!masterQueue[i].initialized) { return; }
             float flow = stepSizeMultiplier;
+            float selfFlow = 1;
+            float tempFlow = 1;
             bool noMultithreading = false;
             for (int j = 0; j < masterQueue[i].behaviors.count; ++j)
             {
                 BehaviorReceipt receipt = BehaviorOrderFunctions.Execute(
-                    i, masterQueue[i].behaviors.array + j, stepSize * flow
+                    i, masterQueue[i].behaviors.array + j, stepSize * flow * selfFlow * tempFlow
                 );
                 if (receipt.delete) { PostExecute.ScheduleDeletion(i, receipt.useDeletionEffect); }
                 noMultithreading |= receipt.noMultithreading;
-                flow *= 1f - receipt.throttle;
+                tempFlow = 1f;
+                switch (receipt.throttleMode)
+                {
+                    case ThrottleMode.Full: flow *= 1f - receipt.throttle; break;
+                    case ThrottleMode.Self: selfFlow *= 1f - receipt.throttle; break;
+                    case ThrottleMode.Next: tempFlow *= 1f - receipt.throttle; break;
+                }
             }
             int childCount = masterQueue[i].children.count;
             if (masterQueue[i].treeSize > multithreadCutoff / 4 && !noMultithreading)

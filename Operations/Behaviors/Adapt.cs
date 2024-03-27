@@ -9,6 +9,7 @@ namespace Blastula.Operations
     /// <summary>
     /// After the wait time elapses or the condition becomes true (whichever is earlier),
     /// the bullet structure will cause an operation to be applied to itself.
+    /// </summary>
     /// <remarks>
     /// It will only adapt once, and never again. For more advanced adaptive behavior, use AdaptPattern.
     /// </remarks>

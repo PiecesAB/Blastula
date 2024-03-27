@@ -82,7 +82,7 @@ namespace Blastula.Operations
         {
             BNode* nodePtr = BNodeFunctions.masterQueue + nodeIndex;
             Data* data = (Data*)dataPtr;
-            if (stepSize == 0 && data->aimMode != AimMode.Instant) { return new BehaviorReceipt(); }
+            if (stepSize == 0) { return new BehaviorReceipt(); }
             if (data->aimMode == AimMode.Homing && data->currentFrame >= data->homingWindow.Y) { data->aimComplete = true; }
             if (data->aimComplete) { return new BehaviorReceipt(); }
             Transform2D myWorldTransform = BulletWorldTransforms.Get(nodeIndex);

@@ -41,6 +41,10 @@ namespace Blastula.Operations
         [Export] public Wait.TimeUnits units = Wait.TimeUnits.Frames;
         [Export] public UnsafeCurve.LoopMode loopMode = UnsafeCurve.LoopMode.Neither;
         /// <summary>
+        /// Determines which behaviors are affected by this time stretching.
+        /// </summary>
+        [Export] public ThrottleMode throttleMode = ThrottleMode.Full;
+        /// <summary>
         /// An array of four numbers [a, b, c, d] that stretches or shifts the curve.
         /// Suppose that the curve is a function F. Normally, we are calculating F(t) to determine the time flow multiplier.
         /// But if curveShift is defined, we will instead determine the time flow as cF(at + b) + d.
@@ -70,6 +74,7 @@ namespace Blastula.Operations
             public float currentTime;
             public bool reciprocated;
             public Vector4 curveShift;
+            public ThrottleMode throttleMode;
         }
 
         public override void _ExitTree()
@@ -101,7 +106,7 @@ namespace Blastula.Operations
             float x = data->curveShift[0] * data->currentTime + data->curveShift[1];
             float timeMultiplier = data->curveShift[2] * data->curve->Evaluate(x) + data->curveShift[3];
             if (data->reciprocated && timeMultiplier != 0) { timeMultiplier = 1f / timeMultiplier; }
-            return new BehaviorReceipt { throttle = 1f - timeMultiplier };
+            return new BehaviorReceipt { throttle = 1f - timeMultiplier, throttleMode = data->throttleMode };
         }
 
         public override BehaviorOrder CreateOrder(int inStructure)
@@ -113,6 +118,7 @@ namespace Blastula.Operations
             dataPtr->currentTime = 0;
             dataPtr->reciprocated = reciprocated;
             dataPtr->curveShift = new Vector4(1, 0, 1, 0);
+            dataPtr->throttleMode = throttleMode;
             if (curveShift != null && curveShift != "")
             {
                 float[] csl = Solve("curveShift").AsFloat32Array();

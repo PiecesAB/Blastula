@@ -5,17 +5,38 @@ using System.Runtime.InteropServices;
 namespace Blastula.LowLevel
 {
     /// <summary>
+    /// Determines how a BehaviorReceipt's "throttle" variable is used to throttle the time flow of subsequent behaviors.
+    /// </summary>
+    public enum ThrottleMode
+    {
+        /// <summary>
+        /// Throttling applies to all subsequent behaviors in this BNode and any descendants.
+        /// </summary>
+        Full,
+        /// <summary>
+        /// Throttling applies to all subsequent behaviors in this BNode, but not for descendants.
+        /// </summary>
+        Self,
+        /// <summary>
+        /// Throttling applies only to the next behavior in this BNode.
+        /// </summary>
+        Next
+    }
+
+    /// <summary>
     /// This return information affects future behaviors after the one just executed.
     /// </summary>
     public struct BehaviorReceipt
     {
         public float throttle;
+        public ThrottleMode throttleMode;
         public bool delete;
         public bool useDeletionEffect;
         public bool noMultithreading;
         public BehaviorReceipt()
         {
             throttle = 0;
+            throttleMode = ThrottleMode.Full;
             delete = false;
             useDeletionEffect = false;
             noMultithreading = false;

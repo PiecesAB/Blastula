@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=71 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="3_yi7x3"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="4_5jpkg"]
@@ -54,6 +54,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Repaint.cs" id="48_3voct"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/AdaptPattern.cs" id="52_fvk7r"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetZIndex.cs" id="53_qe1it"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ProximityBlocker.cs" id="54_2nf21"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rjsw2"]
 font = ExtResource("4_5jpkg")
@@ -990,6 +991,16 @@ script = ExtResource("28_bciwx")
 waitTime = "10000"
 units = 1
 
+[node name="Sanae midboss nonspell clone2" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
+position = Vector2(0, -136)
+rotation = -1.5708
+script = ExtResource("12_7eb1c")
+enabled = false
+mainSchedule = NodePath("Main schedule")
+
+[node name="Main schedule" type="Node" parent="Sanae midboss nonspell clone2"]
+script = ExtResource("42_51n0m")
+
 [node name="BasicPlayer" parent="." instance=ExtResource("38_tvlm6")]
 position = Vector2(-100, 320)
 
@@ -1348,6 +1359,7 @@ script = ExtResource("28_bciwx")
 
 [node name="overlap test" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("12_7eb1c")
+enabled = false
 mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
 deleteAction = 1
@@ -1471,14 +1483,48 @@ commonSFXName = "Enemy/Shot1"
 [node name="Wait6" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
 script = ExtResource("28_bciwx")
 
-[node name="BasicEnemy2" parent="." instance=ExtResource("41_3fr6s")]
-position = Vector2(0, -136)
-
-[node name="Sanae midboss nonspell clone2" type="Node2D" parent="BasicEnemy2" node_paths=PackedStringArray("mainSchedule")]
-rotation = -1.5708
+[node name="Proximity test" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("12_7eb1c")
-enabled = false
-mainSchedule = NodePath("Main schedule")
+mainSchedule = NodePath("Main Loop")
+cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
+deleteAction = 1
 
-[node name="Main schedule" type="Node" parent="BasicEnemy2/Sanae midboss nonspell clone2"]
-script = ExtResource("42_51n0m")
+[node name="Main Loop" type="Node2D" parent="BasicEnemy/Proximity test"]
+script = ExtResource("19_ux787")
+
+[node name="Make the it" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop"]
+script = ExtResource("13_pixf2")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
+script = ExtResource("14_alnw1")
+renderName = "Orb/Red"
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
+script = ExtResource("19_q6ebi")
+speed = "160"
+
+[node name="When player is close" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
+script = ExtResource("54_2nf21")
+oneShot = true
+
+[node name="Disappear" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
+script = ExtResource("21_1t60j")
+duration = "0"
+deletionEffect = true
+
+[node name="Circle" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
+script = ExtResource("18_xfnro")
+radius = "0"
+number = "144"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
+script = ExtResource("21_1t60j")
+deletionEffect = true
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
+script = ExtResource("42_4nwql")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Wait6" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop"]
+script = ExtResource("28_bciwx")
+waitTime = "1.5"

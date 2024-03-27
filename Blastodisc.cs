@@ -76,7 +76,7 @@ namespace Blastula
         /// </example>
         /// <remarks>
         /// Setting speed multiplier to 0 is not necessarily the same as stopping execution.
-        /// There are some behaviors which occur regardless of time scale, such as instant aiming.
+        /// There may be behaviors which occur regardless of time scale, though no examples exist yet.
         /// </remarks>
         [Export] public float speedMultiplier = 1f;
 

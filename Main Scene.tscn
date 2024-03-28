@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=72 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="3_yi7x3"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="4_5jpkg"]
@@ -55,6 +55,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/AdaptPattern.cs" id="52_fvk7r"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetZIndex.cs" id="53_qe1it"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ProximityBlocker.cs" id="54_2nf21"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/StunMultithreading.cs" id="56_w5b47"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rjsw2"]
 font = ExtResource("4_5jpkg")
@@ -698,7 +699,6 @@ number = "min(8 + c, 12)"
 
 [node name="Rotate by \'rot\'" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
 script = ExtResource("26_yrirr")
-rotation = "rot"
 
 [node name="Set lifespan" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
 script = ExtResource("21_1t60j")
@@ -845,7 +845,6 @@ throttle = 1.0
 [node name="Rotate line containers away from center" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Draw it/For each line"]
 script = ExtResource("26_yrirr")
 childPlacement = 1
-rotation = "(720.0 / 5) * u + 72"
 
 [node name="Circle of 5" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars"]
 script = ExtResource("18_xfnro")
@@ -1052,10 +1051,9 @@ condition = "illusion_time"
 wait = ""
 
 [node name="Rotate in the illusion direction" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
-rotation = "120"
+rotation = 120.0
 script = ExtResource("26_yrirr")
 childPlacement = 1
-rotation = "120"
 
 [node name="Super container to avoid lifespan getting deleted" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
 script = ExtResource("44_buqyd")
@@ -1100,10 +1098,9 @@ condition = "illusion_time"
 wait = ""
 
 [node name="Rotate in the illusion direction" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
-rotation = "60"
+rotation = 60.0
 script = ExtResource("26_yrirr")
 childPlacement = 1
-rotation = "60"
 
 [node name="Super container to avoid lifespan getting deleted" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
 script = ExtResource("44_buqyd")
@@ -1264,9 +1261,8 @@ remain = "2"
 
 [node name="Rotate left" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
 position = Vector2(0, -200)
-rotation = "30"
+rotation = 30.0
 script = ExtResource("26_yrirr")
-rotation = "30"
 
 [node name="Slow" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
 position = Vector2(0, -200)
@@ -1289,9 +1285,8 @@ remain = "2"
 
 [node name="Rotate right" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
 position = Vector2(0, -200)
-rotation = "-30"
+rotation = -30.0
 script = ExtResource("26_yrirr")
-rotation = "-30"
 
 [node name="Slow" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
 position = Vector2(0, -200)
@@ -1489,6 +1484,46 @@ mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
 deleteAction = 1
 
+[node name="The change" type="Node2D" parent="BasicEnemy/Proximity test"]
+script = ExtResource("13_pixf2")
+
+[node name="Clear" type="Node2D" parent="BasicEnemy/Proximity test/The change"]
+script = ExtResource("37_2alt6")
+
+[node name="Clear2" type="Node2D" parent="BasicEnemy/Proximity test/The change"]
+script = ExtResource("21_4k8tc")
+appearance = "Pellet/Orange"
+appearancePersists = true
+duration = "1"
+scaleMultiplier = 1.0
+throttle = 1.0
+
+[node name="Clear3" type="Node2D" parent="BasicEnemy/Proximity test/The change"]
+script = ExtResource("21_4k8tc")
+duration = "3"
+scaleMultiplier = 1.0
+
+[node name="Clear6" type="Node2D" parent="BasicEnemy/Proximity test/The change"]
+script = ExtResource("18_xfnro")
+radius = "0"
+number = "3"
+transformOrder = 1
+
+[node name="Clear7" type="Node2D" parent="BasicEnemy/Proximity test/The change"]
+script = ExtResource("34_3b0t0")
+progressVariable = ""
+
+[node name="Clear4" type="Node2D" parent="BasicEnemy/Proximity test/The change/Clear7"]
+script = ExtResource("26_yrirr")
+myRotation = "randf_range(0.0, 360.0)"
+
+[node name="Clear5" type="Node2D" parent="BasicEnemy/Proximity test/The change/Clear7"]
+script = ExtResource("19_q6ebi")
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/Proximity test/The change"]
+script = ExtResource("42_4nwql")
+commonSFXName = "Enemy/Shine"
+
 [node name="Main Loop" type="Node2D" parent="BasicEnemy/Proximity test"]
 script = ExtResource("19_ux787")
 
@@ -1506,11 +1541,12 @@ speed = "160"
 [node name="When player is close" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
 script = ExtResource("54_2nf21")
 oneShot = true
+distance = "180"
 
-[node name="Disappear" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
-script = ExtResource("21_1t60j")
-duration = "0"
-deletionEffect = true
+[node name="Change" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it" node_paths=PackedStringArray("operation")]
+script = ExtResource("33_pbps6")
+operation = NodePath("../../../The change")
+wait = "0"
 
 [node name="Circle" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
 script = ExtResource("18_xfnro")
@@ -1520,6 +1556,10 @@ number = "144"
 [node name="Lifespan" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
 script = ExtResource("21_1t60j")
 deletionEffect = true
+
+[node name="Lifespan2" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
+script = ExtResource("56_w5b47")
+duration = "600"
 
 [node name="Shot Sound" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
 script = ExtResource("42_4nwql")

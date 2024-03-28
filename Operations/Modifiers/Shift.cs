@@ -45,7 +45,7 @@ namespace Blastula.Operations
         /// <summary>
         /// Rotation is in degrees.
         /// </summary>
-        [Export] public string rotation = "0";
+        [Export] public string myRotation = "0";
         [Export] public string offsetX = "0";
         [Export] public string offsetY = "0";
         [Export] public string scaleX = "1";
@@ -56,7 +56,7 @@ namespace Blastula.Operations
             if (inStructure < 0 || inStructure >= mqSize) { return; }
             Transform2D oldTransform = masterQueue[inStructure].transform;
             Transform2D newTransform = new Transform2D(
-                Solve("rotation").AsSingle() * (Mathf.Pi / 180f),
+                Solve("myRotation").AsSingle() * (Mathf.Pi / 180f),
                 new Vector2(Solve("scaleX").AsSingle(), Solve("scaleY").AsSingle()),
                 0, new Vector2(Solve("offsetX").AsSingle(), Solve("offsetY").AsSingle())
             );

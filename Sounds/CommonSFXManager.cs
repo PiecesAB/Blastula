@@ -21,6 +21,11 @@ namespace Blastula.Sounds
         private static Dictionary<int, string> nameFromID = new Dictionary<int, string>();
         private static Dictionary<string, int> IDFromName = new Dictionary<string, int>();
         private static Dictionary<int, Node> soundPlayerFromID = new Dictionary<int, Node>();
+        /// <summary>
+        /// This is used in an optimization to prevent the sound from playing many times in the same frame.
+        /// Such an action would cause lag, and mitigating it would be unnoticed.
+        /// </summary>
+        private static Dictionary<Node, ulong> lastPlayedFrame = new Dictionary<Node, ulong>();
 
         private int registeredCount = 0;
 
@@ -30,6 +35,12 @@ namespace Blastula.Sounds
         /// <param name="position">If move == true, moves spatial sounds to this position.</param>
         public static void Play(Node n, float pitch = 1f, float volume = 1f, Vector2 position = default, bool move = false)
         {
+            if (!lastPlayedFrame.ContainsKey(n))
+            {
+                lastPlayedFrame[n] = ulong.MaxValue;
+            }
+            if (lastPlayedFrame[n] != FrameCounter.realGameFrame) { lastPlayedFrame[n] = FrameCounter.realGameFrame; }
+            else { return; }
             // Dreams of multiple inheritance...
             if (n is AudioStreamPlayer)
             {

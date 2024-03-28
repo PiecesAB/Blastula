@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=74 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="3_yi7x3"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="4_5jpkg"]
@@ -54,8 +54,8 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Repaint.cs" id="48_3voct"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/AdaptPattern.cs" id="52_fvk7r"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetZIndex.cs" id="53_qe1it"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ProximityBlocker.cs" id="54_2nf21"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/StunMultithreading.cs" id="56_w5b47"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/WindForth.cs" id="55_q7wj3"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/WindSource.cs" id="56_iy4uw"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rjsw2"]
 font = ExtResource("4_5jpkg")
@@ -134,6 +134,16 @@ point_count = 3
 
 [sub_resource type="Curve" id="Curve_wmp8t"]
 _data = [Vector2(0, 1), 0.0, -0.977923, 0, 1, Vector2(1, 0.022077), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_660s8"]
+max_value = 200.0
+_data = [Vector2(0, 200), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_invv7"]
+max_value = 200.0
+_data = [Vector2(0, 200), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="Main Scene" type="Node2D"]
@@ -1009,6 +1019,7 @@ health = 500.0
 lowHealthCutoff = 100.0
 
 [node name="Mind Shaker clone" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+position = Vector2(1000, 0)
 script = ExtResource("12_7eb1c")
 enabled = false
 mainSchedule = NodePath("Main Loop")
@@ -1484,46 +1495,6 @@ mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
 deleteAction = 1
 
-[node name="The change" type="Node2D" parent="BasicEnemy/Proximity test"]
-script = ExtResource("13_pixf2")
-
-[node name="Clear" type="Node2D" parent="BasicEnemy/Proximity test/The change"]
-script = ExtResource("37_2alt6")
-
-[node name="Clear2" type="Node2D" parent="BasicEnemy/Proximity test/The change"]
-script = ExtResource("21_4k8tc")
-appearance = "Pellet/Orange"
-appearancePersists = true
-duration = "1"
-scaleMultiplier = 1.0
-throttle = 1.0
-
-[node name="Clear3" type="Node2D" parent="BasicEnemy/Proximity test/The change"]
-script = ExtResource("21_4k8tc")
-duration = "3"
-scaleMultiplier = 1.0
-
-[node name="Clear6" type="Node2D" parent="BasicEnemy/Proximity test/The change"]
-script = ExtResource("18_xfnro")
-radius = "0"
-number = "3"
-transformOrder = 1
-
-[node name="Clear7" type="Node2D" parent="BasicEnemy/Proximity test/The change"]
-script = ExtResource("34_3b0t0")
-progressVariable = ""
-
-[node name="Clear4" type="Node2D" parent="BasicEnemy/Proximity test/The change/Clear7"]
-script = ExtResource("26_yrirr")
-myRotation = "randf_range(0.0, 360.0)"
-
-[node name="Clear5" type="Node2D" parent="BasicEnemy/Proximity test/The change/Clear7"]
-script = ExtResource("19_q6ebi")
-
-[node name="Shot Sound" type="Node2D" parent="BasicEnemy/Proximity test/The change"]
-script = ExtResource("42_4nwql")
-commonSFXName = "Enemy/Shine"
-
 [node name="Main Loop" type="Node2D" parent="BasicEnemy/Proximity test"]
 script = ExtResource("19_ux787")
 
@@ -1538,28 +1509,17 @@ renderName = "Orb/Red"
 script = ExtResource("19_q6ebi")
 speed = "160"
 
-[node name="When player is close" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
-script = ExtResource("54_2nf21")
-oneShot = true
-distance = "180"
-
-[node name="Change" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it" node_paths=PackedStringArray("operation")]
-script = ExtResource("33_pbps6")
-operation = NodePath("../../../The change")
-wait = "0"
+[node name="Wind blow" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
+script = ExtResource("55_q7wj3")
 
 [node name="Circle" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
 script = ExtResource("18_xfnro")
 radius = "0"
-number = "144"
+number = "1440"
 
 [node name="Lifespan" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
 script = ExtResource("21_1t60j")
 deletionEffect = true
-
-[node name="Lifespan2" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
-script = ExtResource("56_w5b47")
-duration = "600"
 
 [node name="Shot Sound" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
 script = ExtResource("42_4nwql")
@@ -1568,3 +1528,18 @@ commonSFXName = "Enemy/Shot1"
 [node name="Wait6" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop"]
 script = ExtResource("28_bciwx")
 waitTime = "1.5"
+
+[node name="WindSource" type="Node2D" parent="."]
+position = Vector2(-71, 14)
+rotation = -0.809833
+script = ExtResource("56_iy4uw")
+shape = 1
+strength = SubResource("Curve_660s8")
+radius = 400.0
+
+[node name="WindSource2" type="Node2D" parent="."]
+position = Vector2(166, 198)
+script = ExtResource("56_iy4uw")
+strength = SubResource("Curve_invv7")
+radius = 2000.0
+differentialRotation = 90.0

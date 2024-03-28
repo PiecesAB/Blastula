@@ -1,15 +1,29 @@
 #if TOOLS
+using Blastula;
 using Blastula.Graphics;
+using Blastula.Schedules;
 using Godot;
 
 [Tool]
 public partial class BlastulaPlugin : EditorPlugin
 {
     public static BlastulaPlugin main;
+    public static GodotObject selection;
 
     public override string _GetPluginName()
     {
         return "Blastula";
+    }
+
+    public override bool _Handles(GodotObject obj)
+    {
+        return obj is WindSource;
+    }
+
+    public override void _Edit(GodotObject obj)
+    {
+        base._Edit(obj);
+        selection = obj;
     }
 
     public override void _EnterTree()

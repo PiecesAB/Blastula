@@ -54,7 +54,7 @@ namespace Blastula
         /// </remarks>
         public LowLevelInfo* lowLevelInfo = null;
 
-        private Vector2 CalculateSize()
+        public Vector2 CalculateSize()
         {
             if (inheritSize == null) { return defaultSize; }
             return inheritSize.Size;

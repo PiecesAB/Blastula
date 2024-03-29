@@ -17,7 +17,7 @@ public partial class BlastulaPlugin : EditorPlugin
 
     public override bool _Handles(GodotObject obj)
     {
-        return obj is WindSource;
+        return obj is Blastula.Wind.StandardWindSource;
     }
 
     public override void _Edit(GodotObject obj)

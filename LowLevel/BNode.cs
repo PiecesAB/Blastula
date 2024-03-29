@@ -522,7 +522,6 @@ namespace Blastula
                 BehaviorReceipt receipt = BehaviorOrderFunctions.Execute(
                     i, masterQueue[i].behaviors.array + j, stepSize * flow * selfFlow * tempFlow
                 );
-                if (receipt.delete) { PostExecute.ScheduleDeletion(i, receipt.useDeletionEffect); }
                 noMultithreading |= receipt.noMultithreading;
                 tempFlow = 1f;
                 switch (receipt.throttleMode)

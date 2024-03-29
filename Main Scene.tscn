@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=74 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="3_yi7x3"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="4_5jpkg"]
@@ -55,6 +55,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/AdaptPattern.cs" id="52_fvk7r"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetZIndex.cs" id="53_qe1it"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/WindForth.cs" id="55_q7wj3"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="56_e612s"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Wind/StandardWindSource.cs" id="56_iy4uw"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rjsw2"]
@@ -1539,7 +1540,12 @@ script = ExtResource("13_pixf2")
 
 [node name="Start" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
 script = ExtResource("14_alnw1")
-renderName = "Arrow/Red"
+renderName = "Arrow/Green"
+
+[node name="del bound" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
+script = ExtResource("56_e612s")
+specialAction = 4
+boundaryID = "Main"
 
 [node name="Wind blow2" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
 script = ExtResource("21_4k8tc")
@@ -1559,7 +1565,7 @@ script = ExtResource("26_yrirr")
 mode = 2
 myRotation = "shot_count * 13"
 offsetX = "300 * cos(shot_count * 0.1)"
-offsetY = "100 * cos(shot_count * 0.23)"
+offsetY = "100 * cos(shot_count * 0.23) - 200"
 
 [node name="Lifespan" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
 script = ExtResource("21_1t60j")

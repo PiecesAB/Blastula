@@ -105,19 +105,6 @@ namespace Blastula
             if (!initialized) { Initialize(); }
             for (int i = 0; i < 16; ++i)
             {
-                while (toDelete[i].count > 0)
-                {
-                    DeleteOrder d = toDelete[i].RemoveHead();
-                    if (d.useDeletionEffect)
-                    {
-                        BulletRenderer.ConvertToDeletionEffects(d.bNodeIndex);
-                    }
-                    else
-                    {
-                        MasterQueuePushTree(d.bNodeIndex);
-                    }
-                }
-
                 while (toOperate[i].count > 0)
                 {
                     OperationOrder order = toOperate[i].RemoveHead();
@@ -133,6 +120,19 @@ namespace Blastula
                     if (parent >= 0) { SetChild(parent, positionInParent, -1); }
                     int outStructure = operation.ProcessStructure(order.bNodeIndex);
                     if (parent >= 0) { SetChild(parent, positionInParent, outStructure); }
+                }
+
+                while (toDelete[i].count > 0)
+                {
+                    DeleteOrder d = toDelete[i].RemoveHead();
+                    if (d.useDeletionEffect)
+                    {
+                        BulletRenderer.ConvertToDeletionEffects(d.bNodeIndex);
+                    }
+                    else
+                    {
+                        MasterQueuePushTree(d.bNodeIndex);
+                    }
                 }
             }
         }

@@ -183,6 +183,7 @@ namespace Blastula.Graphics
             return IsBulletOnScreen(bNodeIndex, masterQueue + bNodeIndex);
         }
 
+        public const string DELETION_EFFECT_NAME = "Deletion";
         public const float DELETION_EFFECT_FRAMES = 40;
         public const float DELETION_EFFECT_RECT_SIZE = 40;
         private static int cachedDeletionRenderID = -1;
@@ -202,7 +203,7 @@ namespace Blastula.Graphics
                 Lifespan.Add(bNodeIndex, DELETION_EFFECT_FRAMES, Schedules.Wait.TimeUnits.Frames);
                 if (cachedDeletionRenderID < 0)
                 {
-                    cachedDeletionRenderID = BulletRendererManager.GetIDFromName("Deletion");
+                    cachedDeletionRenderID = BulletRendererManager.GetIDFromName(DELETION_EFFECT_NAME);
                 }
                 currentStageTime = (float)(FrameCounter.GetStageTime() % BulletRendererManager.STAGE_TIME_ROLLOVER);
             }

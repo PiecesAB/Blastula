@@ -32,10 +32,11 @@ namespace Blastula.Operations
             if (stepSize == 0) { return new BehaviorReceipt(); }
             Data* data = (Data*)dataPtr;
             data->currentTime += stepSize;
-            return new BehaviorReceipt { 
-                delete = data->currentTime >= data->duration, 
-                useDeletionEffect = data->deletionEffect 
-            };
+            if (data->currentTime >= data->duration)
+            {
+                PostExecute.ScheduleDeletion(nodeIndex, data->deletionEffect);
+            }
+            return new BehaviorReceipt();
         }
 
         public override BehaviorOrder CreateOrder(int inStructure)

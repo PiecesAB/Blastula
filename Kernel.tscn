@@ -37,7 +37,6 @@
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/StandardSpin.gdshader" id="22_2qk1a"]
 [ext_resource type="Texture2D" uid="uid://cqnfuiw8b1niw" path="res://addons/Blastula/Graphics/Bullets/orbBig.png" id="22_187e0"]
 [ext_resource type="Texture2D" uid="uid://bf0v73jg44qkf" path="res://addons/Blastula/Graphics/Bullets/orbDark.png" id="22_rjfk1"]
-[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/InvColoredAnimated.gdshader" id="22_tcyov"]
 [ext_resource type="Texture2D" uid="uid://w5lun47g0dq8" path="res://addons/Blastula/Graphics/Bullets/leaf.png" id="23_bxeop"]
 [ext_resource type="Texture2D" uid="uid://de40idg8lpaan" path="res://addons/Blastula/Graphics/Bullets/checkeredBig.png" id="23_wegdv"]
 [ext_resource type="Texture2D" uid="uid://dpralir30tc5n" path="res://addons/Blastula/Graphics/Bullets/checkeredSmall.png" id="24_8ipta"]
@@ -78,10 +77,44 @@
 [ext_resource type="PackedScene" uid="uid://dy1rv3s4i26wp" path="res://addons/Blastula/Stage/EnemySpamTest.tscn" id="65_1m2vo"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="66_doh6d"]
 
+[sub_resource type="Shader" id="Shader_7sty3"]
+code = "shader_type canvas_item;
+uniform lowp vec4 tint;
+uniform highp float frame_count = 4;
+uniform highp float frame_duration = 0.25;
+uniform bool sync = false;
+
+void vertex() {
+	// Flip the texture vertically:
+	// QuadMesh is upside-down!
+	UV.y = 1.0 - UV.y;
+	// We expect a horizontal strip of frames of the same size.
+	// This modifies the UV.x as to display only one such frame at a time.
+	float timeOffset = float(!sync) * fract(sin(float(INSTANCE_ID) * 78.233) * 15929.0);
+	float currFrame = mod(
+		floor((TIME + timeOffset) / frame_duration), 
+		frame_count
+	);
+	UV.x = (UV.x + currFrame) * (1.0 / frame_count);
+}
+
+void fragment() {
+  vec4 texCol = texture(TEXTURE, UV);
+  float texDark = 1.0 - texCol.b;
+  float sat = max(max(abs(COLOR.r - COLOR.g), abs(COLOR.g - COLOR.b)), abs(COLOR.r - COLOR.b));
+  float isGrayscale = 1.0 - step(0.03, sat);
+  vec4 newColor = COLOR;
+  newColor.rgb = mix(newColor.rgb, tint.rgb, texDark);
+  newColor.a *= mix(1.0, tint.a, texDark);
+  COLOR = mix(COLOR, newColor, isGrayscale);
+}
+
+"
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n1fl4"]
-shader = ExtResource("22_tcyov")
+shader = SubResource("Shader_7sty3")
 shader_parameter/tint = Vector4(0, 0, 0, 1)
-shader_parameter/frame_count = 16.0
+shader_parameter/frame_count = 4.0
 shader_parameter/frame_duration = 0.033
 shader_parameter/sync = true
 

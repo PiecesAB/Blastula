@@ -30,15 +30,11 @@ namespace Blastula.LowLevel
     {
         public float throttle;
         public ThrottleMode throttleMode;
-        public bool delete;
-        public bool useDeletionEffect;
         public bool noMultithreading;
         public BehaviorReceipt()
         {
             throttle = 0;
             throttleMode = ThrottleMode.Full;
-            delete = false;
-            useDeletionEffect = false;
             noMultithreading = false;
         }
     }

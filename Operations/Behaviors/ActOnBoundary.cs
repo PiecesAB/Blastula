@@ -14,7 +14,7 @@ namespace Blastula.Operations
     {
         public enum SpecialAction
         {
-            None, Wrap, Reflect
+            None, Wrap, Reflect, Delete, DeleteWithEffect
         }
 
         /// <summary>
@@ -52,15 +52,22 @@ namespace Blastula.Operations
             public long opID;
             public float shrink;
             public bool reflectPerpendicular;
+            public bool deletionQueued;
         }
 
         public static BehaviorReceipt Execute(int nodeIndex, float stepSize, void* dataPtr)
         {
             if (stepSize == 0) { return new BehaviorReceipt(); }
             Data* data = (Data*)dataPtr;
-            if (data->boundInfo == null || data->hitsRemaining == 0) { return new BehaviorReceipt(); }
+            if (data->boundInfo == null || data->hitsRemaining == 0 || data->deletionQueued) 
+            { 
+                return new BehaviorReceipt(); 
+            }
             Transform2D oldGlobalTransform = BulletWorldTransforms.Get(nodeIndex);
-            if (Boundary.IsWithin(data->boundInfo, oldGlobalTransform.Origin, data->shrink)) { return new BehaviorReceipt(); }
+            if (Boundary.IsWithin(data->boundInfo, oldGlobalTransform.Origin, data->shrink)) 
+            { 
+                return new BehaviorReceipt(); 
+            }
             Transform2D oldLocalTransform = BNodeFunctions.masterQueue[nodeIndex].transform;
             Transform2D newGlobalTransform = oldGlobalTransform;
             Vector2 oldWorldPos = oldGlobalTransform.Origin;
@@ -84,11 +91,29 @@ namespace Blastula.Operations
                     newGlobalTransform.Origin = rdOut.globalPosition;
                     newGlobalTransform = newGlobalTransform.RotatedLocal(rdOut.rotation - oldRotation);
                     break;
+                case SpecialAction.Delete:
+                    if (!data->deletionQueued)
+                    {
+                        data->deletionQueued = true;
+                        PostExecute.ScheduleDeletion(nodeIndex, false);
+                    }
+                    break;
+                case SpecialAction.DeleteWithEffect:
+                    if (!data->deletionQueued)
+                    {
+                        data->deletionQueued = true;
+                        PostExecute.ScheduleDeletion(nodeIndex, true);
+                    }
+                    break;
             }
-            BNodeFunctions.masterQueue[nodeIndex].transform = leftGlobalToLocal * newGlobalTransform;
-            data->hitsRemaining--;
-            if (data->hitsRemaining == 0 && data->opID >= 0) { 
-                PostExecute.ScheduleOperation(nodeIndex, data->opID); 
+            if (!data->deletionQueued)
+            {
+                BNodeFunctions.masterQueue[nodeIndex].transform = leftGlobalToLocal * newGlobalTransform;
+                data->hitsRemaining--;
+                if (data->hitsRemaining == 0 && data->opID >= 0)
+                {
+                    PostExecute.ScheduleOperation(nodeIndex, data->opID);
+                }
             }
             return new BehaviorReceipt();
         }
@@ -104,6 +129,7 @@ namespace Blastula.Operations
             dataPtr->opID = operation?.GetOperationID() ?? -1;
             dataPtr->shrink = shrink;
             dataPtr->reflectPerpendicular = reflectPerpendicular;
+            dataPtr->deletionQueued = false;
             return new BehaviorOrder() { data = dataPtr, dataSize = sizeof(Data), func = &Execute };
         }
     }

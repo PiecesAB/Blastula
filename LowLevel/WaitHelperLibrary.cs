@@ -35,7 +35,7 @@ namespace Blastula
             while (currFrames < frames)
             {
                 if (slc2 != sceneLoadCounter) { return; }
-                if (!Session.main.paused || ignorePause) { ++currFrames; }
+                if ((!Session.main.paused && !Debug.GameFlow.frozen) || ignorePause) { ++currFrames; }
                 if (!dispatcher.IsInsideTree()) { return; }
                 await dispatcher.ToSignal(dispatcher.GetTree(), SceneTree.SignalName.ProcessFrame);
             }
@@ -51,7 +51,7 @@ namespace Blastula
             while (currSeconds < seconds - 0.0001f)
             {
                 if (slc2 != sceneLoadCounter) { return; }
-                if (!Session.main.paused || ignorePause) { currSeconds += (float)Engine.TimeScale / Persistent.SIMULATED_FPS; }
+                if ((!Session.main.paused && !Debug.GameFlow.frozen) || ignorePause) { currSeconds += (float)Engine.TimeScale / Persistent.SIMULATED_FPS; }
                 if (!dispatcher.IsInsideTree()) { return; }
                 await dispatcher.ToSignal(dispatcher.GetTree(), SceneTree.SignalName.ProcessFrame);
             }

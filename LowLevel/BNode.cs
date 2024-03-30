@@ -128,6 +128,10 @@ namespace Blastula
         /// This should always be the earliest initialized BNode in the master queue, or the head for an empty queue.
         /// </summary>
         public static int mqTail = 0;
+        /// <summary>
+        /// This should always be the total number of BNodes in use.
+        /// </summary>
+        public static int totalInitialized = 0;
         /// <remarks>
         /// We can only store one less than this, or else mqHead == mqTail when full, which is already used for emptiness.
         /// </remarks>
@@ -163,6 +167,7 @@ namespace Blastula
             BNode* newPtr = masterQueue + mqHead;
             Buffer.MemoryCopy(starterBNode, newPtr, sizeof(BNode), sizeof(BNode));
             mqHead = (mqHead + 1) % mqSize;
+            totalInitialized += 1;
             return ret;
         }
 
@@ -182,6 +187,7 @@ namespace Blastula
                 Buffer.MemoryCopy(starterBNode, newPtr, sizeof(BNode), sizeof(BNode));
             }
             mqHead = (mqHead + n) % mqSize;
+            totalInitialized += n;
             return ret;
         }
 
@@ -233,6 +239,7 @@ namespace Blastula
             masterQueue[i].initialized = false;
             masterQueue[i].children.Dispose();
             masterQueue[i].behaviors.DisposeBehaviorOrder();
+            totalInitialized -= 1;
             AdvanceMQTail(); RetractMQHead();
             return true;
         }
@@ -260,6 +267,7 @@ namespace Blastula
             masterQueue[i].initialized = false;
             masterQueue[i].children.Dispose();
             masterQueue[i].behaviors.DisposeBehaviorOrder();
+            totalInitialized -= 1;
             if (recursionDepth == 0) { AdvanceMQTail(); RetractMQHead(); }
             return true;
         }

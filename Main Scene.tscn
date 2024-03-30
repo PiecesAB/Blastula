@@ -362,6 +362,87 @@ theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
 text = "    Laser: 0.56 ms "
 
+[node name="Counts" type="ColorRect" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("5_djmvm")
+
+[node name="Structure" type="VBoxContainer" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Total" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Total BNodes: 1337"
+
+[node name="Bullets" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Bullets: 500"
+
+[node name="LaserPieces" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Laser Pieces: 500"
+
+[node name="Blank" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+
+[node name="Blastodiscs" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Blastodiscs: 10"
+
+[node name="Blank2" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+
+[node name="MQTail" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Master queue tail: 111111"
+
+[node name="MQHead" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_jjfll")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Master queue head: 222222 "
+
 [node name="FPS" type="Label" parent="Rendering Zone/Border"]
 anchors_preset = 14
 anchor_top = 0.5
@@ -1512,7 +1593,6 @@ script = ExtResource("13_pixf2")
 
 [node name="Start" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
 script = ExtResource("14_alnw1")
-renderName = "Arrow/Green"
 
 [node name="Wind blow2" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
 script = ExtResource("21_4k8tc")
@@ -1523,9 +1603,8 @@ script = ExtResource("55_q7wj3")
 initialSpeed = "0"
 
 [node name="Circle" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
-script = ExtResource("18_xfnro")
-radius = "130"
-number = "1"
+script = ExtResource("42_omkvy")
+laserRenderName = "Orb/Red"
 
 [node name="Circle2" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
 script = ExtResource("26_yrirr")

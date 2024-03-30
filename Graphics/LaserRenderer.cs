@@ -26,6 +26,12 @@ namespace Blastula.Graphics
         }
 
         /// <summary>
+        /// Counts the number of laser pieces (bullets which comprise them) 
+        /// which are being tracked for render positioning, including those off-screen.
+        /// </summary>
+        public static int totalRendered = 0;
+
+        /// <summary>
         /// Outer index: laser render ID.
         /// Stores lasers contiguously in the queue.
         /// </summary>
@@ -124,6 +130,7 @@ namespace Blastula.Graphics
                     }
                     queuePositions[bNodeIndex] = queuePosition;
                     masterQueue[bNodeIndex].laserRenderID = newRenderID;
+                    totalRendered += 1;
                 }
                 laserDataEntries[newRenderID].Remove(spacer);
             }
@@ -248,6 +255,7 @@ namespace Blastula.Graphics
                 laserDataEntries[renderID].data[queuePosition].item.bNodeIndex = -1;
                 laserDataEntries[renderID].Remove(queuePosition);
                 masterQueue[bNodeIndex].laserRenderID = -1;
+                totalRendered -= 1;
             }
         }
 

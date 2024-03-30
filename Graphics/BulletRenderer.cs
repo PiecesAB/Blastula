@@ -15,6 +15,10 @@ namespace Blastula.Graphics
     /// </summary>
     public unsafe static class BulletRenderer
     {
+        /// <summary>
+        /// Counts the number of bullets which are being tracked for render positioning, including those off-screen.
+        /// </summary>
+        public static int totalRendered = 0;
         public static CircularQueue<int>* bNodesFromRenderIDs = null;
         /// <summary>
         /// Tracks the render IDs which currently exist in at least one bullet.
@@ -140,6 +144,7 @@ namespace Blastula.Graphics
                     {
                         bNodesFromRenderIDs[oldRenderID].Dispose();
                     }
+                    totalRendered -= 1;
                 }
                 masterQueue[bNodeIndex].bulletRenderID = newRenderID;
                 if (newRenderID >= 0)
@@ -150,6 +155,7 @@ namespace Blastula.Graphics
                         nonzeroRenderIDs.Add(newRenderID);
                     }
                     queuePositions[bNodeIndex] = bNodesFromRenderIDs[newRenderID].Add(bNodeIndex);
+                    totalRendered += 1;
                 }
             }
         }

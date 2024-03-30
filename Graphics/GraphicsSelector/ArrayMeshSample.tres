@@ -1,3 +1,4 @@
 [gd_resource type="ArrayMesh" format=3 uid="uid://cwdm03v3roqbc"]
 
 [resource]
+custom_aabb = AABB(0, 0, 0, 10000, 10000, 10000)

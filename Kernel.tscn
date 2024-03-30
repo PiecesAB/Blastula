@@ -1,4 +1,4 @@
-[gd_scene load_steps=117 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=119 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -76,6 +76,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Sound.cs" id="64_w3bqr"]
 [ext_resource type="PackedScene" uid="uid://dy1rv3s4i26wp" path="res://addons/Blastula/Stage/EnemySpamTest.tscn" id="65_1m2vo"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="66_doh6d"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Wind/StandardWindSource.cs" id="77_lsfay"]
 
 [sub_resource type="Shader" id="Shader_7sty3"]
 code = "shader_type canvas_item;
@@ -278,6 +279,11 @@ shader_parameter/tint = Vector4(1, 0, 0, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jmpvp"]
 shader = ExtResource("15_3cmmm")
 shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="Curve" id="Curve_an4kv"]
+max_value = 200.0
+_data = [Vector2(0, 200), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [node name="Blastula Kernel" type="Node"]
 
@@ -1067,3 +1073,10 @@ editor_description = "This allows bullets to continue having behavior when their
 position = Vector2(0, -200)
 rotation = 1.5708
 script = ExtResource("26_yhurp")
+
+[node name="Gravity Field" type="Node2D" parent="."]
+rotation = 1.5708
+script = ExtResource("77_lsfay")
+shape = 0
+strength = SubResource("Curve_an4kv")
+channel = "Gravity"

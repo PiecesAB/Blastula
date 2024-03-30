@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=72 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="3_yi7x3"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="4_5jpkg"]
@@ -56,7 +56,6 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetZIndex.cs" id="53_qe1it"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/WindForth.cs" id="55_q7wj3"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="56_e612s"]
-[ext_resource type="Script" path="res://addons/Blastula/Session/Wind/StandardWindSource.cs" id="56_iy4uw"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rjsw2"]
 font = ExtResource("4_5jpkg")
@@ -135,11 +134,6 @@ point_count = 3
 
 [sub_resource type="Curve" id="Curve_wmp8t"]
 _data = [Vector2(0, 1), 0.0, -0.977923, 0, 1, Vector2(1, 0.022077), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_660s8"]
-max_value = 200.0
-_data = [Vector2(0, 200), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="Main Scene" type="Node2D"]
@@ -1573,72 +1567,57 @@ commonSFXName = "Enemy/Shot1"
 script = ExtResource("28_bciwx")
 waitTime = "1.5"
 
-[node name="wind test" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+[node name="misc test" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("12_7eb1c")
 mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
 deleteAction = 1
 
-[node name="del bound" type="Node2D" parent="BasicEnemy/wind test"]
+[node name="del bound" type="Node2D" parent="BasicEnemy/misc test"]
 script = ExtResource("56_e612s")
 specialAction = 3
 boundaryID = "Main"
 shrink = -80.0
 
-[node name="Main Loop" type="Node2D" parent="BasicEnemy/wind test"]
+[node name="Main Loop" type="Node2D" parent="BasicEnemy/misc test"]
 script = ExtResource("19_ux787")
 
-[node name="Make the it" type="Node2D" parent="BasicEnemy/wind test/Main Loop"]
+[node name="Make the it" type="Node2D" parent="BasicEnemy/misc test/Main Loop"]
 script = ExtResource("13_pixf2")
 
-[node name="Start" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
+[node name="Start" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
 script = ExtResource("14_alnw1")
 
-[node name="Wind blow2" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
+[node name="Wind blow2" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
 script = ExtResource("21_4k8tc")
 throttle = 0.99
 
-[node name="Wind blow" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
+[node name="Wind blow" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
 script = ExtResource("55_q7wj3")
+channel = "Gravity"
 initialSpeed = "0"
 
-[node name="Circle" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
+[node name="Circle" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
 script = ExtResource("42_omkvy")
 laserRenderName = "Orb/Red"
 
-[node name="Circle2" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
+[node name="Circle2" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
 script = ExtResource("26_yrirr")
 mode = 2
 myRotation = "180 * sin(shot_count * 0.04)"
 offsetX = "400 * cos(shot_count * 0.1)"
 offsetY = "100 * cos(shot_count * 0.23) - 100"
 
-[node name="Lifespan" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
 script = ExtResource("21_1t60j")
 duration = "300"
 deletionEffect = true
 
-[node name="Shot Sound" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
 script = ExtResource("42_4nwql")
 commonSFXName = "Enemy/Shot1"
 
-[node name="Wait6" type="Node2D" parent="BasicEnemy/wind test/Main Loop"]
+[node name="Wait6" type="Node2D" parent="BasicEnemy/misc test/Main Loop"]
 script = ExtResource("28_bciwx")
 waitTime = "[2, 420][max(0, (shot_count % 50) - 48)]"
 units = 1
-
-[node name="WindSource" type="Node2D" parent="."]
-position = Vector2(-200, -200)
-rotation = 1.5708
-script = ExtResource("56_iy4uw")
-strength = SubResource("Curve_660s8")
-radius = 500.0
-differentialRotation = 90.0
-
-[node name="WindSource2" type="Node2D" parent="."]
-position = Vector2(200, -200)
-rotation = 1.5708
-script = ExtResource("56_iy4uw")
-strength = SubResource("Curve_660s8")
-radius = 500.0
-differentialRotation = -90.0

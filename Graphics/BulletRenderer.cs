@@ -354,7 +354,10 @@ namespace Blastula.Graphics
             foreach (int nonzeroRenderID in nonzeroRenderIDs)
             {
                 int stride = strideFromRenderIDs[nonzeroRenderID];
-                int oldCount = renderedTransformArrays[nonzeroRenderID].Length / stride;
+                // Why can this be negative, why is it subtracting 1?
+                // Because of a hack around a Multimesh AABB problem, in which we render a tiny secret bullet.
+                int oldCount = (renderedTransformArrays[nonzeroRenderID].Length / stride) - 1;
+                if (oldCount < 0) { oldCount = 0; }
                 int newCount = bNodesFromRenderIDs[nonzeroRenderID].Count();
                 if (newCount == 0) { toRemove.Add(nonzeroRenderID); continue; }
                 // Perform a funny series of operations for the next higher power of two
@@ -367,7 +370,9 @@ namespace Blastula.Graphics
                 newCount++;
                 if (newCount != oldCount)
                 {
-                    renderedTransformArrays[nonzeroRenderID] = new float[stride * newCount];
+                    // Why is this newCount + 1?
+                    // Because of a hack around a Multimesh AABB problem, in which we render a tiny secret bullet.
+                    renderedTransformArrays[nonzeroRenderID] = new float[stride * (newCount + 1)];
                 }
             }
             foreach (int removeIndex in toRemove)
@@ -388,6 +393,14 @@ namespace Blastula.Graphics
                 else
                 {
                     for (int i = 0; i < listCount; ++i) { RenderOne(nonzeroRenderID, i); }
+                }
+
+                // A hack around a Multimesh AABB problem, in which we render a tiny secret bullet.
+                int stride = strideFromRenderIDs[nonzeroRenderID];
+                int final = listCount * stride;
+                for (int j = 0; j < stride; ++j)
+                {
+                    renderedTransformArrays[nonzeroRenderID][final + j] = 0;
                 }
             }
 

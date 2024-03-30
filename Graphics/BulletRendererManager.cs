@@ -129,18 +129,22 @@ namespace Blastula.Graphics
                     multimeshInstancesByID[nonzeroID] = gi.MakeMultimeshBullet(selectorSample, multiMeshSample, nonzeroID, newName);
                 }
                 int stride = BulletRenderer.strideFromRenderIDs[nonzeroID];
+                // Why does the visible count have 1 added?
+                // Because of a hack around a Multimesh AABB problem, in which we render a tiny secret bullet.
                 multimeshInstancesByID[nonzeroID].SetBuffer(
                     BulletRenderer.renderedTransformArrays[nonzeroID],
-                    BulletRenderer.bNodesFromRenderIDs[nonzeroID].Count(),
+                    BulletRenderer.bNodesFromRenderIDs[nonzeroID].Count() + 1,
                     stride
                 );
             }
             foreach (int removedID in removed)
             {
                 if (multimeshInstancesByID[removedID] == null) { continue; }
-                int stride = BulletRenderer.strideFromRenderIDs[removedID];
-                var singleBlankElement = new float[stride];
-                multimeshInstancesByID[removedID].SetBuffer(singleBlankElement, 1, stride);
+                else
+                {
+                    multimeshInstancesByID[removedID].QueueFree();
+                    multimeshInstancesByID[removedID] = null;
+                }
             }
 
             // Set stageTime global for shaders

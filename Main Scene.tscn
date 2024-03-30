@@ -921,40 +921,6 @@ curve = SubResource("Curve_tcygc")
 script = ExtResource("19_q6ebi")
 speed = "120"
 
-[node name="Stress circle" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
-position = Vector2(0, -200)
-rotation = -1.5708
-script = ExtResource("12_7eb1c")
-enabled = false
-mainSchedule = NodePath("Main schedule")
-
-[node name="Main schedule" type="Node" parent="Stress circle"]
-script = ExtResource("19_ux787")
-
-[node name="10000 circle" type="Node" parent="Stress circle/Main schedule"]
-script = ExtResource("13_pixf2")
-
-[node name="Create single" type="Node" parent="Stress circle/Main schedule/10000 circle"]
-script = ExtResource("14_alnw1")
-renderName = "Pellet/Magenta"
-
-[node name="Forth" type="Node" parent="Stress circle/Main schedule/10000 circle"]
-script = ExtResource("19_q6ebi")
-speed = "300"
-
-[node name="Circle of 10000" type="Node" parent="Stress circle/Main schedule/10000 circle"]
-script = ExtResource("18_xfnro")
-radius = "0"
-number = "10000"
-rotationMode = 1
-
-[node name="Lifespan" type="Node" parent="Stress circle/Main schedule/10000 circle"]
-script = ExtResource("21_1t60j")
-duration = "60"
-
-[node name="Wait" type="Node" parent="Stress circle/Main schedule"]
-script = ExtResource("28_bciwx")
-
 [node name="Follow test" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
 position = Vector2(0, -200)
 rotation = 1.5708
@@ -1532,6 +1498,12 @@ mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
 deleteAction = 1
 
+[node name="del bound" type="Node2D" parent="BasicEnemy/wind test"]
+script = ExtResource("56_e612s")
+specialAction = 3
+boundaryID = "Main"
+shrink = -80.0
+
 [node name="Main Loop" type="Node2D" parent="BasicEnemy/wind test"]
 script = ExtResource("19_ux787")
 
@@ -1542,14 +1514,9 @@ script = ExtResource("13_pixf2")
 script = ExtResource("14_alnw1")
 renderName = "Arrow/Green"
 
-[node name="del bound" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
-script = ExtResource("56_e612s")
-specialAction = 4
-boundaryID = "Main"
-
 [node name="Wind blow2" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
 script = ExtResource("21_4k8tc")
-throttle = 1.0
+throttle = 0.99
 
 [node name="Wind blow" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
 script = ExtResource("55_q7wj3")
@@ -1558,17 +1525,18 @@ initialSpeed = "0"
 [node name="Circle" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
 script = ExtResource("18_xfnro")
 radius = "130"
-number = "5"
+number = "1"
 
 [node name="Circle2" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
 script = ExtResource("26_yrirr")
 mode = 2
-myRotation = "shot_count * 13"
-offsetX = "300 * cos(shot_count * 0.1)"
-offsetY = "100 * cos(shot_count * 0.23) - 200"
+myRotation = "180 * sin(shot_count * 0.04)"
+offsetX = "400 * cos(shot_count * 0.1)"
+offsetY = "100 * cos(shot_count * 0.23) - 100"
 
 [node name="Lifespan" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
 script = ExtResource("21_1t60j")
+duration = "300"
 deletionEffect = true
 
 [node name="Shot Sound" type="Node2D" parent="BasicEnemy/wind test/Main Loop/Make the it"]
@@ -1577,7 +1545,8 @@ commonSFXName = "Enemy/Shot1"
 
 [node name="Wait6" type="Node2D" parent="BasicEnemy/wind test/Main Loop"]
 script = ExtResource("28_bciwx")
-waitTime = "0.1"
+waitTime = "[2, 420][max(0, (shot_count % 50) - 48)]"
+units = 1
 
 [node name="WindSource" type="Node2D" parent="."]
 position = Vector2(-200, -200)

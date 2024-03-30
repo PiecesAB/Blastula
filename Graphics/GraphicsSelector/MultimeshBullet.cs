@@ -22,10 +22,5 @@ namespace Blastula.Graphics
             base._EnterTree();
             Multimesh = Multimesh.Duplicate() as MultiMesh;
         }
-
-        public override void _Process(double delta)
-        {
-            base._Process(delta);
-        }
     }
 }

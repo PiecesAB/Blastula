@@ -154,13 +154,16 @@ namespace Blastula.Wind
         public override void _Process(double delta)
         {
             base._Process(delta);
-            *otherData = new OtherData
+            if (otherData != null)
             {
-                shape = shape,
-                radius = radius,
-                differentialRotation = differentialRotation,
-                strength = strengthLowLevel
-            };
+                *otherData = new OtherData
+                {
+                    shape = shape,
+                    radius = radius,
+                    differentialRotation = differentialRotation,
+                    strength = strengthLowLevel
+                };
+            }
         }
 
 #if TOOLS

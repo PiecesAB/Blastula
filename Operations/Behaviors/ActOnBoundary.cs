@@ -8,6 +8,10 @@ namespace Blastula.Operations
     /// <summary>
     /// Add bullet behavior that reacts to being out of bounds.
     /// </summary>
+    /// <remarks>
+    /// At the moment, this assumes the boundary will always exist while the reacting bullets exist.
+    /// So if the boundary disappears, bullets will try to reference freed memory, which is Very Bad.
+    /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/boundary.png")]
     public unsafe partial class ActOnBoundary : AddBehavior

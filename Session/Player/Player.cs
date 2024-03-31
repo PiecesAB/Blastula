@@ -260,8 +260,8 @@ namespace Blastula
                 }
                 else if (collider == attractbox)
                 {
-                    var behaviors = BNodeFunctions.masterQueue[bNodeIndex].behaviors;
-                    if (behaviors.count == 3 && Sequence.referencesByID.ContainsKey(COLLECTIBLE_ATTRACT_SEQUENCE_NAME))
+                    short phase = BNodeFunctions.masterQueue[bNodeIndex].phase;
+                    if (phase == 1 && Sequence.referencesByID.ContainsKey(COLLECTIBLE_ATTRACT_SEQUENCE_NAME))
                     {
                         PostExecute.ScheduleOperation(
                             bNodeIndex, 

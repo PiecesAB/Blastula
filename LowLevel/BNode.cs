@@ -26,6 +26,20 @@ namespace Blastula
         /// otherwise transform is the local transform relative to the BNode's parent.
         /// </summary>
         public bool worldTransformMode;
+
+        /// <summary>
+        /// This variable is used to keep track of a BNode's phase/state, which is incidental to shot patterns.
+        /// </summary>
+        /// <example>
+        /// Collectible phase is tracked. 
+        /// Collectibles are just "bullets" with complex behavior in three phases:<br />
+        /// 0. Emerge from the point at which the enemy was destroyed.<br />
+        /// 1. Move up and slowly change to move down by gravity.<br />
+        /// 2. If the attractbox is hit, attract toward the player.<br />
+        /// The player is interested in phase 1, so that its collision can activate phase 2.
+        /// </example>
+        public short phase;
+
         /// <summary>
         /// Normally, the local transform of the BNode.
         /// </summary>
@@ -98,6 +112,7 @@ namespace Blastula
         /// It is used for handling piercing player shots, and making enemy bullets undeletable.
         /// </summary>
         public float health;
+        
         /// <summary>
         /// This is where color or custom data are defined when needed.
         /// </summary>
@@ -294,6 +309,7 @@ namespace Blastula
                 {
                     initialized = true,
                     worldTransformMode = false,
+                    phase = 0,
                     bulletRenderID = -1,
                     laserRenderID = -1,
                     treeSize = 1,

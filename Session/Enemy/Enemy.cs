@@ -78,6 +78,10 @@ namespace Blastula
         /// </remarks>
         [Export] public float selfMaxLifespan = -1;
         [Export] public Wait.TimeUnits lifespanUnits = Wait.TimeUnits.Frames;
+        [ExportGroup("Collectibles")]
+        [Export] public bool spawnCollectiblesOnHealthZero = true;
+        [Export] public string[] collectibleSpawnNames;
+        [Export] public int[] collectibleSpawnAmounts;
 
         /// <summary>
         /// The time remaining (in the same units as selfMaxLifespan) until the enemy is destroyed no matter what.
@@ -176,6 +180,14 @@ namespace Blastula
                 //GD.Print($"bullet dealt {damageAmount} damage: enemy health is now {health}");
                 if (health == 0)
                 {
+                    if (spawnCollectiblesOnHealthZero)
+                    {
+                        for (int i = 0; i < collectibleSpawnNames.Length; i++)
+                        {
+                            CollectibleManager.SpawnItems(collectibleSpawnNames[i], GlobalPosition, collectibleSpawnAmounts[i]);
+                        }
+                        spawnCollectiblesOnHealthZero = false;
+                    }
                     BecomeDefeated();
                 }
             }

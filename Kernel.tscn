@@ -1,4 +1,4 @@
-[gd_scene load_steps=123 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=139 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -80,6 +80,21 @@
 [ext_resource type="PackedScene" uid="uid://dy1rv3s4i26wp" path="res://addons/Blastula/Stage/EnemySpamTest.tscn" id="65_1m2vo"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="66_doh6d"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Wind/StandardWindSource.cs" id="77_lsfay"]
+[ext_resource type="Script" path="res://addons/Blastula/Stage/CollectibleManager.cs" id="81_hxavd"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Sequence.cs" id="81_qgcx4"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/CreateSingle.cs" id="82_jin1d"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="83_cvdh4"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Adapt.cs" id="84_32ue3"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/PlaceRandom.cs" id="85_jp8ml"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ForthByPosition.cs" id="86_r4o8e"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Lifespan.cs" id="87_x6vmf"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetPhase.cs" id="88_2344f"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ClearBehaviors.cs" id="89_ggu8o"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Reference.cs" id="89_l3rau"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Shift.cs" id="90_sklj1"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/WindForth.cs" id="91_dt4gs"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/TimeStretch.cs" id="92_f6tsy"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Follow.cs" id="93_evxvp"]
 
 [sub_resource type="Shader" id="Shader_7sty3"]
 code = "shader_type canvas_item;
@@ -291,6 +306,10 @@ shader_parameter/tint = Vector4(1, 0, 0, 1)
 [sub_resource type="Curve" id="Curve_an4kv"]
 max_value = 200.0
 _data = [Vector2(0, 200), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_qjoeg"]
+_data = [Vector2(0, 0.0298507), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="Blastula Kernel" type="Node"]
@@ -1111,11 +1130,120 @@ shape = 0
 strength = SubResource("Curve_an4kv")
 channel = "Gravity"
 
-[node name="Collectible Manager" type="Node" parent="Game Logic"]
+[node name="Collectible Manager" type="Node" parent="Game Logic" node_paths=PackedStringArray("collectibleDisc")]
+script = ExtResource("81_hxavd")
+collectibleDisc = NodePath("Collectible Disc")
 
-[node name="Collectible Disc" type="Node2D" parent="Game Logic/Collectible Manager"]
+[node name="Collectible Disc" type="Node2D" parent="Game Logic/Collectible Manager" node_paths=PackedStringArray("mainSchedule")]
 editor_description = "This drives and contains collectible bullets."
-position = Vector2(0, -200)
-rotation = 1.5708
 script = ExtResource("26_yhurp")
 ID = "Collectibles"
+mainSchedule = NodePath("")
+
+[node name="Subroutines" type="Node" parent="Game Logic/Collectible Manager"]
+
+[node name="Scatter From Enemy" type="Node2D" parent="Game Logic/Collectible Manager/Subroutines"]
+script = ExtResource("81_qgcx4")
+
+[node name="Delete on bottom" type="Node2D" parent="Game Logic/Collectible Manager/Subroutines/Scatter From Enemy"]
+script = ExtResource("83_cvdh4")
+boundaryID = "Main"
+specialAction = 3
+activeSides = 8
+shrink = -48.0
+
+[node name="Phase 1 soon" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Scatter From Enemy" node_paths=PackedStringArray("operation")]
+script = ExtResource("84_32ue3")
+operation = NodePath("../../Phase 1 = fall")
+wait = "0.25"
+waitUnits = 0
+
+[node name="Scatter" type="Node2D" parent="Game Logic/Collectible Manager/Subroutines/Scatter From Enemy"]
+script = ExtResource("85_jp8ml")
+minRadius = "240"
+maxRadius = "480"
+maxAngle = "360"
+number = "item_amount"
+
+[node name="Forth" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Scatter From Enemy"]
+script = ExtResource("86_r4o8e")
+
+[node name="Delete container when children gone" type="Node2D" parent="Game Logic/Collectible Manager/Subroutines/Scatter From Enemy"]
+script = ExtResource("87_x6vmf")
+duration = "3600"
+units = 0
+noChildrenCheck = true
+
+[node name="Phase 1 = fall" type="Node2D" parent="Game Logic/Collectible Manager/Subroutines"]
+script = ExtResource("81_qgcx4")
+
+[node name="Set Phase" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Phase 1 = fall"]
+script = ExtResource("88_2344f")
+mode = 1
+newPhase = "1"
+
+[node name="Leave only boundary behavior" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Phase 1 = fall"]
+script = ExtResource("89_ggu8o")
+remain = "1"
+
+[node name="Point upward" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Phase 1 = fall"]
+script = ExtResource("90_sklj1")
+mode = 0
+myRotation = "-90"
+setFilter = 6
+
+[node name="Fall by gravity" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Phase 1 = fall"]
+script = ExtResource("91_dt4gs")
+channel = "Gravity"
+drag = "150"
+initialSpeed = "300"
+rotateToMatchMovement = false
+
+[node name="Phase 2 = attract (triggered by player)" type="Node2D" parent="Game Logic/Collectible Manager/Subroutines"]
+script = ExtResource("81_qgcx4")
+referenceID = "CollectibleAttractPhase"
+
+[node name="Set Phase" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Phase 2 = attract (triggered by player)"]
+script = ExtResource("88_2344f")
+mode = 1
+newPhase = "1"
+
+[node name="Clear all behaviors" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Phase 2 = attract (triggered by player)"]
+script = ExtResource("89_ggu8o")
+
+[node name="Accelerate" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Phase 2 = attract (triggered by player)"]
+script = ExtResource("92_f6tsy")
+curve = SubResource("Curve_qjoeg")
+endTime = "10"
+stepFrames = 2.0
+
+[node name="Follow" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Phase 2 = attract (triggered by player)"]
+script = ExtResource("93_evxvp")
+targetName = "Player"
+maxSpeed = "800"
+
+[node name="EnemyScatterPoint" type="Node2D" parent="Game Logic/Collectible Manager"]
+script = ExtResource("81_qgcx4")
+
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPoint"]
+script = ExtResource("82_jin1d")
+renderName = "Collectible/Point"
+collisionLayerName = "Collectible"
+sleepyCollision = false
+
+[node name="Scatter from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPoint" node_paths=PackedStringArray("other")]
+script = ExtResource("89_l3rau")
+other = NodePath("../../Subroutines/Scatter From Enemy")
+
+[node name="EnemyScatterPower" type="Node2D" parent="Game Logic/Collectible Manager"]
+script = ExtResource("81_qgcx4")
+
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPower"]
+script = ExtResource("82_jin1d")
+renderName = "Collectible/Power"
+collisionLayerName = "Collectible"
+sleepyCollision = false
+
+[node name="Scatter from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPower" node_paths=PackedStringArray("other")]
+script = ExtResource("89_l3rau")
+other = NodePath("../../Subroutines/Scatter From Enemy")

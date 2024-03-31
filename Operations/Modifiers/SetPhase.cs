@@ -18,13 +18,28 @@ namespace Blastula.Operations
     [Icon(Persistent.NODE_ICON_PATH + "/nova.png")]
     public unsafe partial class SetPhase : Modifier
     {
+        public enum Mode
+        {
+            /// <summary>
+            /// Set the phase directly.
+            /// </summary>
+            Set, 
+            /// <summary>
+            /// Add to the existing phase.
+            /// </summary>
+            Add
+        }
+
+        [Export] public Mode mode = Mode.Set;
         [Export] public string newPhase = "0";
 
         public override void ModifyStructure(int inStructure)
         {
             if (inStructure >= 0 && newPhase != null && newPhase != "")
             {
-                BNodeFunctions.masterQueue[inStructure].phase = Solve("newPhase").AsInt16();
+                short np = Solve("newPhase").AsInt16();
+                if (mode == Mode.Add) { np += BNodeFunctions.masterQueue[inStructure].phase; }
+                BNodeFunctions.masterQueue[inStructure].phase = np;
             }
         }
     }

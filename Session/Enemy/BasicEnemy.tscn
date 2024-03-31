@@ -8,6 +8,8 @@
 [node name="BasicEnemy" type="Node2D"]
 position = Vector2(100, -200)
 script = ExtResource("1_jevmo")
+collectibleSpawnNames = PackedStringArray("EnemyScatterPoint", "EnemyScatterPower")
+collectibleSpawnAmounts = PackedInt32Array(4, 4)
 
 [node name="PlaceholderSprite" type="Sprite2D" parent="."]
 modulate = Color(0.792157, 0.792157, 0.792157, 1)

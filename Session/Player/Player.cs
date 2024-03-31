@@ -2,6 +2,7 @@ using Blastula.Collision;
 using Blastula.Graphics;
 using Blastula.Input;
 using Blastula.LowLevel;
+using Blastula.Operations;
 using Blastula.Sounds;
 using Blastula.VirtualVariables;
 using Godot;
@@ -56,6 +57,14 @@ namespace Blastula
         [ExportGroup("Graze")]
         [Export] public BlastulaCollider grazebox;
         [Export] public float framesBetweenLaserGraze = 8;
+        [ExportGroup("Collectibles")]
+        [Export] public BlastulaCollider attractbox;
+        /// <summary>
+        /// Above this Y position, the player will attract all collectibles by making the attractbox extremely large.
+        /// </summary>
+        [Export] public float itemGetHeight = -150;
+        private Vector2 attractboxOriginalSize;
+        private string COLLECTIBLE_ATTRACT_SEQUENCE_NAME = "CollectibleAttractPhase";
 
         public bool debugInvincible = false;
 
@@ -150,6 +159,7 @@ namespace Blastula
             if (!playersByControl.ContainsKey(control)) { playersByControl[control] = this; }
             FindDiscs();
             SetVarsInDiscs();
+            attractboxOriginalSize = attractbox.size;
         }
 
         private int grazeGetThisFrame = 0;
@@ -162,13 +172,15 @@ namespace Blastula
         {
             // bNodeIndex is always >= 0, how could we get here otherwise???
             BNode* bNodePtr = BNodeFunctions.masterQueue + bNodeIndex;
-            if (collider == hurtbox)
+            int collisionLayer = BNodeFunctions.masterQueue[bNodeIndex].collisionLayer;
+            int enemyShotBulletLayer = CollisionManager.GetBulletLayerIDFromName("EnemyShot");
+            int collectibleBulletLayer = CollisionManager.GetBulletLayerIDFromName("Collectible");
+            if (Engine.TimeScale > 0 && collisionLayer == enemyShotBulletLayer)
             {
-                int collisionLayer = BNodeFunctions.masterQueue[bNodeIndex].collisionLayer;
-                if (collisionLayer == CollisionManager.GetBulletLayerIDFromName("EnemyShot"))
+                if (collider == hurtbox)
                 {
                     if (debugInvincible) { return; }
-                    
+
                     if (LaserRenderer.IsBNodeHeadOfLaser(bNodeIndex) || LaserRenderer.IsBNodeTailOfLaser(bNodeIndex))
                     {
                         if (bNodePtr->bulletRenderID < 0) { return; }
@@ -194,51 +206,72 @@ namespace Blastula
                         }
                     }
                 }
-            }
-            else if (collider == grazebox && Engine.TimeScale > 0)
-            {
-                if (bNodePtr->graze >= 0) {
-                    bool grazeGet = false;
+                else if (collider == grazebox)
+                {
+                    if (bNodePtr->graze >= 0)
+                    {
+                        bool grazeGet = false;
 
-                    if (bNodePtr->bulletRenderID >= 0)
-                    {
-                        if (bNodePtr->graze == 0) { grazeGet = true; }
-                        if (bNodePtr->graze >= 0) { bNodePtr->graze += (float)Engine.TimeScale; }
-                    }
-                    else if (bNodePtr->laserRenderID >= 0)
-                    {
-                        bool newGrazeThisFrame = LaserRenderer.NewGrazeThisFrame(bNodeIndex, out int headBNodeIndex);
-                        if (newGrazeThisFrame)
+                        if (bNodePtr->bulletRenderID >= 0)
                         {
-                            BNode* headBNodePtr = BNodeFunctions.masterQueue + headBNodeIndex;
-                            float oldGraze = headBNodePtr->graze;
-                            float newGraze = oldGraze + (float)Engine.TimeScale;
-                            if (oldGraze == 0
-                                || oldGraze + framesBetweenLaserGraze <= newGraze
-                                || oldGraze % framesBetweenLaserGraze >= newGraze % framesBetweenLaserGraze)
-                            {
-                                grazeGet = true;
-                            }
-                            if (oldGraze < 0) { grazeGet = false; }
-                            else { headBNodePtr->graze = newGraze; }
+                            if (bNodePtr->graze == 0) { grazeGet = true; }
+                            if (bNodePtr->graze >= 0) { bNodePtr->graze += (float)Engine.TimeScale; }
                         }
-                    }
-                    
-                    if (grazeGet)
-                    {
-                        ++grazeGetThisFrame;
-                        // TODO: implement and increment graze counter
-                        if (grazeGetThisFrame < 5)
+                        else if (bNodePtr->laserRenderID >= 0)
                         {
-                            CommonSFXManager.PlayByName("Player/Graze", 1, 1f, GlobalPosition, true);
-                            GrazeLines.ShowLine(GlobalPosition, BulletWorldTransforms.Get(bNodeIndex).Origin);
-                            // Without this the bullet wiggles because we tried to calculate the position before the movement.
-                            // We don't want that to happen, so force recalculate when the time is right.
-                            BulletWorldTransforms.Invalidate(bNodeIndex);
+                            bool newGrazeThisFrame = LaserRenderer.NewGrazeThisFrame(bNodeIndex, out int headBNodeIndex);
+                            if (newGrazeThisFrame)
+                            {
+                                BNode* headBNodePtr = BNodeFunctions.masterQueue + headBNodeIndex;
+                                float oldGraze = headBNodePtr->graze;
+                                float newGraze = oldGraze + (float)Engine.TimeScale;
+                                if (oldGraze == 0
+                                    || oldGraze + framesBetweenLaserGraze <= newGraze
+                                    || oldGraze % framesBetweenLaserGraze >= newGraze % framesBetweenLaserGraze)
+                                {
+                                    grazeGet = true;
+                                }
+                                if (oldGraze < 0) { grazeGet = false; }
+                                else { headBNodePtr->graze = newGraze; }
+                            }
+                        }
+
+                        if (grazeGet)
+                        {
+                            ++grazeGetThisFrame;
+                            // TODO: implement and increment graze counter
+                            if (grazeGetThisFrame < 5)
+                            {
+                                CommonSFXManager.PlayByName("Player/Graze", 1, 1f, GlobalPosition, true);
+                                GrazeLines.ShowLine(GlobalPosition, BulletWorldTransforms.Get(bNodeIndex).Origin);
+                                // Without this the bullet wiggles because we tried to calculate the position before the movement.
+                                // We don't want that to happen, so force recalculate when the time is right.
+                                BulletWorldTransforms.Invalidate(bNodeIndex);
+                            }
                         }
                     }
                 }
             }
+            else if (Engine.TimeScale > 0 && collisionLayer == collectibleBulletLayer)
+            {
+                if (collider == hurtbox)
+                {
+                    PostExecute.ScheduleDeletion(bNodeIndex, false);
+                }
+                else if (collider == attractbox)
+                {
+                    var behaviors = BNodeFunctions.masterQueue[bNodeIndex].behaviors;
+                    if (behaviors.count == 3 && Sequence.referencesByID.ContainsKey(COLLECTIBLE_ATTRACT_SEQUENCE_NAME))
+                    {
+                        PostExecute.ScheduleOperation(
+                            bNodeIndex, 
+                            Sequence.referencesByID[COLLECTIBLE_ATTRACT_SEQUENCE_NAME]?.GetOperationID() ?? -1
+                        );
+                    }
+                }
+            }
+
+            
         }
 
         public bool IsShooting() { return InputManager.ButtonIsDown(shootName); }
@@ -276,6 +309,14 @@ namespace Blastula
             }
             SetVarsInDiscs();
             grazeGetThisFrame = 0;
+            if (GlobalPosition.Y <= itemGetHeight)
+            {
+                attractbox.size = new Vector2(2000, 2000);
+            }
+            else
+            {
+                attractbox.size = attractboxOriginalSize;
+            }
         }
     }
 }

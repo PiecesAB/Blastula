@@ -1,5 +1,6 @@
 using Blastula.VirtualVariables;
 using Godot;
+using System;
 using static Blastula.BNodeFunctions;
 
 namespace Blastula.Operations
@@ -39,8 +40,19 @@ namespace Blastula.Operations
             Static
         }
 
+        /// <summary>
+        /// Chooses which transform parts to apply in Set mode; the remaining will be provided from the BNode as it exists.
+        /// </summary>
+        [Flags]
+        public enum SetFilter
+        {
+            Position = 1, Rotation = 2, Scale = 4,
+        }
+
         [Export] public Mode mode = Mode.ApplyAfter;
         [Export] public ChildPlacement childPlacement = ChildPlacement.Attached;
+        
+
         [ExportGroup("Transform")]
         /// <summary>
         /// Rotation is in degrees.
@@ -50,6 +62,12 @@ namespace Blastula.Operations
         [Export] public string offsetY = "0";
         [Export] public string scaleX = "1";
         [Export] public string scaleY = "1";
+
+        /// <summary>
+        /// Chooses which transform parts to apply in Set mode; the remaining will be provided from the BNode as it exists.
+        /// </summary>
+        [ExportGroup("Advanced")]
+        [Export] public SetFilter setFilter = (SetFilter)7;
 
         public override void ModifyStructure(int inStructure)
         {
@@ -64,6 +82,18 @@ namespace Blastula.Operations
             switch (mode)
             {
                 case Mode.Set:
+                    if ((setFilter & SetFilter.Position) == 0)
+                    {
+                        newTransform.Origin = oldTransform.Origin;
+                    }
+                    if ((setFilter & SetFilter.Rotation) == 0)
+                    {
+                        newTransform = new Transform2D(oldTransform.Rotation, newTransform.Scale, 0f, newTransform.Origin);
+                    }
+                    if ((setFilter & SetFilter.Scale) == 0)
+                    {
+                        newTransform = new Transform2D(newTransform.Rotation, oldTransform.Scale, 0f, newTransform.Origin);
+                    }
                     masterQueue[inStructure].transform = newTransform;
                     break;
                 case Mode.ApplyBefore:

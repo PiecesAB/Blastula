@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=68 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="3_yi7x3"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="4_5jpkg"]
@@ -45,7 +45,11 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/PlaceOnPath2D.cs" id="46_rnlww"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Variables/UnsetVar.cs" id="47_w56g6"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Repaint.cs" id="48_3voct"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Follow.cs" id="50_8iq0d"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/PlaceRandom.cs" id="50_aqde1"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ForthByPosition.cs" id="51_p72gq"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/AdaptPattern.cs" id="52_fvk7r"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/StunMultithreading.cs" id="52_indtk"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetZIndex.cs" id="53_qe1it"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/WindForth.cs" id="55_q7wj3"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="56_e612s"]
@@ -119,6 +123,10 @@ point_count = 3
 
 [sub_resource type="Curve" id="Curve_wmp8t"]
 _data = [Vector2(0, 1), 0.0, -0.977923, 0, 1, Vector2(1, 0.022077), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_2u5qf"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="Main Scene" type="Node2D"]
@@ -1264,51 +1272,105 @@ script = ExtResource("28_bciwx")
 waitTime = "[2, 420][max(0, (shot_count % 50) - 48)]"
 units = 1
 
-[node name="collect" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+[node name="collect" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule")]
 script = ExtResource("12_7eb1c")
 ID = "Collectibles"
 mainSchedule = NodePath("Main Loop")
-cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
-deleteAction = 2
 
-[node name="Main Loop" type="Node2D" parent="BasicEnemy/collect"]
-script = ExtResource("19_ux787")
-
-[node name="Emerge from point" type="Node2D" parent="BasicEnemy/collect/Main Loop"]
+[node name="Phase 1 = Emerge from point" type="Node2D" parent="BasicEnemy/collect"]
 script = ExtResource("13_pixf2")
 
-[node name="Start" type="Node2D" parent="BasicEnemy/collect/Main Loop/Emerge from point"]
+[node name="Start" type="Node2D" parent="BasicEnemy/collect/Phase 1 = Emerge from point"]
 script = ExtResource("14_alnw1")
 renderName = "Collectible/Power"
 collisionLayerName = "Collectible"
 sleepyCollision = false
 
-[node name="Start3" type="Node2D" parent="BasicEnemy/collect/Main Loop/Emerge from point"]
-script = ExtResource("26_yrirr")
-myRotation = "randf_range(-80, -100)"
-
-[node name="Lifespan2" type="Node2D" parent="BasicEnemy/collect/Main Loop/Emerge from point"]
+[node name="Delete on bottom" type="Node2D" parent="BasicEnemy/collect/Phase 1 = Emerge from point"]
 script = ExtResource("56_e612s")
 boundaryID = "Main"
 specialAction = 3
 activeSides = 8
 shrink = -48.0
 
-[node name="Start2" type="Node2D" parent="BasicEnemy/collect/Main Loop/Emerge from point"]
-script = ExtResource("55_q7wj3")
-channel = "Gravity"
-maxSpeed = "500"
-initialSpeed = "500"
-rotateToMatchMovement = false
+[node name="Phase 2 soon" type="Node" parent="BasicEnemy/collect/Phase 1 = Emerge from point" node_paths=PackedStringArray("operation")]
+script = ExtResource("33_pbps6")
+operation = NodePath("../../Phase 2 = fall")
+wait = "0.25"
+waitUnits = 0
 
-[node name="Lifespan" type="Node2D" parent="BasicEnemy/collect/Main Loop/Emerge from point"]
+[node name="Dummy to hack a form of state detection" type="Node" parent="BasicEnemy/collect/Phase 1 = Emerge from point"]
+script = ExtResource("52_indtk")
+duration = "0"
+
+[node name="Scatter" type="Node2D" parent="BasicEnemy/collect/Phase 1 = Emerge from point"]
+script = ExtResource("50_aqde1")
+minRadius = "240"
+maxRadius = "480"
+maxAngle = "360"
+number = "8"
+
+[node name="Forth" type="Node" parent="BasicEnemy/collect/Phase 1 = Emerge from point"]
+script = ExtResource("51_p72gq")
+
+[node name="Delete container when children gone" type="Node2D" parent="BasicEnemy/collect/Phase 1 = Emerge from point"]
 script = ExtResource("21_1t60j")
-duration = "20"
+duration = "3600"
 units = 0
+noChildrenCheck = true
 
-[node name="Shot Sound" type="Node2D" parent="BasicEnemy/collect/Main Loop/Emerge from point"]
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/collect/Phase 1 = Emerge from point"]
 script = ExtResource("42_4nwql")
 commonSFXName = "Enemy/Shot1"
 
-[node name="Wait6" type="Node2D" parent="BasicEnemy/collect/Main Loop"]
+[node name="Phase 2 = fall" type="Node2D" parent="BasicEnemy/collect"]
+script = ExtResource("13_pixf2")
+
+[node name="Leave only boundary behavior" type="Node" parent="BasicEnemy/collect/Phase 2 = fall"]
+script = ExtResource("37_2alt6")
+remain = "1"
+
+[node name="Point upward" type="Node" parent="BasicEnemy/collect/Phase 2 = fall"]
+script = ExtResource("26_yrirr")
+mode = 0
+myRotation = "-90"
+setFilter = 6
+
+[node name="Fall by gravity" type="Node" parent="BasicEnemy/collect/Phase 2 = fall"]
+script = ExtResource("55_q7wj3")
+channel = "Gravity"
+drag = "150"
+initialSpeed = "300"
+rotateToMatchMovement = false
+
+[node name="Dummy to hack a form of state detection" type="Node" parent="BasicEnemy/collect/Phase 2 = fall"]
+script = ExtResource("52_indtk")
+duration = "0"
+
+[node name="Phase 3 = attract (triggered by player)" type="Node2D" parent="BasicEnemy/collect"]
+script = ExtResource("13_pixf2")
+referenceID = "CollectibleAttractPhase"
+
+[node name="Clear all behaviors" type="Node" parent="BasicEnemy/collect/Phase 3 = attract (triggered by player)"]
+script = ExtResource("37_2alt6")
+
+[node name="Accelerate" type="Node" parent="BasicEnemy/collect/Phase 3 = attract (triggered by player)"]
+script = ExtResource("33_y07ts")
+curve = SubResource("Curve_2u5qf")
+endTime = "10"
+stepFrames = 2.0
+
+[node name="Follow" type="Node" parent="BasicEnemy/collect/Phase 3 = attract (triggered by player)"]
+script = ExtResource("50_8iq0d")
+targetName = "Player"
+maxSpeed = "800"
+
+[node name="Main Loop" type="Node2D" parent="BasicEnemy/collect"]
+script = ExtResource("19_ux787")
+
+[node name="Start phase 1" type="Node2D" parent="BasicEnemy/collect/Main Loop" node_paths=PackedStringArray("other")]
+script = ExtResource("30_i7w6n")
+other = NodePath("../../Phase 1 = Emerge from point")
+
+[node name="Wait" type="Node2D" parent="BasicEnemy/collect/Main Loop"]
 script = ExtResource("28_bciwx")

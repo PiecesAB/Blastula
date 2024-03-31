@@ -95,6 +95,8 @@ namespace Blastula.Collision
             {
                 if (showMode == ShowMode.Always || prevDebugColShapes) { QueueRedraw(); }
                 prevDebugColShapes = Debug.DebugCollision.showCollisionShapes;
+                colliderInfo->shape = shape;
+                colliderInfo->size = size;
                 colliderInfo->transform = GlobalTransform;
                 while (collisions->count > 0)
                 {

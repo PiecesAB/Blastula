@@ -17,11 +17,12 @@
 [ext_resource type="Texture2D" uid="uid://qfmxv046puox" path="res://addons/Blastula/Graphics/NodeIcons/player.png" id="11_knxrc"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Target.cs" id="12_57sxr"]
 
-[node name="BasicPlayer" type="Node2D" node_paths=PackedStringArray("hurtbox", "grazebox")]
+[node name="BasicPlayer" type="Node2D" node_paths=PackedStringArray("hurtbox", "grazebox", "attractbox")]
 position = Vector2(362, 320)
 script = ExtResource("1_1dvfo")
 hurtbox = NodePath("Hurtbox")
 grazebox = NodePath("Grazebox")
+attractbox = NodePath("Attractbox")
 
 [node name="Player Shot" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
 rotation = -1.5708
@@ -95,9 +96,16 @@ size = Vector2(64, 0)
 objectLayer = "Player"
 showMode = 0
 
+[node name="Attractbox" type="Node2D" parent="."]
+script = ExtResource("2_nqktp")
+size = Vector2(80, 0)
+objectLayer = "PlayerAttract"
+showMode = 0
+
 [node name="TargetPlayer" type="Node2D" parent="."]
 script = ExtResource("12_57sxr")
 ID = "Player"
 
 [connection signal="Collision" from="Hurtbox" to="." method="OnHit"]
 [connection signal="Collision" from="Grazebox" to="." method="OnHit"]
+[connection signal="Collision" from="Attractbox" to="." method="OnHit"]

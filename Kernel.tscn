@@ -331,6 +331,8 @@ bulletLayersHolder = NodePath("Bullet Layers")
 
 [node name="Player" type="Node" parent="Processing Pipeline/Collision Solver Manager/Object Layers"]
 
+[node name="PlayerAttract" type="Node" parent="Processing Pipeline/Collision Solver Manager/Object Layers"]
+
 [node name="Graze" type="Node" parent="Processing Pipeline/Collision Solver Manager/Object Layers"]
 
 [node name="Enemy" type="Node" parent="Processing Pipeline/Collision Solver Manager/Object Layers"]
@@ -359,7 +361,7 @@ bulletLayersHolder = NodePath("Bullet Layers")
 
 [node name="Player" type="Node" parent="Processing Pipeline/Collision Solver Manager/Bullet Layers/Collectible"]
 
-[node name="Graze" type="Node" parent="Processing Pipeline/Collision Solver Manager/Bullet Layers/Collectible"]
+[node name="PlayerAttract" type="Node" parent="Processing Pipeline/Collision Solver Manager/Bullet Layers/Collectible"]
 
 [node name="Post Execute Manager" type="Node" parent="Processing Pipeline"]
 script = ExtResource("9_t4qwe")
@@ -807,7 +809,7 @@ size = Vector2(32, 32)
 material = SubResource("ShaderMaterial_of2ja")
 unrotatedGraphic = true
 zIndex = -80
-collisionSize = Vector2(32, 0)
+collisionSize = Vector2(16, 0)
 
 [node name="Power" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Collectible"]
 script = ExtResource("10_gun14")
@@ -816,7 +818,7 @@ size = Vector2(32, 32)
 material = SubResource("ShaderMaterial_of2ja")
 unrotatedGraphic = true
 zIndex = -80
-collisionSize = Vector2(32, 0)
+collisionSize = Vector2(16, 0)
 
 [node name="Mesh Container" type="Node" parent="Rendering/Bullet Renderer Manager"]
 

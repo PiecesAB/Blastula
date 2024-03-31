@@ -26,6 +26,7 @@ grazebox = NodePath("Grazebox")
 [node name="Player Shot" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
 rotation = -1.5708
 script = ExtResource("2_5a2kt")
+ID = "Player"
 mainSchedule = NodePath("Main schedule")
 
 [node name="Main schedule" type="Node" parent="Player Shot"]

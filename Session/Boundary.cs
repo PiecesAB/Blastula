@@ -22,6 +22,14 @@ namespace Blastula
         }
 
         /// <summary>
+        /// Used for rectangular boundary checks, to only be relevant to certain sides.
+        /// </summary>
+        [Flags] public enum ActiveSide
+        {
+            Left = 1, Right = 2, Top = 4, Bottom = 8
+        }
+
+        /// <summary>
         /// Name to uniquely and globally identify this boundary.
         /// </summary>
         [Export] public string ID;
@@ -66,7 +74,7 @@ namespace Blastula
         /// <param name="shrink">Pretend the boundary is smaller than it really is, by shrinking this number of units in all directions.
         /// We can also pretend the boundary is larger when this parameter is negative.
         /// </param>
-        public static bool IsWithin(LowLevelInfo* boundInfo, Vector2 globalPos, float shrink)
+        public static bool IsWithin(LowLevelInfo* boundInfo, Vector2 globalPos, float shrink, ActiveSide activeSides = (ActiveSide)15)
         {
             if (boundInfo == null) { return true; }
             switch (boundInfo->form)
@@ -75,8 +83,11 @@ namespace Blastula
                 default:
                     Vector2 tl = boundInfo->center - boundInfo->extent + shrink * Vector2.One;
                     Vector2 br = boundInfo->center + boundInfo->extent - shrink * Vector2.One;
-                    return Mathf.Clamp(globalPos.X, tl.X, br.X) == globalPos.X
-                        && Mathf.Clamp(globalPos.Y, tl.Y, br.Y) == globalPos.Y;
+                    if ((activeSides & ActiveSide.Left) != 0 && globalPos.X < tl.X) { return false; }
+                    if ((activeSides & ActiveSide.Right) != 0 && globalPos.X > br.X) { return false; }
+                    if ((activeSides & ActiveSide.Top) != 0 && globalPos.Y < tl.Y) { return false; }
+                    if ((activeSides & ActiveSide.Bottom) != 0 && globalPos.Y > br.Y) { return false; }
+                    return true;
                 case Form.Circle:
                     Vector2 dif = globalPos - boundInfo->center;
                     float maxRadius = Mathf.Max(0, 0.5f * boundInfo->size.X - shrink);
@@ -90,7 +101,7 @@ namespace Blastula
         /// <param name="shrink">Pretend the boundary is smaller than it really is, by shrinking this number of units in all directions.
         /// We can also pretend the boundary is larger when this parameter is negative.
         /// </param>
-        public static Vector2 Clamp(LowLevelInfo* boundInfo, Vector2 globalPos, float shrink)
+        public static Vector2 Clamp(LowLevelInfo* boundInfo, Vector2 globalPos, float shrink, ActiveSide activeSides = (ActiveSide)15)
         {
             if (boundInfo == null) { return globalPos; }
             switch (boundInfo->form)
@@ -99,6 +110,10 @@ namespace Blastula
                 default:
                     Vector2 tl = boundInfo->center - boundInfo->extent + shrink * Vector2.One;
                     Vector2 br = boundInfo->center + boundInfo->extent - shrink * Vector2.One;
+                    if ((activeSides & ActiveSide.Left) == 0) { tl = new Vector2(float.NegativeInfinity, tl.Y); }
+                    if ((activeSides & ActiveSide.Right) == 0) { br = new Vector2(float.PositiveInfinity, br.Y); }
+                    if ((activeSides & ActiveSide.Top) == 0) { tl = new Vector2(tl.X, float.NegativeInfinity); }
+                    if ((activeSides & ActiveSide.Bottom) == 0) { br = new Vector2(br.X, float.PositiveInfinity); }
                     return new Vector2(
                         Mathf.Clamp(globalPos.X, tl.X, br.X),
                         Mathf.Clamp(globalPos.Y, tl.Y, br.Y)
@@ -166,7 +181,7 @@ namespace Blastula
         /// <param name="reflectPerpendicular">
         /// If true, it will bounce directly away from the wall, instead of the natural reflection direction.
         /// </param>
-        public static ReflectData Reflect(LowLevelInfo* boundInfo, ReflectData rdIn, float shrink, bool reflectPerpendicular)
+        public static ReflectData Reflect(LowLevelInfo* boundInfo, ReflectData rdIn, float shrink, bool reflectPerpendicular, ActiveSide activeSides = (ActiveSide)15)
         {
             if (boundInfo == null) { return rdIn; }
             switch (boundInfo->form)
@@ -178,25 +193,25 @@ namespace Blastula
                         Vector2 br = boundInfo->center + boundInfo->extent - shrink * Vector2.One;
                         float reflectedRotation = rdIn.rotation;
                         Vector2 reflectedPos = rdIn.globalPosition;
-                        if (reflectedPos.X < tl.X)
+                        if ((activeSides & ActiveSide.Left) != 0 && reflectedPos.X < tl.X)
                         {
                             reflectedRotation = reflectPerpendicular ? 0 : (Mathf.Pi - reflectedRotation);
                             float excess = tl.X - reflectedPos.X;
                             reflectedPos += new Vector2(2 * excess, 0);
                         }
-                        if (reflectedPos.X > br.X)
+                        if ((activeSides & ActiveSide.Right) != 0 && reflectedPos.X > br.X)
                         {
                             reflectedRotation = reflectPerpendicular ? (-Mathf.Pi) : (Mathf.Pi - reflectedRotation);
                             float excess = reflectedPos.X - br.X;
                             reflectedPos -= new Vector2(2 * excess, 0);
                         }
-                        if (reflectedPos.Y < tl.Y)
+                        if ((activeSides & ActiveSide.Top) != 0 && reflectedPos.Y < tl.Y)
                         {
                             reflectedRotation = reflectPerpendicular ? (0.5f * Mathf.Pi) : (-reflectedRotation);
                             float excess = tl.Y - reflectedPos.Y;
                             reflectedPos += new Vector2(0, 2 * excess);
                         }
-                        if (reflectedPos.Y > br.Y)
+                        if ((activeSides & ActiveSide.Bottom) != 0 && reflectedPos.Y > br.Y)
                         {
                             reflectedRotation = reflectPerpendicular ? (-0.5f * Mathf.Pi) : (-reflectedRotation);
                             float excess = reflectedPos.Y - br.Y;

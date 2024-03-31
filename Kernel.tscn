@@ -1,4 +1,4 @@
-[gd_scene load_steps=119 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=123 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -51,9 +51,12 @@
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/InvColoredSpin.gdshader" id="38_uld8k"]
 [ext_resource type="Texture2D" uid="uid://d1hy605bgvcbs" path="res://addons/Blastula/Graphics/Bullets/starBig.png" id="39_o0qo0"]
 [ext_resource type="Texture2D" uid="uid://cxubm6gatru8e" path="res://addons/Blastula/Graphics/Bullets/teardrop.png" id="40_7pce2"]
+[ext_resource type="Texture2D" uid="uid://8a2kk8vb4l0l" path="res://addons/Blastula/Graphics/Collectibles/point.png" id="48_hga65"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/LaserRendererManager.cs" id="48_k35cx"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Collectible.gdshader" id="49_hetvq"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/ParticleEffectPool.cs" id="50_eyr8l"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/InputManager.cs" id="50_fax0d"]
+[ext_resource type="Texture2D" uid="uid://dtfx7la3l3xpt" path="res://addons/Blastula/Graphics/Collectibles/power.png" id="50_y2uyf"]
 [ext_resource type="PackedScene" uid="uid://htuij3trjfo5" path="res://addons/Blastula/Graphics/ExplodeMedium.tscn" id="51_njfs0"]
 [ext_resource type="Script" path="res://addons/Blastula/Sounds/Music.cs" id="52_l68ss"]
 [ext_resource type="Script" path="res://addons/Blastula/Sounds/CommonSFXManager.cs" id="53_22pks"]
@@ -271,6 +274,11 @@ shader_parameter/speed = 180.0
 shader = ExtResource("38_uld8k")
 shader_parameter/tint = Vector4(1, 0, 0, 1)
 shader_parameter/speed = -360.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_of2ja"]
+shader = ExtResource("49_hetvq")
+shader_parameter/screen_top = -448.0
+shader_parameter/graphic_half_height = 16.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fnutg"]
 shader = ExtResource("13_fjrpc")
@@ -790,6 +798,26 @@ material = SubResource("ShaderMaterial_462aa")
 zIndex = -100
 collisionSize = Vector2(20, 0)
 
+[node name="Collectible" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root"]
+
+[node name="Point" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Collectible"]
+script = ExtResource("10_gun14")
+texture = ExtResource("48_hga65")
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_of2ja")
+unrotatedGraphic = true
+zIndex = -80
+collisionSize = Vector2(32, 0)
+
+[node name="Power" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Collectible"]
+script = ExtResource("10_gun14")
+texture = ExtResource("50_y2uyf")
+size = Vector2(32, 32)
+material = SubResource("ShaderMaterial_of2ja")
+unrotatedGraphic = true
+zIndex = -80
+collisionSize = Vector2(32, 0)
+
 [node name="Mesh Container" type="Node" parent="Rendering/Bullet Renderer Manager"]
 
 [node name="Sample" type="MultiMeshInstance2D" parent="Rendering/Bullet Renderer Manager/Mesh Container"]
@@ -1057,26 +1085,35 @@ duration = "196"
 endWhenChildrenComplete = false
 shouldUseTimer = true
 
-[node name="Bonus" type="Node" parent="."]
+[node name="Game Logic" type="Node" parent="."]
 
-[node name="Graze Lines" type="Node2D" parent="Bonus"]
+[node name="Graze Lines" type="Node2D" parent="Game Logic"]
 script = ExtResource("62_deiuq")
 
-[node name="Line" type="Line2D" parent="Bonus/Graze Lines"]
+[node name="Line" type="Line2D" parent="Game Logic/Graze Lines"]
 z_index = 20
 points = PackedVector2Array(-8000, 0, -8000, 0)
 width = 4.0
 default_color = Color(1, 1, 1, 0)
 
-[node name="Primordial Disc" type="Node2D" parent="."]
+[node name="Primordial Disc" type="Node2D" parent="Game Logic"]
 editor_description = "This allows bullets to continue having behavior when their disc is deleted."
 position = Vector2(0, -200)
 rotation = 1.5708
 script = ExtResource("26_yhurp")
 
-[node name="Gravity Field" type="Node2D" parent="."]
+[node name="Gravity Field" type="Node2D" parent="Game Logic"]
 rotation = 1.5708
 script = ExtResource("77_lsfay")
 shape = 0
 strength = SubResource("Curve_an4kv")
 channel = "Gravity"
+
+[node name="Collectible Manager" type="Node" parent="Game Logic"]
+
+[node name="Collectible Disc" type="Node2D" parent="Game Logic/Collectible Manager"]
+editor_description = "This drives and contains collectible bullets."
+position = Vector2(0, -200)
+rotation = 1.5708
+script = ExtResource("26_yhurp")
+ID = "Collectibles"

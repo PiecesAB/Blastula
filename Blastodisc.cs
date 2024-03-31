@@ -37,15 +37,20 @@ namespace Blastula
             /// </summary>
             ClearMyBullets,
             /// <summary>
-            /// The bullet structures of all Blastodiscs are cleared.
+            /// The bullet structures of all Blastodiscs with the same ID as this one are cleared.
             /// </summary>
-            /// <remarks>
-            /// This includes collectibles and player shots, which is strange.
-            /// More granular deletion will be implemented soon.
-            /// </remarks>
             ClearAllBullets
         }
 
+        /// <summary>
+        /// Globally identify this Blastodisc, or give it a category, 
+        /// to label what type of bullets it will shoot.
+        /// </summary>
+        /// <example>
+        /// You can give enemy shot discs the same category, to allow all enemy bullets to be deleted at once,
+        /// while also keeping collectibles and player shots in play.
+        /// </example>
+        [Export] public string ID = "";
         [Export] public bool enabled = true;
         /// <summary>
         /// This schedule begins once the Blastodisc is enabled.
@@ -99,11 +104,11 @@ namespace Blastula
         private float[] renderBuffer = new float[0];
 
         /// <summary>
-        /// How many bullets to wait until a Blastodisc's master node is refreshed?
-        /// Too long = the queue's tail can get long, taking up lots of space.
-        /// Too short = the queue's head can be far in the front, taking up lots of space.
+        /// How many bullets to wait until a Blastodisc's master node is refreshed?<br />
+        /// + Too long = the queue's tail can get long, taking up lots of space.<br />
+        /// + Too short = the master structures will be updated very frequently, hurting performance.
         /// </summary>
-        private int refreshMasterNodeCount = 500;
+        private int refreshMasterNodeCount = 800;
         private int lastRefreshHead = 0;
         private bool scheduleBegan = false;
 
@@ -112,15 +117,21 @@ namespace Blastula
         /// </summary>
         public static HashSet<Blastodisc> all = new HashSet<Blastodisc>();
         /// <summary>
+        /// References all Blastodiscs that exist within each ID.
+        /// </summary>
+        public static Dictionary<string, HashSet<Blastodisc>> allByID = new Dictionary<string, HashSet<Blastodisc>>();
+        /// <summary>
         /// This must be the first blastodisc that exists, and is within the kernel.
         /// It exists so that when a blastodisc is deleted, there is still a way to handle its bullets.
         /// </summary>
-        public static Blastodisc primordial = null;
+        public static Blastodisc primordial { get; set; } = null;
 
         public override void _Ready()
         {
             all.Add(this);
             if (primordial == null) { primordial = this; }
+            if (!allByID.ContainsKey(ID)) { allByID[ID] = new HashSet<Blastodisc>(); }
+            allByID[ID].Add(this);
             myCurrentFrame = 0;
         }
 
@@ -252,10 +263,11 @@ namespace Blastula
                     ClearBullets();
                     break;
                 case DeleteAction.ClearAllBullets:
-                    ClearBulletsForAll();
+                    ClearBulletsForAll(ID);
                     break;
             }
             all.Remove(this);
+            if (allByID.ContainsKey(ID)) { allByID[ID].Remove(this); }
         }
 
         private void UpdateMasterStructure()
@@ -325,15 +337,12 @@ namespace Blastula
         }
 
         /// <summary>
-        /// Deletes all bullets associated with all Blastodiscs, which should be every bullet in the game.
+        /// Deletes all bullets associated with Blastodiscs of the same ID.
         /// </summary>
-        /// <remarks>
-        /// This includes collectibles and player shots, which is strange.
-        /// More granular deletion will be implemented soon.
-        /// </remarks>
-        public static void ClearBulletsForAll()
+        public static void ClearBulletsForAll(string ID)
         {
-            foreach (Blastodisc bd in all)
+            if (!allByID.ContainsKey(ID)) { return; }
+            foreach (Blastodisc bd in allByID[ID])
             {
                 bd.ClearBullets();
             }

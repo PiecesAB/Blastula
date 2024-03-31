@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=63 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="3_yi7x3"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="4_5jpkg"]
@@ -24,24 +24,17 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Circle.cs" id="18_xfnro"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Forth.cs" id="19_q6ebi"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="19_ux787"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Comment.cs" id="20_5nn2b"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Lifespan.cs" id="21_1t60j"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Morph.cs" id="21_4k8tc"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Shift.cs" id="26_yrirr"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Variables/SetVar.cs" id="27_c8yub"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="28_bciwx"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Reference.cs" id="30_i7w6n"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Aim.cs" id="31_ikkrr"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Connect.cs" id="32_q3ddi"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Adapt.cs" id="33_pbps6"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/TimeStretch.cs" id="33_y07ts"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/ForEachChild.cs" id="34_3b0t0"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Shuffle.cs" id="34_urxjm"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ClearBehaviors.cs" id="37_2alt6"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Scrimble.cs" id="37_218jv"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Follow.cs" id="38_8cy6s"]
 [ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/Session/Player/BasicPlayer.tscn" id="38_tvlm6"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Spin.cs" id="39_n27mx"]
 [ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/BasicEnemy.tscn" id="41_3fr6s"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetMultimeshExtraData.cs" id="41_rxobj"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="41_v4q22"]
@@ -117,14 +110,6 @@ bg_color = Color(0, 0, 0, 1)
 content_margin_left = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
-
-[sub_resource type="Curve" id="Curve_ij8ng"]
-_data = [Vector2(0, 0.504369), 0.0, -0.504369, 0, 1, Vector2(1, 0), -0.504369, 0.0, 1, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_tcygc"]
-_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
-point_count = 2
 
 [sub_resource type="Curve2D" id="Curve2D_sn1b5"]
 _data = {
@@ -727,320 +712,11 @@ script = ExtResource("11_vax73")
 ID = "Main"
 inheritSize = NodePath("../Rendering Zone/MainViewHolder")
 
-[node name="Meiling first nonspell clone" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
-position = Vector2(0, -200)
-rotation = 1.5708
-script = ExtResource("12_7eb1c")
-enabled = false
-mainSchedule = NodePath("Main schedule")
-
-[node name="Shoot circle" type="Node" parent="Meiling first nonspell clone"]
-script = ExtResource("13_pixf2")
-
-[node name="Need to define \'rot\' = rotation, \'c\' = cycles complete" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
-script = ExtResource("20_5nn2b")
-
-[node name="Every five shots" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
-script = ExtResource("13_pixf2")
-execute = "shot_count % 5 == 0"
-
-[node name="Create single3" type="Node" parent="Meiling first nonspell clone/Shoot circle/Every five shots"]
-script = ExtResource("14_alnw1")
-
-[node name="Every other shot" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
-script = ExtResource("13_pixf2")
-execute = "shot_count % 5 != 0"
-
-[node name="Create single3" type="Node" parent="Meiling first nonspell clone/Shoot circle/Every other shot"]
-script = ExtResource("14_alnw1")
-renderName = "Crystal/Red"
-
-[node name="Add mist" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
-script = ExtResource("21_4k8tc")
-appearance = "Mist/Big"
-throttle = 0.0
-
-[node name="Move forward" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
-script = ExtResource("19_q6ebi")
-speed = "300"
-
-[node name="Every five shots 2" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
-script = ExtResource("13_pixf2")
-execute = "shot_count % 5 == 0"
-
-[node name="Laser" type="Node" parent="Meiling first nonspell clone/Shoot circle/Every five shots 2"]
-script = ExtResource("42_omkvy")
-frameDelay = "4"
-laserRenderName = "Orb/Red"
-
-[node name="Make a circle" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
-script = ExtResource("18_xfnro")
-radius = "0"
-number = "min(8 + c, 12)"
-
-[node name="Rotate by \'rot\'" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
-script = ExtResource("26_yrirr")
-
-[node name="Set lifespan" type="Node" parent="Meiling first nonspell clone/Shoot circle"]
-script = ExtResource("21_1t60j")
-duration = "450"
-
-[node name="Main schedule" type="Node" parent="Meiling first nonspell clone"]
-script = ExtResource("19_ux787")
-cycleCount = "1"
-
-[node name="Set dir to 1" type="Node" parent="Meiling first nonspell clone/Main schedule"]
-script = ExtResource("27_c8yub")
-varName = "dir"
-newValue = "1"
-
-[node name="BBaseOperation" type="Node" parent="Meiling first nonspell clone/Main schedule/Set dir to 1"]
-
-[node name="Main cycle" type="Node" parent="Meiling first nonspell clone/Main schedule"]
-script = ExtResource("19_ux787")
-completedCyclesVariableName = "c"
-
-[node name="Reverse dir (multiply by -1)" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle"]
-script = ExtResource("27_c8yub")
-varName = "dir"
-newValue = "-dir"
-
-[node name="Set rot to random angle" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle"]
-script = ExtResource("27_c8yub")
-varName = "rot"
-newValue = "randf() * 360"
-
-[node name="Ordered phase" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle"]
-script = ExtResource("19_ux787")
-cycleCount = "20"
-
-[node name="Change rot by a small amount" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Ordered phase"]
-script = ExtResource("27_c8yub")
-varName = "rot"
-newValue = "6 * dir + rot"
-
-[node name="Play sound" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Ordered phase"]
-script = ExtResource("42_4nwql")
-commonSFXName = "Enemy/Shot1"
-
-[node name="Shoot Circle" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Ordered phase" node_paths=PackedStringArray("other")]
-script = ExtResource("30_i7w6n")
-other = NodePath("../../../../Shoot circle")
-
-[node name="Wait" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Ordered phase"]
-script = ExtResource("28_bciwx")
-waitTime = "0.1"
-
-[node name="Random phase" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle"]
-script = ExtResource("19_ux787")
-cycleCount = "6"
-
-[node name="Set rot to random angle" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Random phase"]
-script = ExtResource("27_c8yub")
-varName = "rot"
-newValue = "randf() * 360"
-
-[node name="Play sound" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Random phase"]
-script = ExtResource("42_4nwql")
-commonSFXName = "Enemy/Shine"
-
-[node name="Shoot Circle" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Random phase" node_paths=PackedStringArray("other")]
-script = ExtResource("30_i7w6n")
-other = NodePath("../../../../Shoot circle")
-
-[node name="Wait" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle/Random phase"]
-script = ExtResource("28_bciwx")
-waitTime = "0.1"
-
-[node name="Wait longer" type="Node" parent="Meiling first nonspell clone/Main schedule/Main cycle"]
-script = ExtResource("28_bciwx")
-waitTime = "3"
-
-[node name="Sanae midboss nonspell clone" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
-position = Vector2(0, -200)
-rotation = -1.5708
-script = ExtResource("12_7eb1c")
-enabled = false
-mainSchedule = NodePath("Main schedule")
-
-[node name="Main schedule" type="Node" parent="Sanae midboss nonspell clone"]
-script = ExtResource("19_ux787")
-
-[node name="Begin Phase 1" type="Node" parent="Sanae midboss nonspell clone/Main schedule" node_paths=PackedStringArray("other")]
-script = ExtResource("30_i7w6n")
-other = NodePath("../../Phase 1 - Draw five stars")
-
-[node name="Wait" type="Node" parent="Sanae midboss nonspell clone/Main schedule"]
-script = ExtResource("28_bciwx")
-waitTime = "10"
-
-[node name="Phase 1 - Draw five stars" type="Node" parent="Sanae midboss nonspell clone"]
-script = ExtResource("13_pixf2")
-
-[node name="Create single" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars"]
-script = ExtResource("14_alnw1")
-renderName = "Pellet/Gray"
-
-[node name="Make a star with separate lines" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars"]
-script = ExtResource("13_pixf2")
-
-[node name="Five points" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Make a star with separate lines"]
-script = ExtResource("18_xfnro")
-radius = "160"
-number = "5"
-
-[node name="Star order" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Make a star with separate lines"]
-script = ExtResource("34_urxjm")
-n = "2"
-
-[node name="Connect the points" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Make a star with separate lines"]
-script = ExtResource("32_q3ddi")
-structure = 1
-number = "21"
-circular = true
-
-[node name="Draw it" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars"]
-script = ExtResource("13_pixf2")
-
-[node name="For each line" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Draw it"]
-script = ExtResource("34_3b0t0")
-progressVariable = ""
-countVariable = "u"
-
-[node name="For each bullet" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Draw it/For each line"]
-script = ExtResource("34_3b0t0")
-progressVariable = ""
-countVariable = "v"
-
-[node name="Delay" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Draw it/For each line/For each bullet"]
-script = ExtResource("21_4k8tc")
-appearance = ""
-duration = "20 * u + v"
-scaleMultiplier = 1.0
-throttle = 1.0
-
-[node name="Mist" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Draw it/For each line/For each bullet"]
-script = ExtResource("21_4k8tc")
-throttle = 1.0
-
-[node name="Rotate line containers away from center" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars/Draw it/For each line"]
-script = ExtResource("26_yrirr")
-childPlacement = 1
-
-[node name="Circle of 5" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars"]
-script = ExtResource("18_xfnro")
-radius = "0"
-number = "5"
-rotationMode = 1
-
-[node name="Aim at the player" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars"]
-script = ExtResource("31_ikkrr")
-
-[node name="Set lifespan" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars"]
-script = ExtResource("21_1t60j")
-duration = "1200"
-
-[node name="Perform phase 2 in a bit" type="Node" parent="Sanae midboss nonspell clone/Phase 1 - Draw five stars" node_paths=PackedStringArray("operation")]
-script = ExtResource("33_pbps6")
-operation = NodePath("../../Phase 2 - Move the stars outward")
-
-[node name="Phase 2 - Move the stars outward" type="Node" parent="Sanae midboss nonspell clone"]
-script = ExtResource("13_pixf2")
-
-[node name="For each star" type="Node" parent="Sanae midboss nonspell clone/Phase 2 - Move the stars outward"]
-script = ExtResource("34_3b0t0")
-progressVariable = ""
-
-[node name="Perform phase 3 in a bit (on each star)" type="Node" parent="Sanae midboss nonspell clone/Phase 2 - Move the stars outward/For each star" node_paths=PackedStringArray("operation")]
-script = ExtResource("33_pbps6")
-operation = NodePath("../../../Phase 3 - Each star\'s lines contract")
-
-[node name="Slow to a stop" type="Node" parent="Sanae midboss nonspell clone/Phase 2 - Move the stars outward/For each star"]
-script = ExtResource("33_y07ts")
-curve = SubResource("Curve_ij8ng")
-endTime = "120"
-
-[node name="Move forth" type="Node" parent="Sanae midboss nonspell clone/Phase 2 - Move the stars outward/For each star"]
-script = ExtResource("19_q6ebi")
-speed = "500"
-
-[node name="Phase 3 - Each star\'s lines contract" type="Node" parent="Sanae midboss nonspell clone"]
-script = ExtResource("13_pixf2")
-
-[node name="Clear behaviors" type="Node" parent="Sanae midboss nonspell clone/Phase 3 - Each star\'s lines contract"]
-script = ExtResource("37_2alt6")
-
-[node name="For each line in this star" type="Node" parent="Sanae midboss nonspell clone/Phase 3 - Each star\'s lines contract"]
-script = ExtResource("34_3b0t0")
-progressVariable = ""
-
-[node name="Add spread" type="Node" parent="Sanae midboss nonspell clone/Phase 3 - Each star\'s lines contract/For each line in this star"]
-script = ExtResource("37_218jv")
-startRadius = "0"
-endRadius = "0"
-startAngle = "135"
-endAngle = "-135"
-number = "21"
-shapingMode = 1
-transformOrder = 1
-
-[node name="For each bullet" type="Node" parent="Sanae midboss nonspell clone/Phase 3 - Each star\'s lines contract/For each line in this star"]
-script = ExtResource("34_3b0t0")
-progressVariable = ""
-
-[node name="Accelerate" type="Node" parent="Sanae midboss nonspell clone/Phase 3 - Each star\'s lines contract/For each line in this star/For each bullet"]
-script = ExtResource("33_y07ts")
-curve = SubResource("Curve_tcygc")
-
-[node name="Move forth" type="Node" parent="Sanae midboss nonspell clone/Phase 3 - Each star\'s lines contract/For each line in this star/For each bullet"]
-script = ExtResource("19_q6ebi")
-speed = "120"
-
-[node name="Follow test" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
-position = Vector2(0, -200)
-rotation = 1.5708
-script = ExtResource("12_7eb1c")
-enabled = false
-mainSchedule = NodePath("Main schedule")
-
-[node name="Shoot circle" type="Node" parent="Follow test"]
-script = ExtResource("13_pixf2")
-
-[node name="Create single" type="Node" parent="Follow test/Shoot circle"]
-script = ExtResource("14_alnw1")
-renderName = "Pellet/White"
-
-[node name="Create single3" type="Node" parent="Follow test/Shoot circle"]
-script = ExtResource("18_xfnro")
-number = "2"
-
-[node name="Create single4" type="Node" parent="Follow test/Shoot circle"]
-script = ExtResource("39_n27mx")
-speed = "180"
-
-[node name="Create single2" type="Node" parent="Follow test/Shoot circle"]
-script = ExtResource("38_8cy6s")
-
-[node name="Set lifespan" type="Node" parent="Follow test/Shoot circle"]
-script = ExtResource("21_1t60j")
-duration = "10000"
-
-[node name="Main schedule" type="Node" parent="Follow test"]
-script = ExtResource("19_ux787")
-
-[node name="Shoot Circle" type="Node" parent="Follow test/Main schedule" node_paths=PackedStringArray("other")]
-script = ExtResource("30_i7w6n")
-other = NodePath("../../Shoot circle")
-
-[node name="Wait longer" type="Node" parent="Follow test/Main schedule"]
-script = ExtResource("28_bciwx")
-waitTime = "10000"
-units = 1
-
 [node name="Sanae midboss nonspell clone2" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
 position = Vector2(0, -136)
 rotation = -1.5708
 script = ExtResource("12_7eb1c")
+ID = "Enemy"
 enabled = false
 mainSchedule = NodePath("Main schedule")
 
@@ -1058,6 +734,7 @@ lowHealthCutoff = 100.0
 [node name="Mind Shaker clone" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 position = Vector2(1000, 0)
 script = ExtResource("12_7eb1c")
+ID = "Enemy"
 enabled = false
 mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("Cleanup")
@@ -1294,6 +971,7 @@ environment = 1
 
 [node name="Lightning" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("12_7eb1c")
+ID = "Enemy"
 enabled = false
 mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
@@ -1311,6 +989,7 @@ remain = "2"
 position = Vector2(0, -200)
 rotation = 30.0
 script = ExtResource("26_yrirr")
+myRotation = "45"
 
 [node name="Slow" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
 position = Vector2(0, -200)
@@ -1335,6 +1014,7 @@ remain = "2"
 position = Vector2(0, -200)
 rotation = -30.0
 script = ExtResource("26_yrirr")
+myRotation = "-45"
 
 [node name="Slow" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
 position = Vector2(0, -200)
@@ -1402,6 +1082,7 @@ script = ExtResource("28_bciwx")
 
 [node name="overlap test" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("12_7eb1c")
+ID = "Enemy"
 enabled = false
 mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
@@ -1526,57 +1207,18 @@ commonSFXName = "Enemy/Shot1"
 [node name="Wait6" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
 script = ExtResource("28_bciwx")
 
-[node name="Proximity test" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+[node name="misc test" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("12_7eb1c")
+ID = "Enemy"
 enabled = false
 mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
-deleteAction = 1
-
-[node name="Main Loop" type="Node2D" parent="BasicEnemy/Proximity test"]
-script = ExtResource("19_ux787")
-
-[node name="Make the it" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop"]
-script = ExtResource("13_pixf2")
-
-[node name="Start" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
-script = ExtResource("14_alnw1")
-renderName = "Orb/Red"
-
-[node name="Forth" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
-script = ExtResource("19_q6ebi")
-speed = "160"
-
-[node name="Wind blow" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
-script = ExtResource("55_q7wj3")
-
-[node name="Circle" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
-script = ExtResource("18_xfnro")
-radius = "0"
-number = "1440"
-
-[node name="Lifespan" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
-script = ExtResource("21_1t60j")
-deletionEffect = true
-
-[node name="Shot Sound" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop/Make the it"]
-script = ExtResource("42_4nwql")
-commonSFXName = "Enemy/Shot1"
-
-[node name="Wait6" type="Node2D" parent="BasicEnemy/Proximity test/Main Loop"]
-script = ExtResource("28_bciwx")
-waitTime = "1.5"
-
-[node name="misc test" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
-script = ExtResource("12_7eb1c")
-mainSchedule = NodePath("Main Loop")
-cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
-deleteAction = 1
+deleteAction = 2
 
 [node name="del bound" type="Node2D" parent="BasicEnemy/misc test"]
 script = ExtResource("56_e612s")
-specialAction = 3
 boundaryID = "Main"
+specialAction = 3
 shrink = -80.0
 
 [node name="Main Loop" type="Node2D" parent="BasicEnemy/misc test"]
@@ -1621,3 +1263,52 @@ commonSFXName = "Enemy/Shot1"
 script = ExtResource("28_bciwx")
 waitTime = "[2, 420][max(0, (shot_count % 50) - 48)]"
 units = 1
+
+[node name="collect" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+script = ExtResource("12_7eb1c")
+ID = "Collectibles"
+mainSchedule = NodePath("Main Loop")
+cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
+deleteAction = 2
+
+[node name="Main Loop" type="Node2D" parent="BasicEnemy/collect"]
+script = ExtResource("19_ux787")
+
+[node name="Emerge from point" type="Node2D" parent="BasicEnemy/collect/Main Loop"]
+script = ExtResource("13_pixf2")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/collect/Main Loop/Emerge from point"]
+script = ExtResource("14_alnw1")
+renderName = "Collectible/Power"
+collisionLayerName = "Collectible"
+sleepyCollision = false
+
+[node name="Start3" type="Node2D" parent="BasicEnemy/collect/Main Loop/Emerge from point"]
+script = ExtResource("26_yrirr")
+myRotation = "randf_range(-80, -100)"
+
+[node name="Lifespan2" type="Node2D" parent="BasicEnemy/collect/Main Loop/Emerge from point"]
+script = ExtResource("56_e612s")
+boundaryID = "Main"
+specialAction = 3
+activeSides = 8
+shrink = -48.0
+
+[node name="Start2" type="Node2D" parent="BasicEnemy/collect/Main Loop/Emerge from point"]
+script = ExtResource("55_q7wj3")
+channel = "Gravity"
+maxSpeed = "500"
+initialSpeed = "500"
+rotateToMatchMovement = false
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/collect/Main Loop/Emerge from point"]
+script = ExtResource("21_1t60j")
+duration = "20"
+units = 0
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/collect/Main Loop/Emerge from point"]
+script = ExtResource("42_4nwql")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Wait6" type="Node2D" parent="BasicEnemy/collect/Main Loop"]
+script = ExtResource("28_bciwx")

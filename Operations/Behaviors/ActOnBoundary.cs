@@ -1,6 +1,7 @@
 using Blastula.LowLevel;
 using Blastula.VirtualVariables;
 using Godot;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Blastula.Operations
@@ -22,17 +23,21 @@ namespace Blastula.Operations
         }
 
         /// <summary>
-        /// Choose a special boundary-specific interaction.
-        /// </summary>
-        [Export] public SpecialAction specialAction = SpecialAction.Reflect;
-        /// <summary>
         /// The boundary's name.
         /// </summary>
         [Export] public string boundaryID;
         /// <summary>
+        /// Choose a special boundary-specific interaction.
+        /// </summary>
+        [Export] public SpecialAction specialAction = SpecialAction.Reflect;
+        /// <summary>
         /// Delayed operation to perform as soon as the final hit occurs.
         /// </summary>
         [Export] public BaseOperation operation;
+        /// <summary>
+        /// If the boundary is rectangular, choose which sides cause actions.
+        /// </summary>
+        [Export] public Boundary.ActiveSide activeSides = (Boundary.ActiveSide)15;
         /// <summary>
         /// The number of hits to execute with this boundary.
         /// </summary>
@@ -55,6 +60,7 @@ namespace Blastula.Operations
             public int hitsRemaining;
             public long opID;
             public float shrink;
+            public Boundary.ActiveSide activeSides;
             public bool reflectPerpendicular;
             public bool deletionQueued;
         }
@@ -68,7 +74,7 @@ namespace Blastula.Operations
                 return new BehaviorReceipt(); 
             }
             Transform2D oldGlobalTransform = BulletWorldTransforms.Get(nodeIndex);
-            if (Boundary.IsWithin(data->boundInfo, oldGlobalTransform.Origin, data->shrink)) 
+            if (Boundary.IsWithin(data->boundInfo, oldGlobalTransform.Origin, data->shrink, data->activeSides)) 
             { 
                 return new BehaviorReceipt(); 
             }
@@ -80,7 +86,7 @@ namespace Blastula.Operations
             {
                 case SpecialAction.None:
                 default:
-                    newGlobalTransform.Origin = Boundary.Clamp(data->boundInfo, oldWorldPos, data->shrink);
+                    newGlobalTransform.Origin = Boundary.Clamp(data->boundInfo, oldWorldPos, data->shrink, data->activeSides);
                     break;
                 case SpecialAction.Wrap:
                     newGlobalTransform.Origin = Boundary.Wrap(data->boundInfo, oldWorldPos, data->shrink);
@@ -90,7 +96,7 @@ namespace Blastula.Operations
                     Boundary.ReflectData rdOut = Boundary.Reflect(
                         data->boundInfo,
                         new Boundary.ReflectData { globalPosition = oldWorldPos, rotation = oldRotation },
-                        data->shrink, data->reflectPerpendicular
+                        data->shrink, data->reflectPerpendicular, data->activeSides
                     );
                     newGlobalTransform.Origin = rdOut.globalPosition;
                     newGlobalTransform = newGlobalTransform.RotatedLocal(rdOut.rotation - oldRotation);
@@ -132,6 +138,7 @@ namespace Blastula.Operations
             dataPtr->hitsRemaining = Solve("hits").AsInt32();
             dataPtr->opID = operation?.GetOperationID() ?? -1;
             dataPtr->shrink = shrink;
+            dataPtr->activeSides = activeSides;
             dataPtr->reflectPerpendicular = reflectPerpendicular;
             dataPtr->deletionQueued = false;
             return new BehaviorOrder() { data = dataPtr, dataSize = sizeof(Data), func = &Execute };

@@ -35,7 +35,7 @@ public partial class BlastulaPlugin : EditorPlugin
         ProjectSettings.SetSetting("display/window/size/viewport_height", 960);
         ProjectSettings.SetSetting("display/window/stretch/mode", "canvas_items");
         ProjectSettings.SetSetting("display/window/stretch/aspect", "keep_height");
-        // Editor-only STAGE_TIME existence so shader compilation doesn't complain.
+        // Editor-only shader globals existence, so shader compilation doesn't complain.
         // In game, it is created using BulletRendererManager.
         RenderingServer.GlobalShaderParameterAdd(BulletRendererManager.STAGE_TIME_NAME, RenderingServer.GlobalShaderParameterType.Float, 0);
     }

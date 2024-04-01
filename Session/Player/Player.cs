@@ -61,8 +61,28 @@ namespace Blastula
         [Export] public BlastulaCollider attractbox;
         /// <summary>
         /// Above this Y position, the player will attract all collectibles by making the attractbox extremely large.
+        /// Point items will also be worth their full value.
         /// </summary>
         [Export] public float itemGetHeight = -150;
+        /// <summary>
+        /// The full point item value per difficulty.
+        /// </summary>
+        [Export] public double[] pointItemFullValues = new double[5] { 100000, 100000, 150000, 200000, 400000 };
+        /// <summary>
+        /// The fraction of point item value which is lost when items are collected immediately below the item get height.
+        /// </summary
+        /// <example>
+        /// If this is 0.3, then 30% of value is lost immediately below the item get height.
+        /// </example>
+        [Export] public float pointItemValueCut = 0.3f;
+        /// <summary>
+        /// The fraction of point item value which is lost exponentially, for every 100 units below the item get height.
+        /// </summary>
+        /// <example>
+        /// If pointItemValueCut is 0.3, and this is 0.1, then if the player collects a point item 200 units below the item get height,
+        /// It will only be worth 70% * 90% * 90% = 56.7% of full value.
+        /// </example>
+        [Export] public float pointItemValueRolloff = 0.1f;
         private Vector2 attractboxOriginalSize;
         private string COLLECTIBLE_ATTRACT_SEQUENCE_NAME = "CollectibleAttractPhase";
 
@@ -264,16 +284,23 @@ namespace Blastula
             {
                 if (collider == hurtbox)
                 {
+                    int difIndex = Mathf.Clamp(Session.main.difficulty, 0, pointItemFullValues.Length - 1);
+                    double fullValue = pointItemFullValues[difIndex];
+                    Vector2 bulletWorldPos = BulletWorldTransforms.Get(bNodeIndex).Origin;
+                    CommonSFXManager.PlayByName("Player/Vacuum", 1, 1f, GlobalPosition, true);
                     if (bNodePtr->phase == 3)
                     {
-                        CommonSFXManager.PlayByName("Player/Vacuum", 1, 1f, GlobalPosition, true);
+                        var actualAdded = Session.main.AddScore(fullValue);
+                        ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.Cyan);
                     }
                     else
                     {
-                        CommonSFXManager.PlayByName("Player/Vacuum", 1, 1f, GlobalPosition, true);
+                        double cutValue = fullValue 
+                            * (1.0 - pointItemValueCut) 
+                            * System.Math.Pow(1.0 - pointItemValueRolloff, (GlobalPosition.Y - itemGetHeight) / 100.0);
+                        var actualAdded = Session.main.AddScore(cutValue);
+                        ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.White);
                     }
-                    Session.main.AddScore(1234567890);
-                    
                     PostExecute.ScheduleDeletion(bNodeIndex, false);
                 }
                 else if (collider == attractbox)

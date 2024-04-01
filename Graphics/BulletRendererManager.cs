@@ -38,7 +38,8 @@ namespace Blastula.Graphics
         /// Name of the shader global for stage time in seconds.
         /// </summary>
         /// <remarks>
-        /// This gives more control to sync shader time with game time.
+        /// This gives more control to sync shader time with game time. 
+        /// Notably, it is also unscaled by the game speed.
         /// </remarks>
         public static readonly string STAGE_TIME_NAME = "STAGE_TIME";
         /// <summary>
@@ -103,6 +104,11 @@ namespace Blastula.Graphics
             return multimeshInstancesByID[ID];
         }
 
+        public static float GetStageTimeGlobalValue()
+        {
+            return (float)(FrameCounter.GetStageTime() % STAGE_TIME_ROLLOVER);
+        }
+
         public override void _Ready()
         {
             base._Ready();
@@ -149,12 +155,8 @@ namespace Blastula.Graphics
 
             // Set stageTime global for shaders
             // Loops every three hours... hopefully nobody makes a three hour stage and witnesses the rollover.
-            // Also, for optimization purposes, we're halving the framerate.
-            if (FrameCounter.stageFrame % 2 == 0)
-            {
-                float stageTime = (float)(FrameCounter.GetStageTime() % STAGE_TIME_ROLLOVER);
-                RenderingServer.GlobalShaderParameterSet(STAGE_TIME_NAME, stageTime);
-            }
+            float stageTime = GetStageTimeGlobalValue();
+            RenderingServer.GlobalShaderParameterSet(STAGE_TIME_NAME, stageTime);
 
             if (Debug.StatsViews.currentMode == "timings") { debugTimer.Stop(); }
         }

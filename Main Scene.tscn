@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=68 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_eg8pa"]
 [ext_resource type="Texture2D" uid="uid://bddg1oxe3uvq8" path="res://addons/Blastula/Graphics/UI/overlayIconScore.png" id="2_wj38h"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/Border/ScoreDisplay.cs" id="5_7p6bg"]
 [ext_resource type="Texture2D" uid="uid://dhaplybn1jabj" path="res://addons/Blastula/Graphics/MiscTextures/logo.png" id="5_aloog"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Debug/StatsViews.cs" id="5_djmvm"]
+[ext_resource type="Texture2D" uid="uid://c7xo60lyrebch" path="res://addons/Blastula/Graphics/UI/overlayIconNextExtend.png" id="5_o1av4"]
 [ext_resource type="Texture2D" uid="uid://cmfditw0p7ben" path="res://addons/Blastula/Graphics/UI/overlayIconRecord.png" id="5_rqwef"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/ScreenSetup.cs" id="5_svrfx"]
 [ext_resource type="FontFile" uid="uid://ggirehmyeo2f" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_R.otf" id="7_3d2ai"]
@@ -166,7 +167,7 @@ offset_right = 10.0
 offset_bottom = -392.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.45, 0.5)
 
 [node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/RecordScore"]
 modulate = Color(0.482353, 0.482353, 0.482353, 1)
@@ -176,8 +177,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -372.0
+offset_left = -364.0
 offset_top = -6.0
+offset_right = 1.0
 offset_bottom = 6.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -208,6 +210,65 @@ grow_vertical = 2
 theme_override_fonts/font = ExtResource("10_vystw")
 theme_override_font_sizes/font_size = 44
 text = "5.67801e10"
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="NextExtendScore" type="Control" parent="Rendering Zone/Border/Stats"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 246.0
+offset_top = -448.0
+offset_right = 246.0
+offset_bottom = -392.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.45, 0.5)
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/NextExtendScore"]
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -364.0
+offset_top = -6.0
+offset_right = 1.0
+offset_bottom = 6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_eg8pa")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/NextExtendScore"]
+modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("5_o1av4")
+expand_mode = 1
+
+[node name="Number" type="Label" parent="Rendering Zone/Border/Stats/NextExtendScore"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_vystw")
+theme_override_font_sizes/font_size = 44
+text = "----------"
 horizontal_alignment = 2
 vertical_alignment = 1
 text_overrun_behavior = 1
@@ -730,7 +791,7 @@ vertical_alignment = 2
 
 [node name="PauseMenu" type="ColorRect" parent="Rendering Zone/MainViewHolder"]
 visible = false
-z_index = 200
+z_index = 500
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

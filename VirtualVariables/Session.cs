@@ -119,22 +119,35 @@ namespace Blastula.VirtualVariables
             if (score > maxScore) { score = maxScore; }
         }
 
-        public void AddScore(int amount)
+        /// <summary>Rounds up to the tens place, and adds to the score.</summary>
+        /// <returns>The actual value added.</returns>
+        public BigInteger AddScore(int amount)
         {
+            amount += 10 - amount % 10;
             score += amount;
             ClampScore();
+            return amount;
         }
 
-        public void AddScore(double amount)
+        /// <summary>Rounds up to the tens place, and adds to the score.</summary>
+        /// <returns>The actual value added.</returns>
+        public BigInteger AddScore(double amount)
         {
-            score += new BigInteger(amount);
+            amount = System.Math.Round(amount / 10) * 10;
+            BigInteger bi = new BigInteger(amount);
+            score += bi;
             ClampScore();
+            return bi;
         }
 
-        public void AddScore(BigInteger amount)
+        /// <summary>Rounds up to the tens place, and adds to the score.</summary>
+        /// <returns>The actual value added.</returns>
+        public BigInteger AddScore(BigInteger amount)
         {
+            amount += 10 - amount % 10;
             score += amount;
             ClampScore();
+            return amount;
         }
 
         public static Session main { get; private set; } = null;

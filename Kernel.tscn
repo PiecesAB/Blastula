@@ -1,4 +1,4 @@
-[gd_scene load_steps=140 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=142 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -65,6 +65,8 @@
 [ext_resource type="AudioStream" uid="uid://c77n3g03105ks" path="res://addons/Blastula/Sounds/Enemy/burst.ogg" id="55_ebwm0"]
 [ext_resource type="AudioStream" uid="uid://brfxcimoxoiwv" path="res://addons/Blastula/Sounds/Enemy/enemyShot1.ogg" id="55_jx76w"]
 [ext_resource type="AudioStream" uid="uid://bk550dh4yan7h" path="res://addons/Blastula/Sounds/Enemy/enemyShot2.ogg" id="56_2wipd"]
+[ext_resource type="Script" path="res://addons/Blastula/Graphics/ScorePopupPool.cs" id="56_4xali"]
+[ext_resource type="PackedScene" uid="uid://bc7kctwet5lox" path="res://addons/Blastula/Graphics/ScorePopup.tscn" id="57_2mb1d"]
 [ext_resource type="AudioStream" uid="uid://ma800yc8d8df" path="res://addons/Blastula/Sounds/Enemy/enemyShot3.ogg" id="57_b4lmc"]
 [ext_resource type="AudioStream" uid="uid://c4bcf3o45l5cn" path="res://addons/Blastula/Sounds/Enemy/damaged.ogg" id="57_u6fux"]
 [ext_resource type="AudioStream" uid="uid://c1kb1t7rnsdj8" path="res://addons/Blastula/Sounds/Enemy/shine.ogg" id="58_1pk8q"]
@@ -888,6 +890,10 @@ script = ExtResource("50_eyr8l")
 ID = "ExplodeMedium"
 sample = ExtResource("51_njfs0")
 count = 100
+
+[node name="Score Popup Pool" type="Node" parent="Rendering"]
+script = ExtResource("56_4xali")
+sample = ExtResource("57_2mb1d")
 
 [node name="Input Manager" type="Node" parent="." node_paths=PackedStringArray("buttonsHolder")]
 script = ExtResource("50_fax0d")

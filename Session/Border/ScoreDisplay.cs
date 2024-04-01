@@ -14,14 +14,14 @@ namespace Blastula.Graphics
 
         private BigInteger displayedScore = 0;
 
-        private string GetScoreString(BigInteger bigInteger)
+        private static string GetScoreString(BigInteger bigInteger)
         {
             string raw = bigInteger.ToString();
             if (raw.Length <= 10) { return raw; }
             else { return raw[0] + "." + raw.Substring(1, 5) + "e" + (raw.Length - 1).ToString(); }
         }
 
-        private BigInteger GetIncrement(int length)
+        private static BigInteger GetIncrement(int length)
         {
             return 10 * ((BigInteger.Pow(10, length) / 45) + 1);
         }

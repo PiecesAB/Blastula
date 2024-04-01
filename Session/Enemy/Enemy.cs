@@ -82,6 +82,14 @@ namespace Blastula
         [Export] public bool spawnCollectiblesOnHealthZero = true;
         [Export] public string[] collectibleSpawnNames;
         [Export] public int[] collectibleSpawnAmounts;
+        /// <summary>
+        /// The points obtained for dealing one unit of damage to this enemy.
+        /// </summary>
+        [Export] public double pointsOnDamage = 10;
+        /// <summary>
+        /// The points obtained for destroying this enemy.
+        /// </summary>
+        [Export] public double pointsOnDestroy = 20000;
 
         /// <summary>
         /// The time remaining (in the same units as selfMaxLifespan) until the enemy is destroyed no matter what.
@@ -175,6 +183,7 @@ namespace Blastula
                         {
                             CommonSFXManager.PlayByName("Enemy/DamagedDeep", 1, 1, GlobalPosition, true);
                         }
+                        Session.main.AddScore(pointsOnDamage * usedBulletHealth);
                     }
                 }
                 //GD.Print($"bullet dealt {damageAmount} damage: enemy health is now {health}");
@@ -192,6 +201,8 @@ namespace Blastula
                         }
                         spawnCollectiblesOnHealthZero = false;
                     }
+                    Session.main.AddScore(pointsOnDestroy);
+                    pointsOnDestroy = 0;
                     BecomeDefeated();
                 }
             }

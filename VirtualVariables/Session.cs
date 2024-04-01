@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace Blastula.VirtualVariables
 {
@@ -45,6 +46,19 @@ namespace Blastula.VirtualVariables
         /// True if we don't want the rank to change. Good for testing and practicing.
         /// </summary>
         public bool rankFrozen = false;
+        /// <summary>
+        /// The score achieved in this game session.
+        /// </summary>
+        public BigInteger score { get; private set; } = BigInteger.Zero;
+        /// <summary>
+        /// The highest score possible to achieve.
+        /// </summary>
+        public BigInteger maxScore { get; private set; } = BigInteger.Pow(new BigInteger(10), 100) - 1;
+        /// <summary>
+        /// Should be the highest score ever achieved by the player. 
+        /// This class doesn't handle saving and loading.
+        /// </summary>
+        public BigInteger recordScore { get; private set; } = 0;
 
         public void SetCanPause(bool s)
         {
@@ -97,6 +111,30 @@ namespace Blastula.VirtualVariables
         {
             if (rankFrozen && !force) { return; }
             rank = newRank;
+        }
+
+        private void ClampScore()
+        {
+            if (score < 0) { score = 0; }
+            if (score > maxScore) { score = maxScore; }
+        }
+
+        public void AddScore(int amount)
+        {
+            score += amount;
+            ClampScore();
+        }
+
+        public void AddScore(double amount)
+        {
+            score += new BigInteger(amount);
+            ClampScore();
+        }
+
+        public void AddScore(BigInteger amount)
+        {
+            score += amount;
+            ClampScore();
         }
 
         public static Session main { get; private set; } = null;

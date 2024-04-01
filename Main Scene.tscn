@@ -1,10 +1,14 @@
-[gd_scene load_steps=63 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=67 format=3 uid="uid://wx1rs8ldtkla"]
 
+[ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_eg8pa"]
+[ext_resource type="Texture2D" uid="uid://bddg1oxe3uvq8" path="res://addons/Blastula/Graphics/UI/overlayIconScore.png" id="2_wj38h"]
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="3_yi7x3"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="4_5jpkg"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Border/DefaultLogoController.cs" id="4_tinw7"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Border/ScoreDisplay.cs" id="5_7p6bg"]
 [ext_resource type="Texture2D" uid="uid://dhaplybn1jabj" path="res://addons/Blastula/Graphics/MiscTextures/logo.png" id="5_aloog"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Debug/StatsViews.cs" id="5_djmvm"]
+[ext_resource type="Texture2D" uid="uid://cmfditw0p7ben" path="res://addons/Blastula/Graphics/UI/overlayIconRecord.png" id="5_rqwef"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/ScreenSetup.cs" id="5_svrfx"]
 [ext_resource type="FontFile" uid="uid://ggirehmyeo2f" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_R.otf" id="7_3d2ai"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Debug/DebugCollision.cs" id="7_nbcrq"]
@@ -149,6 +153,121 @@ offset_left = 160.0
 offset_top = -448.0
 offset_right = 608.0
 offset_bottom = 448.0
+
+[node name="RecordScore" type="Control" parent="Rendering Zone/Border/Stats"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -448.0
+offset_right = 10.0
+offset_bottom = -392.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/RecordScore"]
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -372.0
+offset_top = -6.0
+offset_bottom = 6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_eg8pa")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/RecordScore"]
+modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("5_rqwef")
+expand_mode = 1
+
+[node name="Number" type="Label" parent="Rendering Zone/Border/Stats/RecordScore"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_vystw")
+theme_override_font_sizes/font_size = 44
+text = "5.67801e10"
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="CurrentScore" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("currentScore", "recordScore")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -420.0
+offset_bottom = -364.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_7p6bg")
+currentScore = NodePath("Number")
+recordScore = NodePath("../RecordScore/Number")
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/CurrentScore"]
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_eg8pa")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/CurrentScore"]
+modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("2_wj38h")
+expand_mode = 1
+
+[node name="Number" type="Label" parent="Rendering Zone/Border/Stats/CurrentScore"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_vystw")
+theme_override_font_sizes/font_size = 44
+text = "1234567890"
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 1
 
 [node name="DefaultLogo" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("mainLogo", "debugNotification")]
 layout_mode = 1

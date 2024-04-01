@@ -184,7 +184,11 @@ namespace Blastula
                     {
                         for (int i = 0; i < collectibleSpawnNames.Length; i++)
                         {
-                            CollectibleManager.SpawnItems(collectibleSpawnNames[i], GlobalPosition, collectibleSpawnAmounts[i]);
+                            CollectibleManager.SpawnItems(
+                                collectibleSpawnNames[i], 
+                                GlobalPosition, 
+                                collectibleSpawnAmounts[i]
+                            );
                         }
                         spawnCollectiblesOnHealthZero = false;
                     }

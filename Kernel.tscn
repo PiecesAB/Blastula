@@ -1,4 +1,4 @@
-[gd_scene load_steps=139 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=140 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -79,6 +79,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Sound.cs" id="64_w3bqr"]
 [ext_resource type="PackedScene" uid="uid://dy1rv3s4i26wp" path="res://addons/Blastula/Stage/EnemySpamTest.tscn" id="65_1m2vo"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="66_doh6d"]
+[ext_resource type="AudioStream" uid="uid://dw6frrbldq4fa" path="res://addons/Blastula/Sounds/Player/vacuum.ogg" id="72_v6inr"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Wind/StandardWindSource.cs" id="77_lsfay"]
 [ext_resource type="Script" path="res://addons/Blastula/Stage/CollectibleManager.cs" id="81_hxavd"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Sequence.cs" id="81_qgcx4"]
@@ -824,20 +825,24 @@ collisionSize = Vector2(20, 0)
 [node name="Point" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Collectible"]
 script = ExtResource("10_gun14")
 texture = ExtResource("48_hga65")
+modulate = Color(1, 1, 1, 0.564706)
 size = Vector2(32, 32)
 material = SubResource("ShaderMaterial_of2ja")
 unrotatedGraphic = true
 zIndex = -80
 collisionSize = Vector2(16, 0)
+extraMultimeshFields = 1
 
 [node name="Power" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Collectible"]
 script = ExtResource("10_gun14")
 texture = ExtResource("50_y2uyf")
+modulate = Color(1, 1, 1, 0.564706)
 size = Vector2(32, 32)
 material = SubResource("ShaderMaterial_of2ja")
 unrotatedGraphic = true
 zIndex = -80
 collisionSize = Vector2(16, 0)
+extraMultimeshFields = 1
 
 [node name="Mesh Container" type="Node" parent="Rendering/Bullet Renderer Manager"]
 
@@ -1063,48 +1068,12 @@ stream = ExtResource("58_1pk8q")
 [node name="Shot1" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Player"]
 stream = ExtResource("60_437af")
 
+[node name="Vacuum" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Player"]
+stream = ExtResource("72_v6inr")
+
 [node name="Graze" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Player"]
 stream = ExtResource("60_mqmjd")
 max_polyphony = 2
-
-[node name="Stage Manager" type="Node" parent="."]
-script = ExtResource("62_lftpa")
-
-[node name="Stage 0" type="Node" parent="Stage Manager"]
-script = ExtResource("63_d8ira")
-
-[node name="Substage 0" type="Node" parent="Stage Manager/Stage 0"]
-script = ExtResource("63_d8ira")
-duration = "180"
-endWhenChildrenComplete = false
-shouldUseTimer = true
-
-[node name="Sound" type="Node" parent="Stage Manager/Stage 0"]
-script = ExtResource("64_w3bqr")
-commonSFXName = "Enemy/Shot3"
-
-[node name="Substage 1" type="Node" parent="Stage Manager/Stage 0"]
-script = ExtResource("63_d8ira")
-duration = "9"
-endWhenChildrenComplete = false
-shouldUseTimer = true
-formation = ExtResource("65_1m2vo")
-
-[node name="Wait" type="Node" parent="Stage Manager/Stage 0"]
-script = ExtResource("66_doh6d")
-
-[node name="Substage 2" type="Node" parent="Stage Manager/Stage 0"]
-script = ExtResource("63_d8ira")
-duration = "30"
-endWhenChildrenComplete = false
-shouldUseTimer = true
-formation = ExtResource("65_1m2vo")
-
-[node name="Substage 3" type="Node" parent="Stage Manager/Stage 0"]
-script = ExtResource("63_d8ira")
-duration = "196"
-endWhenChildrenComplete = false
-shouldUseTimer = true
 
 [node name="Game Logic" type="Node" parent="."]
 
@@ -1134,11 +1103,10 @@ channel = "Gravity"
 script = ExtResource("81_hxavd")
 collectibleDisc = NodePath("Collectible Disc")
 
-[node name="Collectible Disc" type="Node2D" parent="Game Logic/Collectible Manager" node_paths=PackedStringArray("mainSchedule")]
+[node name="Collectible Disc" type="Node2D" parent="Game Logic/Collectible Manager"]
 editor_description = "This drives and contains collectible bullets."
 script = ExtResource("26_yhurp")
 ID = "Collectibles"
-mainSchedule = NodePath("")
 
 [node name="Subroutines" type="Node" parent="Game Logic/Collectible Manager"]
 
@@ -1247,3 +1215,42 @@ sleepyCollision = false
 [node name="Scatter from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPower" node_paths=PackedStringArray("other")]
 script = ExtResource("89_l3rau")
 other = NodePath("../../Subroutines/Scatter From Enemy")
+
+[node name="Stage Manager" type="Node" parent="."]
+script = ExtResource("62_lftpa")
+
+[node name="Stage 0" type="Node" parent="Stage Manager"]
+script = ExtResource("63_d8ira")
+
+[node name="Substage 0" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("63_d8ira")
+duration = "10"
+endWhenChildrenComplete = false
+shouldUseTimer = true
+
+[node name="Sound" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("64_w3bqr")
+commonSFXName = "Enemy/Shot3"
+
+[node name="Substage 1" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("63_d8ira")
+duration = "9"
+endWhenChildrenComplete = false
+shouldUseTimer = true
+formation = ExtResource("65_1m2vo")
+
+[node name="Wait" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("66_doh6d")
+
+[node name="Substage 2" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("63_d8ira")
+duration = "30"
+endWhenChildrenComplete = false
+shouldUseTimer = true
+formation = ExtResource("65_1m2vo")
+
+[node name="Substage 3" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("63_d8ira")
+duration = "196"
+endWhenChildrenComplete = false
+shouldUseTimer = true

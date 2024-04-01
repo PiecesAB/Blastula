@@ -128,6 +128,14 @@ namespace Blastula
             }
         }
 
+        /// <summary>
+        /// Returns true when above the item get line.
+        /// </summary>
+        private bool IsInItemGetMode()
+        {
+            return GlobalPosition.Y <= itemGetHeight;
+        }
+
         public override void _Ready()
         {
             switch (control)
@@ -256,22 +264,41 @@ namespace Blastula
             {
                 if (collider == hurtbox)
                 {
+                    if (bNodePtr->phase == 3)
+                    {
+                        CommonSFXManager.PlayByName("Player/Vacuum", 1, 1f, GlobalPosition, true);
+                    }
+                    else
+                    {
+                        CommonSFXManager.PlayByName("Player/Vacuum", 1, 1f, GlobalPosition, true);
+                    }
+                    Session.main.AddScore(1234567890);
+                    
                     PostExecute.ScheduleDeletion(bNodeIndex, false);
                 }
                 else if (collider == attractbox)
                 {
-                    short phase = BNodeFunctions.masterQueue[bNodeIndex].phase;
+                    short phase = bNodePtr->phase;
                     if (phase == 1 && Sequence.referencesByID.ContainsKey(COLLECTIBLE_ATTRACT_SEQUENCE_NAME))
                     {
                         PostExecute.ScheduleOperation(
                             bNodeIndex, 
                             Sequence.referencesByID[COLLECTIBLE_ATTRACT_SEQUENCE_NAME]?.GetOperationID() ?? -1
                         );
+
+                        if (IsInItemGetMode())
+                        {
+                            // Tint the items so we know which ones have the full value later on
+                            if (bNodePtr->multimeshExtras == null)
+                            {
+                                bNodePtr->multimeshExtras = SetMultimeshExtraData.NewPointer();
+                            }
+                            bNodePtr->multimeshExtras->color = 1.2f * Colors.LightBlue;
+                            bNodePtr->phase++;
+                        }
                     }
                 }
             }
-
-            
         }
 
         public bool IsShooting() { return InputManager.ButtonIsDown(shootName); }
@@ -309,7 +336,7 @@ namespace Blastula
             }
             SetVarsInDiscs();
             grazeGetThisFrame = 0;
-            if (GlobalPosition.Y <= itemGetHeight)
+            if (IsInItemGetMode())
             {
                 attractbox.size = new Vector2(2000, 2000);
             }

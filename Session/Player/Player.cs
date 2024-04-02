@@ -8,6 +8,7 @@ using Blastula.VirtualVariables;
 using Godot;
 using Godot.Collections;
 using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 
 namespace Blastula
@@ -64,10 +65,6 @@ namespace Blastula
         /// Point items will also be worth their full value.
         /// </summary>
         [Export] public float itemGetHeight = -150;
-        /// <summary>
-        /// The full point item value per difficulty.
-        /// </summary>
-        [Export] public double[] pointItemFullValues = new double[5] { 100000, 100000, 150000, 200000, 400000 };
         /// <summary>
         /// The fraction of point item value which is lost when items are collected immediately below the item get height.
         /// </summary
@@ -284,24 +281,33 @@ namespace Blastula
             {
                 if (collider == hurtbox)
                 {
-                    int difIndex = Mathf.Clamp(Session.main.difficulty, 0, pointItemFullValues.Length - 1);
-                    double fullValue = pointItemFullValues[difIndex];
+                    bool itemGetLineActivated = (bNodePtr->phase == 3);
                     Vector2 bulletWorldPos = BulletWorldTransforms.Get(bNodeIndex).Origin;
-                    CommonSFXManager.PlayByName("Player/Vacuum", 1, 1f, GlobalPosition, true);
-                    if (bNodePtr->phase == 3)
+                    if (CollectibleManager.IsPointItem(bNodeIndex))
                     {
-                        var actualAdded = Session.main.AddScore(fullValue);
-                        ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.Cyan);
+                        double fullValue = CollectibleManager.GetPointItemFullValue(bNodeIndex);
+                        
+                        if (itemGetLineActivated)
+                        {
+                            var actualAdded = Session.main.AddScore(fullValue);
+                            ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.Cyan);
+                        }
+                        else
+                        {
+                            double cutValue = fullValue
+                                * (1.0 - pointItemValueCut)
+                                * System.Math.Pow(1.0 - pointItemValueRolloff, (GlobalPosition.Y - itemGetHeight) / 100.0);
+                            var actualAdded = Session.main.AddScore(cutValue);
+                            ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.White);
+                        }
                     }
-                    else
+                    else if (CollectibleManager.IsPowerItem(bNodeIndex))
                     {
-                        double cutValue = fullValue 
-                            * (1.0 - pointItemValueCut) 
-                            * System.Math.Pow(1.0 - pointItemValueRolloff, (GlobalPosition.Y - itemGetHeight) / 100.0);
-                        var actualAdded = Session.main.AddScore(cutValue);
-                        ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.White);
+                        ScorePopupPool.Play(bulletWorldPos, 10, itemGetLineActivated ? Colors.Cyan : Colors.White);
                     }
+
                     PostExecute.ScheduleDeletion(bNodeIndex, false);
+                    CommonSFXManager.PlayByName("Player/Vacuum", 1, 1f, GlobalPosition, true);
                 }
                 else if (collider == attractbox)
                 {

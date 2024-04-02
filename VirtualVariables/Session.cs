@@ -24,11 +24,11 @@ namespace Blastula.VirtualVariables
         /// <summary>
         /// This integer is the game's difficulty, if you choose to use it.
         /// </summary>
-        /// <example>
-        /// Standard convention is 0: easy, 1: normal, 2: hard, 3: (whatever funny name you give to the hardest difficulty).
+        /// <remarks>
+        /// Standard convention is 0: easy, 1: normal, 2: hard, 3: (whatever funny name you give to the hardest difficulty), [4: extra].
         /// This allows you to select values in expressions using the difficulty as an array index, like
         /// [8, 16, 20, 24][dif] for the number of bullets in a ring.
-        /// </example>
+        /// </remarks>
         public int difficulty { get; private set; } = 1;
         /// <summary>
         /// This is the game's rank, if you choose to use it.

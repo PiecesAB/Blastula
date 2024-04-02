@@ -1,4 +1,4 @@
-[gd_scene load_steps=142 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=143 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -98,6 +98,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/WindForth.cs" id="91_dt4gs"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/TimeStretch.cs" id="92_f6tsy"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Follow.cs" id="93_evxvp"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="93_kt2yj"]
 
 [sub_resource type="Shader" id="Shader_7sty3"]
 code = "shader_type canvas_item;
@@ -1204,6 +1205,11 @@ script = ExtResource("82_jin1d")
 renderName = "Collectible/Point"
 collisionLayerName = "Collectible"
 sleepyCollision = false
+
+[node name="Set point item value" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPoint"]
+script = ExtResource("93_kt2yj")
+power = "[10, 10, 15, 20, 40][dif]"
+health = "4"
 
 [node name="Scatter from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPoint" node_paths=PackedStringArray("other")]
 script = ExtResource("89_l3rau")

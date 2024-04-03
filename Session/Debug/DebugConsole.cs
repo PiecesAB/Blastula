@@ -135,7 +135,7 @@ namespace Blastula.Debug
             commandGroupRegistry.Add(DebugCollision.commandGroup);
             commandGroupRegistry.Add(StatsViews.commandGroup);
             Visible = false;
-            ProcessPriority = Persistent.Priorities.PAUSE;
+            ProcessPriority = Persistent.Priorities.PAUSE + 1;
         }
 
         private void Open()
@@ -221,15 +221,9 @@ namespace Blastula.Debug
             if (paused && Session.main.paused)
             {
                 paused = false;
-                WaitToUnpause();
+                Session.main.Unpause();
                 Close();
             }
-        }
-
-        private async void WaitToUnpause()
-        {
-            await this.WaitOneFrame(true);
-            Session.main.Unpause();
         }
 
         public Command GetCommandFromName(string name)
@@ -277,7 +271,7 @@ namespace Blastula.Debug
                 if (paused && Session.main.paused)
                 {
                     paused = false;
-                    WaitToUnpause();
+                    Session.main.Unpause();
                     Close();
                 }
                 else if (!paused && !Session.main.paused)

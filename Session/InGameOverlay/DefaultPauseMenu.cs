@@ -15,32 +15,39 @@ namespace Blastula
         }
         public State state = State.Unpaused;
         public const int PAUSE_OPEN_CLOSE_DELAY = 5;
+        private int animationTimer = 0;
 
-        public async void UnpausingAnimation()
+        public void UnpausingAnimation()
         {
-            for (int i = 9; i > 0; --i)
+            int i = 9 - animationTimer;
+            if (i > 0)
             {
                 Modulate = new Color(1, 1, 1, i / (float)(10));
-                await this.WaitOneFrame(true);
             }
-            Modulate = new Color(1, 1, 1, 0);
-            Session.main.Unpause();
-            await this.WaitFrames(PAUSE_OPEN_CLOSE_DELAY, true);
-            state = State.Unpaused;
+            else
+            {
+                Modulate = new Color(1, 1, 1, 0);
+                Visible = false;
+                Session.main.Unpause();
+                state = State.Unpaused;
+            }
+            ++animationTimer;
         }
 
-        public async void PausingAnimation()
+        public void PausingAnimation()
         {
-            Modulate = new Color(1, 1, 1, 0);
-            Visible = true;
-            for (int i = 1; i < 10; ++i)
+            int i = 1 + animationTimer;
+            if (i < 10)
             {
                 Modulate = new Color(1, 1, 1, i / (float)(10));
-                await this.WaitOneFrame(true);
+                Visible = true;
             }
-            Modulate = new Color(1, 1, 1, 1);
-            await this.WaitFrames(PAUSE_OPEN_CLOSE_DELAY, true);
-            state = State.Paused;
+            else
+            {
+                Modulate = new Color(1, 1, 1, 1);
+                state = State.Paused;
+            }
+            ++animationTimer;
         }
 
         public override void _Ready()
@@ -58,15 +65,22 @@ namespace Blastula
                 if (state == State.Paused && Session.main.paused)
                 {
                     state = State.Unpausing;
+                    animationTimer = 0;
                     UnpausingAnimation();
                 }
                 else if (state == State.Unpaused && !Session.main.paused)
                 {
                     state = State.Pausing;
+                    animationTimer = 0;
                     Session.main.Pause();
                     PausingAnimation();
                 }
             }
+
+            // No async used because that will easily cause the game state to change when it's paused.
+            // We want to ensure all pauses/unpauses are solved after all game action is processed.
+            if (state == State.Unpausing) { UnpausingAnimation(); }
+            else if (state == State.Pausing) { PausingAnimation(); }
         }
     }
 }

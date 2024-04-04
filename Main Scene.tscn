@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=89 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_eg8pa"]
 [ext_resource type="Texture2D" uid="uid://bddg1oxe3uvq8" path="res://addons/Blastula/Graphics/UI/overlayIconScore.png" id="2_wj38h"]
@@ -14,10 +14,15 @@
 [ext_resource type="FontFile" uid="uid://ggirehmyeo2f" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_R.otf" id="7_3d2ai"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Debug/DebugCollision.cs" id="7_nbcrq"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Border/FPSDisplay.cs" id="8_5kjcu"]
+[ext_resource type="Texture2D" uid="uid://x1ajkb5rd2vk" path="res://addons/Blastula/Graphics/UI/overlayIconLives.png" id="8_bd3kc"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Debug/DebugConsole.cs" id="8_rjlgg"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Border/ResourceIconDisplay.cs" id="8_ydsju"]
 [ext_resource type="FontFile" uid="uid://c0msc3x0utd1o" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Italic.ttf" id="9_8k2qt"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/PlayerResourceIcon.gdshader" id="9_awk5k"]
+[ext_resource type="Texture2D" uid="uid://43l8tj7wbl6p" path="res://addons/Blastula/Graphics/UI/playerResourceSymbol.png" id="9_lwq7t"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/DefaultPauseMenu.cs" id="9_x5x4p"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/SectorTimer.cs" id="10_1h7p6"]
+[ext_resource type="Texture2D" uid="uid://bbc8b5kqjwkv7" path="res://addons/Blastula/Graphics/UI/overlayIconBombs.png" id="10_fupuw"]
 [ext_resource type="FontFile" uid="uid://djia8pojyn6eq" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Regular.ttf" id="10_jjfll"]
 [ext_resource type="FontFile" uid="uid://brdkumahfmmgw" path="res://addons/Blastula/Graphics/UI/mainScoreNumbers.png" id="10_vystw"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/MainBoundary.cs" id="11_vax73"]
@@ -54,6 +59,118 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetZIndex.cs" id="53_qe1it"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/WindForth.cs" id="55_q7wj3"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="56_e612s"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8cbxs"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vp18f"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ormah"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l6muc"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fcfdr"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wg67a"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mbtpv"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_llnbd"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vhh4v"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wvacd"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sa605"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o6qv2"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hhy7e"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_berny"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ae67c"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_76iiy"]
+shader = ExtResource("9_awk5k")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.9
 
 [sub_resource type="LabelSettings" id="LabelSettings_rjsw2"]
 font = ExtResource("4_5jpkg")
@@ -329,6 +446,223 @@ text = "1234567890"
 horizontal_alignment = 2
 vertical_alignment = 1
 text_overrun_behavior = 1
+
+[node name="Lives" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("icons")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -364.0
+offset_bottom = -292.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_ydsju")
+icons = [NodePath("IconHolder/0"), NodePath("IconHolder/1"), NodePath("IconHolder/2"), NodePath("IconHolder/3"), NodePath("IconHolder/4"), NodePath("IconHolder/5"), NodePath("IconHolder/6"), NodePath("IconHolder/7")]
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives"]
+visible = false
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_eg8pa")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives"]
+modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("8_bd3kc")
+expand_mode = 1
+
+[node name="IconHolder" type="HBoxContainer" parent="Rendering Zone/Border/Stats/Lives"]
+layout_mode = 2
+offset_left = 138.0
+offset_top = 28.0
+offset_right = 450.0
+offset_bottom = 66.0
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="0" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_8cbxs")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="1" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_vp18f")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="2" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_ormah")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="3" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_l6muc")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="4" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_fcfdr")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="5" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_wg67a")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="6" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_mbtpv")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="7" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_llnbd")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="Bombs" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("icons")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -308.0
+offset_bottom = -236.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_ydsju")
+testValue = 4.2
+icons = [NodePath("IconHolder/0"), NodePath("IconHolder/1"), NodePath("IconHolder/2"), NodePath("IconHolder/3"), NodePath("IconHolder/4"), NodePath("IconHolder/5"), NodePath("IconHolder/6"), NodePath("IconHolder/7")]
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs"]
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = 18.0
+offset_bottom = 24.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_eg8pa")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs"]
+modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("10_fupuw")
+expand_mode = 1
+
+[node name="IconHolder" type="HBoxContainer" parent="Rendering Zone/Border/Stats/Bombs"]
+layout_mode = 2
+offset_left = 138.0
+offset_top = 28.0
+offset_right = 450.0
+offset_bottom = 66.0
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="0" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_vhh4v")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="1" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_wvacd")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="2" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_sa605")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="3" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_o6qv2")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="4" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_hhy7e")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="5" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_berny")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="6" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_ae67c")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
+
+[node name="7" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_76iiy")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("9_lwq7t")
+expand_mode = 1
 
 [node name="DefaultLogo" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("mainLogo", "debugNotification")]
 layout_mode = 1

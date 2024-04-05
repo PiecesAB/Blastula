@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=93 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_eg8pa"]
 [ext_resource type="Texture2D" uid="uid://bddg1oxe3uvq8" path="res://addons/Blastula/Graphics/UI/overlayIconScore.png" id="2_wj38h"]
@@ -30,7 +30,11 @@
 [ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="12_7eb1c"]
 [ext_resource type="FontFile" uid="uid://dwexpt8v22wmh" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-BoldItalic.ttf" id="12_70ty0"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Sequence.cs" id="13_pixf2"]
+[ext_resource type="Texture2D" uid="uid://cv2u3ytyfk7v" path="res://addons/Blastula/Graphics/UI/overlayIconPower.png" id="13_t32b7"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/CreateSingle.cs" id="14_alnw1"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Border/ResourceNumberDisplay.cs" id="14_dv06k"]
+[ext_resource type="Texture2D" uid="uid://byw1fbjj2w0ox" path="res://addons/Blastula/Graphics/UI/overlayIconGraze.png" id="14_fpcgm"]
+[ext_resource type="Texture2D" uid="uid://bc6hl1kax8q2v" path="res://addons/Blastula/Graphics/UI/overlayIconPointItem.png" id="15_28yc6"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Circle.cs" id="18_xfnro"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Forth.cs" id="19_q6ebi"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="19_ux787"]
@@ -420,7 +424,7 @@ texture = ExtResource("2_eg8pa")
 expand_mode = 1
 
 [node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/CurrentScore"]
-modulate = Color(0.486275, 0.486275, 0.486275, 1)
+modulate = Color(0.792157, 0.792157, 0.792157, 1)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -477,7 +481,7 @@ texture = ExtResource("2_eg8pa")
 expand_mode = 1
 
 [node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives"]
-modulate = Color(0.486275, 0.486275, 0.486275, 1)
+modulate = Color(0.792157, 0.792157, 0.792157, 1)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -566,7 +570,7 @@ offset_bottom = -236.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("8_ydsju")
-testValue = 4.2
+stat = 1
 icons = [NodePath("IconHolder/0"), NodePath("IconHolder/1"), NodePath("IconHolder/2"), NodePath("IconHolder/3"), NodePath("IconHolder/4"), NodePath("IconHolder/5"), NodePath("IconHolder/6"), NodePath("IconHolder/7")]
 
 [node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs"]
@@ -586,7 +590,7 @@ texture = ExtResource("2_eg8pa")
 expand_mode = 1
 
 [node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs"]
-modulate = Color(0.486275, 0.486275, 0.486275, 1)
+modulate = Color(0.792157, 0.792157, 0.792157, 1)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -663,6 +667,162 @@ custom_minimum_size = Vector2(38, 38)
 layout_mode = 2
 texture = ExtResource("9_lwq7t")
 expand_mode = 1
+
+[node name="Power" type="Control" parent="Rendering Zone/Border/Stats"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -208.0
+offset_bottom = -152.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/Power"]
+visible = false
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_eg8pa")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/Power"]
+modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("13_t32b7")
+expand_mode = 1
+
+[node name="Graze" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("label")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -160.0
+offset_bottom = -104.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("14_dv06k")
+label = NodePath("Number")
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/Graze"]
+visible = false
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_eg8pa")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/Graze"]
+modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("14_fpcgm")
+expand_mode = 1
+
+[node name="Number" type="Label" parent="Rendering Zone/Border/Stats/Graze"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_vystw")
+theme_override_font_sizes/font_size = 44
+text = "123456"
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="PointItem" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("label")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -112.0
+offset_bottom = -55.9999
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("14_dv06k")
+stat = 1
+label = NodePath("Number")
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/PointItem"]
+visible = false
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_eg8pa")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/PointItem"]
+modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("15_28yc6")
+expand_mode = 1
+
+[node name="Number" type="Label" parent="Rendering Zone/Border/Stats/PointItem"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_vystw")
+theme_override_font_sizes/font_size = 44
+text = "654321"
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 1
 
 [node name="DefaultLogo" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("mainLogo", "debugNotification")]
 layout_mode = 1

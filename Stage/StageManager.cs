@@ -13,7 +13,26 @@ namespace Blastula
         [Signal] public delegate void StageSectorChangedEventHandler(StageSector newSector);
         [Signal] public delegate void StageChangedEventHandler(StageSector newStage);
 
+        /// <summary>
+        /// The number of bullets grazed in this stage. Mainly for single-player use.
+        /// </summary>
+        public ulong grazeCount { get; private set; } = 0;
+        /// <summary>
+        /// Number of point items collected in this stage. Mainly for single-player use.
+        /// </summary>
+        public ulong pointItemCount { get; private set; } = 0;
+
         public static StageManager main { get; private set; } = null;
+
+        public void AddGraze(int amount)
+        {
+            grazeCount += (ulong)amount;
+        }
+
+        public void AddPointItem(int amount)
+        {
+            pointItemCount += (ulong)amount;
+        }
 
         public override void _Ready()
         {

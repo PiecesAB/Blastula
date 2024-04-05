@@ -47,14 +47,14 @@ namespace Blastula.Debug
                     action = (args) =>
                     {
                         bool god = true;
-                        Player.Control control = Player.Control.SinglePlayer;
+                        Player.Role control = Player.Role.SinglePlayer;
                         if (args.Count >= 2) { DebugConsole.SetTruthValue(args[1], ref god); }
                         string l2 = "";
                         if (args.Count >= 3)
                         {
                             l2 = args[2].ToLower();
-                            if (l2 == "left" || l2 == "l") { control = Player.Control.LeftPlayer; }
-                            else if (l2 == "right" || l2 == "r") { control = Player.Control.RightPlayer; }
+                            if (l2 == "left" || l2 == "l") { control = Player.Role.LeftPlayer; }
+                            else if (l2 == "right" || l2 == "r") { control = Player.Role.RightPlayer; }
                             else { l2 = ""; }
                         }
                         Player player = Player.playersByControl.ContainsKey(control) ? Player.playersByControl[control] : null;
@@ -63,7 +63,7 @@ namespace Blastula.Debug
                             DebugConsole.main.Print("No such player.");
                             return;
                         }
-                        player.debugInvincible = god;
+                        player.debugInvulnerable = god;
                         string l2f = (l2 != "") ? "(" + l2 + ") " : "";
                         DebugConsole.main.Print($"Player {l2f}is now {(god ? "invulnerable" : "vulnerable")}.");
                     }

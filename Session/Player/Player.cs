@@ -21,7 +21,7 @@ namespace Blastula
     [Icon(Persistent.NODE_ICON_PATH + "/player.png")]
     public partial class Player : Node2D
     {
-        public enum Control
+        public enum Role
         {
             /// <summary>
             /// The only player in a one-player game.
@@ -39,7 +39,7 @@ namespace Blastula
         /// <summary>
         /// Determines the player's role.
         /// </summary>
-        [Export] public Control control = Control.SinglePlayer;
+        [Export] public Role role = Role.SinglePlayer;
         /// <summary>
         /// Player's normal speed.
         /// </summary>
@@ -55,6 +55,34 @@ namespace Blastula
         [Export] public float boundaryShrink = 30;
         [ExportGroup("Health")]
         [Export] public BlastulaCollider hurtbox;
+        /// <summary>
+        /// Amount of lives that the player currently has. 
+        /// In a single-player context, if 0 lives are left, the player will lose next time they are hit.
+        /// </summary>
+        [Export] public float lives = 2;
+        [ExportGroup("Shot Power")]
+        [Export] public int shotPower = 100;
+        /// <summary>
+        /// The shotPower is bounded between X and Y.
+        /// </summary>
+        [Export] public Vector2I shotPowerRange = new Vector2I(100, 400);
+        /// <summary>
+        /// Amount of bombs the player currently has.
+        /// </summary>
+        [ExportGroup("Bomb")]
+        [Export] public float bombs = 3;
+        /// <summary>
+        /// When the player resurrects and they have extra lives, the bombs will be refilled to this amount.
+        /// </summary>
+        [Export] public float bombRefillOnDeath = 3;
+        /// <summary>
+        /// The number of frames early the player can press the Bomb input before they are able to use it.
+        /// </summary>
+        [Export] public int bombStartBufferFrames = 6;
+        /// <summary>
+        /// The number of leniency frames where the player can bomb after getting hit, cheating death.
+        /// </summary>
+        [Export] public int deathbombFrames = 8;
         [ExportGroup("Graze")]
         [Export] public BlastulaCollider grazebox;
         [Export] public float framesBetweenLaserGraze = 8;
@@ -83,7 +111,19 @@ namespace Blastula
         private Vector2 attractboxOriginalSize;
         private string COLLECTIBLE_ATTRACT_SEQUENCE_NAME = "CollectibleAttractPhase";
 
-        public bool debugInvincible = false;
+        public enum LifeState
+        {
+            Normal, 
+            Dying, 
+            Recovering, 
+            Invulnerable
+        }
+        public LifeState lifeState = LifeState.Normal;
+        /// <summary>
+        /// The number of invulnerability frames remaining now; relevant in the Recovering/Invulnerable life state.
+        /// </summary>
+        public int invulnerabilityFrames = 0;
+        public bool debugInvulnerable = false;
 
         private string leftName = "Left";
         private string rightName = "Right";
@@ -93,27 +133,31 @@ namespace Blastula
         private string focusName = "Focus";
         private string bombName = "Bomb";
         private string specialName = "Special";
+
         private MainBoundary mainBoundary = null;
+        private int grazeGetThisFrame = 0;
+        private FrameCounter.Buffer bombStartBuffer = new FrameCounter.Buffer(0);
+        private FrameCounter.Buffer deathbombBuffer = new FrameCounter.Buffer(0);
 
         /// <summary>
         /// Blastodiscs in this list will recieve important variables such as "shoot" and "focus".
         /// These variables are important to make player shots function correctly.
         /// </summary>
         public List<Blastodisc> varDiscs = new List<Blastodisc>();
-        public static System.Collections.Generic.Dictionary<Control, Player> playersByControl = new System.Collections.Generic.Dictionary<Control, Player>();
+        public static System.Collections.Generic.Dictionary<Role, Player> playersByControl = new System.Collections.Generic.Dictionary<Role, Player>();
 
         private void FindMainBoundary()
         {
             MainBoundary.MainType m = MainBoundary.MainType.Single;
-            switch (control)
+            switch (role)
             {
-                case Control.SinglePlayer:
+                case Role.SinglePlayer:
                 default:
                     break;
-                case Control.LeftPlayer:
+                case Role.LeftPlayer:
                     m = MainBoundary.MainType.Left;
                     break;
-                case Control.RightPlayer:
+                case Role.RightPlayer:
                     m = MainBoundary.MainType.Right;
                     break;
             }
@@ -131,6 +175,7 @@ namespace Blastula
                 {
                     ((IVariableContainer)bd).SetVar("shoot", IsShooting());
                     ((IVariableContainer)bd).SetVar("focus", IsFocused());
+                    ((IVariableContainer)bd).SetVar("power", shotPower);
                 }
             }
         }
@@ -155,12 +200,12 @@ namespace Blastula
 
         public override void _Ready()
         {
-            switch (control)
+            switch (role)
             {
-                case Control.SinglePlayer:
+                case Role.SinglePlayer:
                 default:
                     break;
-                case Control.LeftPlayer:
+                case Role.LeftPlayer:
                     leftName = "LP/" + leftName;
                     rightName = "LP/" + rightName;
                     upName = "LP/" + upName;
@@ -170,7 +215,7 @@ namespace Blastula
                     bombName = "LP/" + bombName;
                     specialName = "LP/" + specialName;
                     break;
-                case Control.RightPlayer:
+                case Role.RightPlayer:
                     leftName = "RP/" + leftName;
                     rightName = "RP/" + rightName;
                     upName = "RP/" + upName;
@@ -181,13 +226,155 @@ namespace Blastula
                     specialName = "RP/" + specialName;
                     break;
             }
-            if (!playersByControl.ContainsKey(control)) { playersByControl[control] = this; }
+            if (!playersByControl.ContainsKey(role)) { playersByControl[role] = this; }
+            else { GD.PushWarning("Two or more players exist with the same role. This is not expected."); }
             FindDiscs();
             SetVarsInDiscs();
             attractboxOriginalSize = attractbox.size;
         }
 
-        private int grazeGetThisFrame = 0;
+        private unsafe void OnHitHurtIntent(BlastulaCollider collider, int bNodeIndex)
+        {
+            BNode* bNodePtr = BNodeFunctions.masterQueue + bNodeIndex;
+
+            // Because of the way lasers are rendered, the head and tail collisions could be unfair
+            // (possible to occur outside the graphic)
+            if (LaserRenderer.IsBNodeHeadOfLaser(bNodeIndex) || LaserRenderer.IsBNodeTailOfLaser(bNodeIndex))
+            {
+                if (bNodePtr->bulletRenderID < 0) { return; }
+            }
+
+            if (bNodePtr->health > 1)
+            {
+                bNodePtr->health -= (float)Engine.TimeScale;
+            }
+            else
+            {
+                bNodePtr->health = 0;
+                if (bNodePtr->laserRenderID < 0)
+                {
+                    bNodePtr->transform = BulletWorldTransforms.Get(bNodeIndex);
+                    bNodePtr->worldTransformMode = true;
+                    PostExecute.ScheduleDeletion(bNodeIndex, true);
+                }
+                else
+                {
+                    BulletRenderer.SetRenderID(bNodeIndex, -1);
+                    LaserRenderer.RemoveLaserEntry(bNodeIndex);
+                }
+            }
+
+            if (debugInvulnerable || lifeState != LifeState.Normal) { return; }
+            // At this point the hurting actually occurs
+            lifeState = LifeState.Dying;
+            deathbombBuffer.Replenish((ulong)deathbombFrames);
+        }
+
+        private unsafe void OnHitGrazeIntent(BlastulaCollider collider, int bNodeIndex)
+        {
+            BNode* bNodePtr = BNodeFunctions.masterQueue + bNodeIndex;
+            if (bNodePtr->graze >= 0)
+            {
+                bool grazeGet = false;
+
+                if (bNodePtr->bulletRenderID >= 0)
+                {
+                    if (bNodePtr->graze == 0) { grazeGet = true; }
+                    if (bNodePtr->graze >= 0) { bNodePtr->graze += (float)Engine.TimeScale; }
+                }
+                else if (bNodePtr->laserRenderID >= 0)
+                {
+                    bool newGrazeThisFrame = LaserRenderer.NewGrazeThisFrame(bNodeIndex, out int headBNodeIndex);
+                    if (newGrazeThisFrame)
+                    {
+                        BNode* headBNodePtr = BNodeFunctions.masterQueue + headBNodeIndex;
+                        float oldGraze = headBNodePtr->graze;
+                        float newGraze = oldGraze + (float)Engine.TimeScale;
+                        if (oldGraze == 0
+                            || oldGraze + framesBetweenLaserGraze <= newGraze
+                            || oldGraze % framesBetweenLaserGraze >= newGraze % framesBetweenLaserGraze)
+                        {
+                            grazeGet = true;
+                        }
+                        if (oldGraze < 0) { grazeGet = false; }
+                        else { headBNodePtr->graze = newGraze; }
+                    }
+                }
+
+                if (grazeGet)
+                {
+                    ++grazeGetThisFrame;
+                    // TODO: implement and increment graze counter
+                    if (grazeGetThisFrame < 5)
+                    {
+                        CommonSFXManager.PlayByName("Player/Graze", 1, 1f, GlobalPosition, true);
+                        GrazeLines.ShowLine(GlobalPosition, BulletWorldTransforms.Get(bNodeIndex).Origin);
+                        // Without this the bullet wiggles because we tried to calculate the position before the movement.
+                        // We don't want that to happen, so force recalculate when the time is right.
+                        BulletWorldTransforms.Invalidate(bNodeIndex);
+                    }
+                }
+            }
+        }
+
+        private unsafe void OnHitCollectIntent(BlastulaCollider collider, int bNodeIndex)
+        {
+            BNode* bNodePtr = BNodeFunctions.masterQueue + bNodeIndex;
+            bool itemGetLineActivated = (bNodePtr->phase == 3);
+            Vector2 bulletWorldPos = BulletWorldTransforms.Get(bNodeIndex).Origin;
+            if (CollectibleManager.IsPointItem(bNodeIndex))
+            {
+                double fullValue = CollectibleManager.GetPointItemFullValue(bNodeIndex);
+
+                if (itemGetLineActivated)
+                {
+                    var actualAdded = Session.main.AddScore(fullValue);
+                    ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.Cyan);
+                }
+                else
+                {
+                    double cutValue = fullValue
+                        * (1.0 - pointItemValueCut)
+                        * System.Math.Pow(1.0 - pointItemValueRolloff, (GlobalPosition.Y - itemGetHeight) / 100.0);
+                    var actualAdded = Session.main.AddScore(cutValue);
+                    ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.White);
+                }
+
+                if (StageManager.main != null) { StageManager.main.AddPointItem(1); }
+                if (Session.main != null) { Session.main.AddPointItem(1); }
+            }
+            else if (CollectibleManager.IsPowerItem(bNodeIndex))
+            {
+                ScorePopupPool.Play(bulletWorldPos, 10, itemGetLineActivated ? Colors.Cyan : Colors.White);
+            }
+
+            PostExecute.ScheduleDeletion(bNodeIndex, false);
+            CommonSFXManager.PlayByName("Player/Vacuum", 1, 1f, GlobalPosition, true);
+        }
+
+        private unsafe void OnHitAttractCollectIntent(BlastulaCollider collider, int bNodeIndex)
+        {
+            BNode* bNodePtr = BNodeFunctions.masterQueue + bNodeIndex;
+            short phase = bNodePtr->phase;
+            if (phase == 1 && Sequence.referencesByID.ContainsKey(COLLECTIBLE_ATTRACT_SEQUENCE_NAME))
+            {
+                PostExecute.ScheduleOperation(
+                    bNodeIndex,
+                    Sequence.referencesByID[COLLECTIBLE_ATTRACT_SEQUENCE_NAME]?.GetOperationID() ?? -1
+                );
+
+                if (IsInItemGetMode())
+                {
+                    // Tint the items so we know which ones have the full value later on
+                    if (bNodePtr->multimeshExtras == null)
+                    {
+                        bNodePtr->multimeshExtras = SetMultimeshExtraData.NewPointer();
+                    }
+                    bNodePtr->multimeshExtras->color = 1.2f * Colors.LightBlue;
+                    bNodePtr->phase++;
+                }
+            }
+        }
 
         /// <summary>
         /// Response to a collider being hit by a bullet on the "EnemyShot" collision layer.
@@ -195,147 +382,30 @@ namespace Blastula
         /// </summary>
         public unsafe void OnHit(BlastulaCollider collider, int bNodeIndex)
         {
+            if (lifeState == LifeState.Dying) { return; }
             // bNodeIndex is always >= 0, how could we get here otherwise???
             BNode* bNodePtr = BNodeFunctions.masterQueue + bNodeIndex;
-            int collisionLayer = BNodeFunctions.masterQueue[bNodeIndex].collisionLayer;
+            int collisionLayer = bNodePtr->collisionLayer;
             int enemyShotBulletLayer = CollisionManager.GetBulletLayerIDFromName("EnemyShot");
             int collectibleBulletLayer = CollisionManager.GetBulletLayerIDFromName("Collectible");
             if (Engine.TimeScale > 0 && collisionLayer == enemyShotBulletLayer)
             {
-                if (collider == hurtbox)
-                {
-                    if (debugInvincible) { return; }
-
-                    if (LaserRenderer.IsBNodeHeadOfLaser(bNodeIndex) || LaserRenderer.IsBNodeTailOfLaser(bNodeIndex))
-                    {
-                        if (bNodePtr->bulletRenderID < 0) { return; }
-                    }
-
-                    if (bNodePtr->health > 1)
-                    {
-                        bNodePtr->health -= (float)Engine.TimeScale;
-                    }
-                    else
-                    {
-                        bNodePtr->health = 0;
-                        if (bNodePtr->laserRenderID < 0)
-                        {
-                            bNodePtr->transform = BulletWorldTransforms.Get(bNodeIndex);
-                            bNodePtr->worldTransformMode = true;
-                            PostExecute.ScheduleDeletion(bNodeIndex, true);
-                        }
-                        else
-                        {
-                            BulletRenderer.SetRenderID(bNodeIndex, -1);
-                            LaserRenderer.RemoveLaserEntry(bNodeIndex);
-                        }
-                    }
-                }
-                else if (collider == grazebox)
-                {
-                    if (bNodePtr->graze >= 0)
-                    {
-                        bool grazeGet = false;
-
-                        if (bNodePtr->bulletRenderID >= 0)
-                        {
-                            if (bNodePtr->graze == 0) { grazeGet = true; }
-                            if (bNodePtr->graze >= 0) { bNodePtr->graze += (float)Engine.TimeScale; }
-                        }
-                        else if (bNodePtr->laserRenderID >= 0)
-                        {
-                            bool newGrazeThisFrame = LaserRenderer.NewGrazeThisFrame(bNodeIndex, out int headBNodeIndex);
-                            if (newGrazeThisFrame)
-                            {
-                                BNode* headBNodePtr = BNodeFunctions.masterQueue + headBNodeIndex;
-                                float oldGraze = headBNodePtr->graze;
-                                float newGraze = oldGraze + (float)Engine.TimeScale;
-                                if (oldGraze == 0
-                                    || oldGraze + framesBetweenLaserGraze <= newGraze
-                                    || oldGraze % framesBetweenLaserGraze >= newGraze % framesBetweenLaserGraze)
-                                {
-                                    grazeGet = true;
-                                }
-                                if (oldGraze < 0) { grazeGet = false; }
-                                else { headBNodePtr->graze = newGraze; }
-                            }
-                        }
-
-                        if (grazeGet)
-                        {
-                            ++grazeGetThisFrame;
-                            // TODO: implement and increment graze counter
-                            if (grazeGetThisFrame < 5)
-                            {
-                                CommonSFXManager.PlayByName("Player/Graze", 1, 1f, GlobalPosition, true);
-                                GrazeLines.ShowLine(GlobalPosition, BulletWorldTransforms.Get(bNodeIndex).Origin);
-                                // Without this the bullet wiggles because we tried to calculate the position before the movement.
-                                // We don't want that to happen, so force recalculate when the time is right.
-                                BulletWorldTransforms.Invalidate(bNodeIndex);
-                            }
-                        }
-                    }
-                }
+                if (collider == hurtbox) { OnHitHurtIntent(collider, bNodeIndex); }
+                else if (collider == grazebox) { OnHitGrazeIntent(collider, bNodeIndex); }
             }
             else if (Engine.TimeScale > 0 && collisionLayer == collectibleBulletLayer)
             {
-                if (collider == hurtbox)
-                {
-                    bool itemGetLineActivated = (bNodePtr->phase == 3);
-                    Vector2 bulletWorldPos = BulletWorldTransforms.Get(bNodeIndex).Origin;
-                    if (CollectibleManager.IsPointItem(bNodeIndex))
-                    {
-                        double fullValue = CollectibleManager.GetPointItemFullValue(bNodeIndex);
-                        
-                        if (itemGetLineActivated)
-                        {
-                            var actualAdded = Session.main.AddScore(fullValue);
-                            ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.Cyan);
-                        }
-                        else
-                        {
-                            double cutValue = fullValue
-                                * (1.0 - pointItemValueCut)
-                                * System.Math.Pow(1.0 - pointItemValueRolloff, (GlobalPosition.Y - itemGetHeight) / 100.0);
-                            var actualAdded = Session.main.AddScore(cutValue);
-                            ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.White);
-                        }
-                    }
-                    else if (CollectibleManager.IsPowerItem(bNodeIndex))
-                    {
-                        ScorePopupPool.Play(bulletWorldPos, 10, itemGetLineActivated ? Colors.Cyan : Colors.White);
-                    }
-
-                    PostExecute.ScheduleDeletion(bNodeIndex, false);
-                    CommonSFXManager.PlayByName("Player/Vacuum", 1, 1f, GlobalPosition, true);
-                }
-                else if (collider == attractbox)
-                {
-                    short phase = bNodePtr->phase;
-                    if (phase == 1 && Sequence.referencesByID.ContainsKey(COLLECTIBLE_ATTRACT_SEQUENCE_NAME))
-                    {
-                        PostExecute.ScheduleOperation(
-                            bNodeIndex, 
-                            Sequence.referencesByID[COLLECTIBLE_ATTRACT_SEQUENCE_NAME]?.GetOperationID() ?? -1
-                        );
-
-                        if (IsInItemGetMode())
-                        {
-                            // Tint the items so we know which ones have the full value later on
-                            if (bNodePtr->multimeshExtras == null)
-                            {
-                                bNodePtr->multimeshExtras = SetMultimeshExtraData.NewPointer();
-                            }
-                            bNodePtr->multimeshExtras->color = 1.2f * Colors.LightBlue;
-                            bNodePtr->phase++;
-                        }
-                    }
-                }
+                if (collider == hurtbox) { OnHitCollectIntent(collider, bNodeIndex); }
+                else if (collider == attractbox) { OnHitAttractCollectIntent(collider, bNodeIndex); }
             }
         }
 
-        public bool IsShooting() { return InputManager.ButtonIsDown(shootName); }
-        public bool IsFocused() { return InputManager.ButtonIsDown(focusName); }
+        public bool IsShooting() 
+        { 
+            if (lifeState == LifeState.Dying) { return false; }
+            return InputManager.ButtonIsDown(shootName); 
+        }
+        public bool IsFocused()  { return InputManager.ButtonIsDown(focusName);  }
 
         private FrameCounter.Cache<Vector2> mvtDirCache = new FrameCounter.Cache<Vector2>();
 
@@ -355,9 +425,9 @@ namespace Blastula
             return result;
         }
 
-        public unsafe override void _Process(double delta)
+        private unsafe void PerformMovement()
         {
-            if (Session.IsPaused()) { return; }
+            if (lifeState == LifeState.Dying) { return; }
             float speed = IsFocused() ? focusedSpeed : normalSpeed;
             speed *= (float)Engine.TimeScale;
             speed /= Persistent.SIMULATED_FPS;
@@ -367,16 +437,23 @@ namespace Blastula
             {
                 GlobalPosition = Boundary.Clamp(mainBoundary.lowLevelInfo, GlobalPosition, boundaryShrink);
             }
-            SetVarsInDiscs();
+        }
+
+        private void CountGrazeGetThisFrame()
+        {
+            if (StageManager.main != null) { StageManager.main.AddGraze(grazeGetThisFrame); }
+            if (Session.main != null) { Session.main.AddGraze(grazeGetThisFrame); }
             grazeGetThisFrame = 0;
-            if (IsInItemGetMode())
-            {
-                attractbox.size = new Vector2(2000, 2000);
-            }
-            else
-            {
-                attractbox.size = attractboxOriginalSize;
-            }
+        }
+
+        public override void _Process(double delta)
+        {
+            if (Session.IsPaused()) { return; }
+            PerformMovement();
+            SetVarsInDiscs();
+            CountGrazeGetThisFrame();
+            if (IsInItemGetMode()) { attractbox.size = new Vector2(2000, 2000); }
+            else { attractbox.size = attractboxOriginalSize; }
         }
     }
 }

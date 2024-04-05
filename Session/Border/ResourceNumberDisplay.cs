@@ -11,37 +11,43 @@ namespace Blastula.Graphics
     /// Also, this assumes each icon is a Control and has a ShaderMaterial 
     /// with the given parameter to set what "fraction" of a resource is available.
     /// </remarks>
-    public partial class ResourceIconDisplay : Node
+    public partial class ResourceNumberDisplay : Node
     {
-        public enum PlayerStat
+        public enum Stat
         {
-            Lives, Bombs
+            Graze, PointItem
         }
 
         /// <summary>
-        /// Selects a player stat to display.
+        /// Selects a stat to display.
         /// </summary>
-        [Export] PlayerStat stat = PlayerStat.Lives;
+        [Export] Stat stat = Stat.Graze;
         /// <summary>
         /// Which player is relevant to this data?
         /// </summary>
         [Export] Player.Role role = Player.Role.SinglePlayer;
         private Player player = null;
-        [Export] public float displayedValue = 0f;
-        [Export] public Control[] icons = new Control[8];
-        [Export] public string fractionParameterName = "filled_fraction";
+        [Export] public string displayedValue = "0";
+        /// <summary>
+        /// This is a text label that expresses the number.
+        /// </summary>
+        [Export] public Label label = null;
+        /// <summary>
+        /// If this isn't (0, 0), then the displayed value will be clamped within this range, as a 32-bit integer.
+        /// </summary>
+        [Export] public Vector2I bounds = new Vector2I(0, 999999);
 
-        public void UpdateIcons()
+        public void UpdateNumber()
         {
-            for (int i = 0; i < icons.Length; ++i)
+            string boundedDisplayedValue = displayedValue;
+            if (bounds != Vector2I.Zero && int.TryParse(displayedValue, out int boundedInt))
             {
-                Control icon = icons[i];
-                float fillValue = Mathf.Clamp(displayedValue - i, 0, 1);
-                ((ShaderMaterial)icon.Material).SetShaderParameter(fractionParameterName, fillValue);
+                boundedDisplayedValue = boundedInt.ToString();
             }
+            label.Text = boundedDisplayedValue;
         }
 
-        private float GetTargetValue()
+        private string GetTargetValue()
         {
             if (player == null)
             {
@@ -50,28 +56,28 @@ namespace Blastula.Graphics
                     player = Player.playersByControl[role]; 
                 }
             }
-            if (player == null) { return 0f; }
+            if (player == null) { return "0"; }
             switch (stat)
             {
-                case PlayerStat.Lives: default: return player.lives;
-                case PlayerStat.Bombs: return player.bombs;
+                case Stat.Graze: default: return Session.main.grazeCount.ToString();
+                case Stat.PointItem: return Session.main.pointItemCount.ToString();
             }
         }
 
         public override void _Ready()
         {
             base._Ready();
-            UpdateIcons();
+            UpdateNumber();
         }
 
         public override void _Process(double delta)
         {
             base._Process(delta);
-            float targetValue = GetTargetValue();
+            string targetValue = GetTargetValue();
             if (targetValue != displayedValue)
             {
                 displayedValue = targetValue;
-                UpdateIcons();
+                UpdateNumber();
             }
         }
     }

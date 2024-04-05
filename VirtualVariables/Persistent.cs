@@ -26,6 +26,7 @@ namespace Blastula.VirtualVariables
 
         /// <summary>
         /// Constants used to set ProcessPriority for specific nodes used by Blastula.
+        /// Godot's default ProcessPriority is 0.
         /// </summary>
         /// <example>
         /// FRAME_COUNTER_INCREMENT is as early as possible to increment the frame,

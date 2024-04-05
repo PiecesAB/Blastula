@@ -59,6 +59,14 @@ namespace Blastula.VirtualVariables
         /// This class doesn't handle saving and loading.
         /// </summary>
         public BigInteger recordScore { get; private set; } = 0;
+        /// <summary>
+        /// Number of bullets grazed throughout the session. Mainly for single-player use.
+        /// </summary>
+        public ulong grazeCount { get; private set; } = 0;
+        /// <summary>
+        /// Number of point items collected throughout the session. Mainly for single-player use.
+        /// </summary>
+        public ulong pointItemCount { get; private set; } = 0;
 
         public void SetCanPause(bool s)
         {
@@ -148,6 +156,16 @@ namespace Blastula.VirtualVariables
             score += amount;
             ClampScore();
             return amount;
+        }
+
+        public void AddGraze(int amount)
+        {
+            grazeCount += (ulong)amount;
+        }
+
+        public void AddPointItem(int amount)
+        {
+            pointItemCount += (ulong)amount;
         }
 
         public static Session main { get; private set; } = null;

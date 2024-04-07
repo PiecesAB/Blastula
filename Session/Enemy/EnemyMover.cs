@@ -64,6 +64,7 @@ namespace Blastula
                 return;
             }
             velTween = CreateTween();
+            velTween.Pause();
             velTween.SetTrans(easingTransition).SetEase(easingType);
             velTween.TweenProperty(this, "velocity", newVelocity, tweenDuration);
         }
@@ -77,6 +78,7 @@ namespace Blastula
                 return;
             }
             posTween = enemy.CreateTween();
+            posTween.Pause();
             posTween.SetTrans(easingTransition).SetEase(easingType);
             posTween.TweenProperty(enemy, "global_position", newPosition, tweenDuration);
         }
@@ -86,6 +88,19 @@ namespace Blastula
             base._Process(delta);
             if (enemy == null) { return; }
             if (Session.IsPaused() || Debug.GameFlow.frozen) { return; }
+
+            if (posTween != null)
+            {
+                bool incomplete = posTween.CustomStep(Engine.TimeScale / Persistent.SIMULATED_FPS);
+                if (!incomplete) { posTween = null; }
+            }
+
+            if (velTween != null)
+            {
+                bool incomplete = velTween.CustomStep(Engine.TimeScale / Persistent.SIMULATED_FPS);
+                if (!incomplete) { velTween = null; }
+            }
+
             if (velocityIsRadial)
             {
                 enemy.GlobalPosition += (float)Engine.TimeScale * RadialToCartesian(velocity) / Persistent.SIMULATED_FPS;

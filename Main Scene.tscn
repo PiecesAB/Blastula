@@ -779,8 +779,8 @@ anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = -160.0
-offset_bottom = -104.0
+offset_top = -112.0
+offset_bottom = -56.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("14_dv06k")
@@ -830,21 +830,21 @@ horizontal_alignment = 2
 vertical_alignment = 1
 text_overrun_behavior = 1
 
-[node name="PointItem" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("label")]
+[node name="PointItemValue" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("label")]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = -112.0
-offset_bottom = -55.9999
+offset_top = -160.0
+offset_bottom = -104.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("14_dv06k")
 stat = 1
 label = NodePath("Number")
 
-[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/PointItem"]
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/PointItemValue"]
 visible = false
 modulate = Color(0.482353, 0.482353, 0.482353, 1)
 layout_mode = 1
@@ -860,7 +860,7 @@ grow_vertical = 0
 texture = ExtResource("2_eg8pa")
 expand_mode = 1
 
-[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/PointItem"]
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/PointItemValue"]
 modulate = Color(0.486275, 0.486275, 0.486275, 1)
 layout_mode = 1
 anchors_preset = 2
@@ -874,7 +874,7 @@ grow_vertical = 0
 texture = ExtResource("15_28yc6")
 expand_mode = 1
 
-[node name="Number" type="Label" parent="Rendering Zone/Border/Stats/PointItem"]
+[node name="Number" type="Label" parent="Rendering Zone/Border/Stats/PointItemValue"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

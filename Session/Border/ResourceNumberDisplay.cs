@@ -15,7 +15,7 @@ namespace Blastula.Graphics
     {
         public enum Stat
         {
-            Graze, PointItem
+            Graze, PointItemValue
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Blastula.Graphics
         /// <summary>
         /// If this isn't (0, 0), then the displayed value will be clamped within this range, as a 32-bit integer.
         /// </summary>
-        [Export] public Vector2I bounds = new Vector2I(0, 999999);
+        [Export] public Vector2I bounds = new Vector2I(0, 999990);
 
         public void UpdateNumber()
         {
@@ -60,7 +60,7 @@ namespace Blastula.Graphics
             switch (stat)
             {
                 case Stat.Graze: default: return Session.main.grazeCount.ToString();
-                case Stat.PointItem: return Session.main.pointItemCount.ToString();
+                case Stat.PointItemValue: return Session.main.pointItemValue.ToString();
             }
         }
 

@@ -67,6 +67,18 @@ namespace Blastula.VirtualVariables
         /// Number of point items collected throughout the session. Mainly for single-player use.
         /// </summary>
         public ulong pointItemCount { get; private set; } = 0;
+        /// <summary>
+        /// The full score awarded upon collecting a point item (possibly only above the item get line).
+        /// </summary>
+        public BigInteger pointItemValue { get; private set; } = 10000;
+        /// <summary>
+        /// The lowest possible full point item value.
+        /// </summary>
+        public BigInteger minPointItemValue { get; set; } = 10000;
+        /// <summary>
+        /// The highest possible full point item value.
+        /// </summary>
+        public BigInteger maxPointItemValue { get; set; } = 999990;
 
         public void SetCanPause(bool s)
         {
@@ -131,7 +143,8 @@ namespace Blastula.VirtualVariables
         /// <returns>The actual value added.</returns>
         public BigInteger AddScore(int amount)
         {
-            amount += 10 - amount % 10;
+            int remainder = amount % 10;
+            if (remainder != 0) { amount += 10 - remainder; }
             score += amount;
             ClampScore();
             return amount;
@@ -141,7 +154,8 @@ namespace Blastula.VirtualVariables
         /// <returns>The actual value added.</returns>
         public BigInteger AddScore(double amount)
         {
-            amount = System.Math.Round(amount / 10) * 10;
+            amount = System.Math.Ceiling(amount / 10) * 10;
+            amount = Mathf.Max(10, amount);
             BigInteger bi = new BigInteger(amount);
             score += bi;
             ClampScore();
@@ -152,7 +166,8 @@ namespace Blastula.VirtualVariables
         /// <returns>The actual value added.</returns>
         public BigInteger AddScore(BigInteger amount)
         {
-            amount += 10 - amount % 10;
+            int remainder = (int)(amount % 10);
+            if (remainder != 0) { amount += 10 - remainder; }
             score += amount;
             ClampScore();
             return amount;
@@ -166,6 +181,20 @@ namespace Blastula.VirtualVariables
         public void AddPointItem(int amount)
         {
             pointItemCount += (ulong)amount;
+        }
+
+        public void AddPointItemValue(int amount)
+        {
+            pointItemValue += amount;
+            if (pointItemValue < minPointItemValue) { pointItemValue = minPointItemValue; }
+            else if (pointItemValue > maxPointItemValue) { pointItemValue = maxPointItemValue; }
+        }
+
+        public void SetPointItemValue(BigInteger amount)
+        {
+            pointItemValue = amount;
+            if (pointItemValue < minPointItemValue) { pointItemValue = minPointItemValue; }
+            else if (pointItemValue > maxPointItemValue) { pointItemValue = maxPointItemValue; }
         }
 
         public static Session main { get; private set; } = null;

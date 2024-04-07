@@ -63,9 +63,15 @@ namespace Blastula
         [ExportGroup("Shot Power")]
         [Export] public int shotPower = 100;
         /// <summary>
-        /// The shotPower is bounded between X and Y.
+        /// A list that determines the "power index" from the current shot power.
+        /// The power index ranges from 1 to the list length, including both.
+        /// It is the lowest index in this list which is strictly greater than the current power value.
+        /// This gives Blastodiscs the power_index variable, useful in creating a player shot pattern
+        /// which adapts to the current power in a way that upgrades, rather than directly responding to current power.
+        /// Additionally, the first and last elements of this list should be the minimum and maximum possible power values.
         /// </summary>
-        [Export] public Vector2I shotPowerRange = new Vector2I(100, 400);
+        [Export] public int[] shotPowerCutoffs = new int[] { 100, 200, 300, 400 };
+        private int shotPowerIndex = 1;
         /// <summary>
         /// Amount of bombs the player currently has.
         /// </summary>
@@ -138,6 +144,7 @@ namespace Blastula
         private int grazeGetThisFrame = 0;
         private FrameCounter.Buffer bombStartBuffer = new FrameCounter.Buffer(0);
         private FrameCounter.Buffer deathbombBuffer = new FrameCounter.Buffer(0);
+        
 
         /// <summary>
         /// Blastodiscs in this list will recieve important variables such as "shoot" and "focus".
@@ -176,6 +183,7 @@ namespace Blastula
                     ((IVariableContainer)bd).SetVar("shoot", IsShooting());
                     ((IVariableContainer)bd).SetVar("focus", IsFocused());
                     ((IVariableContainer)bd).SetVar("power", shotPower);
+                    ((IVariableContainer)bd).SetVar("power_index", shotPowerIndex);
                 }
             }
         }
@@ -325,15 +333,14 @@ namespace Blastula
 
             if (CollectibleManager.IsPointItem(bNodeIndex))
             {
-                double fullValue = CollectibleManager.GetPointItemFullValue(bNodeIndex);
-
                 if (itemGetLineActivated)
                 {
-                    var actualAdded = Session.main.AddScore(fullValue);
+                    var actualAdded = Session.main.AddScore(Session.main?.pointItemValue ?? 10);
                     ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.Cyan);
                 }
                 else
                 {
+                    double fullValue = (double)(Session.main?.pointItemValue ?? 10);
                     double cutValue = fullValue
                         * (1.0 - pointItemValueCut)
                         * System.Math.Pow(1.0 - pointItemValueRolloff, (GlobalPosition.Y - itemGetHeight) / 100.0);
@@ -347,8 +354,19 @@ namespace Blastula
             else if (CollectibleManager.IsPowerItem(bNodeIndex))
             {
                 shotPower += Mathf.RoundToInt(bNodePtr->power);
-                if (shotPower > shotPowerRange.Y) { shotPower = shotPowerRange.Y; }
+                if (shotPower > shotPowerCutoffs[shotPowerCutoffs.Length - 1]) { shotPower = shotPowerCutoffs[shotPowerCutoffs.Length - 1]; }
+                bool shotPowerIndexIncreases = false;
+                while (shotPowerIndex < shotPowerCutoffs.Length && shotPower >= shotPowerCutoffs[shotPowerIndex])
+                {
+                    shotPowerIndex++;
+                    shotPowerIndexIncreases = true;
+                }
+                if (shotPowerIndexIncreases)
+                {
 
+                }
+
+                Session.main.AddScore(10);
                 ScorePopupPool.Play(bulletWorldPos, 10, itemGetLineActivated ? Colors.Cyan : Colors.White);
             }
 
@@ -449,8 +467,20 @@ namespace Blastula
 
         private void CountGrazeGetThisFrame()
         {
-            if (StageManager.main != null) { StageManager.main.AddGraze(grazeGetThisFrame); }
-            if (Session.main != null) { Session.main.AddGraze(grazeGetThisFrame); }
+            if (StageManager.main != null) 
+            { 
+                StageManager.main.AddGraze(grazeGetThisFrame); 
+            }
+
+            if (Session.main != null) 
+            {
+                ulong oldGraze = Session.main.grazeCount;
+                Session.main.AddGraze(grazeGetThisFrame);
+                // Every four graze = +10 point item value
+                int pointItemValueJumps = (int)(Session.main.grazeCount / 4 - oldGraze / 4);
+                Session.main.AddPointItemValue(pointItemValueJumps * 10);
+            }
+
             grazeGetThisFrame = 0;
         }
 

@@ -10,6 +10,7 @@ position = Vector2(100, -200)
 script = ExtResource("1_jevmo")
 collectibleSpawnNames = PackedStringArray("EnemyScatterPoint", "EnemyScatterPower")
 collectibleSpawnAmounts = PackedInt32Array(4, 4)
+pointsOnDestroy = 5000.0
 
 [node name="PlaceholderSprite" type="Sprite2D" parent="."]
 modulate = Color(0.792157, 0.792157, 0.792157, 1)

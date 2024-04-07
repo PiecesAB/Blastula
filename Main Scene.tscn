@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=103 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_eg8pa"]
 [ext_resource type="Texture2D" uid="uid://bddg1oxe3uvq8" path="res://addons/Blastula/Graphics/UI/overlayIconScore.png" id="2_wj38h"]
@@ -31,10 +31,18 @@
 [ext_resource type="FontFile" uid="uid://dwexpt8v22wmh" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-BoldItalic.ttf" id="12_70ty0"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Sequence.cs" id="13_pixf2"]
 [ext_resource type="Texture2D" uid="uid://cv2u3ytyfk7v" path="res://addons/Blastula/Graphics/UI/overlayIconPower.png" id="13_t32b7"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Border/PowerDisplay.cs" id="13_yqrit"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/CreateSingle.cs" id="14_alnw1"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Border/ResourceNumberDisplay.cs" id="14_dv06k"]
 [ext_resource type="Texture2D" uid="uid://byw1fbjj2w0ox" path="res://addons/Blastula/Graphics/UI/overlayIconGraze.png" id="14_fpcgm"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/PowerBar.gdshader" id="14_qwsfp"]
+[ext_resource type="Texture2D" uid="uid://bw14s4d47f4m7" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar3.png" id="15_1yrpd"]
 [ext_resource type="Texture2D" uid="uid://bc6hl1kax8q2v" path="res://addons/Blastula/Graphics/UI/overlayIconPointItem.png" id="15_28yc6"]
+[ext_resource type="Texture2D" uid="uid://hbukgsq7dkjo" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBarNoiseSampler.png" id="15_a1gpl"]
+[ext_resource type="Texture2D" uid="uid://6ltikvcvgx7a" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar1.png" id="15_c8snl"]
+[ext_resource type="Texture2D" uid="uid://yrv6fpw8xhmj" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar4.png" id="16_afnvw"]
+[ext_resource type="Texture2D" uid="uid://dnicpnwg6nx4b" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar2.png" id="16_hxmrq"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/PowerBarText.gdshader" id="18_0ys11"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Circle.cs" id="18_xfnro"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Forth.cs" id="19_q6ebi"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="19_ux787"]
@@ -175,6 +183,22 @@ shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
 shader_parameter/uv_center = Vector2(0.5, 0.525)
 shader_parameter/center_brightness_cutoff = 0.5
 shader_parameter/filled_fraction = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j7el3"]
+shader = ExtResource("14_qwsfp")
+shader_parameter/world_top_left = Vector2(-9571, -194)
+shader_parameter/world_size = Vector2(174, 39)
+shader_parameter/filled_fraction = 0.5
+shader_parameter/back_sampler = ExtResource("15_1yrpd")
+shader_parameter/front_sampler = ExtResource("16_afnvw")
+shader_parameter/noise_sampler = ExtResource("15_a1gpl")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_olceh"]
+shader = ExtResource("18_0ys11")
+shader_parameter/world_top_left = Vector2(-9571, -194)
+shader_parameter/world_size = Vector2(174, 39)
+shader_parameter/filled_fraction = 0.5
+shader_parameter/noise_sampler = ExtResource("15_a1gpl")
 
 [sub_resource type="LabelSettings" id="LabelSettings_rjsw2"]
 font = ExtResource("4_5jpkg")
@@ -668,7 +692,7 @@ layout_mode = 2
 texture = ExtResource("9_lwq7t")
 expand_mode = 1
 
-[node name="Power" type="Control" parent="Rendering Zone/Border/Stats"]
+[node name="Power" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("barTextNode", "barVisualNode")]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -678,6 +702,10 @@ offset_top = -208.0
 offset_bottom = -152.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("13_yqrit")
+barTextNode = NodePath("Bar/PowerNumber")
+barVisualNode = NodePath("Bar")
+barImages = Array[Texture2D]([ExtResource("15_c8snl"), ExtResource("16_hxmrq"), ExtResource("15_1yrpd"), ExtResource("16_afnvw")])
 
 [node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/Power"]
 visible = false
@@ -708,6 +736,42 @@ offset_bottom = -6.0
 grow_vertical = 0
 texture = ExtResource("13_t32b7")
 expand_mode = 1
+
+[node name="Bar" type="TextureRect" parent="Rendering Zone/Border/Stats/Power"]
+material = SubResource("ShaderMaterial_j7el3")
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -182.0
+offset_top = -45.0
+offset_right = -2.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("15_c8snl")
+expand_mode = 1
+
+[node name="PowerNumber" type="RichTextLabel" parent="Rendering Zone/Border/Stats/Power/Bar"]
+z_index = 1
+material = SubResource("ShaderMaterial_olceh")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("4_5jpkg")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center]3.50[font_size=18]/4.00[/font_size][/center]"
+scroll_active = false
+shortcut_keys_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
 
 [node name="Graze" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("label")]
 layout_mode = 1

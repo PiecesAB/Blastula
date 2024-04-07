@@ -1224,6 +1224,10 @@ renderName = "Collectible/Power"
 collisionLayerName = "Collectible"
 sleepyCollision = false
 
+[node name="Set power item value" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPower"]
+script = ExtResource("93_kt2yj")
+power = "5"
+
 [node name="Scatter from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPower" node_paths=PackedStringArray("other")]
 script = ExtResource("89_l3rau")
 other = NodePath("../../Subroutines/Scatter From Enemy")

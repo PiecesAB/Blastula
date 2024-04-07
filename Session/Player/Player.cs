@@ -322,6 +322,7 @@ namespace Blastula
             BNode* bNodePtr = BNodeFunctions.masterQueue + bNodeIndex;
             bool itemGetLineActivated = (bNodePtr->phase == 3);
             Vector2 bulletWorldPos = BulletWorldTransforms.Get(bNodeIndex).Origin;
+
             if (CollectibleManager.IsPointItem(bNodeIndex))
             {
                 double fullValue = CollectibleManager.GetPointItemFullValue(bNodeIndex);
@@ -345,6 +346,9 @@ namespace Blastula
             }
             else if (CollectibleManager.IsPowerItem(bNodeIndex))
             {
+                shotPower += Mathf.RoundToInt(bNodePtr->power);
+                if (shotPower > shotPowerRange.Y) { shotPower = shotPowerRange.Y; }
+
                 ScorePopupPool.Play(bulletWorldPos, 10, itemGetLineActivated ? Colors.Cyan : Colors.White);
             }
 
@@ -405,7 +409,11 @@ namespace Blastula
             if (lifeState == LifeState.Dying) { return false; }
             return InputManager.ButtonIsDown(shootName); 
         }
-        public bool IsFocused()  { return InputManager.ButtonIsDown(focusName);  }
+
+        public bool IsFocused()
+        { 
+            return InputManager.ButtonIsDown(focusName);
+        }
 
         private FrameCounter.Cache<Vector2> mvtDirCache = new FrameCounter.Cache<Vector2>();
 

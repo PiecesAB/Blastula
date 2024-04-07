@@ -206,6 +206,16 @@ namespace Blastula
             return GlobalPosition.Y <= itemGetHeight;
         }
 
+        public int GetMinPower()
+        {
+            return shotPowerCutoffs[0];
+        }
+
+        public int GetMaxPower()
+        {
+            return shotPowerCutoffs[shotPowerCutoffs.Length - 1];
+        }
+
         public override void _Ready()
         {
             switch (role)
@@ -335,11 +345,13 @@ namespace Blastula
             {
                 if (itemGetLineActivated)
                 {
+                    // Add the full value of the point item
                     var actualAdded = Session.main.AddScore(Session.main?.pointItemValue ?? 10);
                     ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.Cyan);
                 }
                 else
                 {
+                    // Add a cut value of the point item depending exponentially on the player's screen height
                     double fullValue = (double)(Session.main?.pointItemValue ?? 10);
                     double cutValue = fullValue
                         * (1.0 - pointItemValueCut)
@@ -353,8 +365,18 @@ namespace Blastula
             }
             else if (CollectibleManager.IsPowerItem(bNodeIndex))
             {
+                // Increase power item value if already at max power
+                if (shotPower >= GetMaxPower() && Session.main != null)
+                {
+                    if (Session.main.powerItemValue < 100) { Session.main.AddPowerItemValue(10); }
+                    else { Session.main.AddPowerItemValue(50); }
+                }
+
+                // Increase player's power
                 shotPower += Mathf.RoundToInt(bNodePtr->power);
-                if (shotPower > shotPowerCutoffs[shotPowerCutoffs.Length - 1]) { shotPower = shotPowerCutoffs[shotPowerCutoffs.Length - 1]; }
+                if (shotPower > GetMaxPower()) { shotPower = GetMaxPower(); }
+
+                // Increase power index if appropriate, creating a "Power Up" type effect when it happens
                 bool shotPowerIndexIncreases = false;
                 while (shotPowerIndex < shotPowerCutoffs.Length && shotPower >= shotPowerCutoffs[shotPowerIndex])
                 {
@@ -366,8 +388,17 @@ namespace Blastula
 
                 }
 
-                Session.main.AddScore(10);
-                ScorePopupPool.Play(bulletWorldPos, 10, itemGetLineActivated ? Colors.Cyan : Colors.White);
+                if (StageManager.main != null) 
+                { 
+                    StageManager.main.AddPowerItem(1); 
+                }
+                if (Session.main != null) 
+                { 
+                    Session.main.AddPowerItem(1);
+                    var actualAdded = Session.main.AddScore(Session.main.powerItemValue);
+                    ScorePopupPool.Play(bulletWorldPos, actualAdded, itemGetLineActivated ? Colors.Cyan : Colors.White);
+                }
+                
             }
 
             PostExecute.ScheduleDeletion(bNodeIndex, false);
@@ -480,6 +511,9 @@ namespace Blastula
                 int pointItemValueJumps = (int)(Session.main.grazeCount / 4 - oldGraze / 4);
                 Session.main.AddPointItemValue(pointItemValueJumps * 10);
             }
+
+            // Customize the framework and its classes however you like.
+            // For example, one can add code here that increases the rank per every graze.
 
             grazeGetThisFrame = 0;
         }

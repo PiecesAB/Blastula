@@ -94,7 +94,7 @@ namespace Blastula.Debug
                             DebugConsole.main.Print("Rank not changed: invalid input.");
                         }
                     }
-                },
+                }
             }
         };
     }

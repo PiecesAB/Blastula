@@ -26,7 +26,7 @@ namespace Blastula.Graphics
         public void UpdateBar()
         {
             string decimalText = (displayedValue * 0.01f).ToString("F2");
-            int maxPower = player?.shotPowerCutoffs[player.shotPowerCutoffs.Length - 1] ?? 400;
+            int maxPower = player?.GetMaxPower() ?? 400;
             string decimalFullText = (maxPower * 0.01f).ToString("F2");
             if (displayedValue == maxPower)
             {

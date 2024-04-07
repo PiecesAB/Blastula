@@ -21,6 +21,10 @@ namespace Blastula
         /// Number of point items collected in this stage. Mainly for single-player use.
         /// </summary>
         public ulong pointItemCount { get; private set; } = 0;
+        /// <summary>
+        /// Number of point items collected throughout the session. Mainly for single-player use.
+        /// </summary>
+        public ulong powerItemCount { get; private set; } = 0;
 
         public static StageManager main { get; private set; } = null;
 
@@ -30,6 +34,11 @@ namespace Blastula
         }
 
         public void AddPointItem(int amount)
+        {
+            pointItemCount += (ulong)amount;
+        }
+
+        public void AddPowerItem(int amount)
         {
             pointItemCount += (ulong)amount;
         }

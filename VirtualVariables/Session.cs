@@ -74,11 +74,27 @@ namespace Blastula.VirtualVariables
         /// <summary>
         /// The lowest possible full point item value.
         /// </summary>
-        public BigInteger minPointItemValue { get; set; } = 10000;
+        public BigInteger minPointItemValue { get; private set; } = 10000;
         /// <summary>
         /// The highest possible full point item value.
         /// </summary>
-        public BigInteger maxPointItemValue { get; set; } = 999990;
+        public BigInteger maxPointItemValue { get; private set; } = 999990;
+        /// <summary>
+        /// Number of point items collected throughout the session. Mainly for single-player use.
+        /// </summary>
+        public ulong powerItemCount { get; private set; } = 0;
+        /// <summary>
+        /// The full score awarded upon collecting a power item.
+        /// </summary>
+        public BigInteger powerItemValue { get; private set; } = 10;
+        /// <summary>
+        /// The lowest possible full point item value.
+        /// </summary>
+        public BigInteger minPowerItemValue { get; private set; } = 10;
+        /// <summary>
+        /// The highest possible full point item value.
+        /// </summary>
+        public BigInteger maxPowerItemValue { get; private set; } = 100000;
 
         public void SetCanPause(bool s)
         {
@@ -133,6 +149,8 @@ namespace Blastula.VirtualVariables
             rank = newRank;
         }
 
+        #region Score
+
         private void ClampScore()
         {
             if (score < 0) { score = 0; }
@@ -173,10 +191,14 @@ namespace Blastula.VirtualVariables
             return amount;
         }
 
+        #endregion
+
         public void AddGraze(int amount)
         {
             grazeCount += (ulong)amount;
         }
+
+        #region Point Items
 
         public void AddPointItem(int amount)
         {
@@ -196,6 +218,55 @@ namespace Blastula.VirtualVariables
             if (pointItemValue < minPointItemValue) { pointItemValue = minPointItemValue; }
             else if (pointItemValue > maxPointItemValue) { pointItemValue = maxPointItemValue; }
         }
+
+        public void SetMinPointItemValue(BigInteger newValue)
+        {
+            minPointItemValue = newValue;
+            if (pointItemValue < minPointItemValue) { pointItemValue = minPointItemValue; }
+        }
+
+        public void SetMaxPointItemValue(BigInteger newValue)
+        {
+            maxPointItemValue = newValue;
+            if (pointItemValue > maxPointItemValue) { pointItemValue = maxPointItemValue; }
+        }
+
+        #endregion
+
+        #region Power Items
+
+        public void AddPowerItem(int amount)
+        {
+            powerItemCount += (ulong)amount;
+        }
+
+        public void AddPowerItemValue(int amount)
+        {
+            powerItemValue += amount;
+            if (powerItemValue < minPowerItemValue) { powerItemValue = minPowerItemValue; }
+            else if (powerItemValue > maxPowerItemValue) { powerItemValue = maxPowerItemValue; }
+        }
+
+        public void SetPowerItemValue(BigInteger amount)
+        {
+            powerItemValue = amount;
+            if (powerItemValue < minPowerItemValue) { powerItemValue = minPowerItemValue; }
+            else if (powerItemValue > maxPowerItemValue) { powerItemValue = maxPowerItemValue; }
+        }
+
+        public void SetMinPowerItemValue(BigInteger newValue)
+        {
+            minPowerItemValue = newValue;
+            if (powerItemValue < minPowerItemValue) { powerItemValue = minPowerItemValue; }
+        }
+
+        public void SetMaxPowerItemValue(BigInteger newValue)
+        {
+            maxPowerItemValue = newValue;
+            if (powerItemValue > maxPowerItemValue) { powerItemValue = maxPowerItemValue; }
+        }
+
+        #endregion
 
         public static Session main { get; private set; } = null;
 

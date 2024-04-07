@@ -134,6 +134,7 @@ namespace Blastula.Debug
             commandGroupRegistry.Add(GameFlow.commandGroup);
             commandGroupRegistry.Add(DebugCollision.commandGroup);
             commandGroupRegistry.Add(StatsViews.commandGroup);
+            commandGroupRegistry.Add(DebugPlayer.commandGroup);
             Visible = false;
             ProcessPriority = Persistent.Priorities.PAUSE + 1;
         }

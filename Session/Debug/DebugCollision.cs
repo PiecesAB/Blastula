@@ -36,38 +36,7 @@ namespace Blastula.Debug
                             $"Collision shapes are now {(showCollisionShapes ? "visible" : "invisible")} with color {collisionShapesColor.ToHtml()}"
                         );
                     }
-                },
-
-                new DebugConsole.Command
-                {
-                    name = "god",
-                    usageTip = "god {on/off} {left/right}",
-                    description = "Makes a player invulnerable to enemy and enemy bullet collisions. With left/right argument, " +
-                                  "you can choose which player in a two-player game.",
-                    action = (args) =>
-                    {
-                        bool god = true;
-                        Player.Role control = Player.Role.SinglePlayer;
-                        if (args.Count >= 2) { DebugConsole.SetTruthValue(args[1], ref god); }
-                        string l2 = "";
-                        if (args.Count >= 3)
-                        {
-                            l2 = args[2].ToLower();
-                            if (l2 == "left" || l2 == "l") { control = Player.Role.LeftPlayer; }
-                            else if (l2 == "right" || l2 == "r") { control = Player.Role.RightPlayer; }
-                            else { l2 = ""; }
-                        }
-                        Player player = Player.playersByControl.ContainsKey(control) ? Player.playersByControl[control] : null;
-                        if (player == null)
-                        {
-                            DebugConsole.main.Print("No such player.");
-                            return;
-                        }
-                        player.debugInvulnerable = god;
-                        string l2f = (l2 != "") ? "(" + l2 + ") " : "";
-                        DebugConsole.main.Print($"Player {l2f}is now {(god ? "invulnerable" : "vulnerable")}.");
-                    }
-                },
+                }
             }
         };
 

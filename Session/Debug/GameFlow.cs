@@ -1,5 +1,6 @@
 using Blastula.VirtualVariables;
 using Godot;
+using System.Numerics;
 
 namespace Blastula.Debug
 {
@@ -94,7 +95,26 @@ namespace Blastula.Debug
                             DebugConsole.main.Print("Rank not changed: invalid input.");
                         }
                     }
-                }
+                },
+
+                new DebugConsole.Command
+                {
+                    name = "set_score",
+                    usageTip = "set_score {integer}",
+                    description = "Sets the game score.",
+                    action = (args) =>
+                    {
+                        if (args.Count >= 2 && BigInteger.TryParse(args[1], out BigInteger newScore))
+                        {
+                            Session.main.SetScore(newScore);
+                            DebugConsole.main.Print($"The game score is now {Session.main.score}.");
+                        }
+                        else
+                        {
+                            DebugConsole.main.Print("Score not changed: invalid number.");
+                        }
+                    }
+                },
             }
         };
     }

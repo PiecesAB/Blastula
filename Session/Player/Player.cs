@@ -343,10 +343,11 @@ namespace Blastula
 
             if (CollectibleManager.IsPointItem(bNodeIndex))
             {
+                int multiplier = Mathf.RoundToInt(bNodePtr->power);
                 if (itemGetLineActivated)
                 {
                     // Add the full value of the point item
-                    var actualAdded = Session.main.AddScore(Session.main?.pointItemValue ?? 10);
+                    var actualAdded = Session.main.AddScore(multiplier * (Session.main?.pointItemValue ?? 10));
                     ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.Cyan);
                 }
                 else
@@ -356,7 +357,7 @@ namespace Blastula
                     double cutValue = fullValue
                         * (1.0 - pointItemValueCut)
                         * System.Math.Pow(1.0 - pointItemValueRolloff, (GlobalPosition.Y - itemGetHeight) / 100.0);
-                    var actualAdded = Session.main.AddScore(cutValue);
+                    var actualAdded = Session.main.AddScore(multiplier * cutValue);
                     ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.White);
                 }
 
@@ -368,8 +369,9 @@ namespace Blastula
                 // Increase power item value if already at max power
                 if (shotPower >= GetMaxPower() && Session.main != null)
                 {
-                    if (Session.main.powerItemValue < 100) { Session.main.AddPowerItemValue(10); }
-                    else { Session.main.AddPowerItemValue(50); }
+                    int gain = 10;
+                    gain = gain * Mathf.RoundToInt(bNodePtr->power);
+                    Session.main.AddPowerItemValue(gain);
                 }
 
                 // Increase player's power

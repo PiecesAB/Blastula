@@ -1206,10 +1206,9 @@ renderName = "Collectible/Point"
 collisionLayerName = "Collectible"
 sleepyCollision = false
 
-[node name="Set point item value" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPoint"]
+[node name="Set point multiplier" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPoint"]
 script = ExtResource("93_kt2yj")
-power = "[10, 10, 15, 20, 40][dif]"
-health = "4"
+power = "1"
 
 [node name="Scatter from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPoint" node_paths=PackedStringArray("other")]
 script = ExtResource("89_l3rau")
@@ -1224,7 +1223,7 @@ renderName = "Collectible/Power"
 collisionLayerName = "Collectible"
 sleepyCollision = false
 
-[node name="Set power item value" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPower"]
+[node name="Set power gain" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPower"]
 script = ExtResource("93_kt2yj")
 power = "5"
 

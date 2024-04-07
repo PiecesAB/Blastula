@@ -191,6 +191,12 @@ namespace Blastula.VirtualVariables
             return amount;
         }
 
+        public void SetScore(BigInteger amount)
+        {
+            score = amount;
+            ClampScore();
+        }
+
         #endregion
 
         public void AddGraze(int amount)

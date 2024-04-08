@@ -14,8 +14,8 @@ using System.Collections.Generic;
 namespace Blastula
 {
     /// <summary>
-    /// Sort of a bonus, replaceable class. 
-    /// This is a part of a player that animates the sprite based on various player states.
+    /// Sort of a bonus class. 
+    /// This attaches to the sprite of a player or enemy that animates based on various player states.
     /// </summary>
     public partial class PlayerSpriteAnimator : Sprite2D
     {

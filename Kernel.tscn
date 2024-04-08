@@ -1,4 +1,4 @@
-[gd_scene load_steps=143 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=144 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -99,6 +99,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/TimeStretch.cs" id="92_f6tsy"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Follow.cs" id="93_evxvp"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="93_kt2yj"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/SetItemGetHeight.cs" id="98_4pc22"]
 
 [sub_resource type="Shader" id="Shader_7sty3"]
 code = "shader_type canvas_item;
@@ -1247,12 +1248,19 @@ shouldUseTimer = true
 script = ExtResource("64_w3bqr")
 commonSFXName = "Enemy/Shot3"
 
+[node name="Sound2" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("98_4pc22")
+newHeight = "0"
+
 [node name="Substage 1" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("63_d8ira")
 duration = "9"
 endWhenChildrenComplete = false
 shouldUseTimer = true
 formation = ExtResource("65_1m2vo")
+
+[node name="Sound3" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("98_4pc22")
 
 [node name="Wait" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("66_doh6d")

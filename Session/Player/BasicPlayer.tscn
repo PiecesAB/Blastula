@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ctimhu6oe4q4o"]
+[gd_scene load_steps=18 format=3 uid="uid://ctimhu6oe4q4o"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/Player.cs" id="1_1dvfo"]
 [ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="2_5a2kt"]
@@ -14,8 +14,9 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="8_vke0m"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="9_27aj7"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Spread.cs" id="10_br3b3"]
-[ext_resource type="Texture2D" uid="uid://qfmxv046puox" path="res://addons/Blastula/Graphics/NodeIcons/player.png" id="11_knxrc"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Target.cs" id="12_57sxr"]
+[ext_resource type="Texture2D" uid="uid://be12ykp0qfi35" path="res://addons/Blastula/Session/Player/playerMainSheet.png" id="14_22bmv"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Player/PlayerSpriteAnimator.cs" id="15_onvmd"]
 
 [node name="BasicPlayer" type="Node2D" node_paths=PackedStringArray("hurtbox", "grazebox", "attractbox")]
 position = Vector2(362, 320)
@@ -79,11 +80,14 @@ duration = "180"
 script = ExtResource("9_27aj7")
 waitTime = "0.083333333"
 
-[node name="PlaceholderSprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 modulate = Color(0.792157, 0.792157, 0.792157, 1)
 z_index = -50
-scale = Vector2(3, 3)
-texture = ExtResource("11_knxrc")
+texture = ExtResource("14_22bmv")
+hframes = 8
+vframes = 3
+frame = 16
+script = ExtResource("15_onvmd")
 
 [node name="Hurtbox" type="Node2D" parent="."]
 script = ExtResource("2_nqktp")

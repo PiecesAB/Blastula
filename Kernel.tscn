@@ -1,4 +1,4 @@
-[gd_scene load_steps=144 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=146 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -53,6 +53,7 @@
 [ext_resource type="Texture2D" uid="uid://cxubm6gatru8e" path="res://addons/Blastula/Graphics/Bullets/teardrop.png" id="40_7pce2"]
 [ext_resource type="Texture2D" uid="uid://8a2kk8vb4l0l" path="res://addons/Blastula/Graphics/Collectibles/point.png" id="48_hga65"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/LaserRendererManager.cs" id="48_k35cx"]
+[ext_resource type="Texture2D" uid="uid://d4j2k6hwa0ir2" path="res://addons/Blastula/Graphics/Bullets/playerSpike.png" id="48_uqpna"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Collectible.gdshader" id="49_hetvq"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/ParticleEffectPool.cs" id="50_eyr8l"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/InputManager.cs" id="50_fax0d"]
@@ -101,6 +102,34 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="93_kt2yj"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/SetItemGetHeight.cs" id="98_4pc22"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iv882"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(0.2, 0.2, 0.2, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l76aq"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nkcdk"]
+shader = ExtResource("13_fjrpc")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vdhva"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_est2h"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4x2tf"]
+shader = ExtResource("19_hx3pk")
+shader_parameter/tint = Vector4(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4sdq4"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(1, 0, 0, 1)
+
 [sub_resource type="Shader" id="Shader_7sty3"]
 code = "shader_type canvas_item;
 uniform lowp vec4 tint;
@@ -141,30 +170,6 @@ shader_parameter/tint = Vector4(0, 0, 0, 1)
 shader_parameter/frame_count = 4.0
 shader_parameter/frame_duration = 0.033
 shader_parameter/sync = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_l76aq"]
-shader = ExtResource("13_fjrpc")
-shader_parameter/tint = Vector4(1, 0, 0, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nkcdk"]
-shader = ExtResource("13_fjrpc")
-shader_parameter/tint = Vector4(1, 0, 0, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vdhva"]
-shader = ExtResource("15_3cmmm")
-shader_parameter/tint = Vector4(1, 0, 0, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_est2h"]
-shader = ExtResource("15_3cmmm")
-shader_parameter/tint = Vector4(1, 0, 0, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4x2tf"]
-shader = ExtResource("19_hx3pk")
-shader_parameter/tint = Vector4(0, 0, 0, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4sdq4"]
-shader = ExtResource("15_3cmmm")
-shader_parameter/tint = Vector4(1, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_64j08"]
 shader = ExtResource("22_2qk1a")
@@ -320,11 +325,11 @@ point_count = 2
 [node name="Blastula Kernel" type="Node"]
 
 [node name="Bullet Graphic Preview" type="Node2D" parent="." node_paths=PackedStringArray("graphicsContainer")]
-material = SubResource("ShaderMaterial_n1fl4")
+material = SubResource("ShaderMaterial_iv882")
 script = ExtResource("1_crnkb")
 graphicsContainer = NodePath("../Rendering/Bullet Renderer Manager/Graphics Root")
-graphicName = "Butterfly"
-collisionColor = Color(1, 0, 1, 1)
+graphicName = "Player/Spike"
+collisionColor = Color(1, 0, 1, 0.521569)
 
 [node name="BG" type="Sprite2D" parent="Bullet Graphic Preview"]
 z_index = -4096
@@ -823,6 +828,15 @@ size = Vector2(32, 32)
 material = SubResource("ShaderMaterial_462aa")
 zIndex = -100
 collisionSize = Vector2(20, 0)
+
+[node name="Spike" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Player"]
+script = ExtResource("10_gun14")
+texture = ExtResource("48_uqpna")
+modulate = Color(0.252028, 0.252028, 0.252028, 1)
+size = Vector2(48, 24)
+material = SubResource("ShaderMaterial_iv882")
+zIndex = -100
+collisionSize = Vector2(26, 0)
 
 [node name="Collectible" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root"]
 

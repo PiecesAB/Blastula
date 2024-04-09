@@ -59,7 +59,7 @@
 [ext_resource type="Texture2D" uid="uid://brtg0dp7i1813" path="res://addons/Blastula/Graphics/UI/itemGetLineArrow.png" id="34_r2av8"]
 [ext_resource type="FontFile" uid="uid://dtwct8imbtrpq" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RI.otf" id="34_vluwy"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ClearBehaviors.cs" id="37_2alt6"]
-[ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/Session/Player/BasicPlayer.tscn" id="38_tvlm6"]
+[ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/Session/Player/PictusXXIV.tscn" id="38_tvlm6"]
 [ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/BasicEnemy.tscn" id="41_3fr6s"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetMultimeshExtraData.cs" id="41_rxobj"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="41_v4q22"]
@@ -1526,7 +1526,7 @@ mainSchedule = NodePath("Main schedule")
 [node name="Main schedule" type="Node" parent="Sanae midboss nonspell clone2"]
 script = ExtResource("42_51n0m")
 
-[node name="BasicPlayer" parent="." instance=ExtResource("38_tvlm6")]
+[node name="PictusXXIV" parent="." instance=ExtResource("38_tvlm6")]
 position = Vector2(-100, 320)
 
 [node name="BasicEnemy" parent="." instance=ExtResource("41_3fr6s")]

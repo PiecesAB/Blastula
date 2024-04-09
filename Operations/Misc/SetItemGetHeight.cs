@@ -50,7 +50,7 @@ namespace Blastula.Operations
             if (display == null) { return; }
 
             if (showLine) { _ = display.DisplayLine(); }
-            else { display.SetWithoutLineDisplay(); }
+            else { _ = display.SetWithoutLineDisplay(); }
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Blastula.Graphics
         public override void _Ready()
         {
             displaysByPlayerRole[role] = this;
-            _ = DisplayLine();
+            _ = SetWithoutLineDisplay();
         }
 
         private float GetOpacityPulse()
@@ -56,10 +56,16 @@ namespace Blastula.Graphics
             }
         }
 
-        public void SetWithoutLineDisplay()
+        public async Task SetWithoutLineDisplay()
         {
             SetPlayerIfNeeded();
-            if (player == null) { return; }
+            if (player == null)
+            {
+                // Try again to get the player next frame; give up if they still don't exist.
+                await this.WaitOneFrame();
+                SetPlayerIfNeeded();
+                if (player == null) { return; }
+            }
             Position = new Vector2(Position.X, player.itemGetHeight);
         }
 

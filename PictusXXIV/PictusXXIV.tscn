@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://ctimhu6oe4q4o"]
+[gd_scene load_steps=42 format=3 uid="uid://ctimhu6oe4q4o"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/Player.cs" id="1_1dvfo"]
 [ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="2_5a2kt"]
@@ -21,6 +21,17 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/PlayerSpriteAnimator.cs" id="15_onvmd"]
 [ext_resource type="Texture2D" uid="uid://b13yfiypr2inj" path="res://addons/Blastula/PictusXXIV/tile.png" id="17_t28hd"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/PlayerAnimOrchestrator.cs" id="21_0ljbm"]
+[ext_resource type="Texture2D" uid="uid://4vi0qw2qdkeq" path="res://addons/Blastula/PictusXXIV/hitbox.png" id="21_4wp8w"]
+[ext_resource type="Shader" path="res://addons/Blastula/PictusXXIV/HitboxFlash.gdshader" id="21_e4g5l"]
+[ext_resource type="Shader" path="res://addons/Blastula/PictusXXIV/GrazeboxSpin.gdshader" id="23_om5bp"]
+[ext_resource type="Texture2D" uid="uid://br7s8rx11hpsi" path="res://addons/Blastula/PictusXXIV/grazebox.png" id="24_v4sdr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uln5o"]
+shader = ExtResource("21_e4g5l")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jwp4i"]
+shader = ExtResource("23_om5bp")
+shader_parameter/opacity = 0.5
 
 [sub_resource type="Animation" id="Animation_g4xkc"]
 resource_name = "Focused"
@@ -329,6 +340,97 @@ _data = {
 "Focused": SubResource("Animation_g4xkc"),
 "RESET": SubResource("Animation_8ro86"),
 "Unfocused": SubResource("Animation_j4pc5")
+}
+
+[sub_resource type="Animation" id="Animation_msblu"]
+resource_name = "Focused"
+length = 0.25
+step = 0.0625
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HitboxDisplay/Hitbox:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(0.7, 0.7), Vector2(0.55, 0.55)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitboxDisplay/Grazebox:material:shader_parameter/opacity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.33]
+}
+
+[sub_resource type="Animation" id="Animation_473c3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HitboxDisplay/Hitbox:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.2, 1.2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitboxDisplay/Grazebox:material:shader_parameter/opacity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+
+[sub_resource type="Animation" id="Animation_nhfkt"]
+resource_name = "Unfocused"
+length = 0.35
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HitboxDisplay/Hitbox:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.00136e-05, 1.00136e-05)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitboxDisplay/Grazebox:material:shader_parameter/opacity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mopa7"]
+_data = {
+"Focused": SubResource("Animation_msblu"),
+"RESET": SubResource("Animation_473c3"),
+"Unfocused": SubResource("Animation_nhfkt")
 }
 
 [sub_resource type="Animation" id="Animation_tk4xf"]
@@ -1394,14 +1496,6 @@ scale = Vector2(0.4, 0.4)
 texture = ExtResource("17_t28hd")
 flip_h = true
 
-[node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(0, 13)
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("14_ewsjp")
-hframes = 8
-vframes = 5
-script = ExtResource("15_onvmd")
-
 [node name="Hurtbox" type="Node2D" parent="."]
 script = ExtResource("2_nqktp")
 size = Vector2(6, 0)
@@ -1409,7 +1503,7 @@ objectLayer = "Player"
 
 [node name="Grazebox" type="Node2D" parent="."]
 script = ExtResource("2_nqktp")
-size = Vector2(64, 0)
+size = Vector2(80, 0)
 objectLayer = "Player"
 showMode = 0
 
@@ -1423,27 +1517,54 @@ showMode = 0
 script = ExtResource("12_57sxr")
 ID = "Player"
 
-[node name="AnimOrchestrator" type="Node2D" parent="." node_paths=PackedStringArray("powerIndexAP", "focusAP")]
-script = ExtResource("21_0ljbm")
-powerIndexAP = NodePath("AnimPowerIndex")
-focusAP = NodePath("AnimFocus")
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, 13)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("14_ewsjp")
+hframes = 8
+vframes = 5
+script = ExtResource("15_onvmd")
 
-[node name="AnimFocus" type="AnimationPlayer" parent="AnimOrchestrator"]
+[node name="HitboxDisplay" type="Node2D" parent="."]
+
+[node name="Hitbox" type="Sprite2D" parent="HitboxDisplay"]
+material = SubResource("ShaderMaterial_uln5o")
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("21_4wp8w")
+
+[node name="Grazebox" type="Sprite2D" parent="HitboxDisplay"]
+z_index = -1
+material = SubResource("ShaderMaterial_jwp4i")
+scale = Vector2(0.66, 0.66)
+texture = ExtResource("24_v4sdr")
+
+[node name="AnimOrchestrator" type="Node2D" parent="." node_paths=PackedStringArray("powerIndexAPs", "focusAPs")]
+script = ExtResource("21_0ljbm")
+powerIndexAPs = [NodePath("OptionPowerIndex")]
+focusAPs = [NodePath("OptionFocus"), NodePath("HitboxFocus")]
+
+[node name="OptionFocus" type="AnimationPlayer" parent="AnimOrchestrator"]
 root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_1moyp")
 }
 autoplay = "Unfocused"
-speed_scale = 0.0
 blend_times = [&"Focused", &"RESET", 0.1, &"Focused", &"Focused", 0.1, &"Focused", &"Unfocused", 0.1, &"Unfocused", &"RESET", 0.1, &"Unfocused", &"Focused", 0.1, &"Unfocused", &"Unfocused", 0.1]
 
-[node name="AnimPowerIndex" type="AnimationPlayer" parent="AnimOrchestrator"]
+[node name="HitboxFocus" type="AnimationPlayer" parent="AnimOrchestrator"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_mopa7")
+}
+autoplay = "Unfocused"
+blend_times = [&"Focused", &"Unfocused", 0.1]
+
+[node name="OptionPowerIndex" type="AnimationPlayer" parent="AnimOrchestrator"]
 root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_7dwnl")
 }
 autoplay = "1"
-speed_scale = 0.0
 
 [connection signal="Collision" from="Hurtbox" to="." method="OnHit"]
 [connection signal="Collision" from="Grazebox" to="." method="OnHit"]

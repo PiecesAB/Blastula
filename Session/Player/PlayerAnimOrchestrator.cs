@@ -1,6 +1,7 @@
 using Blastula.VirtualVariables;
 using Godot;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Blastula.Graphics
@@ -13,13 +14,15 @@ namespace Blastula.Graphics
     public partial class PlayerAnimOrchestrator : Node
     {
         /// <summary>
-        /// Play the track with a name "1", "2", "3", ... depending on the current Player's shotPowerIndex.
+        /// For each AnimationPlayer in the list,
+        /// play the track with a name "1", "2", "3", ... depending on the current Player's shotPowerIndex.
         /// </summary>
-        [Export] public AnimationPlayer powerIndexAP;
+        [Export] public AnimationPlayer[] powerIndexAPs;
         /// <summary>
-        /// If the player is focused, play track "Focused", else play "Unfocused".
+        /// For each AnimationPlayer in the list,
+        /// if the player is focused, play track "Focused", else play "Unfocused".
         /// </summary>
-        [Export] public AnimationPlayer focusAP;
+        [Export] public AnimationPlayer[] focusAPs;
 
         private Player player = null;
         private bool isFocused = false;
@@ -38,14 +41,20 @@ namespace Blastula.Graphics
         {
             if (!needsUpdate || player == null) { return; }
             needsUpdate = false;
-            powerIndexAP.SpeedScale = focusAP.SpeedScale = 1f;
             string focusTrackName = isFocused ? FOCUSED_WORD : UNFOCUSED_WORD;
+            string powerIndexName = currPowerIndex.ToString();
             // We pause animations immediately to manually handle time in _Process.
             // If not, the game behavior may differ due to framerate, causing inconsistency in replays.
-            focusAP.Play(focusTrackName);
-            focusAP.Pause();
-            powerIndexAP.Play(currPowerIndex.ToString());
-            powerIndexAP.Pause();
+            foreach (AnimationPlayer focusAP in focusAPs)
+            {
+                focusAP.Play(focusTrackName);
+                focusAP.Pause();
+            }
+            foreach (AnimationPlayer powerIndexAP in powerIndexAPs)
+            {
+                powerIndexAP.Play(powerIndexName);
+                powerIndexAP.Pause();
+            }
         }
 
         public override void _Process(double delta)
@@ -53,14 +62,20 @@ namespace Blastula.Graphics
             base._Process(delta);
             if (player == null && GetParent() is Player) { player = (Player)GetParent(); }
             if (player == null) { return; }
-            
+
             if (!Session.main?.paused ?? false)
             {
                 // We manually handle time.
                 // If not, the game behavior may differ due to framerate, causing inconsistency in replays.
                 double animationStep = Engine.TimeScale / Persistent.SIMULATED_FPS;
-                focusAP.Advance(animationStep);
-                powerIndexAP.Advance(animationStep);
+                foreach (AnimationPlayer focusAP in focusAPs)
+                {
+                    focusAP.Advance(animationStep);
+                }
+                foreach (AnimationPlayer powerIndexAP in powerIndexAPs)
+                {
+                    powerIndexAP.Advance(animationStep);
+                }
             }
 
             if (player.IsFocused() != isFocused)

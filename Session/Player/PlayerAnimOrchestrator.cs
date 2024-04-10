@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 namespace Blastula.Graphics
 {
     /// <summary>
-    /// This script should belong to the options (shot-producing helpers) of a player, as a direct child object.
-    /// It's only in this way that the Player can find and activate it when necessary.
-    /// This class orchestrates AnimationPlayer classes to cause the options to display properly.
+    /// This script's Node should be a direct child of the Player.
+    /// It orchestrates AnimationPlayer classes to cause certain 
+    /// the options to display properly.
     /// </summary>
-    public partial class PlayerOptionsAnimator : Node
+    public partial class PlayerAnimOrchestrator : Node
     {
         /// <summary>
         /// Play the track with a name "1", "2", "3", ... depending on the current Player's shotPowerIndex.
@@ -42,9 +42,9 @@ namespace Blastula.Graphics
             string focusTrackName = isFocused ? FOCUSED_WORD : UNFOCUSED_WORD;
             // We pause animations immediately to manually handle time in _Process.
             // If not, the game behavior may differ due to framerate, causing inconsistency in replays.
-            focusAP.Play(focusTrackName, 0.1f);
+            focusAP.Play(focusTrackName);
             focusAP.Pause();
-            powerIndexAP.Play(currPowerIndex.ToString(), 0f);
+            powerIndexAP.Play(currPowerIndex.ToString());
             powerIndexAP.Pause();
         }
 

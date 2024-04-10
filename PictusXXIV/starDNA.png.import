@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4j2k6hwa0ir2"
-path="res://.godot/imported/playerSpike.png-85d3e7ecb422951ef32a13e02d77c6c4.ctex"
+uid="uid://cwqw1d5hs3ejo"
+path="res://.godot/imported/starDNA.png-bad6ff43608feba6259c79644977605a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Blastula/Graphics/Bullets/playerSpike.png"
-dest_files=["res://.godot/imported/playerSpike.png-85d3e7ecb422951ef32a13e02d77c6c4.ctex"]
+source_file="res://addons/Blastula/PictusXXIV/starDNA.png"
+dest_files=["res://.godot/imported/starDNA.png-bad6ff43608feba6259c79644977605a.ctex"]
 
 [params]
 

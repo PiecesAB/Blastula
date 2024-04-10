@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://be12ykp0qfi35"
-path="res://.godot/imported/playerMainSheet.png-e32fa11877403cd96dc3eb66a017a922.ctex"
+uid="uid://do025twdix7h2"
+path="res://.godot/imported/pictusXXIV.png-f204004503e1bb2de8d30b10b939cfe7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Blastula/Session/Player/playerMainSheet.png"
-dest_files=["res://.godot/imported/playerMainSheet.png-e32fa11877403cd96dc3eb66a017a922.ctex"]
+source_file="res://addons/Blastula/PictusXXIV/pictusXXIV.png"
+dest_files=["res://.godot/imported/pictusXXIV.png-f204004503e1bb2de8d30b10b939cfe7.ctex"]
 
 [params]
 

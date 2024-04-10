@@ -1,4 +1,4 @@
-[gd_scene load_steps=146 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=147 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -53,8 +53,9 @@
 [ext_resource type="Texture2D" uid="uid://cxubm6gatru8e" path="res://addons/Blastula/Graphics/Bullets/teardrop.png" id="40_7pce2"]
 [ext_resource type="Texture2D" uid="uid://8a2kk8vb4l0l" path="res://addons/Blastula/Graphics/Collectibles/point.png" id="48_hga65"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/LaserRendererManager.cs" id="48_k35cx"]
-[ext_resource type="Texture2D" uid="uid://d4j2k6hwa0ir2" path="res://addons/Blastula/Graphics/Bullets/playerSpike.png" id="48_uqpna"]
+[ext_resource type="Texture2D" uid="uid://d4j2k6hwa0ir2" path="res://addons/Blastula/PictusXXIV/spike.png" id="48_uqpna"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Collectible.gdshader" id="49_hetvq"]
+[ext_resource type="Texture2D" uid="uid://cwqw1d5hs3ejo" path="res://addons/Blastula/PictusXXIV/starDNA.png" id="49_sr0qj"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/ParticleEffectPool.cs" id="50_eyr8l"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/InputManager.cs" id="50_fax0d"]
 [ext_resource type="Texture2D" uid="uid://dtfx7la3l3xpt" path="res://addons/Blastula/Graphics/Collectibles/power.png" id="50_y2uyf"]
@@ -328,7 +329,7 @@ point_count = 2
 material = SubResource("ShaderMaterial_iv882")
 script = ExtResource("1_crnkb")
 graphicsContainer = NodePath("../Rendering/Bullet Renderer Manager/Graphics Root")
-graphicName = "Player/Spike"
+graphicName = "Player/PictusXXIV/Star"
 collisionColor = Color(1, 0, 1, 0.521569)
 
 [node name="BG" type="Sprite2D" parent="Bullet Graphic Preview"]
@@ -829,14 +830,45 @@ material = SubResource("ShaderMaterial_462aa")
 zIndex = -100
 collisionSize = Vector2(20, 0)
 
-[node name="Spike" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Player"]
+[node name="PictusXXIV" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Player"]
+
+[node name="Spike" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Player/PictusXXIV"]
 script = ExtResource("10_gun14")
 texture = ExtResource("48_uqpna")
-modulate = Color(0.252028, 0.252028, 0.252028, 1)
+modulate = Color(0.25098, 0.25098, 0.25098, 1)
 size = Vector2(48, 24)
 material = SubResource("ShaderMaterial_iv882")
 zIndex = -100
 collisionSize = Vector2(26, 0)
+
+[node name="Stout" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Player/PictusXXIV/Spike"]
+script = ExtResource("10_gun14")
+texture = ExtResource("48_uqpna")
+modulate = Color(0.564706, 0, 0.164706, 1)
+size = Vector2(32, 24)
+material = SubResource("ShaderMaterial_iv882")
+zIndex = -100
+collisionSize = Vector2(24, 0)
+
+[node name="Star" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Player/PictusXXIV"]
+script = ExtResource("10_gun14")
+texture = ExtResource("49_sr0qj")
+modulate = Color(0.564237, 0, 0.165432, 1)
+size = Vector2(40, 40)
+material = SubResource("ShaderMaterial_iv882")
+unrotatedGraphic = true
+zIndex = -100
+collisionSize = Vector2(26, 0)
+
+[node name="Small" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Player/PictusXXIV/Star"]
+script = ExtResource("10_gun14")
+texture = ExtResource("49_sr0qj")
+modulate = Color(0.25098, 0.25098, 0.25098, 1)
+size = Vector2(24, 24)
+material = SubResource("ShaderMaterial_iv882")
+unrotatedGraphic = true
+zIndex = -100
+collisionSize = Vector2(20, 0)
 
 [node name="Collectible" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root"]
 
@@ -1254,7 +1286,7 @@ script = ExtResource("63_d8ira")
 
 [node name="Substage 0" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("63_d8ira")
-duration = "10"
+duration = "1600"
 endWhenChildrenComplete = false
 shouldUseTimer = true
 

@@ -11,7 +11,7 @@ using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 
-namespace Blastula
+namespace Blastula.Graphics
 {
     /// <summary>
     /// This script should belong to the sprite of a player. 

@@ -77,6 +77,7 @@ namespace Blastula.Debug
                             return;
                         }
                         player.shotPower = Mathf.Clamp(newPower, player.GetMinPower(), player.GetMaxPower());
+                        player.RecalculateShotPowerIndex();
                         string l2f = (l2 != "") ? "(" + l2 + ") " : "";
                         DebugConsole.main.Print($"Player {l2f}power is now {player.shotPower}.");
                     }

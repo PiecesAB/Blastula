@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Blastula.Schedules
 {
     /// <summary>
-    /// Directly sets the container's position.
+    /// Directly sets the container's position (and possibly rotation in degrees).
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/setPosition.png")]
@@ -14,8 +14,12 @@ namespace Blastula.Schedules
     {
         [Export] public string X = "0";
         [Export] public string Y = "0";
+        [Export] public string myRotation = "0";
+        [Export] public Node2D referencePoint;
+        [Export] public bool usePosition = true;
+        [Export] public bool useRotation = false;
         [Export] public bool useGlobalPosition = true;
-        [Export] public string setPositionVariable = "";
+        [Export] public string setOldPositionVariable = "";
 
         public override Task Execute(IVariableContainer source)
         {
@@ -23,14 +27,27 @@ namespace Blastula.Schedules
             if (source is not Node2D) { return Task.CompletedTask; }
             Node2D source2D = (Node2D)source;
             ExpressionSolver.currentLocalContainer = source;
-            if (setPositionVariable != null && setPositionVariable != "")
+            if (setOldPositionVariable != null && setOldPositionVariable != "")
             {
-                if (useGlobalPosition) { source.SetVar(setPositionVariable, source2D.GlobalPosition); }
-                else { source.SetVar(setPositionVariable, source2D.GlobalPosition); }
+                if (useGlobalPosition) { source.SetVar(setOldPositionVariable, source2D.GlobalPosition); }
+                else { source.SetVar(setOldPositionVariable, source2D.Position); }
             }
             Vector2 newPosition = new Vector2(Solve("X").AsSingle(), Solve("Y").AsSingle());
-            if (useGlobalPosition) { source2D.GlobalPosition = newPosition; }
-            else { source2D.Position = newPosition; }
+            float newRotation = Mathf.DegToRad(Solve("myRotation").AsSingle());
+            if (useGlobalPosition) 
+            {
+                newPosition += referencePoint?.GlobalPosition ?? Vector2.Zero;
+                newRotation += referencePoint?.GlobalRotation ?? 0f;
+                if (usePosition) { source2D.GlobalPosition = newPosition; }
+                if (useRotation) { source2D.GlobalRotation = newRotation; }
+            }
+            else 
+            {
+                newPosition += referencePoint?.Position ?? Vector2.Zero;
+                newRotation += referencePoint?.Rotation ?? 0f;
+                if (usePosition) { source2D.Position = newPosition; }
+                if (useRotation) { source2D.Rotation = newRotation; }
+            }
             return Task.CompletedTask;
         }
     }

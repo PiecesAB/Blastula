@@ -71,7 +71,7 @@ namespace Blastula
         /// Additionally, the first and last elements of this list should be the minimum and maximum possible power values.
         /// </summary>
         [Export] public int[] shotPowerCutoffs = new int[] { 100, 200, 300, 400 };
-        private int shotPowerIndex = 1;
+        public int shotPowerIndex { get; private set; } = 1;
         /// <summary>
         /// Amount of bombs the player currently has.
         /// </summary>
@@ -214,6 +214,15 @@ namespace Blastula
         public int GetMaxPower()
         {
             return shotPowerCutoffs[shotPowerCutoffs.Length - 1];
+        }
+
+        public void RecalculateShotPowerIndex()
+        {
+            shotPowerIndex = 1;
+            while (shotPowerIndex < shotPowerCutoffs.Length && shotPower >= shotPowerCutoffs[shotPowerIndex])
+            {
+                shotPowerIndex++;
+            }
         }
 
         public override void _Ready()
@@ -462,7 +471,8 @@ namespace Blastula
         }
 
         public bool IsFocused()
-        { 
+        {
+            if (lifeState == LifeState.Dying) { return false; }
             return InputManager.ButtonIsDown(focusName);
         }
 

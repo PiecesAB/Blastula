@@ -1,13 +1,11 @@
 using Blastula.VirtualVariables;
 using Godot;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Blastula.Graphics
 {
     /// <summary>
-    /// A singleton for handling the small score popups which appear upon touching a collectible.
+    /// One PopupPool node handles one style of popups which appear upon touching a collectible.
     /// </summary>
     /// <remarks>
     /// This is sort of incidental:
@@ -16,10 +14,14 @@ namespace Blastula.Graphics
     /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/particleEffectPool.png")]
-    public partial class ScorePopupPool : Node
+    public partial class LabelPool : Node
     {
         /// <summary>
-        /// A sample of the score popup effect.
+        /// Globally identify this pool for later access.
+        /// </summary>
+        [Export] public string ID = "ScoreNumber";
+        /// <summary>
+        /// A sample of the score popup effect. Must be a label.
         /// </summary>
         [Export] public PackedScene sample;
         /// <summary>
@@ -28,7 +30,7 @@ namespace Blastula.Graphics
         [Export] public int count = 100;
         [Export] public int effectDurationFrames = 120;
 
-        private static ScorePopupPool main = null;
+        private static Dictionary<string, LabelPool> poolByID = new Dictionary<string, LabelPool>();
         private Label[] instances;
         private int nextIndex = 0;
         private ulong lastEffectStageFrame = 0;
@@ -43,7 +45,7 @@ namespace Blastula.Graphics
         /// </summary>
         private Queue<RemovalOrder> removeQueue = new Queue<RemovalOrder>();
 
-        private static string GetScoreString(System.Numerics.BigInteger bigInteger)
+        public static string GetScoreString(System.Numerics.BigInteger bigInteger)
         {
             string raw = bigInteger.ToString();
             if (raw.Length <= 6) { return raw; }
@@ -53,29 +55,30 @@ namespace Blastula.Graphics
         /// <summary>
         /// Places and activates a score popup effect.
         /// </summary>
-        public static void Play(Vector2 position, System.Numerics.BigInteger scoreNumber, Color color)
+        public static void Play(string ID, Vector2 position, string text, Color color)
         {
-            if (main == null) { return; }
-            if (main.lastEffectStageFrame == FrameCounter.stageFrame) { return; }
-            Label effect = main.instances[main.nextIndex];
+            if (!poolByID.ContainsKey(ID)) { return; }
+            LabelPool pool = poolByID[ID];
+            if (pool.lastEffectStageFrame == FrameCounter.stageFrame) { return; }
+            Label effect = pool.instances[pool.nextIndex];
             effect.Modulate = color;
-            effect.Text = GetScoreString(scoreNumber);
+            effect.Text = text;
             effect.Visible = true;
             effect.GlobalPosition = position - 0.5f * effect.Size + new Vector2(0, -30);
             float stageTime = BulletRendererManager.GetStageTimeGlobalValue();
             ((ShaderMaterial)effect.Material).SetShaderParameter("start_time", stageTime);
-            main.removeQueue.Enqueue(new RemovalOrder {
-                instanceIndex = main.nextIndex,
-                removalFrame = FrameCounter.stageFrame + (ulong)main.effectDurationFrames 
+            pool.removeQueue.Enqueue(new RemovalOrder {
+                instanceIndex = pool.nextIndex,
+                removalFrame = FrameCounter.stageFrame + (ulong)pool.effectDurationFrames 
             });
-            main.nextIndex = (main.nextIndex + 1) % main.count;
-            main.lastEffectStageFrame = FrameCounter.stageFrame;
+            pool.nextIndex = (pool.nextIndex + 1) % pool.count;
+            pool.lastEffectStageFrame = FrameCounter.stageFrame;
         }
 
         public override void _Ready()
         {
             base._Ready();
-            main = this;
+            poolByID[ID] = this;
             instances = new Label[count];
             for (int i = 0; i < count; ++i)
             {
@@ -83,7 +86,6 @@ namespace Blastula.Graphics
                 // Make them initially invisible
                 instances[i].Visible = false;
                 instances[i].Material = (Material)instances[i].Material.Duplicate();
-                
             }
         }
 

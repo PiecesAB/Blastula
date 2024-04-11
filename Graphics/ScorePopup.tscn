@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bc7kctwet5lox"]
 
-[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/ScorePopup.gdshader" id="1_ln87b"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/LabelPopup.gdshader" id="1_ln87b"]
 [ext_resource type="FontFile" uid="uid://bbkmtp35u4q3h" path="res://addons/Blastula/Graphics/UI/popupScoreNumbers.png" id="2_kqa1u"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t6hjm"]

@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhs5bv06xyf0f"]
+
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/LabelPopup.gdshader" id="1_o5sgw"]
+[ext_resource type="FontFile" uid="uid://dtwct8imbtrpq" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RI.otf" id="2_r000m"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rvfkk"]
+shader = ExtResource("1_o5sgw")
+shader_parameter/character_delay = 0.01
+shader_parameter/start_time = 0.0
+shader_parameter/time_extension = 0.8
+shader_parameter/undulation = Vector2(5, 7)
+
+[node name="Sample" type="Label"]
+self_modulate = Color(1, 1, 1, 0.627451)
+z_index = 1
+material = SubResource("ShaderMaterial_rvfkk")
+custom_minimum_size = Vector2(140, 26)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 4360.0
+offset_top = 4520.0
+offset_right = 4500.0
+offset_bottom = 4546.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("2_r000m")
+theme_override_font_sizes/font_size = 24
+text = "Life piece get!"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -115,7 +115,8 @@ namespace Blastula
         /// </example>
         [Export] public float pointItemValueRolloff = 0.1f;
         private Vector2 attractboxOriginalSize;
-        private string COLLECTIBLE_ATTRACT_SEQUENCE_NAME = "CollectibleAttractPhase";
+        private const string COLLECTIBLE_ATTRACT_SEQUENCE_NAME = "CollectibleAttractPhase";
+        private const string SCORE_NUMBER_LABEL_POOL_NAME = "ScoreNumber";
 
         public enum LifeState
         {
@@ -272,21 +273,38 @@ namespace Blastula
         public void PerformExtendEffect()
         {
             CommonSFXManager.PlayByName("Player/Extend", 1, 1f, GlobalPosition, true);
+            LabelPool.Play("MajorItem", GlobalPosition, "Life get.", Colors.White);
         }
 
         public void PerformExtendPieceEffect()
         {
             CommonSFXManager.PlayByName("Player/ExtendPiece", 1, 1f, GlobalPosition, true);
+            LabelPool.Play("MinorItem", GlobalPosition, "Life piece get.", Colors.White);
         }
 
         public void PerformGetBombEffect()
         {
             CommonSFXManager.PlayByName("Player/GetBomb", 1, 1f, GlobalPosition, true);
+            LabelPool.Play("MajorItem", GlobalPosition, "Bomb get.", Colors.White);
         }
 
         public void PerformGetBombPieceEffect()
         {
             CommonSFXManager.PlayByName("Player/GetBombPiece", 1, 1f, GlobalPosition, true);
+            LabelPool.Play("MinorItem", GlobalPosition, "Bomb piece get.", Colors.White);
+        }
+
+        public void PerformPowerUpEffect()
+        {
+            CommonSFXManager.PlayByName("Player/PowerUp", 1, 1f, GlobalPosition, true);
+            if (shotPower == GetMaxPower())
+            {
+                LabelPool.Play("MajorItem", GlobalPosition, "Power MAX.", Colors.White);
+            }
+            else
+            {
+                LabelPool.Play("MinorItem", GlobalPosition, "Power evolve.", Colors.White);
+            }
         }
 
         public override void _Ready()
@@ -423,7 +441,8 @@ namespace Blastula
                 {
                     // Add the full value of the point item
                     var actualAdded = Session.main.AddScore(multiplier * (Session.main?.pointItemValue ?? 10));
-                    ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.Cyan);
+                    string scoreString = LabelPool.GetScoreString(actualAdded);
+                    LabelPool.Play(SCORE_NUMBER_LABEL_POOL_NAME, bulletWorldPos, scoreString, Colors.Cyan);
                 }
                 else
                 {
@@ -433,7 +452,8 @@ namespace Blastula
                         * (1.0 - pointItemValueCut)
                         * System.Math.Pow(1.0 - pointItemValueRolloff, (GlobalPosition.Y - itemGetHeight) / 100.0);
                     var actualAdded = Session.main.AddScore(multiplier * cutValue);
-                    ScorePopupPool.Play(bulletWorldPos, actualAdded, Colors.White);
+                    string scoreString = LabelPool.GetScoreString(actualAdded);
+                    LabelPool.Play(SCORE_NUMBER_LABEL_POOL_NAME, bulletWorldPos, scoreString, Colors.White);
                 }
 
                 if (StageManager.main != null) { StageManager.main.AddPointItem(1); }
@@ -462,7 +482,7 @@ namespace Blastula
                 }
                 if (shotPowerIndexIncreases)
                 {
-
+                    PerformPowerUpEffect();
                 }
 
                 if (StageManager.main != null) 
@@ -473,7 +493,8 @@ namespace Blastula
                 { 
                     Session.main.AddPowerItem(1);
                     var actualAdded = Session.main.AddScore(Session.main.powerItemValue);
-                    ScorePopupPool.Play(bulletWorldPos, actualAdded, itemGetLineActivated ? Colors.Cyan : Colors.White);
+                    string scoreString = LabelPool.GetScoreString(actualAdded);
+                    LabelPool.Play(SCORE_NUMBER_LABEL_POOL_NAME, bulletWorldPos, scoreString, itemGetLineActivated ? Colors.Cyan : Colors.White);
                 }
                 
             }

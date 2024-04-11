@@ -1,4 +1,4 @@
-[gd_scene load_steps=158 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=161 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -71,7 +71,6 @@
 [ext_resource type="Texture2D" uid="uid://bekgaysipks0o" path="res://addons/Blastula/Graphics/Collectibles/bomb.png" id="55_xsnhh"]
 [ext_resource type="AudioStream" uid="uid://bk550dh4yan7h" path="res://addons/Blastula/Sounds/Enemy/enemyShot2.ogg" id="56_2wipd"]
 [ext_resource type="Texture2D" uid="uid://lfvth7u44twc" path="res://addons/Blastula/Graphics/Collectibles/bombPiece.png" id="56_2yy73"]
-[ext_resource type="Script" path="res://addons/Blastula/Graphics/ScorePopupPool.cs" id="56_4xali"]
 [ext_resource type="PackedScene" uid="uid://bc7kctwet5lox" path="res://addons/Blastula/Graphics/ScorePopup.tscn" id="57_2mb1d"]
 [ext_resource type="AudioStream" uid="uid://ma800yc8d8df" path="res://addons/Blastula/Sounds/Enemy/enemyShot3.ogg" id="57_b4lmc"]
 [ext_resource type="AudioStream" uid="uid://c4bcf3o45l5cn" path="res://addons/Blastula/Sounds/Enemy/damaged.ogg" id="57_u6fux"]
@@ -82,10 +81,13 @@
 [ext_resource type="AudioStream" uid="uid://bvfhixp6hlhyd" path="res://addons/Blastula/Sounds/Enemy/explode.ogg" id="60_jg0ee"]
 [ext_resource type="AudioStream" uid="uid://b40ppbhpry1iv" path="res://addons/Blastula/Sounds/Player/graze.ogg" id="60_mqmjd"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/GrazeLines.cs" id="62_deiuq"]
+[ext_resource type="Script" path="res://addons/Blastula/Graphics/LabelPool.cs" id="62_kcacq"]
 [ext_resource type="Script" path="res://addons/Blastula/Stage/StageManager.cs" id="62_lftpa"]
 [ext_resource type="Script" path="res://addons/Blastula/Stage/StageSector.cs" id="63_d8ira"]
+[ext_resource type="PackedScene" uid="uid://dhs5bv06xyf0f" path="res://addons/Blastula/Graphics/MinorItemPopup.tscn" id="64_dsgu3"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Sound.cs" id="64_w3bqr"]
 [ext_resource type="PackedScene" uid="uid://dy1rv3s4i26wp" path="res://addons/Blastula/Stage/EnemySpamTest.tscn" id="65_1m2vo"]
+[ext_resource type="PackedScene" uid="uid://cgd1mi7xmt07f" path="res://addons/Blastula/Graphics/MajorItemPopup.tscn" id="65_x2evx"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="66_doh6d"]
 [ext_resource type="AudioStream" uid="uid://dw6frrbldq4fa" path="res://addons/Blastula/Sounds/Player/vacuum.ogg" id="72_v6inr"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Wind/StandardWindSource.cs" id="77_lsfay"]
@@ -99,6 +101,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="83_cvdh4"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Adapt.cs" id="84_32ue3"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/PlaceRandom.cs" id="85_jp8ml"]
+[ext_resource type="AudioStream" uid="uid://cgg1o8cllmwj2" path="res://addons/Blastula/Sounds/Player/powerUp.ogg" id="86_7q1ra"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ForthByPosition.cs" id="86_r4o8e"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Lifespan.cs" id="87_x6vmf"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetPhase.cs" id="88_2344f"]
@@ -1025,8 +1028,22 @@ sample = ExtResource("51_njfs0")
 count = 100
 
 [node name="Score Popup Pool" type="Node" parent="Rendering"]
-script = ExtResource("56_4xali")
+script = ExtResource("62_kcacq")
 sample = ExtResource("57_2mb1d")
+
+[node name="Minor Item Popup Pool" type="Node" parent="Rendering"]
+script = ExtResource("62_kcacq")
+ID = "MinorItem"
+sample = ExtResource("64_dsgu3")
+count = 60
+effectDurationFrames = 240
+
+[node name="Major Item Popup Pool" type="Node" parent="Rendering"]
+script = ExtResource("62_kcacq")
+ID = "MajorItem"
+sample = ExtResource("65_x2evx")
+count = 30
+effectDurationFrames = 360
 
 [node name="Input Manager" type="Node" parent="." node_paths=PackedStringArray("buttonsHolder")]
 script = ExtResource("50_fax0d")
@@ -1225,6 +1242,9 @@ stream = ExtResource("81_ln761")
 
 [node name="GetBombPiece" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Player"]
 stream = ExtResource("82_61npa")
+
+[node name="PowerUp" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Player"]
+stream = ExtResource("86_7q1ra")
 
 [node name="Game Logic" type="Node" parent="."]
 

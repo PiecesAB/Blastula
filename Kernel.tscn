@@ -1,4 +1,4 @@
-[gd_scene load_steps=147 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=157 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -62,11 +62,15 @@
 [ext_resource type="PackedScene" uid="uid://htuij3trjfo5" path="res://addons/Blastula/Graphics/ExplodeMedium.tscn" id="51_njfs0"]
 [ext_resource type="Script" path="res://addons/Blastula/Sounds/Music.cs" id="52_l68ss"]
 [ext_resource type="Script" path="res://addons/Blastula/Sounds/CommonSFXManager.cs" id="53_22pks"]
+[ext_resource type="Texture2D" uid="uid://1ow6sv288rh8" path="res://addons/Blastula/Graphics/Collectibles/extend.png" id="53_i3y4t"]
 [ext_resource type="AudioStream" uid="uid://y0rkehjfrr2j" path="res://addons/Blastula/Sounds/timeoutWarning.ogg" id="54_gb2so"]
+[ext_resource type="Texture2D" uid="uid://b6fck2215166f" path="res://addons/Blastula/Graphics/Collectibles/extendPiece.png" id="54_l35vm"]
 [ext_resource type="AudioStream" uid="uid://ck5iij88fdqj6" path="res://addons/Blastula/Sounds/pop.ogg" id="54_syovx"]
 [ext_resource type="AudioStream" uid="uid://c77n3g03105ks" path="res://addons/Blastula/Sounds/Enemy/burst.ogg" id="55_ebwm0"]
 [ext_resource type="AudioStream" uid="uid://brfxcimoxoiwv" path="res://addons/Blastula/Sounds/Enemy/enemyShot1.ogg" id="55_jx76w"]
+[ext_resource type="Texture2D" uid="uid://bekgaysipks0o" path="res://addons/Blastula/Graphics/Collectibles/bomb.png" id="55_xsnhh"]
 [ext_resource type="AudioStream" uid="uid://bk550dh4yan7h" path="res://addons/Blastula/Sounds/Enemy/enemyShot2.ogg" id="56_2wipd"]
+[ext_resource type="Texture2D" uid="uid://lfvth7u44twc" path="res://addons/Blastula/Graphics/Collectibles/bombPiece.png" id="56_2yy73"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/ScorePopupPool.cs" id="56_4xali"]
 [ext_resource type="PackedScene" uid="uid://bc7kctwet5lox" path="res://addons/Blastula/Graphics/ScorePopup.tscn" id="57_2mb1d"]
 [ext_resource type="AudioStream" uid="uid://ma800yc8d8df" path="res://addons/Blastula/Sounds/Enemy/enemyShot3.ogg" id="57_b4lmc"]
@@ -85,8 +89,12 @@
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="66_doh6d"]
 [ext_resource type="AudioStream" uid="uid://dw6frrbldq4fa" path="res://addons/Blastula/Sounds/Player/vacuum.ogg" id="72_v6inr"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Wind/StandardWindSource.cs" id="77_lsfay"]
+[ext_resource type="AudioStream" uid="uid://btv74hqt1hn0e" path="res://addons/Blastula/Sounds/Player/extend.ogg" id="79_872qk"]
+[ext_resource type="AudioStream" uid="uid://bcxh0e07sdlch" path="res://addons/Blastula/Sounds/Player/extendMini.ogg" id="80_ts14r"]
 [ext_resource type="Script" path="res://addons/Blastula/Stage/CollectibleManager.cs" id="81_hxavd"]
+[ext_resource type="AudioStream" uid="uid://b14m26o1m44g0" path="res://addons/Blastula/Sounds/Player/getBomb.ogg" id="81_ln761"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Sequence.cs" id="81_qgcx4"]
+[ext_resource type="AudioStream" uid="uid://bbvv5qsrobw2f" path="res://addons/Blastula/Sounds/Player/getBombMini.ogg" id="82_61npa"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/CreateSingle.cs" id="82_jin1d"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="83_cvdh4"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Adapt.cs" id="84_32ue3"]
@@ -96,6 +104,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetPhase.cs" id="88_2344f"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ClearBehaviors.cs" id="89_ggu8o"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Reference.cs" id="89_l3rau"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/CloneInPlace.cs" id="89_m16lh"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Shift.cs" id="90_sklj1"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/WindForth.cs" id="91_dt4gs"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/TimeStretch.cs" id="92_f6tsy"]
@@ -103,9 +112,10 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="93_kt2yj"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/SetItemGetHeight.cs" id="98_4pc22"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_iv882"]
-shader = ExtResource("15_3cmmm")
-shader_parameter/tint = Vector4(0.2, 0.2, 0.2, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mx2b5"]
+shader = ExtResource("49_hetvq")
+shader_parameter/screen_top = -448.0
+shader_parameter/graphic_half_height = 32.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l76aq"]
 shader = ExtResource("13_fjrpc")
@@ -301,6 +311,10 @@ shader = ExtResource("38_uld8k")
 shader_parameter/tint = Vector4(1, 0, 0, 1)
 shader_parameter/speed = -360.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iv882"]
+shader = ExtResource("15_3cmmm")
+shader_parameter/tint = Vector4(0.2, 0.2, 0.2, 1)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_of2ja"]
 shader = ExtResource("49_hetvq")
 shader_parameter/screen_top = -448.0
@@ -326,11 +340,11 @@ point_count = 2
 [node name="Blastula Kernel" type="Node"]
 
 [node name="Bullet Graphic Preview" type="Node2D" parent="." node_paths=PackedStringArray("graphicsContainer")]
-material = SubResource("ShaderMaterial_iv882")
+material = SubResource("ShaderMaterial_mx2b5")
 script = ExtResource("1_crnkb")
 graphicsContainer = NodePath("../Rendering/Bullet Renderer Manager/Graphics Root")
-graphicName = "Player/PictusXXIV/Star"
-collisionColor = Color(1, 0, 1, 0.521569)
+graphicName = "Collectible/Extend"
+collisionColor = Color(1, 0, 1, 0)
 
 [node name="BG" type="Sprite2D" parent="Bullet Graphic Preview"]
 z_index = -4096
@@ -894,6 +908,50 @@ zIndex = -80
 collisionSize = Vector2(16, 0)
 extraMultimeshFields = 1
 
+[node name="Extend" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Collectible"]
+script = ExtResource("10_gun14")
+texture = ExtResource("53_i3y4t")
+modulate = Color(1, 1, 1, 0.658824)
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_mx2b5")
+unrotatedGraphic = true
+zIndex = -79
+collisionSize = Vector2(34, 0)
+extraMultimeshFields = 1
+
+[node name="ExtendPiece" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Collectible"]
+script = ExtResource("10_gun14")
+texture = ExtResource("54_l35vm")
+modulate = Color(1, 1, 1, 0.658824)
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_mx2b5")
+unrotatedGraphic = true
+zIndex = -79
+collisionSize = Vector2(34, 0)
+extraMultimeshFields = 1
+
+[node name="GetBomb" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Collectible"]
+script = ExtResource("10_gun14")
+texture = ExtResource("55_xsnhh")
+modulate = Color(1, 1, 1, 0.658824)
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_mx2b5")
+unrotatedGraphic = true
+zIndex = -79
+collisionSize = Vector2(34, 0)
+extraMultimeshFields = 1
+
+[node name="GetBombPiece" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Collectible"]
+script = ExtResource("10_gun14")
+texture = ExtResource("56_2yy73")
+modulate = Color(1, 1, 1, 0.658824)
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_mx2b5")
+unrotatedGraphic = true
+zIndex = -79
+collisionSize = Vector2(34, 0)
+extraMultimeshFields = 1
+
 [node name="Mesh Container" type="Node" parent="Rendering/Bullet Renderer Manager"]
 
 [node name="Sample" type="MultiMeshInstance2D" parent="Rendering/Bullet Renderer Manager/Mesh Container"]
@@ -1129,6 +1187,18 @@ stream = ExtResource("72_v6inr")
 stream = ExtResource("60_mqmjd")
 max_polyphony = 2
 
+[node name="Extend" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Player"]
+stream = ExtResource("79_872qk")
+
+[node name="ExtendPiece" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Player"]
+stream = ExtResource("80_ts14r")
+
+[node name="GetBomb" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Player"]
+stream = ExtResource("81_ln761")
+
+[node name="GetBombPiece" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Player"]
+stream = ExtResource("82_61npa")
+
 [node name="Game Logic" type="Node" parent="."]
 
 [node name="Graze Lines" type="Node2D" parent="Game Logic"]
@@ -1191,6 +1261,32 @@ number = "item_amount"
 script = ExtResource("86_r4o8e")
 
 [node name="Delete container when children gone" type="Node2D" parent="Game Logic/Collectible Manager/Subroutines/Scatter From Enemy"]
+script = ExtResource("87_x6vmf")
+duration = "3600"
+units = 0
+noChildrenCheck = true
+
+[node name="Drop From Enemy" type="Node2D" parent="Game Logic/Collectible Manager/Subroutines"]
+script = ExtResource("81_qgcx4")
+
+[node name="Delete on bottom" type="Node2D" parent="Game Logic/Collectible Manager/Subroutines/Drop From Enemy"]
+script = ExtResource("83_cvdh4")
+boundaryID = "Main"
+specialAction = 3
+activeSides = 8
+shrink = -48.0
+
+[node name="Phase 1 soon" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Drop From Enemy" node_paths=PackedStringArray("operation")]
+script = ExtResource("84_32ue3")
+operation = NodePath("../../Phase 1 = fall")
+wait = "0.25"
+waitUnits = 0
+
+[node name="Container" type="Node2D" parent="Game Logic/Collectible Manager/Subroutines/Drop From Enemy"]
+script = ExtResource("89_m16lh")
+number = "1"
+
+[node name="Delete container when children gone" type="Node2D" parent="Game Logic/Collectible Manager/Subroutines/Drop From Enemy"]
 script = ExtResource("87_x6vmf")
 duration = "3600"
 units = 0
@@ -1277,6 +1373,74 @@ power = "5"
 [node name="Scatter from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPower" node_paths=PackedStringArray("other")]
 script = ExtResource("89_l3rau")
 other = NodePath("../../Subroutines/Scatter From Enemy")
+
+[node name="EnemyDropExtend" type="Node2D" parent="Game Logic/Collectible Manager"]
+script = ExtResource("81_qgcx4")
+
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropExtend"]
+script = ExtResource("82_jin1d")
+renderName = "Collectible/Extend"
+collisionLayerName = "Collectible"
+sleepyCollision = false
+
+[node name="Set life give" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropExtend"]
+script = ExtResource("93_kt2yj")
+power = "1"
+
+[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropExtend" node_paths=PackedStringArray("other")]
+script = ExtResource("89_l3rau")
+other = NodePath("../../Subroutines/Drop From Enemy")
+
+[node name="EnemyDropGetBomb" type="Node2D" parent="Game Logic/Collectible Manager"]
+script = ExtResource("81_qgcx4")
+
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropGetBomb"]
+script = ExtResource("82_jin1d")
+renderName = "Collectible/GetBomb"
+collisionLayerName = "Collectible"
+sleepyCollision = false
+
+[node name="Set bomb give" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropGetBomb"]
+script = ExtResource("93_kt2yj")
+power = "1"
+
+[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropGetBomb" node_paths=PackedStringArray("other")]
+script = ExtResource("89_l3rau")
+other = NodePath("../../Subroutines/Drop From Enemy")
+
+[node name="EnemyDropGetBombPiece" type="Node2D" parent="Game Logic/Collectible Manager"]
+script = ExtResource("81_qgcx4")
+
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropGetBombPiece"]
+script = ExtResource("82_jin1d")
+renderName = "Collectible/GetBombPiece"
+collisionLayerName = "Collectible"
+sleepyCollision = false
+
+[node name="Set bomb give" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropGetBombPiece"]
+script = ExtResource("93_kt2yj")
+power = "0.2"
+
+[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropGetBombPiece" node_paths=PackedStringArray("other")]
+script = ExtResource("89_l3rau")
+other = NodePath("../../Subroutines/Drop From Enemy")
+
+[node name="EnemyDropExtendPiece" type="Node2D" parent="Game Logic/Collectible Manager"]
+script = ExtResource("81_qgcx4")
+
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropExtendPiece"]
+script = ExtResource("82_jin1d")
+renderName = "Collectible/ExtendPiece"
+collisionLayerName = "Collectible"
+sleepyCollision = false
+
+[node name="Set life give" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropExtendPiece"]
+script = ExtResource("93_kt2yj")
+power = "0.2"
+
+[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropExtendPiece" node_paths=PackedStringArray("other")]
+script = ExtResource("89_l3rau")
+other = NodePath("../../Subroutines/Drop From Enemy")
 
 [node name="Stage Manager" type="Node" parent="."]
 script = ExtResource("62_lftpa")

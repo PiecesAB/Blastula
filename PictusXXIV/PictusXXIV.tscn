@@ -1497,9 +1497,11 @@ texture = ExtResource("17_t28hd")
 flip_h = true
 
 [node name="Hurtbox" type="Node2D" parent="."]
+z_index = 1
 script = ExtResource("2_nqktp")
 size = Vector2(6, 0)
 objectLayer = "Player"
+showMode = 0
 
 [node name="Grazebox" type="Node2D" parent="."]
 script = ExtResource("2_nqktp")

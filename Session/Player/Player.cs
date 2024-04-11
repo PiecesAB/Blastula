@@ -225,6 +225,70 @@ namespace Blastula
             }
         }
 
+        public void AddLives(float amount)
+        {
+            float oldLives = lives;
+            lives += amount;
+            // If we're close enough to a full new life, round up for leniency.
+            // This may be undesirable in rare types of fractional life filling.
+            if (lives - Mathf.Floor(lives) >= 0.95f)
+            {
+                lives = Mathf.Ceil(lives);
+            }
+            // Also round down, but only when it's very close.
+            // This prevents us from slowly gaining tiny slivers of lives.
+            else if (lives - Mathf.Floor(lives) <= 0.0001f)
+            {
+                lives = Mathf.Floor(lives);
+            }
+            // If I now have more full lives, make the major effect,
+            // or else a minor effect.
+            if (Mathf.Floor(lives) > Mathf.Floor(oldLives)) { PerformExtendEffect(); }
+            else { PerformExtendPieceEffect(); }
+        }
+
+        public void AddBombs(float amount)
+        {
+            float oldBombs = bombs;
+            bombs += amount;
+            // If we're close enough to a full new bomb, round up for leniency.
+            // This may be undesirable in rare types of fractional bomb filling.
+            if (bombs - Mathf.Floor(bombs) >= 0.95f)
+            {
+                bombs = Mathf.Ceil(bombs);
+            }
+            // Also round down, but only when it's very close.
+            // This prevents us from slowly gaining tiny slivers of bombs.
+            else if (bombs - Mathf.Floor(bombs) <= 0.0001f)
+            {
+                bombs = Mathf.Floor(bombs);
+            }
+            // If I now have more full bombs, make the major effect,
+            // or else a minor effect.
+            if (Mathf.Floor(bombs) > Mathf.Floor(oldBombs)) { PerformGetBombEffect(); }
+            else { PerformGetBombPieceEffect(); }
+        }
+
+        public void PerformExtendEffect()
+        {
+            CommonSFXManager.PlayByName("Player/Extend", 1, 1f, GlobalPosition, true);
+        }
+
+        public void PerformExtendPieceEffect()
+        {
+            CommonSFXManager.PlayByName("Player/ExtendPiece", 1, 1f, GlobalPosition, true);
+        }
+
+        public void PerformGetBombEffect()
+        {
+            CommonSFXManager.PlayByName("Player/GetBomb", 1, 1f, GlobalPosition, true);
+        }
+
+        public void PerformGetBombPieceEffect()
+        {
+            CommonSFXManager.PlayByName("Player/GetBombPiece", 1, 1f, GlobalPosition, true);
+        }
+
         public override void _Ready()
         {
             switch (role)
@@ -350,7 +414,9 @@ namespace Blastula
             bool itemGetLineActivated = (bNodePtr->phase == 3);
             Vector2 bulletWorldPos = BulletWorldTransforms.Get(bNodeIndex).Origin;
 
-            if (CollectibleManager.IsPointItem(bNodeIndex))
+            string collectibleItemName = CollectibleManager.GetItemName(bNodeIndex);
+
+            if (collectibleItemName == "Point")
             {
                 int multiplier = Mathf.RoundToInt(bNodePtr->power);
                 if (itemGetLineActivated)
@@ -373,7 +439,7 @@ namespace Blastula
                 if (StageManager.main != null) { StageManager.main.AddPointItem(1); }
                 if (Session.main != null) { Session.main.AddPointItem(1); }
             }
-            else if (CollectibleManager.IsPowerItem(bNodeIndex))
+            else if (collectibleItemName == "Power")
             {
                 // Increase power item value if already at max power
                 if (shotPower >= GetMaxPower() && Session.main != null)
@@ -410,6 +476,14 @@ namespace Blastula
                     ScorePopupPool.Play(bulletWorldPos, actualAdded, itemGetLineActivated ? Colors.Cyan : Colors.White);
                 }
                 
+            }
+            else if (collectibleItemName == "Extend" || collectibleItemName == "ExtendPiece")
+            {
+                AddLives(bNodePtr->power);
+            }
+            else if (collectibleItemName == "GetBomb" || collectibleItemName == "GetBombPiece")
+            {
+                AddBombs(bNodePtr->power);
             }
 
             PostExecute.ScheduleDeletion(bNodeIndex, false);

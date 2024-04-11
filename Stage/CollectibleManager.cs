@@ -3,6 +3,7 @@ using Blastula.Operations;
 using Blastula.Schedules;
 using Blastula.VirtualVariables;
 using Godot;
+using Godot.Collections;
 using System;
 
 namespace Blastula
@@ -10,41 +11,47 @@ namespace Blastula
 	public partial class CollectibleManager : Node
 	{
         [Export] public Blastodisc collectibleDisc = null;
-        [Export] public string pointItemGraphicName = "Collectible/Point";
-        private int pointItemGraphicID = -1;
-        [Export] public string powerItemGraphicName = "Collectible/Power";
-        private int powerItemGraphicID = -1;
+        /// <summary>
+        /// Maps a common collectible name (for use in other C# scripts like the Player) to a graphic name.
+        /// </summary>
+        [Export] public Dictionary<string, string> itemToGraphicNames = new Dictionary<string, string>()
+        {
+            {"Point", "Collectible/Point" },
+            {"Power", "Collectible/Power" },
+            {"Extend", "Collectible/Extend" },
+            {"ExtendPiece", "Collectible/ExtendPiece" },
+            {"GetBomb", "Collectible/GetBomb" },
+            {"GetBombPiece", "Collectible/GetBombPiece" },
+        };
+        private Dictionary<int, string> itemNamesFromIDs = null;
 
         public static CollectibleManager main { get; private set; } = null;
 
-        /// <summary>
-        /// Returns true if the BNode has the graphic corresponding to pointItemGraphicName
-        /// (and is therefore a point item).
-        /// </summary>
-        public unsafe static bool IsPointItem(int bNodeIndex)
+        private void PopulateItemNamesFromIDs()
         {
-            if (main == null) { return false; }
-            if (bNodeIndex < 0) { return false; }
-            if (main.pointItemGraphicID == -1) 
+            if (itemNamesFromIDs != null) { return; }
+            itemNamesFromIDs = new Dictionary<int, string>();
+            foreach (var kvp in itemToGraphicNames) 
             {
-                main.pointItemGraphicID = BulletRendererManager.GetIDFromName(main.pointItemGraphicName);
+                string itemName = kvp.Key;
+                string graphicName = kvp.Value;
+                int graphicID = BulletRendererManager.GetIDFromName(graphicName);
+                itemNamesFromIDs[graphicID] = itemName;
             }
-            return BNodeFunctions.masterQueue[bNodeIndex].bulletRenderID == main.pointItemGraphicID;
         }
 
         /// <summary>
-        /// Returns true if the BNode has the graphic corresponding to powerItemGraphicName
-        /// (and is therefore a power item).
+        /// Returns the name of the item type in main.itemToGraphicNames (or "" if it doesn't match one).
+        /// Used in other C# scripts to identify the collectible and take appropriate action.
         /// </summary>
-        public unsafe static bool IsPowerItem(int bNodeIndex)
+        public unsafe static string GetItemName(int bNodeIndex)
         {
-            if (main == null) { return false; }
-            if (bNodeIndex < 0) { return false; }
-            if (main.powerItemGraphicID == -1)
-            {
-                main.powerItemGraphicID = BulletRendererManager.GetIDFromName(main.powerItemGraphicName);
-            }
-            return BNodeFunctions.masterQueue[bNodeIndex].bulletRenderID == main.powerItemGraphicID;
+            if (main == null) { return ""; }
+            if (bNodeIndex < 0) { return ""; }
+            int bulletRenderID = BNodeFunctions.masterQueue[bNodeIndex].bulletRenderID;
+            main.PopulateItemNamesFromIDs();
+            if (!main.itemNamesFromIDs.ContainsKey(bulletRenderID)) { return ""; }
+            return main.itemNamesFromIDs[bulletRenderID];
         }
 
         /// <summary>

@@ -477,11 +477,11 @@ namespace Blastula
                 }
                 
             }
-            else if (collectibleItemName == "Extend" || collectibleItemName == "ExtendPiece")
+            else if (collectibleItemName == "Extend")
             {
                 AddLives(bNodePtr->power);
             }
-            else if (collectibleItemName == "GetBomb" || collectibleItemName == "GetBombPiece")
+            else if (collectibleItemName == "GetBomb")
             {
                 AddBombs(bNodePtr->power);
             }

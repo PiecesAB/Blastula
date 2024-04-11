@@ -12,16 +12,18 @@ namespace Blastula
 	{
         [Export] public Blastodisc collectibleDisc = null;
         /// <summary>
-        /// Maps a common collectible name (for use in other C# scripts like the Player) to a graphic name.
+        /// Maps graphic names to a common collectible name (for use in other C# scripts like the Player).
         /// </summary>
         [Export] public Dictionary<string, string> itemToGraphicNames = new Dictionary<string, string>()
         {
-            {"Point", "Collectible/Point" },
-            {"Power", "Collectible/Power" },
-            {"Extend", "Collectible/Extend" },
-            {"ExtendPiece", "Collectible/ExtendPiece" },
-            {"GetBomb", "Collectible/GetBomb" },
-            {"GetBombPiece", "Collectible/GetBombPiece" },
+            {"Collectible/Point", "Point"},
+            {"Collectible/Point/Big", "Point"},
+            {"Collectible/Power", "Power"},
+            {"Collectible/Power/Big", "Power"},
+            {"Collectible/Extend", "Extend"},
+            {"Collectible/ExtendPiece", "Extend"},
+            {"Collectible/GetBomb", "GetBomb"},
+            {"Collectible/GetBombPiece" , "GetBomb"},
         };
         private Dictionary<int, string> itemNamesFromIDs = null;
 
@@ -33,8 +35,8 @@ namespace Blastula
             itemNamesFromIDs = new Dictionary<int, string>();
             foreach (var kvp in itemToGraphicNames) 
             {
-                string itemName = kvp.Key;
-                string graphicName = kvp.Value;
+                string itemName = kvp.Value;
+                string graphicName = kvp.Key;
                 int graphicID = BulletRendererManager.GetIDFromName(graphicName);
                 itemNamesFromIDs[graphicID] = itemName;
             }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=157 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=158 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -112,7 +112,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="93_kt2yj"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/SetItemGetHeight.cs" id="98_4pc22"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mx2b5"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cv5ct"]
 shader = ExtResource("49_hetvq")
 shader_parameter/screen_top = -448.0
 shader_parameter/graphic_half_height = 32.0
@@ -320,6 +320,11 @@ shader = ExtResource("49_hetvq")
 shader_parameter/screen_top = -448.0
 shader_parameter/graphic_half_height = 16.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mx2b5"]
+shader = ExtResource("49_hetvq")
+shader_parameter/screen_top = -448.0
+shader_parameter/graphic_half_height = 32.0
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fnutg"]
 shader = ExtResource("13_fjrpc")
 shader_parameter/tint = Vector4(1, 0, 0, 1)
@@ -340,10 +345,10 @@ point_count = 2
 [node name="Blastula Kernel" type="Node"]
 
 [node name="Bullet Graphic Preview" type="Node2D" parent="." node_paths=PackedStringArray("graphicsContainer")]
-material = SubResource("ShaderMaterial_mx2b5")
+material = SubResource("ShaderMaterial_cv5ct")
 script = ExtResource("1_crnkb")
 graphicsContainer = NodePath("../Rendering/Bullet Renderer Manager/Graphics Root")
-graphicName = "Collectible/Extend"
+graphicName = "Collectible/Point/Big"
 collisionColor = Color(1, 0, 1, 0)
 
 [node name="BG" type="Sprite2D" parent="Bullet Graphic Preview"]
@@ -897,6 +902,17 @@ zIndex = -80
 collisionSize = Vector2(16, 0)
 extraMultimeshFields = 1
 
+[node name="Big" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Collectible/Point"]
+script = ExtResource("10_gun14")
+texture = ExtResource("48_hga65")
+modulate = Color(1, 1, 1, 0.564706)
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_cv5ct")
+unrotatedGraphic = true
+zIndex = -79
+collisionSize = Vector2(34, 0)
+extraMultimeshFields = 1
+
 [node name="Power" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Collectible"]
 script = ExtResource("10_gun14")
 texture = ExtResource("50_y2uyf")
@@ -908,6 +924,17 @@ zIndex = -80
 collisionSize = Vector2(16, 0)
 extraMultimeshFields = 1
 
+[node name="Big" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Collectible/Power"]
+script = ExtResource("10_gun14")
+texture = ExtResource("50_y2uyf")
+modulate = Color(1, 1, 1, 0.564706)
+size = Vector2(64, 64)
+material = SubResource("ShaderMaterial_cv5ct")
+unrotatedGraphic = true
+zIndex = -79
+collisionSize = Vector2(34, 0)
+extraMultimeshFields = 1
+
 [node name="Extend" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/Collectible"]
 script = ExtResource("10_gun14")
 texture = ExtResource("53_i3y4t")
@@ -915,7 +942,7 @@ modulate = Color(1, 1, 1, 0.658824)
 size = Vector2(64, 64)
 material = SubResource("ShaderMaterial_mx2b5")
 unrotatedGraphic = true
-zIndex = -79
+zIndex = -77
 collisionSize = Vector2(34, 0)
 extraMultimeshFields = 1
 
@@ -926,7 +953,7 @@ modulate = Color(1, 1, 1, 0.658824)
 size = Vector2(64, 64)
 material = SubResource("ShaderMaterial_mx2b5")
 unrotatedGraphic = true
-zIndex = -79
+zIndex = -78
 collisionSize = Vector2(34, 0)
 extraMultimeshFields = 1
 
@@ -937,7 +964,7 @@ modulate = Color(1, 1, 1, 0.658824)
 size = Vector2(64, 64)
 material = SubResource("ShaderMaterial_mx2b5")
 unrotatedGraphic = true
-zIndex = -79
+zIndex = -77
 collisionSize = Vector2(34, 0)
 extraMultimeshFields = 1
 
@@ -948,7 +975,7 @@ modulate = Color(1, 1, 1, 0.658824)
 size = Vector2(64, 64)
 material = SubResource("ShaderMaterial_mx2b5")
 unrotatedGraphic = true
-zIndex = -79
+zIndex = -78
 collisionSize = Vector2(34, 0)
 extraMultimeshFields = 1
 
@@ -1340,105 +1367,139 @@ script = ExtResource("93_evxvp")
 targetName = "Player"
 maxSpeed = "800"
 
-[node name="EnemyScatterPoint" type="Node2D" parent="Game Logic/Collectible Manager"]
+[node name="ScatterPoint" type="Node2D" parent="Game Logic/Collectible Manager"]
 script = ExtResource("81_qgcx4")
 
-[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPoint"]
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/ScatterPoint"]
 script = ExtResource("82_jin1d")
 renderName = "Collectible/Point"
 collisionLayerName = "Collectible"
 sleepyCollision = false
 
-[node name="Set point multiplier" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPoint"]
+[node name="Set point multiplier" type="Node2D" parent="Game Logic/Collectible Manager/ScatterPoint"]
 script = ExtResource("93_kt2yj")
 power = "1"
 
-[node name="Scatter from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPoint" node_paths=PackedStringArray("other")]
+[node name="Scatter from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/ScatterPoint" node_paths=PackedStringArray("other")]
 script = ExtResource("89_l3rau")
 other = NodePath("../../Subroutines/Scatter From Enemy")
 
-[node name="EnemyScatterPower" type="Node2D" parent="Game Logic/Collectible Manager"]
+[node name="ScatterPower" type="Node2D" parent="Game Logic/Collectible Manager"]
 script = ExtResource("81_qgcx4")
 
-[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPower"]
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/ScatterPower"]
 script = ExtResource("82_jin1d")
 renderName = "Collectible/Power"
 collisionLayerName = "Collectible"
 sleepyCollision = false
 
-[node name="Set power gain" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPower"]
+[node name="Set power gain" type="Node2D" parent="Game Logic/Collectible Manager/ScatterPower"]
 script = ExtResource("93_kt2yj")
 power = "5"
 
-[node name="Scatter from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyScatterPower" node_paths=PackedStringArray("other")]
+[node name="Scatter from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/ScatterPower" node_paths=PackedStringArray("other")]
 script = ExtResource("89_l3rau")
 other = NodePath("../../Subroutines/Scatter From Enemy")
 
-[node name="EnemyDropExtend" type="Node2D" parent="Game Logic/Collectible Manager"]
+[node name="DropExtend" type="Node2D" parent="Game Logic/Collectible Manager"]
 script = ExtResource("81_qgcx4")
 
-[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropExtend"]
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/DropExtend"]
 script = ExtResource("82_jin1d")
 renderName = "Collectible/Extend"
 collisionLayerName = "Collectible"
 sleepyCollision = false
 
-[node name="Set life give" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropExtend"]
+[node name="Set life give" type="Node2D" parent="Game Logic/Collectible Manager/DropExtend"]
 script = ExtResource("93_kt2yj")
 power = "1"
 
-[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropExtend" node_paths=PackedStringArray("other")]
+[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/DropExtend" node_paths=PackedStringArray("other")]
 script = ExtResource("89_l3rau")
 other = NodePath("../../Subroutines/Drop From Enemy")
 
-[node name="EnemyDropGetBomb" type="Node2D" parent="Game Logic/Collectible Manager"]
+[node name="DropPowerBig" type="Node2D" parent="Game Logic/Collectible Manager"]
 script = ExtResource("81_qgcx4")
 
-[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropGetBomb"]
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/DropPowerBig"]
+script = ExtResource("82_jin1d")
+renderName = "Collectible/Power/Big"
+collisionLayerName = "Collectible"
+sleepyCollision = false
+
+[node name="Set power gain" type="Node2D" parent="Game Logic/Collectible Manager/DropPowerBig"]
+script = ExtResource("93_kt2yj")
+power = "50"
+
+[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/DropPowerBig" node_paths=PackedStringArray("other")]
+script = ExtResource("89_l3rau")
+other = NodePath("../../Subroutines/Drop From Enemy")
+
+[node name="DropPointBig" type="Node2D" parent="Game Logic/Collectible Manager"]
+script = ExtResource("81_qgcx4")
+
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/DropPointBig"]
+script = ExtResource("82_jin1d")
+renderName = "Collectible/Point/Big"
+collisionLayerName = "Collectible"
+sleepyCollision = false
+
+[node name="Set point multiplier" type="Node2D" parent="Game Logic/Collectible Manager/DropPointBig"]
+script = ExtResource("93_kt2yj")
+power = "10"
+
+[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/DropPointBig" node_paths=PackedStringArray("other")]
+script = ExtResource("89_l3rau")
+other = NodePath("../../Subroutines/Drop From Enemy")
+
+[node name="DropGetBomb" type="Node2D" parent="Game Logic/Collectible Manager"]
+script = ExtResource("81_qgcx4")
+
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/DropGetBomb"]
 script = ExtResource("82_jin1d")
 renderName = "Collectible/GetBomb"
 collisionLayerName = "Collectible"
 sleepyCollision = false
 
-[node name="Set bomb give" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropGetBomb"]
+[node name="Set bomb give" type="Node2D" parent="Game Logic/Collectible Manager/DropGetBomb"]
 script = ExtResource("93_kt2yj")
 power = "1"
 
-[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropGetBomb" node_paths=PackedStringArray("other")]
+[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/DropGetBomb" node_paths=PackedStringArray("other")]
 script = ExtResource("89_l3rau")
 other = NodePath("../../Subroutines/Drop From Enemy")
 
-[node name="EnemyDropGetBombPiece" type="Node2D" parent="Game Logic/Collectible Manager"]
+[node name="DropGetBombPiece" type="Node2D" parent="Game Logic/Collectible Manager"]
 script = ExtResource("81_qgcx4")
 
-[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropGetBombPiece"]
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/DropGetBombPiece"]
 script = ExtResource("82_jin1d")
 renderName = "Collectible/GetBombPiece"
 collisionLayerName = "Collectible"
 sleepyCollision = false
 
-[node name="Set bomb give" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropGetBombPiece"]
+[node name="Set bomb give" type="Node2D" parent="Game Logic/Collectible Manager/DropGetBombPiece"]
 script = ExtResource("93_kt2yj")
 power = "0.2"
 
-[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropGetBombPiece" node_paths=PackedStringArray("other")]
+[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/DropGetBombPiece" node_paths=PackedStringArray("other")]
 script = ExtResource("89_l3rau")
 other = NodePath("../../Subroutines/Drop From Enemy")
 
-[node name="EnemyDropExtendPiece" type="Node2D" parent="Game Logic/Collectible Manager"]
+[node name="DropExtendPiece" type="Node2D" parent="Game Logic/Collectible Manager"]
 script = ExtResource("81_qgcx4")
 
-[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropExtendPiece"]
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/DropExtendPiece"]
 script = ExtResource("82_jin1d")
 renderName = "Collectible/ExtendPiece"
 collisionLayerName = "Collectible"
 sleepyCollision = false
 
-[node name="Set life give" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropExtendPiece"]
+[node name="Set life give" type="Node2D" parent="Game Logic/Collectible Manager/DropExtendPiece"]
 script = ExtResource("93_kt2yj")
 power = "0.2"
 
-[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/EnemyDropExtendPiece" node_paths=PackedStringArray("other")]
+[node name="Drop from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/DropExtendPiece" node_paths=PackedStringArray("other")]
 script = ExtResource("89_l3rau")
 other = NodePath("../../Subroutines/Drop From Enemy")
 

@@ -8,7 +8,7 @@ shader = ExtResource("1_o5sgw")
 shader_parameter/character_delay = 0.01
 shader_parameter/start_time = 0.0
 shader_parameter/time_extension = 0.8
-shader_parameter/undulation = Vector2(5, 7)
+shader_parameter/undulation = Vector2(4, 4)
 
 [node name="Sample" type="Label"]
 self_modulate = Color(1, 1, 1, 0.627451)

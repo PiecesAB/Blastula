@@ -273,7 +273,7 @@ namespace Blastula
         public void PerformExtendEffect()
         {
             CommonSFXManager.PlayByName("Player/Extend", 1, 1f, GlobalPosition, true);
-            LabelPool.Play("MajorItem", GlobalPosition, "Life get.", Colors.White);
+            LabelPool.Play("MajorItem", GlobalPosition + Vector2.Up * 30, "Life get.", Colors.White);
         }
 
         public void PerformExtendPieceEffect()
@@ -285,7 +285,7 @@ namespace Blastula
         public void PerformGetBombEffect()
         {
             CommonSFXManager.PlayByName("Player/GetBomb", 1, 1f, GlobalPosition, true);
-            LabelPool.Play("MajorItem", GlobalPosition, "Bomb get.", Colors.White);
+            LabelPool.Play("MajorItem", GlobalPosition + Vector2.Up * 30, "Bomb get.", Colors.White);
         }
 
         public void PerformGetBombPieceEffect()
@@ -299,7 +299,7 @@ namespace Blastula
             CommonSFXManager.PlayByName("Player/PowerUp", 1, 1f, GlobalPosition, true);
             if (shotPower == GetMaxPower())
             {
-                LabelPool.Play("MajorItem", GlobalPosition, "Power MAX.", Colors.White);
+                LabelPool.Play("MajorItem", GlobalPosition + Vector2.Up * 30, "Power MAX.", Colors.White);
             }
             else
             {

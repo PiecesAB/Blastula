@@ -11,7 +11,7 @@ shader_parameter/time_extension = 1.4
 shader_parameter/undulation = Vector2(4, 4)
 
 [node name="Sample" type="Label"]
-self_modulate = Color(1, 1, 1, 0.705882)
+self_modulate = Color(1, 1, 1, 0.627451)
 z_index = 2
 material = SubResource("ShaderMaterial_phjod")
 custom_minimum_size = Vector2(140, 26)

@@ -11,7 +11,7 @@ shader_parameter/time_extension = 0.8
 shader_parameter/undulation = Vector2(4, 4)
 
 [node name="Sample" type="Label"]
-self_modulate = Color(1, 1, 1, 0.627451)
+self_modulate = Color(1, 1, 1, 0.564706)
 z_index = 1
 material = SubResource("ShaderMaterial_rvfkk")
 custom_minimum_size = Vector2(140, 26)

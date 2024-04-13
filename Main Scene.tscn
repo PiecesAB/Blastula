@@ -1527,7 +1527,7 @@ mainSchedule = NodePath("Main schedule")
 script = ExtResource("42_51n0m")
 
 [node name="PictusXXIV" parent="." instance=ExtResource("38_tvlm6")]
-position = Vector2(-100, 320)
+position = Vector2(0, 320)
 
 [node name="BasicEnemy" parent="." instance=ExtResource("41_3fr6s")]
 position = Vector2(0, -200)

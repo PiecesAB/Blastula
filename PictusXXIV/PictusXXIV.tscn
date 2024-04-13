@@ -1,6 +1,7 @@
-[gd_scene load_steps=42 format=3 uid="uid://ctimhu6oe4q4o"]
+[gd_scene load_steps=43 format=3 uid="uid://ctimhu6oe4q4o"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/Player.cs" id="1_1dvfo"]
+[ext_resource type="PackedScene" uid="uid://cp0rn6665gq0p" path="res://addons/Blastula/PictusXXIV/Death Animation.tscn" id="2_0akre"]
 [ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="2_5a2kt"]
 [ext_resource type="Script" path="res://addons/Blastula/Collision/BlastulaCollider.cs" id="2_nqktp"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="3_mhqtf"]
@@ -948,6 +949,7 @@ position = Vector2(362, 320)
 script = ExtResource("1_1dvfo")
 boundaryShrink = 24.0
 hurtbox = NodePath("Hurtbox")
+deathAnimation = ExtResource("2_0akre")
 grazebox = NodePath("Grazebox")
 attractbox = NodePath("Attractbox")
 
@@ -1551,7 +1553,7 @@ libraries = {
 "": SubResource("AnimationLibrary_1moyp")
 }
 autoplay = "Unfocused"
-blend_times = [&"Focused", &"RESET", 0.1, &"Focused", &"Focused", 0.1, &"Focused", &"Unfocused", 0.1, &"Unfocused", &"RESET", 0.1, &"Unfocused", &"Focused", 0.1, &"Unfocused", &"Unfocused", 0.1]
+blend_times = [&"Unfocused", &"RESET", 0.1, &"Unfocused", &"Unfocused", 0.1, &"Unfocused", &"Focused", 0.1, &"Focused", &"RESET", 0.1, &"Focused", &"Unfocused", 0.1, &"Focused", &"Focused", 0.1]
 
 [node name="HitboxFocus" type="AnimationPlayer" parent="AnimOrchestrator"]
 root_node = NodePath("../..")

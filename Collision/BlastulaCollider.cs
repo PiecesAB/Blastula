@@ -19,6 +19,19 @@ namespace Blastula.Collision
             Never, Editor, Always
         }
 
+        public enum ActMode
+        {
+            /// <summary>
+            /// A Godot signal (configured in the editor) is sent to other Nodes.
+            /// </summary>
+            Signal, 
+            /// <summary>
+            /// The BNode will be deleted by the end of this frame. 
+            /// The deletion effect is used when it's on-screen and has a graphic.
+            /// </summary>
+            DeleteWithEffect
+        }
+
         /// <summary>
         /// The shape of the collider.
         /// </summary>
@@ -36,6 +49,11 @@ namespace Blastula.Collision
         /// Determines when the collider is visible, for debug purposes.
         /// </summary>
         [Export] public ShowMode showMode = ShowMode.Editor;
+        /// <summary>
+        /// How the collider reacts to collision. Normally sends a Godot signal,
+        /// but other simple behaviors may be chosen.
+        /// </summary>
+        [Export] public ActMode actMode = ActMode.Signal;
 
         [Signal] public delegate void CollisionEventHandler(int bNodeIndex);
 
@@ -101,7 +119,17 @@ namespace Blastula.Collision
                 while (collisions->count > 0)
                 {
                     Collision c = collisions->RemoveHead();
-                    EmitSignal(SignalName.Collision, this, c.bNodeIndex);
+                    switch (actMode)
+                    {
+                        case ActMode.Signal:
+                        default:
+                            EmitSignal(SignalName.Collision, this, c.bNodeIndex);
+                            break;
+                        case ActMode.DeleteWithEffect:
+                            PostExecute.ScheduleDeletion(c.bNodeIndex, true);
+                            break;
+                    }
+                    
                 }
             }
         }

@@ -1,0 +1,157 @@
+[gd_scene load_steps=8 format=3 uid="uid://cp0rn6665gq0p"]
+
+[ext_resource type="Shader" path="res://addons/Blastula/PictusXXIV/DeathStarExpansion.gdshader" id="1_nracl"]
+[ext_resource type="Texture2D" uid="uid://3j8vmfgnjqkt" path="res://addons/Blastula/PictusXXIV/backSquareForDeathStar.png" id="2_g2658"]
+[ext_resource type="Script" path="res://addons/Blastula/Collision/BlastulaCollider.cs" id="3_e1xs6"]
+
+[sub_resource type="Animation" id="Animation_skxk3"]
+resource_name = "Main"
+length = 2.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Star:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1), Vector2(12, 12), Vector2(40, 40)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Star:material:shader_parameter/spike_factor")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.85, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 8.0, 0.5, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Star:material:shader_parameter/intensity")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.85, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.0]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.9),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BlastulaCollider:size")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.2, 1.2, 1.7, 1.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(6, 0), Vector2(30, 0), Vector2(1300, 0), Vector2(1300, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_80bs5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Star:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Star:material:shader_parameter/spike_factor")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Star:material:shader_parameter/intensity")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BlastulaCollider:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(6, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_coxkn"]
+_data = {
+"Main": SubResource("Animation_skxk3"),
+"RESET": SubResource("Animation_80bs5")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s7tlk"]
+shader = ExtResource("1_nracl")
+shader_parameter/spike_factor = 0.0
+shader_parameter/frequency = 8.0
+shader_parameter/intensity = 1.0
+
+[node name="DeathAnimation" type="Node2D"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_coxkn")
+}
+autoplay = "Main"
+
+[node name="Star" type="Sprite2D" parent="."]
+z_index = 400
+z_as_relative = false
+material = SubResource("ShaderMaterial_s7tlk")
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_g2658")
+
+[node name="BlastulaCollider" type="Node2D" parent="."]
+script = ExtResource("3_e1xs6")
+size = Vector2(6, 0)
+objectLayer = "EnemyShotBlocker"
+showMode = 0
+actMode = 1

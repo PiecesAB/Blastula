@@ -39,7 +39,6 @@ namespace Blastula.Schedules
                     {
                         source.SetVar(completedCyclesVariableName, completedCycles);
                     }
-                    // TODO: set stage scope variable
                 }
                 foreach (Node child in GetChildren())
                 {
@@ -53,7 +52,6 @@ namespace Blastula.Schedules
                 {
                     source.ClearVar(completedCyclesVariableName);
                 }
-                // TODO: unset stage scope variable
             }
         }
     }

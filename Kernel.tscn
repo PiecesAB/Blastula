@@ -1,4 +1,4 @@
-[gd_scene load_steps=161 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=163 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -95,11 +95,13 @@
 [ext_resource type="AudioStream" uid="uid://bcxh0e07sdlch" path="res://addons/Blastula/Sounds/Player/extendMini.ogg" id="80_ts14r"]
 [ext_resource type="Script" path="res://addons/Blastula/Stage/CollectibleManager.cs" id="81_hxavd"]
 [ext_resource type="AudioStream" uid="uid://b14m26o1m44g0" path="res://addons/Blastula/Sounds/Player/getBomb.ogg" id="81_ln761"]
+[ext_resource type="AudioStream" uid="uid://dnuwl4pgpo1j" path="res://addons/Blastula/Sounds/Player/explode.ogg" id="81_mcng5"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Sequence.cs" id="81_qgcx4"]
 [ext_resource type="AudioStream" uid="uid://bbvv5qsrobw2f" path="res://addons/Blastula/Sounds/Player/getBombMini.ogg" id="82_61npa"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/CreateSingle.cs" id="82_jin1d"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="83_cvdh4"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Adapt.cs" id="84_32ue3"]
+[ext_resource type="AudioStream" uid="uid://dmup28k03fo2m" path="res://addons/Blastula/Sounds/Player/struck.ogg" id="84_kmhvi"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/PlaceRandom.cs" id="85_jp8ml"]
 [ext_resource type="AudioStream" uid="uid://cgg1o8cllmwj2" path="res://addons/Blastula/Sounds/Player/powerUp.ogg" id="86_7q1ra"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ForthByPosition.cs" id="86_r4o8e"]
@@ -1221,15 +1223,8 @@ stream = ExtResource("58_1pk8q")
 
 [node name="Player" type="Node" parent="Sound/Common SFX Manager"]
 
-[node name="Shot1" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Player"]
-stream = ExtResource("60_437af")
-
-[node name="Vacuum" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Player"]
-stream = ExtResource("72_v6inr")
-
-[node name="Graze" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Player"]
-stream = ExtResource("60_mqmjd")
-max_polyphony = 2
+[node name="Explode" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Player"]
+stream = ExtResource("81_mcng5")
 
 [node name="Extend" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Player"]
 stream = ExtResource("79_872qk")
@@ -1243,8 +1238,21 @@ stream = ExtResource("81_ln761")
 [node name="GetBombPiece" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Player"]
 stream = ExtResource("82_61npa")
 
+[node name="Graze" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Player"]
+stream = ExtResource("60_mqmjd")
+max_polyphony = 2
+
 [node name="PowerUp" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Player"]
 stream = ExtResource("86_7q1ra")
+
+[node name="Shot1" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Player"]
+stream = ExtResource("60_437af")
+
+[node name="Struck" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Player"]
+stream = ExtResource("84_kmhvi")
+
+[node name="Vacuum" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Player"]
+stream = ExtResource("72_v6inr")
 
 [node name="Game Logic" type="Node" parent="."]
 
@@ -1531,7 +1539,7 @@ script = ExtResource("63_d8ira")
 
 [node name="Substage 0" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("63_d8ira")
-duration = "16"
+duration = "13"
 endWhenChildrenComplete = false
 shouldUseTimer = true
 

@@ -10,6 +10,7 @@ using Godot.Collections;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Blastula
 {
@@ -60,6 +61,31 @@ namespace Blastula
         /// In a single-player context, if 0 lives are left, the player will lose next time they are hit.
         /// </summary>
         [Export] public float lives = 2;
+        /// <summary>
+        /// When the player "inserts credit" (continues), the lives will be refilled to this amount.
+        /// </summary>
+        [Export] public float lifeRefillOnContinue = 2;
+        /// <summary>
+        /// This is spawned in the player's scene when they die.
+        /// </summary>
+        [Export] public PackedScene deathAnimation;
+        /// <summary>
+        /// Length of the death animation in seconds. 
+        /// Technically, this is the time during which the player's LifeState is "Dying",
+        /// and is unable to do anything.
+        /// </summary>
+        [Export] public float deathAnimationDuration = 2f;
+        /// <summary>
+        /// Together with the grace seconds, this is the length of the "Recovering" life state.
+        /// The player can do everything, but is temporarily invulnerable because they just died.
+        /// </summary>
+        [Export] public float recoveryDuration = 5f;
+        /// <summary>
+        /// Extra few seconds during which the "Recovering" life state is used,
+        /// but the player is unable to distunguish that they're in the state.
+        /// This leniency allows reaction to the knowledge that the player is now vulnerable.
+        /// </summary>
+        [Export] public float recoverDurationGrace = 2f;
         [ExportGroup("Shot Power")]
         [Export] public int shotPower = 100;
         /// <summary>
@@ -78,7 +104,7 @@ namespace Blastula
         [ExportGroup("Bomb")]
         [Export] public float bombs = 3;
         /// <summary>
-        /// When the player resurrects and they have extra lives, the bombs will be refilled to this amount.
+        /// When the player resurrects, the bombs will be refilled to this amount.
         /// </summary>
         [Export] public float bombRefillOnDeath = 3;
         /// <summary>
@@ -126,10 +152,7 @@ namespace Blastula
             Invulnerable
         }
         public LifeState lifeState = LifeState.Normal;
-        /// <summary>
-        /// The number of invulnerability frames remaining now; relevant in the Recovering/Invulnerable life state.
-        /// </summary>
-        public int invulnerabilityFrames = 0;
+        public bool recoveryGracePeriodActive { get; set; } = false;
         public bool debugInvulnerable = false;
 
         private string leftName = "Left";
@@ -153,6 +176,41 @@ namespace Blastula
         /// </summary>
         public List<Blastodisc> varDiscs = new List<Blastodisc>();
         public static System.Collections.Generic.Dictionary<Role, Player> playersByControl = new System.Collections.Generic.Dictionary<Role, Player>();
+
+        public override void _Ready()
+        {
+            switch (role)
+            {
+                case Role.SinglePlayer:
+                default:
+                    break;
+                case Role.LeftPlayer:
+                    leftName = "LP/" + leftName;
+                    rightName = "LP/" + rightName;
+                    upName = "LP/" + upName;
+                    downName = "LP/" + downName;
+                    shootName = "LP/" + shootName;
+                    focusName = "LP/" + focusName;
+                    bombName = "LP/" + bombName;
+                    specialName = "LP/" + specialName;
+                    break;
+                case Role.RightPlayer:
+                    leftName = "RP/" + leftName;
+                    rightName = "RP/" + rightName;
+                    upName = "RP/" + upName;
+                    downName = "RP/" + downName;
+                    shootName = "RP/" + shootName;
+                    focusName = "RP/" + focusName;
+                    bombName = "RP/" + bombName;
+                    specialName = "RP/" + specialName;
+                    break;
+            }
+            if (!playersByControl.ContainsKey(role)) { playersByControl[role] = this; }
+            else { GD.PushWarning("Two or more players exist with the same role. This is not expected."); }
+            FindDiscs();
+            SetVarsInDiscs();
+            attractboxOriginalSize = attractbox.size;
+        }
 
         private void FindMainBoundary()
         {
@@ -307,39 +365,45 @@ namespace Blastula
             }
         }
 
-        public override void _Ready()
+        /// <summary>
+        /// Try to cause the player to die.
+        /// </summary>
+        public async Task Die()
         {
-            switch (role)
+            if (lifeState != LifeState.Normal) { return; }
+            lifeState = LifeState.Dying;
+            recoveryGracePeriodActive = false;
+            CommonSFXManager.PlayByName("Player/Struck", 1, 1f, GlobalPosition, true);
+            deathbombBuffer.Replenish((ulong)deathbombFrames);
+            while (!deathbombBuffer.Elapsed())
             {
-                case Role.SinglePlayer:
-                default:
-                    break;
-                case Role.LeftPlayer:
-                    leftName = "LP/" + leftName;
-                    rightName = "LP/" + rightName;
-                    upName = "LP/" + upName;
-                    downName = "LP/" + downName;
-                    shootName = "LP/" + shootName;
-                    focusName = "LP/" + focusName;
-                    bombName = "LP/" + bombName;
-                    specialName = "LP/" + specialName;
-                    break;
-                case Role.RightPlayer:
-                    leftName = "RP/" + leftName;
-                    rightName = "RP/" + rightName;
-                    upName = "RP/" + upName;
-                    downName = "RP/" + downName;
-                    shootName = "RP/" + shootName;
-                    focusName = "RP/" + focusName;
-                    bombName = "RP/" + bombName;
-                    specialName = "RP/" + specialName;
-                    break;
+                // TODO: check if the player started a bomb and stop dying
+                await this.WaitOneFrame();
             }
-            if (!playersByControl.ContainsKey(role)) { playersByControl[role] = this; }
-            else { GD.PushWarning("Two or more players exist with the same role. This is not expected."); }
-            FindDiscs();
-            SetVarsInDiscs();
-            attractboxOriginalSize = attractbox.size;
+            // No turning back now
+            CommonSFXManager.PlayByName("Player/Explode", 1, 1f, GlobalPosition, true);
+            if (deathAnimation != null)
+            {
+                Node daInstance = deathAnimation.Instantiate();
+                GetTree().Root.AddChild(daInstance);
+                ((Node2D)daInstance).GlobalPosition = GlobalPosition;
+            }
+            await this.WaitSeconds(deathAnimationDuration);
+            lives -= 1f;
+            // Avoid float imprecision causing a game over.
+            if (lives < 0f && lives >= -0.001f) { lives = 0f; }
+            if (lives < 0f)
+            {
+                // TODO: game over!
+                lives = 0f;
+            }
+            lifeState = LifeState.Recovering;
+            await this.WaitSeconds(recoveryDuration);
+            recoveryGracePeriodActive = true;
+            // TODO: appear to be vulnerable again
+            await this.WaitSeconds(recoverDurationGrace);
+            lifeState = LifeState.Normal;
+            recoveryGracePeriodActive = false;
         }
 
         private unsafe void OnHitHurtIntent(BlastulaCollider collider, int bNodeIndex)
@@ -375,8 +439,7 @@ namespace Blastula
 
             if (debugInvulnerable || lifeState != LifeState.Normal) { return; }
             // At this point the hurting actually occurs
-            lifeState = LifeState.Dying;
-            deathbombBuffer.Replenish((ulong)deathbombFrames);
+            _ = Die();
         }
 
         private unsafe void OnHitGrazeIntent(BlastulaCollider collider, int bNodeIndex)
@@ -413,7 +476,6 @@ namespace Blastula
                 if (grazeGet)
                 {
                     ++grazeGetThisFrame;
-                    // TODO: implement and increment graze counter
                     if (grazeGetThisFrame < 5)
                     {
                         CommonSFXManager.PlayByName("Player/Graze", 1, 1f, GlobalPosition, true);

@@ -1,4 +1,4 @@
-[gd_scene load_steps=163 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=164 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -116,6 +116,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Follow.cs" id="93_evxvp"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="93_kt2yj"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/SetItemGetHeight.cs" id="98_4pc22"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Aim.cs" id="111_b4os7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cv5ct"]
 shader = ExtResource("49_hetvq")
@@ -1372,6 +1373,31 @@ drag = "150"
 initialSpeed = "300"
 rotateToMatchMovement = false
 
+[node name="Phase 1 = fall without up boost" type="Node2D" parent="Game Logic/Collectible Manager/Subroutines"]
+script = ExtResource("81_qgcx4")
+
+[node name="Set Phase" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Phase 1 = fall without up boost"]
+script = ExtResource("88_2344f")
+mode = 1
+newPhase = "1"
+
+[node name="Leave only boundary behavior" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Phase 1 = fall without up boost"]
+script = ExtResource("89_ggu8o")
+remain = "1"
+
+[node name="Point upward" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Phase 1 = fall without up boost"]
+script = ExtResource("90_sklj1")
+mode = 0
+myRotation = "-90"
+setFilter = 6
+
+[node name="Fall by gravity" type="Node" parent="Game Logic/Collectible Manager/Subroutines/Phase 1 = fall without up boost"]
+script = ExtResource("91_dt4gs")
+channel = "Gravity"
+drag = "150"
+initialSpeed = "0"
+rotateToMatchMovement = false
+
 [node name="Phase 2 = attract (triggered by player)" type="Node2D" parent="Game Logic/Collectible Manager/Subroutines"]
 script = ExtResource("81_qgcx4")
 referenceID = "CollectibleAttractPhase"
@@ -1428,6 +1454,54 @@ power = "5"
 [node name="Scatter from Enemy" type="Node2D" parent="Game Logic/Collectible Manager/ScatterPower" node_paths=PackedStringArray("other")]
 script = ExtResource("89_l3rau")
 other = NodePath("../../Subroutines/Scatter From Enemy")
+
+[node name="PlayerDeathDropPower" type="Node2D" parent="Game Logic/Collectible Manager"]
+script = ExtResource("81_qgcx4")
+
+[node name="Start" type="Node2D" parent="Game Logic/Collectible Manager/PlayerDeathDropPower"]
+script = ExtResource("82_jin1d")
+renderName = "Collectible/Power"
+collisionLayerName = "Collectible"
+sleepyCollision = false
+
+[node name="Set power gain" type="Node2D" parent="Game Logic/Collectible Manager/PlayerDeathDropPower"]
+script = ExtResource("93_kt2yj")
+power = "5"
+
+[node name="Delete on bottom" type="Node2D" parent="Game Logic/Collectible Manager/PlayerDeathDropPower"]
+script = ExtResource("83_cvdh4")
+boundaryID = "Main"
+specialAction = 3
+activeSides = 8
+shrink = -48.0
+
+[node name="Phase 1 soon" type="Node" parent="Game Logic/Collectible Manager/PlayerDeathDropPower" node_paths=PackedStringArray("operation")]
+script = ExtResource("84_32ue3")
+operation = NodePath("../../Subroutines/Phase 1 = fall without up boost")
+wait = "1"
+waitUnits = 0
+
+[node name="Scatter" type="Node" parent="Game Logic/Collectible Manager/PlayerDeathDropPower"]
+script = ExtResource("85_jp8ml")
+minRadius = "300"
+maxRadius = "500"
+minAngle = "-22.5"
+maxAngle = "22.5"
+number = "item_amount"
+
+[node name="Forth" type="Node" parent="Game Logic/Collectible Manager/PlayerDeathDropPower"]
+script = ExtResource("86_r4o8e")
+
+[node name="Aim at the top" type="Node" parent="Game Logic/Collectible Manager/PlayerDeathDropPower"]
+script = ExtResource("111_b4os7")
+targetType = 2
+target = "Vector2(0, -500)"
+
+[node name="Delete container when children gone" type="Node2D" parent="Game Logic/Collectible Manager/PlayerDeathDropPower"]
+script = ExtResource("87_x6vmf")
+duration = "3600"
+units = 0
+noChildrenCheck = true
 
 [node name="DropExtend" type="Node2D" parent="Game Logic/Collectible Manager"]
 script = ExtResource("81_qgcx4")

@@ -68,7 +68,7 @@ namespace Blastula
         /// <summary>
         /// This is spawned in the player's scene when they die.
         /// </summary>
-        [Export] public PackedScene deathAnimation;
+        [Export] public PackedScene deathExplosion;
         /// <summary>
         /// Length of the death animation in seconds. 
         /// Technically, this is the time during which the player's LifeState is "Dying",
@@ -98,6 +98,26 @@ namespace Blastula
         /// </summary>
         [Export] public int[] shotPowerCutoffs = new int[] { 100, 200, 300, 400 };
         public int shotPowerIndex { get; private set; } = 1;
+        /// <summary>
+        /// Straightforward: the player loses this power amount on death.
+        /// </summary>
+        [ExportSubgroup("Death Power Loss")]
+        [Export] public int shotPowerLossOnDeath = 80;
+        /// <summary>
+        /// The name of the sequence which scatters collectibles when the player dies.
+        /// For more information, see the Blastula.CollectibleManager class.
+        /// </summary>
+        [Export] public string powerDropCollectibleName = "PlayerDeathDropPower";
+        /// <summary>
+        /// The number of dropped power items when the player dies is
+        /// powerDropCollectibleMax or (shot power - minimum shot power) / (this value),
+        /// whichever is higher.
+        /// </summary>
+        [Export] public int powerDropCollectibleValue = 5;
+        /// <summary>
+        /// The maximum number of power items which are dropped.
+        /// </summary>
+        [Export] public int powerDropCollectibleMax = 12;
         /// <summary>
         /// Amount of bombs the player currently has.
         /// </summary>
@@ -272,7 +292,7 @@ namespace Blastula
         /// </summary>
         private bool IsInItemGetMode()
         {
-            return GlobalPosition.Y <= itemGetHeight;
+            return lifeState != LifeState.Dying && GlobalPosition.Y <= itemGetHeight;
         }
 
         public int GetMinPower()
@@ -392,13 +412,28 @@ namespace Blastula
             }
             // No turning back now
             CommonSFXManager.PlayByName("Player/Explode", 1, 1f, GlobalPosition, true);
-            if (deathAnimation != null)
+            // Scatter power collectibles
+            int collectibleAmount = (shotPower - GetMinPower()) / powerDropCollectibleValue;
+            collectibleAmount = Mathf.Clamp(collectibleAmount, 0, powerDropCollectibleMax);
+            CollectibleManager.SpawnItems(powerDropCollectibleName, GlobalPosition, collectibleAmount);
+            // Remove power
+            shotPower -= shotPowerLossOnDeath;
+            if (shotPower < GetMinPower()) { shotPower = GetMinPower(); }
+            // The power item value is reset
+            if (Session.main != null)
             {
-                Node daInstance = deathAnimation.Instantiate();
+                Session.main.SetPowerItemValue(Session.main.minPowerItemValue);
+            }
+            RecalculateShotPowerIndex();
+            // Create the explosion effect
+            if (deathExplosion != null)
+            {
+                Node daInstance = deathExplosion.Instantiate();
                 GetTree().Root.AddChild(daInstance);
                 ((Node2D)daInstance).GlobalPosition = GlobalPosition;
             }
             await this.WaitSeconds(deathAnimationDuration);
+            // The life is finally decremented after the explosion effect plays out.
             lives -= 1f;
             // Avoid float imprecision causing a game over.
             if (lives < 0f && lives >= -0.001f) { lives = 0f; }
@@ -411,7 +446,6 @@ namespace Blastula
             GlobalPosition = homePosition;
             await this.WaitSeconds(recoveryDuration);
             recoveryGracePeriodActive = true;
-            // TODO: appear to be vulnerable again
             await this.WaitSeconds(recoverDurationGrace);
             lifeState = LifeState.Normal;
             recoveryGracePeriodActive = false;

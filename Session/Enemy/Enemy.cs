@@ -80,7 +80,15 @@ namespace Blastula
         [Export] public Wait.TimeUnits lifespanUnits = Wait.TimeUnits.Frames;
         [ExportGroup("Collectibles")]
         [Export] public bool spawnCollectiblesOnHealthZero = true;
+        /// <summary>
+        /// The name of sequences which scatter collectibles when the enemy dies.
+        /// For more information, see the Blastula.CollectibleManager class.
+        /// </summary>
         [Export] public string[] collectibleSpawnNames;
+        /// <summary>
+        /// Populates the "item_amount" variable in collectible spawning sequences.
+        /// For more information, see the Blastula.CollectibleManager class.
+        /// </summary>
         [Export] public int[] collectibleSpawnAmounts;
         /// <summary>
         /// The points obtained for dealing one unit of damage to this enemy.

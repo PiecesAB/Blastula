@@ -949,7 +949,7 @@ position = Vector2(362, 320)
 script = ExtResource("1_1dvfo")
 boundaryShrink = 24.0
 hurtbox = NodePath("Hurtbox")
-deathAnimation = ExtResource("2_0akre")
+deathExplosion = ExtResource("2_0akre")
 grazebox = NodePath("Grazebox")
 attractbox = NodePath("Attractbox")
 

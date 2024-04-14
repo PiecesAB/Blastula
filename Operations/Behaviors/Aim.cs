@@ -42,7 +42,11 @@ namespace Blastula.Operations
 
         [Export] public AimMode aimMode = AimMode.Instant;
         [Export] public TargetType targetType = TargetType.TargetNode;
-        [Export] public string targetName = "Player";
+        /// <summary>
+        /// If the targetType is TargetNode, this is the name of a target.
+        /// Otherwise this is a Vector2 representing a local or global position.
+        /// </summary>
+        [Export] public string target = "Player";
         /// <summary>
         /// Degrees offset, to aim around the target instead of directly toward it.
         /// </summary>
@@ -145,7 +149,7 @@ namespace Blastula.Operations
             dataPtr->angularOffsetRadians = Mathf.DegToRad(Solve("angularOffset").AsSingle());
             if (targetType == TargetType.TargetNode)
             {
-                dataPtr->targetID = Target.GetNumberFromID(targetName);
+                dataPtr->targetID = Target.GetNumberFromID(target);
             }
             dataPtr->targetPosition = Vector2.Zero;
             if (targetType == TargetType.GlobalPosition || targetType == TargetType.LocalPosition)

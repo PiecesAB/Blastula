@@ -73,6 +73,7 @@ namespace Blastula.Graphics
         private double internalAnimationTime = 0.0;
         private double internalColorScaleTime = 0.0;
         private Player playerParent = null;
+        private Vector2 originalScale;
 
         public override void _Ready()
         {
@@ -81,6 +82,7 @@ namespace Blastula.Graphics
             {
                 playerParent = (Player)GetParent();
             }
+            originalScale = Scale;
         }
 
         private int GetSpriteLength(Vector2I range)
@@ -243,7 +245,7 @@ namespace Blastula.Graphics
                     break;
             }
             SelfModulate = targetColor;
-            Scale = targetScale;
+            Scale = targetScale * originalScale;
         }
 
         public override void _Process(double delta)

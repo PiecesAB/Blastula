@@ -74,18 +74,18 @@ namespace Blastula
         /// Technically, this is the time during which the player's LifeState is "Dying",
         /// and is unable to do anything.
         /// </summary>
-        [Export] public float deathAnimationDuration = 2f;
+        [Export] public float deathAnimationDuration = 1.5f;
         /// <summary>
         /// Together with the grace seconds, this is the length of the "Recovering" life state.
         /// The player can do everything, but is temporarily invulnerable because they just died.
         /// </summary>
-        [Export] public float recoveryDuration = 5f;
+        [Export] public float recoveryDuration = 4.5f;
         /// <summary>
         /// Extra few seconds during which the "Recovering" life state is used,
         /// but the player is unable to distunguish that they're in the state.
         /// This leniency allows reaction to the knowledge that the player is now vulnerable.
         /// </summary>
-        [Export] public float recoverDurationGrace = 2f;
+        [Export] public float recoverDurationGrace = 1.5f;
         [ExportGroup("Shot Power")]
         [Export] public int shotPower = 100;
         /// <summary>

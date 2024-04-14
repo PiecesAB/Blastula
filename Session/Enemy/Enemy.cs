@@ -5,6 +5,7 @@ using Blastula.VirtualVariables;
 using Godot;
 using System.Collections.Generic;
 using Blastula.Sounds;
+using System.Diagnostics;
 
 namespace Blastula
 {
@@ -50,6 +51,14 @@ namespace Blastula
         [Export] public BaseSchedule movementSchedule;
 
         private Vector2 startPosition;
+
+        /// <summary>
+        /// A crude form of enemy-to-player collision, 
+        /// because BlastulaCollider only handles collisions with bullets.
+        /// If the player is ever closer than this, try to kill them.
+        /// </summary>
+        [ExportGroup("Collision")]
+        [Export] public float playerCollisionRadius = 24;
 
         /// <summary>
         /// Blastodiscs in this list will recieve variables such as "enemy_count" and "health_frac".
@@ -216,7 +225,7 @@ namespace Blastula
             }
         }
 
-        public void BecomeDefeated()
+        public virtual void BecomeDefeated()
         {
             if (defeated) { return; }
             defeated = true;
@@ -321,8 +330,21 @@ namespace Blastula
         public override void _Process(double delta)
         {
             base._Process(delta);
-            if (Session.IsPaused() || Debug.GameFlow.frozen) { return; }
+            if (Session.IsPaused()) { return; }
 
+            // Collide with players.
+            foreach (Player player in Player.playersByControl.Values)
+            {
+                if (player == null) { continue; }
+                if ((player.GlobalPosition - GlobalPosition).Length() < playerCollisionRadius)
+                {
+                    _ = player.Die();
+                }
+            }
+
+            if (Debug.GameFlow.frozen) { return; }
+
+            // Count down the life and destroy self when 
             if (lifeLeft > 0.0001)
             {
                 lifeLeft -= 
@@ -336,6 +358,7 @@ namespace Blastula
                 }
             }
 
+            // Turn the enemy white if it was red from being damaged recently.
             if (damageDarkenTimer > 0)
             {
                 damageDarkenTimer--;

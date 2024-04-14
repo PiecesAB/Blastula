@@ -400,7 +400,7 @@ namespace Blastula
         /// </summary>
         public async Task Die()
         {
-            if (lifeState != LifeState.Normal) { return; }
+            if (debugInvulnerable || lifeState != LifeState.Normal) { return; }
             lifeState = LifeState.Dying;
             recoveryGracePeriodActive = false;
             CommonSFXManager.PlayByName("Player/Struck", 1, 1f, GlobalPosition, true);
@@ -482,7 +482,6 @@ namespace Blastula
                 }
             }
 
-            if (debugInvulnerable || lifeState != LifeState.Normal) { return; }
             // At this point the hurting actually occurs
             _ = Die();
         }

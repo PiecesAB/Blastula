@@ -1,5 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://cp0rn6665gq0p"]
+[gd_scene load_steps=14 format=3 uid="uid://cp0rn6665gq0p"]
 
+[ext_resource type="Script" path="res://addons/Blastula/LowLevel/AnimationFrameAdvance.cs" id="1_080bi"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/AdditiveSpin.gdshader" id="1_iipw6"]
 [ext_resource type="Shader" path="res://addons/Blastula/PictusXXIV/DeathStarExpansion.gdshader" id="1_nracl"]
 [ext_resource type="Texture2D" uid="uid://3j8vmfgnjqkt" path="res://addons/Blastula/PictusXXIV/backSquareForDeathStar.png" id="2_g2658"]
@@ -178,6 +179,7 @@ libraries = {
 "": SubResource("AnimationLibrary_coxkn")
 }
 autoplay = "Main"
+script = ExtResource("1_080bi")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 material = SubResource("ShaderMaterial_silwr")

@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cp0rn6665gq0p"]
+[gd_scene load_steps=13 format=3 uid="uid://cp0rn6665gq0p"]
 
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/AdditiveSpin.gdshader" id="1_iipw6"]
 [ext_resource type="Shader" path="res://addons/Blastula/PictusXXIV/DeathStarExpansion.gdshader" id="1_nracl"]
 [ext_resource type="Texture2D" uid="uid://3j8vmfgnjqkt" path="res://addons/Blastula/PictusXXIV/backSquareForDeathStar.png" id="2_g2658"]
 [ext_resource type="Script" path="res://addons/Blastula/Collision/BlastulaCollider.cs" id="3_e1xs6"]
+[ext_resource type="Texture2D" uid="uid://dfgm30y05tlob" path="res://addons/Blastula/Graphics/Bullets/mist.png" id="4_r8vbx"]
 
 [sub_resource type="Animation" id="Animation_skxk3"]
 resource_name = "Main"
@@ -70,6 +72,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(6, 0), Vector2(30, 0), Vector2(1300, 0), Vector2(1300, 0), Vector2(0, 0)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CPUParticles2D:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_80bs5"]
 length = 0.001
@@ -121,12 +135,35 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(6, 0)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CPUParticles2D:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_coxkn"]
 _data = {
 "Main": SubResource("Animation_skxk3"),
 "RESET": SubResource("Animation_80bs5")
 }
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_silwr"]
+shader = ExtResource("1_iipw6")
+shader_parameter/tint = Vector4(1, 1, 1, 1)
+shader_parameter/speed = 540.0
+
+[sub_resource type="Gradient" id="Gradient_d1p7d"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Gradient" id="Gradient_2fwys"]
+colors = PackedColorArray(1, 0.708194, 0.453878, 1, 0.487756, 1.02879e-06, 3.36915e-07, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s7tlk"]
 shader = ExtResource("1_nracl")
@@ -141,6 +178,24 @@ libraries = {
 "": SubResource("AnimationLibrary_coxkn")
 }
 autoplay = "Main"
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_silwr")
+emitting = false
+amount = 300
+one_shot = true
+explosiveness = 0.8
+draw_order = 1
+texture = ExtResource("4_r8vbx")
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 800.0
+initial_velocity_max = 1200.0
+linear_accel_min = -750.0
+linear_accel_max = 750.0
+scale_amount_max = 4.0
+color_ramp = SubResource("Gradient_d1p7d")
+color_initial_ramp = SubResource("Gradient_2fwys")
 
 [node name="Star" type="Sprite2D" parent="."]
 z_index = 400

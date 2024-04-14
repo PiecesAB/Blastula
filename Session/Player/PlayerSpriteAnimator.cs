@@ -70,7 +70,8 @@ namespace Blastula.Graphics
         [Export] public float dyingFramerate = 1;
 
         private Vector2 movementCharge = Vector2.Zero;
-        private double internalTime = 0.0;
+        private double internalAnimationTime = 0.0;
+        private double internalColorScaleTime = 0.0;
         private Player playerParent = null;
 
         public override void _Ready()
@@ -89,7 +90,7 @@ namespace Blastula.Graphics
 
         private int GetLoopFrameNumber(Vector2I range, float frameRate)
         {
-            return range.X + (int)((long)Math.Floor(internalTime * frameRate) % GetSpriteLength(range));
+            return range.X + (int)((long)Math.Floor(internalAnimationTime * frameRate) % GetSpriteLength(range));
         }
 
         private int GetMoveEntryFrameNumber(Vector2I range)
@@ -118,7 +119,6 @@ namespace Blastula.Graphics
 
         private AnimationState GetTargetAnimationState()
         {
-            // Dying?
             if (playerParent.lifeState == Player.LifeState.Dying) 
             { 
                 return AnimationState.Dying; 
@@ -203,18 +203,69 @@ namespace Blastula.Graphics
             Frame = frameNumber;
         }
 
+        private ColorScaleState GetTargetColorScaleState()
+        {
+            if (playerParent.lifeState == Player.LifeState.Dying)
+            {
+                return ColorScaleState.Dying;
+            }
+            else if (playerParent.lifeState == Player.LifeState.Recovering)
+            {
+                return ColorScaleState.Recovering;
+            }
+            else
+            {
+                return ColorScaleState.Normal;
+            }
+        }
+
+        private void SetColorScale()
+        {
+            Color targetColor = Colors.White;
+            Vector2 targetScale = Vector2.One;
+            float t = (float)internalColorScaleTime;
+            switch (colorScaleState)
+            {
+                case ColorScaleState.Normal: default: break;
+                case ColorScaleState.Dying:
+                    float lumin = 1f + 3f * Mathf.Pow(3f * t, 3f);
+                    targetColor = new Color(lumin, lumin, lumin, 
+                        Mathf.Clamp(1f - 3f * (float)internalColorScaleTime, 0f, 1f)
+                    );
+                    targetScale = lumin * Vector2.One;
+                    break;
+                case ColorScaleState.Recovering:
+                    if (!playerParent.recoveryGracePeriodActive)
+                    {
+                        float altern = (FrameCounter.stageFrame % 10 >= 5) ? 0.5f : 0.75f;
+                        targetColor = new Color(1f, 1f, 1f, altern);
+                    }
+                    break;
+            }
+            SelfModulate = targetColor;
+            Scale = targetScale;
+        }
+
         public override void _Process(double delta)
         {
             base._Process(delta);
             if (Session.main == null || playerParent == null || Session.main.paused) { return; }
-            internalTime += Engine.TimeScale / Persistent.SIMULATED_FPS;
-            AnimationState targetState = GetTargetAnimationState();
-            if (targetState != animationState)
+            internalAnimationTime += Engine.TimeScale / Persistent.SIMULATED_FPS;
+            internalColorScaleTime += Engine.TimeScale / Persistent.SIMULATED_FPS;
+            AnimationState targetAnimState = GetTargetAnimationState();
+            if (targetAnimState != animationState)
             {
-                internalTime = 0.0;
+                internalAnimationTime = 0.0;
             }
-            animationState = targetState;
+            animationState = targetAnimState;
             SetSprite();
+            ColorScaleState targetCSState = GetTargetColorScaleState();
+            if (targetCSState != colorScaleState)
+            {
+                internalColorScaleTime = 0.0;
+            }
+            colorScaleState = targetCSState;
+            SetColorScale();
         }
     }
 }

@@ -165,7 +165,16 @@ namespace Blastula
         private string specialName = "Special";
 
         private MainBoundary mainBoundary = null;
+        /// <summary>
+        /// The number of grazes before _Process can aggregate them, 
+        /// which is incremented for each collision event.
+        /// </summary>
         private int grazeGetThisFrame = 0;
+        /// <summary>
+        /// The position of the player when _Ready runs.
+        /// When the player dies, they will respawn here.
+        /// </summary>
+        private Vector2 homePosition;
         private FrameCounter.Buffer bombStartBuffer = new FrameCounter.Buffer(0);
         private FrameCounter.Buffer deathbombBuffer = new FrameCounter.Buffer(0);
         
@@ -210,6 +219,7 @@ namespace Blastula
             FindDiscs();
             SetVarsInDiscs();
             attractboxOriginalSize = attractbox.size;
+            homePosition = GlobalPosition;
         }
 
         private void FindMainBoundary()
@@ -398,6 +408,7 @@ namespace Blastula
                 lives = 0f;
             }
             lifeState = LifeState.Recovering;
+            GlobalPosition = homePosition;
             await this.WaitSeconds(recoveryDuration);
             recoveryGracePeriodActive = true;
             // TODO: appear to be vulnerable again

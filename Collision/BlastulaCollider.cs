@@ -86,7 +86,7 @@ namespace Blastula.Collision
             colliderInfo = (ObjectColliderInfo*)Marshal.AllocHGlobal(sizeof(ObjectColliderInfo));
             colliderInfo->collisionListPtr = (IntPtr)collisions;
             colliderInfo->shape = shape;
-            colliderInfo->size = size;
+            colliderInfo->size = size * GlobalScale;
             colliderInfo->transform = GlobalTransform;
             colliderInfo->colliderID = ID;
             objectLayerID = CollisionManager.GetObjectLayerIDFromName(objectLayer);

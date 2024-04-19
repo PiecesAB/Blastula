@@ -1086,13 +1086,39 @@ defaultKey = 67
 script = ExtResource("18_b0g1x")
 defaultKey = 4194325
 
-[node name="Pause" type="Node" parent="Input Manager/One Player Buttons"]
-script = ExtResource("18_b0g1x")
-defaultKey = 4194305
-
 [node name="Debug" type="Node" parent="Input Manager/One Player Buttons"]
 script = ExtResource("18_b0g1x")
 defaultKey = 96
+
+[node name="Menu" type="Node" parent="Input Manager/One Player Buttons"]
+
+[node name="Left" type="Node" parent="Input Manager/One Player Buttons/Menu"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194319
+
+[node name="Right" type="Node" parent="Input Manager/One Player Buttons/Menu"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194321
+
+[node name="Up" type="Node" parent="Input Manager/One Player Buttons/Menu"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194320
+
+[node name="Down" type="Node" parent="Input Manager/One Player Buttons/Menu"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194322
+
+[node name="Select" type="Node" parent="Input Manager/One Player Buttons/Menu"]
+script = ExtResource("18_b0g1x")
+defaultKey = 90
+
+[node name="Back" type="Node" parent="Input Manager/One Player Buttons/Menu"]
+script = ExtResource("18_b0g1x")
+defaultKey = 88
+
+[node name="Pause" type="Node" parent="Input Manager/One Player Buttons/Menu"]
+script = ExtResource("18_b0g1x")
+defaultKey = 4194305
 
 [node name="Two Player Buttons" type="Node" parent="Input Manager"]
 
@@ -1164,7 +1190,33 @@ defaultKey = 4194438
 script = ExtResource("18_b0g1x")
 defaultKey = 4194319
 
-[node name="Pause" type="Node" parent="Input Manager/Two Player Buttons"]
+[node name="Menu" type="Node" parent="Input Manager/Two Player Buttons"]
+
+[node name="Left" type="Node" parent="Input Manager/Two Player Buttons/Menu"]
+script = ExtResource("18_b0g1x")
+defaultKey = 70
+
+[node name="Right" type="Node" parent="Input Manager/Two Player Buttons/Menu"]
+script = ExtResource("18_b0g1x")
+defaultKey = 72
+
+[node name="Up" type="Node" parent="Input Manager/Two Player Buttons/Menu"]
+script = ExtResource("18_b0g1x")
+defaultKey = 84
+
+[node name="Down" type="Node" parent="Input Manager/Two Player Buttons/Menu"]
+script = ExtResource("18_b0g1x")
+defaultKey = 66
+
+[node name="Select" type="Node" parent="Input Manager/Two Player Buttons/Menu"]
+script = ExtResource("18_b0g1x")
+defaultKey = 90
+
+[node name="Back" type="Node" parent="Input Manager/Two Player Buttons/Menu"]
+script = ExtResource("18_b0g1x")
+defaultKey = 88
+
+[node name="Pause" type="Node" parent="Input Manager/Two Player Buttons/Menu"]
 script = ExtResource("18_b0g1x")
 defaultKey = 4194305
 

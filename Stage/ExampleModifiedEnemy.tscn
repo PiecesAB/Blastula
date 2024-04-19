@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dfglvhf0vgk1k"]
+
+[ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/BasicEnemy.tscn" id="1_04axi"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/ScheduleReference.cs" id="2_2syau"]
+[ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="3_55vrq"]
+
+[node name="BasicEnemy" node_paths=PackedStringArray("movementSchedule") instance=ExtResource("1_04axi")]
+movementSchedule = NodePath("MovementA")
+
+[node name="MovementA" type="Node" parent="." index="4"]
+script = ExtResource("2_2syau")
+scheduleID = "MovementA"
+
+[node name="ShotDisc" type="Node2D" parent="." index="5" node_paths=PackedStringArray("mainSchedule")]
+script = ExtResource("3_55vrq")
+mainSchedule = NodePath("FireA")
+deleteAction = 1
+
+[node name="FireA" type="Node" parent="ShotDisc" index="0"]
+script = ExtResource("2_2syau")
+scheduleID = "FireA"

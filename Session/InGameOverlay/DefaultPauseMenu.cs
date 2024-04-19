@@ -1,4 +1,5 @@
 using Blastula.Input;
+using Blastula.Menus;
 using Blastula.VirtualVariables;
 using Godot;
 
@@ -9,6 +10,8 @@ namespace Blastula
     /// </summary>
     public partial class DefaultPauseMenu : Control
     {
+        [Export] public VerticalListMenu mainMenu;
+
         public enum State
         {
             Unpaused, Pausing, Paused, Unpausing
@@ -59,18 +62,21 @@ namespace Blastula
         public override void _Process(double delta)
         {
             if (Session.main == null) { return; }
-            bool pausePressed = InputManager.ButtonPressedThisFrame("Pause");
+            bool pausePressed = InputManager.ButtonPressedThisFrame("Menu/Pause");
+            pausePressed |= state == State.Paused && !mainMenu.IsActive();
             if (pausePressed)
             {
                 if (state == State.Paused && Session.main.paused)
                 {
                     state = State.Unpausing;
+                    mainMenu.Close();
                     animationTimer = 0;
                     UnpausingAnimation();
                 }
                 else if (state == State.Unpaused && !Session.main.paused)
                 {
                     state = State.Pausing;
+                    mainMenu.Open();
                     animationTimer = 0;
                     Session.main.Pause();
                     PausingAnimation();

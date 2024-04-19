@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/EnemyFormation.cs" id="1_yxvkk"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/Spawner.cs" id="2_k213j"]
-[ext_resource type="PackedScene" uid="uid://dfglvhf0vgk1k" path="res://addons/Blastula/Stage/EnemySpamTest1.tscn" id="3_eorw3"]
+[ext_resource type="PackedScene" uid="uid://dfglvhf0vgk1k" path="res://addons/Blastula/Stage/ExampleModifiedEnemy.tscn" id="3_eorw3"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="4_gqhg7"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="5_lj0d6"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/Schedules/TriggerSpawner.cs" id="6_vakfe"]

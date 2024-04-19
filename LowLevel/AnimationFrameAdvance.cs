@@ -21,6 +21,7 @@ namespace Blastula
         public override void _Process(double delta)
         {
             base._Process(delta);
+            if (!Active) { return; }
             Pause();
             double animationStep = Engine.TimeScale / Persistent.SIMULATED_FPS;
             Advance(animationStep);

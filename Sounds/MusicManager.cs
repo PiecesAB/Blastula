@@ -10,17 +10,24 @@ namespace Blastula.Sounds
     public partial class MusicManager : Node
     {
         [Export] public float volumeMultiplier = 1f;
-
+        
         public static MusicManager main { get; private set; } = null;
-
         private string currentMusicNodePath = "";
-        public Music currentMusic { get; private set; } = null;
 
+        public Music currentMusic { get; private set; } = null;
         private Dictionary<string, Music> musicsByNodeName = new Dictionary<string, Music>();
         /// <summary>
         /// Linear volumes that the AudioStreamPlayer nodes begin with.
         /// </summary>
         private Dictionary<string, float> startVolumesByNodeName = new Dictionary<string, float>();
+
+        private float duckMultiplier = 1f;
+        private struct DuckInfo
+        {
+            public float duration;
+            public float multiplier;
+        }
+        private List<DuckInfo> ongoingDucks = new List<DuckInfo>();
 
         private void MusicSearch()
         {
@@ -66,6 +73,19 @@ namespace Blastula.Sounds
             main.currentMusic.Seek(time);
         }
 
+        /// <summary>
+        /// Cause the music to become quieter for some time.
+        /// </summary>
+        public static void Duck(float duration, float multiplier = 0.3f)
+        {
+            if (main == null) { return; }
+            main.ongoingDucks.Add(new DuckInfo
+            {
+                duration = duration,
+                multiplier = multiplier,
+            });
+        }
+
         public override void _Ready()
         {
             base._Ready();
@@ -75,12 +95,47 @@ namespace Blastula.Sounds
             ProcessPriority = Persistent.Priorities.MUSIC_MANAGER;
         }
 
+        private void HandleDuckMultiplier()
+        {
+            float desiredMultiplier = 1f;
+            float timePassed = 1f / Persistent.SIMULATED_FPS;
+            for (int i = 0; i < ongoingDucks.Count; ++i)
+            {
+                DuckInfo di = ongoingDucks[i];
+                ongoingDucks[i] = new DuckInfo
+                {
+                    duration = di.duration - timePassed,
+                    multiplier = di.multiplier
+                };
+                desiredMultiplier = Mathf.Min(desiredMultiplier, di.multiplier);
+                if (ongoingDucks[i].duration <= 0f)
+                {
+                    ongoingDucks.RemoveAt(i);
+                    --i;
+                }
+            }
+            if (desiredMultiplier < duckMultiplier)
+            {
+                duckMultiplier = desiredMultiplier;
+            }
+            else
+            {
+                duckMultiplier = Mathf.MoveToward(duckMultiplier, desiredMultiplier, timePassed);
+            }
+        }
+
         public override void _Process(double delta)
         {
             base._Process(delta);
             if (currentMusic == null) { return; }
 
-            currentMusic.VolumeDb = Mathf.LinearToDb(volumeMultiplier * startVolumesByNodeName[currentMusicNodePath]);
+            HandleDuckMultiplier();
+
+            currentMusic.VolumeDb = Mathf.LinearToDb(
+                volumeMultiplier 
+                * startVolumesByNodeName[currentMusicNodePath]
+                * duckMultiplier
+            );
 
             if (currentMusic.pausesWithGame && Session.main != null)
             {

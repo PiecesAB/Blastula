@@ -7,7 +7,6 @@ using Blastula.Sounds;
 using Blastula.VirtualVariables;
 using Godot;
 using Godot.Collections;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -361,6 +360,7 @@ namespace Blastula
         public void PerformExtendEffect()
         {
             CommonSFXManager.PlayByName("Player/Extend", 1, 1f, GlobalPosition, true);
+            MusicManager.Duck(2.5f, 0f);
             LabelPool.Play("MajorItem", GlobalPosition + Vector2.Up * 30, "Life get.", Colors.White);
         }
 

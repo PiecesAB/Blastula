@@ -1,4 +1,4 @@
-[gd_scene load_steps=169 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=171 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -60,7 +60,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/InputManager.cs" id="50_fax0d"]
 [ext_resource type="Texture2D" uid="uid://dtfx7la3l3xpt" path="res://addons/Blastula/Graphics/Collectibles/power.png" id="50_y2uyf"]
 [ext_resource type="PackedScene" uid="uid://htuij3trjfo5" path="res://addons/Blastula/Graphics/ExplodeMedium.tscn" id="51_njfs0"]
-[ext_resource type="Script" path="res://addons/Blastula/Sounds/Music.cs" id="52_l68ss"]
+[ext_resource type="Script" path="res://addons/Blastula/Sounds/MusicManager.cs" id="52_l68ss"]
 [ext_resource type="Script" path="res://addons/Blastula/Sounds/CommonSFXManager.cs" id="53_22pks"]
 [ext_resource type="Texture2D" uid="uid://1ow6sv288rh8" path="res://addons/Blastula/Graphics/Collectibles/extend.png" id="53_i3y4t"]
 [ext_resource type="AudioStream" uid="uid://y0rkehjfrr2j" path="res://addons/Blastula/Sounds/timeoutWarning.ogg" id="54_gb2so"]
@@ -89,6 +89,8 @@
 [ext_resource type="PackedScene" uid="uid://dy1rv3s4i26wp" path="res://addons/Blastula/Stage/EnemySpamTest.tscn" id="65_1m2vo"]
 [ext_resource type="PackedScene" uid="uid://cgd1mi7xmt07f" path="res://addons/Blastula/Graphics/MajorItemPopup.tscn" id="65_x2evx"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="66_doh6d"]
+[ext_resource type="AudioStream" uid="uid://cb7jxktmfllnk" path="res://addons/Blastula/Sounds/Music/reconception.ogg" id="69_5wumw"]
+[ext_resource type="Script" path="res://addons/Blastula/Sounds/Music.cs" id="70_abo3h"]
 [ext_resource type="AudioStream" uid="uid://dw6frrbldq4fa" path="res://addons/Blastula/Sounds/Player/vacuum.ogg" id="72_v6inr"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Wind/StandardWindSource.cs" id="77_lsfay"]
 [ext_resource type="AudioStream" uid="uid://btv74hqt1hn0e" path="res://addons/Blastula/Sounds/Player/extend.ogg" id="79_872qk"]
@@ -1237,8 +1239,16 @@ current = true
 [node name="Listener 2D" type="AudioListener2D" parent="Sound"]
 current = true
 
-[node name="Music" type="AudioStreamPlayer" parent="Sound"]
+[node name="Music Manager" type="Node" parent="Sound"]
 script = ExtResource("52_l68ss")
+volumeMultiplier = 0.6
+
+[node name="Reconception" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("69_5wumw")
+script = ExtResource("70_abo3h")
+fullName = "Reconception"
+description = "The first song."
+loopRegion = Vector2(16.696, 150.261)
 
 [node name="Common SFX Manager" type="Node" parent="Sound"]
 script = ExtResource("53_22pks")
@@ -1687,9 +1697,8 @@ script = ExtResource("63_d8ira")
 
 [node name="Substage 0" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("63_d8ira")
-duration = "1"
+duration = "7"
 endWhenChildrenComplete = false
-shouldUseTimer = true
 
 [node name="Sound" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("64_w3bqr")
@@ -1701,7 +1710,7 @@ newHeight = "0"
 
 [node name="Substage 1" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("63_d8ira")
-duration = "9"
+duration = "280"
 endWhenChildrenComplete = false
 shouldUseTimer = true
 formation = ExtResource("65_1m2vo")

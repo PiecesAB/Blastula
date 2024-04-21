@@ -45,6 +45,7 @@ namespace Blastula.VirtualVariables
             public const int COLLISION = 60000;
             public const int RENDER = 70000;
             public const int RENDER_DEBUG_COLLISIONS = 70001;
+            public const int MUSIC_MANAGER = 71000;
             public const int PAUSE = 100000;
             public const int CONSUME_INPUT = int.MaxValue;
         }

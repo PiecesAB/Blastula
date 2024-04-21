@@ -1,4 +1,4 @@
-[gd_scene load_steps=164 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=169 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -112,9 +112,14 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/CloneInPlace.cs" id="89_m16lh"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Shift.cs" id="90_sklj1"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/WindForth.cs" id="91_dt4gs"]
+[ext_resource type="AudioStream" uid="uid://yt4u1wpvyb40" path="res://addons/Blastula/Sounds/Menu/switch.ogg" id="91_ttmxm"]
+[ext_resource type="AudioStream" uid="uid://v3nboop8d2b7" path="res://addons/Blastula/Sounds/Menu/select.ogg" id="91_yrim5"]
+[ext_resource type="AudioStream" uid="uid://bd3d5qpqu6mx6" path="res://addons/Blastula/Sounds/Menu/pause.ogg" id="92_4yevl"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/TimeStretch.cs" id="92_f6tsy"]
+[ext_resource type="AudioStream" uid="uid://s42k121bea0g" path="res://addons/Blastula/Sounds/Menu/back.ogg" id="92_ijk5m"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Follow.cs" id="93_evxvp"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="93_kt2yj"]
+[ext_resource type="AudioStream" uid="uid://fvvcbw2sx75j" path="res://addons/Blastula/Sounds/Menu/selectBig.ogg" id="93_quwg7"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/SetItemGetHeight.cs" id="98_4pc22"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Aim.cs" id="111_b4os7"]
 
@@ -1306,6 +1311,23 @@ stream = ExtResource("84_kmhvi")
 
 [node name="Vacuum" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager/Player"]
 stream = ExtResource("72_v6inr")
+
+[node name="Menu" type="Node" parent="Sound/Common SFX Manager"]
+
+[node name="Switch" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Menu"]
+stream = ExtResource("91_ttmxm")
+
+[node name="Pause" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Menu"]
+stream = ExtResource("92_4yevl")
+
+[node name="Select" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Menu"]
+stream = ExtResource("91_yrim5")
+
+[node name="Big" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Menu/Select"]
+stream = ExtResource("93_quwg7")
+
+[node name="Back" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Menu"]
+stream = ExtResource("92_ijk5m")
 
 [node name="Game Logic" type="Node" parent="."]
 

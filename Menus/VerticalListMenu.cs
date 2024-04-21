@@ -1,7 +1,10 @@
 using Blastula.Input;
+using Blastula.Sounds;
+using Blastula.VirtualVariables;
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Blastula.Menus
 {
@@ -11,6 +14,12 @@ namespace Blastula.Menus
     /// </summary>
     public partial class VerticalListMenu : BaseMenu
     {
+        /// <summary>
+        /// If it exists, we expect it to start in the "Closed" state.
+        /// When the menu opens, it is put in the "Open" state.
+        /// When the menu closes, it is put in the "Closed" state.
+        /// </summary>
+        [Export] public AnimationPlayer animationPlayer;
         /// <summary>
         /// If true, the back button can be pressed to leave the menu.
         /// </summary>
@@ -70,6 +79,11 @@ namespace Blastula.Menus
         public override void Open()
         {
             base.Open();
+            if (animationPlayer != null)
+            {
+                animationPlayer.Play("Open");
+                animationPlayer.Pause();
+            }
             controlStunned = false;
             selection = initialSelection;
             selectFramesRemaining = -1;
@@ -94,6 +108,11 @@ namespace Blastula.Menus
         public override void Close()
         {
             base.Close();
+            if (animationPlayer != null)
+            {
+                animationPlayer.Play("Closed");
+                animationPlayer.Pause();
+            }
             foreach (ListNode ln in menuNodes)
             {
                 if (ln.animationPlayer != null) { ln.animationPlayer.Active = false; }
@@ -105,6 +124,16 @@ namespace Blastula.Menus
             base.ReturnControl();
             controlStunned = false;
             EnsureSelectionIsValid();
+        }
+
+        public void PlayCommonSFX(string sfxName)
+        {
+            CommonSFXManager.PlayByName(sfxName);
+        }
+
+        public void PlayBackSFX()
+        {
+            CommonSFXManager.PlayByName("Menu/Back");
         }
 
         private bool HitUpButton()
@@ -120,20 +149,29 @@ namespace Blastula.Menus
         public override void _Process(double delta)
         {
             base._Process(delta);
+            if (animationPlayer != null && IsVisibleInTree())
+            {
+                animationPlayer.Pause();
+                animationPlayer.Advance(1.0 / Persistent.SIMULATED_FPS);
+            }
+            if (!IsActive()) { return; }
+            if (controlStunned)
+            {
+                if (selectFramesRemaining > 0)
+                {
+                    --selectFramesRemaining;
+                    if (selectFramesRemaining == 0)
+                    {
+                        menuNodes[selection].EmitSignal(ListNode.SignalName.SelectAction);
+                    }
+                }
+            }
             if (menuNodes.Count == 0 || selection < 0 || controlStunned) { return; }
 
             if (cancelable && InputManager.ButtonPressedThisFrame("Menu/Back"))
             {
+                PlayCommonSFX("Menu/Back");
                 Close(); return;
-            }
-
-            if (selectFramesRemaining > 0)
-            {
-                --selectFramesRemaining;
-                if (selectFramesRemaining == 0)
-                {
-                    // TODO: perform action
-                }
             }
 
             if (InputManager.ButtonPressedThisFrame("Menu/Select"))

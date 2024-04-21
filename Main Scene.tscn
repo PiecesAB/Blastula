@@ -1,4 +1,4 @@
-[gd_scene load_steps=115 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=126 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_eg8pa"]
 [ext_resource type="Texture2D" uid="uid://bddg1oxe3uvq8" path="res://addons/Blastula/Graphics/UI/overlayIconScore.png" id="2_wj38h"]
@@ -20,7 +20,7 @@
 [ext_resource type="FontFile" uid="uid://c0msc3x0utd1o" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Italic.ttf" id="9_8k2qt"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/PlayerResourceIcon.gdshader" id="9_awk5k"]
 [ext_resource type="Texture2D" uid="uid://43l8tj7wbl6p" path="res://addons/Blastula/Graphics/UI/playerResourceSymbol.png" id="9_lwq7t"]
-[ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/DefaultPauseMenu.cs" id="9_x5x4p"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/PauseMenuManager.cs" id="9_x5x4p"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/SectorTimer.cs" id="10_1h7p6"]
 [ext_resource type="Texture2D" uid="uid://bbc8b5kqjwkv7" path="res://addons/Blastula/Graphics/UI/overlayIconBombs.png" id="10_fupuw"]
 [ext_resource type="FontFile" uid="uid://djia8pojyn6eq" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Regular.ttf" id="10_jjfll"]
@@ -60,6 +60,7 @@
 [ext_resource type="FontFile" uid="uid://dtwct8imbtrpq" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RI.otf" id="34_vluwy"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ClearBehaviors.cs" id="37_2alt6"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/VerticalListMenu.cs" id="38_isumr"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/PauseMenu.cs" id="38_svrqm"]
 [ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/PictusXXIV/PictusXXIV.tscn" id="38_tvlm6"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/ListNode.cs" id="39_oq2gn"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Additive.gdshader" id="40_iwfxj"]
@@ -252,6 +253,89 @@ fog_density = 0.3831
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dl8qm"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ftxip"]
+shader = ExtResource("40_iwfxj")
+shader_parameter/tint = Vector4(1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_k2443"]
+resource_name = "Highlight"
+length = 0.5
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Subtext:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 50)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:size")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 80), Vector2(300, 80), Vector2(400, 80)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Highlight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.2415, 0.183, 0.3, 1)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.025),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Switch"],
+"method": &"PlayCommonSFX"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_gut73"]
 resource_name = "Normal"
 length = 0.2
@@ -313,10 +397,11 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0.196078, 0.188235, 0.301961, 1)]
+"values": [Color(0.2415, 0.183, 0.3, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_tdecy"]
+resource_name = "RESET"
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -376,77 +461,12 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0.196078, 0.188235, 0.301961, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_k2443"]
-resource_name = "Highlight"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Text:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Text:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(60, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Subtext:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(60, 50)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Highlight:size")
-tracks/3/interp = 2
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 80), Vector2(300, 80), Vector2(400, 80)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Highlight:color")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0.196078, 0.188235, 0.301961, 1)]
+"values": [Color(0.2415, 0.183, 0.3, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_5p4gl"]
 resource_name = "Select"
-length = 0.15
-loop_mode = 1
+length = 0.3
 step = 0.025
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -503,10 +523,24 @@ tracks/4/path = NodePath("Highlight:color")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.075, 0.15),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.075, 0.15, 0.225, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Color(0.243137, 0.235294, 0.368627, 1), Color(0.160784, 0.156863, 0.254902, 1), Color(0.243137, 0.235294, 0.368627, 1)]
+"values": [Color(0.3034, 0.2368, 0.37, 1), Color(0.2025, 0.155, 0.25, 1), Color(0.3034, 0.2368, 0.37, 1), Color(0.2025, 0.155, 0.25, 1), Color(0.3034, 0.2368, 0.37, 1)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Select"],
+"method": &"PlayCommonSFX"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hbhh8"]
@@ -520,6 +554,354 @@ _data = {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n41s0"]
 shader = ExtResource("40_iwfxj")
 shader_parameter/tint = Vector4(1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_hjm1c"]
+resource_name = "Closed"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1e-05)]
+}
+
+[sub_resource type="Animation" id="Animation_tkhci"]
+resource_name = "Open"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_eqq1u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1e-05)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1wglm"]
+_data = {
+"Closed": SubResource("Animation_hjm1c"),
+"Open": SubResource("Animation_tkhci"),
+"RESET": SubResource("Animation_eqq1u")
+}
+
+[sub_resource type="Animation" id="Animation_5j6hw"]
+resource_name = "Highlight"
+length = 0.5
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Subtext:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 50)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:size")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 50), Vector2(190, 50), Vector2(250, 50)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Highlight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.301961, 0.184314, 0.184314, 1)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.025),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Switch"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_fy1f3"]
+resource_name = "Normal"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.627451, 0.627451, 0.627451, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(40, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Subtext:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(40, 50)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 50)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Highlight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.301961, 0.184314, 0.184314, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cvky3"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.627451, 0.627451, 0.627451, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(40, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Subtext:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 50)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 50)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Highlight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.301961, 0.184314, 0.184314, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_uepci"]
+resource_name = "Select"
+length = 0.3
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Subtext:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 50)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:size")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(250, 50)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Highlight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.15, 0.225, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.368627, 0.235294, 0.235294, 1), Color(0.25098, 0.156863, 0.156863, 1), Color(0.368627, 0.235294, 0.235294, 1), Color(0.25098, 0.156863, 0.156863, 1), Color(0.368627, 0.235294, 0.235294, 1)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Select"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rkflj"]
+_data = {
+"Highlight": SubResource("Animation_5j6hw"),
+"Normal": SubResource("Animation_fy1f3"),
+"RESET": SubResource("Animation_cvky3"),
+"Select": SubResource("Animation_uepci")
+}
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x5a55"]
 content_margin_left = 12.0
@@ -1696,21 +2078,63 @@ color = Color(0, 0, 0, 0.627451)
 script = ExtResource("9_x5x4p")
 mainMenu = NodePath("MainMenu")
 
-[node name="MainMenu" type="VBoxContainer" parent="Rendering Zone/MainViewHolder/PauseMenu"]
+[node name="MainMenu" type="VBoxContainer" parent="Rendering Zone/MainViewHolder/PauseMenu" node_paths=PackedStringArray("confirmMenu")]
 layout_mode = 0
 offset_left = 40.0
 offset_top = 88.0
 offset_right = 424.0
 offset_bottom = 888.0
 alignment = 2
-script = ExtResource("38_isumr")
+script = ExtResource("38_svrqm")
+confirmMenu = NodePath("../Confirmation")
+confirmRetryMenuPosition = Vector2(480, 340)
+confirmQuitMenuPosition = Vector2(480, 660)
 
 [node name="Title" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu"]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("4_5jpkg")
 theme_override_font_sizes/font_size = 52
-text = "Paused"
+text = "    Diapause"
+
+[node name="Decoration" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Title"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 5.0
+offset_top = 10.0
+offset_right = 35.0
+offset_bottom = 40.0
+rotation = 0.785398
+color = Color(0.161785, 0.15584, 0.254592, 1)
+
+[node name="Decoration2" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Title"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 70.0
+offset_top = -5.0
+offset_right = 120.0
+offset_bottom = 45.0
+rotation = 0.785398
+color = Color(0.161785, 0.15584, 0.254592, 1)
+
+[node name="Decoration3" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Title"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 30.0
+offset_right = 45.0
+offset_bottom = 15.0
+rotation = 0.785398
+color = Color(0.161785, 0.15584, 0.254592, 1)
+
+[node name="Decoration4" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Title"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 30.0
+offset_top = 40.0
+offset_right = 45.0
+offset_bottom = 55.0
+rotation = 0.785398
+color = Color(0.161785, 0.15584, 0.254592, 1)
 
 [node name="Option1" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" node_paths=PackedStringArray("animationPlayer")]
 layout_mode = 2
@@ -1729,7 +2153,7 @@ blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 material = SubResource("ShaderMaterial_n41s0")
 layout_mode = 0
 offset_bottom = 80.0
-color = Color(0.196078, 0.188235, 0.301961, 1)
+color = Color(0.2415, 0.183, 0.3, 1)
 
 [node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option1"]
 modulate = Color(0.627451, 0.627451, 0.627451, 1)
@@ -1749,7 +2173,7 @@ offset_right = 444.0
 offset_bottom = 78.0
 theme_override_fonts/font = ExtResource("7_3d2ai")
 theme_override_font_sizes/font_size = 24
-text = "Unpause simulation"
+text = "Continue development"
 
 [node name="Option2" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" node_paths=PackedStringArray("animationPlayer")]
 layout_mode = 2
@@ -1768,7 +2192,7 @@ blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 material = SubResource("ShaderMaterial_n41s0")
 layout_mode = 0
 offset_bottom = 80.0
-color = Color(0.196078, 0.188235, 0.301961, 1)
+color = Color(0.2415, 0.183, 0.3, 1)
 
 [node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option2"]
 modulate = Color(0.627451, 0.627451, 0.627451, 1)
@@ -1788,7 +2212,7 @@ offset_right = 444.0
 offset_bottom = 78.0
 theme_override_fonts/font = ExtResource("7_3d2ai")
 theme_override_font_sizes/font_size = 24
-text = "Reiterate simulation"
+text = "Reconception"
 
 [node name="Option3" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" node_paths=PackedStringArray("animationPlayer")]
 layout_mode = 2
@@ -1807,7 +2231,7 @@ blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 material = SubResource("ShaderMaterial_n41s0")
 layout_mode = 0
 offset_bottom = 80.0
-color = Color(0.196078, 0.188235, 0.301961, 1)
+color = Color(0.2415, 0.183, 0.3, 1)
 
 [node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option3"]
 modulate = Color(0.627451, 0.627451, 0.627451, 1)
@@ -1817,7 +2241,7 @@ offset_right = 424.0
 offset_bottom = 46.0
 theme_override_fonts/font = ExtResource("4_5jpkg")
 theme_override_font_sizes/font_size = 40
-text = "Quit"
+text = "Settings"
 
 [node name="Subtext" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option3"]
 layout_mode = 2
@@ -1827,7 +2251,188 @@ offset_right = 444.0
 offset_bottom = 78.0
 theme_override_fonts/font = ExtResource("7_3d2ai")
 theme_override_font_sizes/font_size = 24
-text = "Return to title menu"
+text = "Optimize growth medium"
+
+[node name="Option4" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("39_oq2gn")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option4"]
+libraries = {
+"": SubResource("AnimationLibrary_hbhh8")
+}
+autoplay = "Normal"
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option4"]
+material = SubResource("ShaderMaterial_n41s0")
+layout_mode = 0
+offset_bottom = 80.0
+color = Color(0.2415, 0.183, 0.3, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option4"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 46.0
+theme_override_fonts/font = ExtResource("4_5jpkg")
+theme_override_font_sizes/font_size = 40
+text = "Quit"
+
+[node name="Subtext" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option4"]
+layout_mode = 2
+offset_left = 60.0
+offset_top = 50.0
+offset_right = 444.0
+offset_bottom = 78.0
+theme_override_fonts/font = ExtResource("7_3d2ai")
+theme_override_font_sizes/font_size = 24
+text = "Back to primordial menu"
+
+[node name="Confirmation" type="VBoxContainer" parent="Rendering Zone/MainViewHolder/PauseMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 660.0
+offset_right = 732.0
+offset_bottom = 860.0
+scale = Vector2(1, 1e-05)
+pivot_offset = Vector2(0, 200)
+alignment = 2
+script = ExtResource("38_isumr")
+animationPlayer = NodePath("AnimationPlayer")
+initialSelection = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation"]
+libraries = {
+"": SubResource("AnimationLibrary_1wglm")
+}
+autoplay = "Closed"
+blend_times = [&"Open", &"Open", 0.1, &"Open", &"Closed", 0.1, &"Closed", &"Open", 0.1, &"Closed", &"Closed", 0.1]
+
+[node name="Title" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation"]
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 1.4
+theme_override_fonts/font = ExtResource("4_5jpkg")
+theme_override_font_sizes/font_size = 52
+text = "    Confirm"
+
+[node name="Decoration" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Title"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 5.0
+offset_top = 10.0
+offset_right = 35.0
+offset_bottom = 40.0
+rotation = 0.785398
+color = Color(0.25098, 0.152941, 0.152941, 1)
+
+[node name="Decoration2" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Title"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 70.0
+offset_top = -5.0
+offset_right = 120.0
+offset_bottom = 45.0
+rotation = 0.785398
+color = Color(0.25098, 0.152941, 0.152941, 1)
+
+[node name="Decoration3" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Title"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 30.0
+offset_right = 45.0
+offset_bottom = 15.0
+rotation = 0.785398
+color = Color(0.25098, 0.152941, 0.152941, 1)
+
+[node name="Decoration4" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Title"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 30.0
+offset_top = 40.0
+offset_right = 45.0
+offset_bottom = 55.0
+rotation = 0.785398
+color = Color(0.25098, 0.152941, 0.152941, 1)
+
+[node name="Option1" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("39_oq2gn")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
+libraries = {
+"": SubResource("AnimationLibrary_rkflj")
+}
+blend_times = [&"Highlight", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Normal", &"Normal", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
+material = SubResource("ShaderMaterial_n41s0")
+layout_mode = 0
+offset_bottom = 50.0
+color = Color(0.301961, 0.184314, 0.184314, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 46.0
+theme_override_fonts/font = ExtResource("4_5jpkg")
+theme_override_font_sizes/font_size = 40
+text = "Yes"
+
+[node name="Subtext" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
+layout_mode = 2
+offset_left = 60.0
+offset_top = 50.0
+offset_right = 444.0
+offset_bottom = 78.0
+scale = Vector2(1e-05, 1e-05)
+theme_override_fonts/font = ExtResource("7_3d2ai")
+theme_override_font_sizes/font_size = 24
+
+[node name="Option2" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("39_oq2gn")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option2"]
+libraries = {
+"": SubResource("AnimationLibrary_rkflj")
+}
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option2"]
+material = SubResource("ShaderMaterial_n41s0")
+layout_mode = 0
+offset_bottom = 50.0
+color = Color(0.301961, 0.184314, 0.184314, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option2"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 46.0
+theme_override_fonts/font = ExtResource("4_5jpkg")
+theme_override_font_sizes/font_size = 40
+text = "No"
+
+[node name="Subtext" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option2"]
+layout_mode = 2
+offset_left = 60.0
+offset_top = 50.0
+offset_right = 444.0
+offset_bottom = 78.0
+scale = Vector2(1e-05, 1e-05)
+theme_override_fonts/font = ExtResource("7_3d2ai")
+theme_override_font_sizes/font_size = 24
 
 [node name="DebugConsole" type="Control" parent="Rendering Zone" node_paths=PackedStringArray("inputLine", "lastText")]
 visible = false
@@ -2471,3 +3076,9 @@ commonSFXName = "Enemy/Shot1"
 script = ExtResource("28_bciwx")
 waitTime = "[2, 420][max(0, (shot_count % 50) - 48)]"
 units = 1
+
+[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option1" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Resume"]
+[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option2" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="OpenConfirmRetryMenu"]
+[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option4" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="OpenConfirmQuitMenu"]
+[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Confirm"]
+[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option2" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="CloseConfirmMenu"]

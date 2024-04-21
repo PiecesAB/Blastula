@@ -25,10 +25,19 @@ namespace Blastula.Menus
                 && this == activeStack.Peek();
         }
 
+        public bool IsInStack()
+        {
+            return activeStack.Contains(this);
+        }
+
         public virtual void Open()
         {
             if (activeStack.Contains(this))
             {
+                if (activeStack.Peek() != this)
+                {
+                    activeStack.Pop().Close();
+                }
                 ReturnControl();
             }
             else
@@ -49,6 +58,11 @@ namespace Blastula.Menus
                 { 
                     activeStack.Pop(); 
                 }
+            }
+
+            if (activeStack.Count > 0)
+            {
+                activeStack.Peek().ReturnControl();
             }
         }
 

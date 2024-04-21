@@ -6,9 +6,9 @@ using Godot;
 namespace Blastula
 {
     /// <summary>
-    /// A pause menu that appears when an input named "Pause" occurs.
+    /// Handles the input named "Menu/Pause" to give control to the pause menu.
     /// </summary>
-    public partial class DefaultPauseMenu : Control
+    public partial class PauseMenuManager : Control
     {
         [Export] public VerticalListMenu mainMenu;
 
@@ -63,7 +63,11 @@ namespace Blastula
         {
             if (Session.main == null) { return; }
             bool pausePressed = InputManager.ButtonPressedThisFrame("Menu/Pause");
-            pausePressed |= state == State.Paused && !mainMenu.IsActive();
+            if (pausePressed && state == State.Paused)
+            {
+                mainMenu.PlayBackSFX();
+            }
+            pausePressed |= state == State.Paused && !mainMenu.IsInStack();
             if (pausePressed)
             {
                 if (state == State.Paused && Session.main.paused)

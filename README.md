@@ -12,7 +12,7 @@ It's inspired by amazing existing editors/frameworks as [Danmakufu](https://gith
 * Versatile scheduling operations, used for shot, enemy movement, stage planning.
 * Tree-based sub-engine in C# organizes patterns; works very well with modular operations.
 * Controlled multithreading allows the game to remain deterministic while accelerating certain actions.
-  * Will 40000+ bullets at 60 fps be enough?
+  * (Although it seems that with the rest of game logic, it is currently just on par with other popular engines.)
 * Easily customizable graphics and collision information.
 * Assorted STG infrastructure, such as grazing, player(s), and enemy behaviors.
 * Debug console for comprehensive testing.

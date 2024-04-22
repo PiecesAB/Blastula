@@ -7,9 +7,34 @@ namespace Blastula
 {
     /// <summary>
     /// Handles the input named "Menu/Pause" to give control to the pause menu.
+    /// Also appears on game over.
     /// </summary>
     public partial class PauseMenuManager : Control
     {
+        public enum Mode
+        {
+            /// <summary>
+            /// Normal pause version of the menu.
+            /// </summary>
+            Pause, 
+            /// <summary>
+            /// Game over with the option to continue.
+            /// </summary>
+            GameOver, 
+            /// <summary>
+            /// Game over without the option to continue.
+            /// </summary>
+            GameOverNoContinue
+        }
+
+        /// <summary>
+        /// This sets the animation state to the Mode as a string,
+        /// which causes the menu to change its options.
+        /// Only the first frame of the animation is played,
+        /// because we expect an instant transition.
+        /// </summary>
+        [Export] public AnimationPlayer modeAnimPlayer;
+        private Mode mode = Mode.Pause;
         [Export] public VerticalListMenu mainMenu;
 
         public enum State
@@ -19,6 +44,8 @@ namespace Blastula
         public State state = State.Unpaused;
         public const int PAUSE_OPEN_CLOSE_DELAY = 5;
         private int animationTimer = 0;
+
+        public static PauseMenuManager main { get; private set; }
 
         public void UnpausingAnimation()
         {
@@ -53,9 +80,32 @@ namespace Blastula
             ++animationTimer;
         }
 
+        public void SetMode(Mode newMode)
+        {
+            if (mode != newMode)
+            {
+                mode = newMode;
+                modeAnimPlayer.Play(mode.ToString());
+                modeAnimPlayer.Pause();
+                modeAnimPlayer.Advance(0.1f);
+            }
+        }
+
+        public void PrepareToOpen()
+        {
+            state = State.Pausing;
+            mainMenu.Open();
+            animationTimer = 0;
+            Session.main.Pause();
+            PausingAnimation();
+        }
+
         public override void _Ready()
         {
             Visible = false;
+            main = this;
+            modeAnimPlayer.Play(mode.ToString());
+            modeAnimPlayer.Stop(true);
             ProcessPriority = Persistent.Priorities.PAUSE;
         }
 
@@ -63,6 +113,10 @@ namespace Blastula
         {
             if (Session.main == null) { return; }
             bool pausePressed = InputManager.ButtonPressedThisFrame("Menu/Pause");
+            if (pausePressed && state == State.Paused)
+            {
+                pausePressed &= mainMenu.cancelable;
+            }
             if (pausePressed && state == State.Paused)
             {
                 mainMenu.PlayBackSFX();
@@ -79,11 +133,8 @@ namespace Blastula
                 }
                 else if (state == State.Unpaused && !Session.main.paused)
                 {
-                    state = State.Pausing;
-                    mainMenu.Open();
-                    animationTimer = 0;
-                    Session.main.Pause();
-                    PausingAnimation();
+                    SetMode(Mode.Pause);
+                    PrepareToOpen();
                 }
             }
 

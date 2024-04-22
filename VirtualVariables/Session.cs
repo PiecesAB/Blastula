@@ -95,6 +95,14 @@ namespace Blastula.VirtualVariables
         /// The highest possible full point item value.
         /// </summary>
         public BigInteger maxPowerItemValue { get; private set; } = 100000;
+        /// <summary>
+        /// If true, the player can continue ("insert credit") when they lost all lives and try to respawn.
+        /// </summary>
+        public bool canContinue = true;
+        /// <summary>
+        /// The number of times the player has continued.
+        /// </summary>
+        public ulong continueCount { get; private set; } = 0;
 
         public void SetCanPause(bool s)
         {
@@ -273,6 +281,31 @@ namespace Blastula.VirtualVariables
         }
 
         #endregion
+
+        // Used when the player runs out of lives and tries to respawn.
+        public void SinglePlayerGameOver()
+        {
+            if (PauseMenuManager.main != null)
+            {
+                PauseMenuManager.Mode newMode = canContinue ? PauseMenuManager.Mode.GameOver : PauseMenuManager.Mode.GameOverNoContinue;
+                PauseMenuManager.main.SetMode(newMode);
+                PauseMenuManager.main.PrepareToOpen();
+            }
+        }
+
+        // Used when the player continues ("insert credit") in a single-player game.
+        public void SinglePlayerContinue()
+        {
+            // The score's units digit is the number of continues used.
+            // The other score functions ensure this digit doesn't change otherwise.
+            score = score % 10;
+            if (score < 9) { score += 1; }
+            if (Player.playersByControl.ContainsKey(Player.Role.SinglePlayer))
+            {
+                Player singlePlayer = Player.playersByControl[Player.Role.SinglePlayer];
+                singlePlayer.RefillLivesOnContinue();
+            }
+        }
 
         public static Session main { get; private set; } = null;
 

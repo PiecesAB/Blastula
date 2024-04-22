@@ -357,6 +357,11 @@ namespace Blastula
             else { PerformGetBombPieceEffect(); }
         }
 
+        public void RefillLivesOnContinue()
+        {
+            lives += lifeRefillOnContinue + 1;
+        }
+
         public void PerformExtendEffect()
         {
             CommonSFXManager.PlayByName("Player/Extend", 1, 1f, GlobalPosition, true);
@@ -439,8 +444,10 @@ namespace Blastula
             if (lives < 0f && lives >= -0.001f) { lives = 0f; }
             if (lives < 0f)
             {
-                // TODO: game over!
-                lives = 0f;
+                if (Session.main != null && role == Role.SinglePlayer)
+                {
+                    Session.main.SinglePlayerGameOver();
+                }
             }
             lifeState = LifeState.Recovering;
             GlobalPosition = homePosition;

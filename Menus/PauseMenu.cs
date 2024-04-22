@@ -1,5 +1,6 @@
 using Blastula.Input;
 using Blastula.Sounds;
+using Blastula.VirtualVariables;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -71,6 +72,16 @@ namespace Blastula.Menus
                     break;
             }
             Close();
+        }
+
+        // Insert credit
+        public void Continue()
+        {
+            if (Session.main != null && Session.main.canContinue)
+            {
+                Session.main.SinglePlayerContinue();
+                Close();
+            }
         }
     }
 }

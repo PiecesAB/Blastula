@@ -1,4 +1,4 @@
-[gd_scene load_steps=126 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=135 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_eg8pa"]
 [ext_resource type="Texture2D" uid="uid://bddg1oxe3uvq8" path="res://addons/Blastula/Graphics/UI/overlayIconScore.png" id="2_wj38h"]
@@ -58,16 +58,19 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/Border/ItemGetLineDisplay.cs" id="34_e1ied"]
 [ext_resource type="Texture2D" uid="uid://brtg0dp7i1813" path="res://addons/Blastula/Graphics/UI/itemGetLineArrow.png" id="34_r2av8"]
 [ext_resource type="FontFile" uid="uid://dtwct8imbtrpq" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RI.otf" id="34_vluwy"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/MusicNotifier.cs" id="37_0met2"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ClearBehaviors.cs" id="37_2alt6"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/VerticalListMenu.cs" id="38_isumr"]
+[ext_resource type="Texture2D" uid="uid://t6nbf3684wvf" path="res://addons/Blastula/Graphics/UI/music.png" id="38_lmgw2"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="38_qn6do"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/PauseMenu.cs" id="38_svrqm"]
 [ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/PictusXXIV/PictusXXIV.tscn" id="38_tvlm6"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/ListNode.cs" id="39_oq2gn"]
-[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Additive.gdshader" id="40_iwfxj"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Additive.gdshader" id="40_iwfxj"]
 [ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/BasicEnemy.tscn" id="41_3fr6s"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetMultimeshExtraData.cs" id="41_rxobj"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="41_v4q22"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Sound.cs" id="42_4nwql"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/PlaySound.cs" id="42_4nwql"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/ScheduleReference.cs" id="42_51n0m"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Trail.cs" id="42_omkvy"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/CloneInPlace.cs" id="44_buqyd"]
@@ -78,6 +81,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetZIndex.cs" id="53_qe1it"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/WindForth.cs" id="55_q7wj3"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="56_e612s"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Spread.cs" id="80_mynyo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cbxs"]
 shader = ExtResource("9_awk5k")
@@ -252,6 +256,79 @@ fog_light_color = Color(0.4, 0.533333, 0.678431, 1)
 fog_density = 0.3831
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dl8qm"]
+
+[sub_resource type="Animation" id="Animation_6n7pd"]
+resource_name = "Main"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Container:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 5.5, 6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -40), Vector2(0, 0), Vector2(0, 0), Vector2(0, 40)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer:active")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_e2fqv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Container:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer:active")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_arm6g"]
+_data = {
+"Main": SubResource("Animation_6n7pd"),
+"RESET": SubResource("Animation_e2fqv")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ng5m5"]
+shader = ExtResource("38_qn6do")
+shader_parameter/top_color = Vector4(0.8, 1, 1, 1)
+shader_parameter/bottom_color = Vector4(0, 0.3, 0.3, 1)
+shader_parameter/glisten_factor = Vector3(0.2, 4, 0.2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u0k8i"]
+shader = ExtResource("38_qn6do")
+shader_parameter/top_color = Vector4(0.8, 1, 1, 1)
+shader_parameter/bottom_color = Vector4(0, 0.3, 0.3, 1)
+shader_parameter/glisten_factor = Vector3(0.2, 4, 0.2)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ftxip"]
 shader = ExtResource("40_iwfxj")
@@ -2066,7 +2143,50 @@ offset_bottom = 12.0
 texture = ExtResource("34_r2av8")
 expand_mode = 1
 
+[node name="MusicNotifier" type="ColorRect" parent="Rendering Zone/MainViewHolder/InGameOverlay" node_paths=PackedStringArray("animationPlayer", "mainText")]
+clip_children = 1
+layout_mode = 0
+offset_left = -436.0
+offset_top = 860.0
+offset_right = 764.0
+offset_bottom = 896.0
+script = ExtResource("37_0met2")
+animationPlayer = NodePath("AnimationPlayer")
+mainText = NodePath("Container/TextureRect2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/InGameOverlay/MusicNotifier"]
+libraries = {
+"": SubResource("AnimationLibrary_arm6g")
+}
+autoplay = "Main"
+
+[node name="Container" type="HBoxContainer" parent="Rendering Zone/MainViewHolder/InGameOverlay/MusicNotifier"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/MusicNotifier/Container"]
+material = SubResource("ShaderMaterial_ng5m5")
+layout_mode = 2
+texture = ExtResource("38_lmgw2")
+expand_mode = 2
+
+[node name="TextureRect2" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/MusicNotifier/Container"]
+material = SubResource("ShaderMaterial_u0k8i")
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("34_vluwy")
+theme_override_font_sizes/font_size = 28
+text = "Insert song name here"
+
 [node name="PauseMenu" type="ColorRect" parent="Rendering Zone/MainViewHolder" node_paths=PackedStringArray("mainMenu")]
+visible = false
 z_index = 500
 layout_mode = 1
 anchors_preset = 15
@@ -2147,7 +2267,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option1"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2186,7 +2306,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option2"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2225,7 +2345,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option3"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2264,7 +2384,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option4"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2369,7 +2489,7 @@ animationPlayer = NodePath("AnimationPlayer")
 libraries = {
 "": SubResource("AnimationLibrary_rkflj")
 }
-blend_times = [&"Highlight", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Normal", &"Normal", 0.1]
+blend_times = [&"Normal", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Highlight", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3076,6 +3196,75 @@ commonSFXName = "Enemy/Shot1"
 script = ExtResource("28_bciwx")
 waitTime = "[2, 420][max(0, (shot_count % 50) - 48)]"
 units = 1
+
+[node name="alice" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+script = ExtResource("12_7eb1c")
+ID = "Enemy"
+enabled = false
+mainSchedule = NodePath("Main Loop")
+cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
+deleteAction = 2
+
+[node name="Main Loop" type="Node2D" parent="BasicEnemy/alice"]
+script = ExtResource("19_ux787")
+
+[node name="Wait7" type="Node2D" parent="BasicEnemy/alice/Main Loop"]
+script = ExtResource("27_c8yub")
+varName = "r"
+newValue = "0"
+
+[node name="Main Loop2" type="Node2D" parent="BasicEnemy/alice/Main Loop"]
+script = ExtResource("19_ux787")
+
+[node name="Make the it" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2"]
+script = ExtResource("13_pixf2")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("14_alnw1")
+renderName = "Sonic/Yellow"
+
+[node name="Start2" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("56_e612s")
+boundaryID = "Main"
+specialAction = 3
+shrink = -50.0
+
+[node name="Wind blow3" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("19_q6ebi")
+speed = "500"
+
+[node name="Wind blow4" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("80_mynyo")
+radius = "0"
+angularWidth = "90"
+number = "5"
+
+[node name="Wind blow5" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("80_mynyo")
+radius = "0"
+number = "2"
+
+[node name="Wind blow6" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("26_yrirr")
+myRotation = "r"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("21_1t60j")
+duration = "120"
+deletionEffect = true
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("42_4nwql")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Wait6" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2"]
+script = ExtResource("28_bciwx")
+waitTime = "0.05"
+
+[node name="Wait7" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2"]
+script = ExtResource("27_c8yub")
+varName = "r"
+newValue = "r + 7.8"
 
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option1" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Resume"]
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Option2" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="OpenConfirmRetryMenu"]

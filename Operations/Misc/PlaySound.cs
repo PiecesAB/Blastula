@@ -9,7 +9,7 @@ namespace Blastula.Operations
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/wolf.png")]
-    public partial class Sound : Discrete
+    public partial class PlaySound : Discrete
 	{
         [Export] public Node soundObject;
         [Export] public string commonSFXName = "";

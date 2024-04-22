@@ -27,5 +27,10 @@ namespace Blastula.Sounds
         /// If true, the music pauses when the game is paused.
         /// </summary>
         [Export] public bool pausesWithGame = true;
+        /// <summary>
+        /// If true, when the music changes to this one, its name is displayed in the playfield.
+        /// For more information, see "MusicNotifier" class.
+        /// </summary>
+        [Export] public bool displaysNotification = true;
     }
 }

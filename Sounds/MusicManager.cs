@@ -10,6 +10,8 @@ namespace Blastula.Sounds
     public partial class MusicManager : Node
     {
         [Export] public float volumeMultiplier = 1f;
+
+        [Signal] public delegate void OnMusicChangeEventHandler(Music oldMusic, Music newMusic);
         
         public static MusicManager main { get; private set; } = null;
         private string currentMusicNodePath = "";
@@ -28,6 +30,15 @@ namespace Blastula.Sounds
             public float multiplier;
         }
         private List<DuckInfo> ongoingDucks = new List<DuckInfo>();
+
+        private float fadeMultiplier = 1f;
+        private struct FadeInfo
+        {
+            public bool fadeIn;
+            public float totalDuration;
+            public float currTime;
+        }
+        private FadeInfo currFadeInfo = new FadeInfo { totalDuration = 0f };
 
         private void MusicSearch()
         {
@@ -58,8 +69,16 @@ namespace Blastula.Sounds
             {
                 return;
             }
+            Music nextMusic = main.musicsByNodeName[nodeName];
+            if (nextMusic != main.currentMusic)
+            {
+                main.EmitSignal(SignalName.OnMusicChange, main.currentMusic, nextMusic);
+            }
             main.currentMusicNodePath = nodeName;
-            main.currentMusic = main.musicsByNodeName[nodeName];
+            main.currentMusic = nextMusic;
+            main.currentMusic.PitchScale = 1;
+            main.fadeMultiplier = 1f;
+            main.currFadeInfo = new FadeInfo { totalDuration = 0f };
             main.currentMusic.Play();
         }
 
@@ -76,14 +95,46 @@ namespace Blastula.Sounds
         /// <summary>
         /// Cause the music to become quieter for some time.
         /// </summary>
-        public static void Duck(float duration, float multiplier = 0.3f)
+        public static void Duck(float duration, float volume = 0.3f)
         {
             if (main == null) { return; }
             main.ongoingDucks.Add(new DuckInfo
             {
                 duration = duration,
-                multiplier = multiplier,
+                multiplier = volume,
             });
+        }
+
+        public static void FadeIn(float duration)
+        {
+            if (main == null) { return; }
+            main.currFadeInfo = new FadeInfo
+            {
+                fadeIn = true,
+                totalDuration = duration,
+                currTime = 0f,
+            };
+        }
+
+        public static void FadeOut(float duration)
+        {
+            if (main == null) { return; }
+            main.currFadeInfo = new FadeInfo
+            {
+                fadeIn = false,
+                totalDuration = duration,
+                currTime = 0f,
+            };
+        }
+
+        /// <summary>
+        /// Set the pitch of the current music.
+        /// </summary>
+        public static void SetPitch(float newPitch)
+        {
+            if (main == null) { return; }
+            if (main.currentMusic == null) { return; }
+            main.currentMusic.PitchScale = newPitch;
         }
 
         public override void _Ready()
@@ -91,14 +142,13 @@ namespace Blastula.Sounds
             base._Ready();
             main = this;
             MusicSearch();
-            PlayImmediate("Reconception");
             ProcessPriority = Persistent.Priorities.MUSIC_MANAGER;
         }
 
         private void HandleDuckMultiplier()
         {
             float desiredMultiplier = 1f;
-            float timePassed = 1f / Persistent.SIMULATED_FPS;
+            float timePassed = 1f / Persistent.SIMULATED_FPS; // No scaling
             for (int i = 0; i < ongoingDucks.Count; ++i)
             {
                 DuckInfo di = ongoingDucks[i];
@@ -124,17 +174,42 @@ namespace Blastula.Sounds
             }
         }
 
+        public void HandleFadeMultiplier()
+        {
+            if (currFadeInfo.totalDuration <= 0f) { return; }
+            if (currentMusic.StreamPaused) { return; }
+            if (currFadeInfo.currTime >= currFadeInfo.totalDuration)
+            {
+                if (currFadeInfo.fadeIn) { fadeMultiplier = 1f; }
+                else { fadeMultiplier = 0f; }
+            }
+            else
+            {
+                float progress = Mathf.Clamp(currFadeInfo.currTime / currFadeInfo.totalDuration, 0, 1);
+                float timePassed = 1f / Persistent.SIMULATED_FPS; // No scaling
+                if (currFadeInfo.fadeIn) { fadeMultiplier = progress; }
+                else { fadeMultiplier = 1f - progress; }
+                currFadeInfo = new FadeInfo
+                {
+                    fadeIn = currFadeInfo.fadeIn,
+                    totalDuration = currFadeInfo.totalDuration,
+                    currTime = currFadeInfo.currTime + timePassed
+                };
+            }
+        }
+
         public override void _Process(double delta)
         {
             base._Process(delta);
             if (currentMusic == null) { return; }
 
             HandleDuckMultiplier();
+            HandleFadeMultiplier();
 
             currentMusic.VolumeDb = Mathf.LinearToDb(
                 volumeMultiplier 
                 * startVolumesByNodeName[currentMusicNodePath]
-                * duckMultiplier
+                * duckMultiplier * fadeMultiplier
             );
 
             if (currentMusic.pausesWithGame && Session.main != null)

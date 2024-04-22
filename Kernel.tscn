@@ -1,4 +1,4 @@
-[gd_scene load_steps=171 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=172 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -13,12 +13,12 @@
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/GraphicInfo.cs" id="10_gun14"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletRendererManager.cs" id="11_6k6is"]
 [ext_resource type="Texture2D" uid="uid://bml4eqyqjq1dp" path="res://addons/Blastula/Graphics/Bullets/sonic.png" id="12_4wcau"]
-[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/InvColored.gdshader" id="13_fjrpc"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/InvColored.gdshader" id="13_fjrpc"]
 [ext_resource type="Texture2D" uid="uid://cejjgaml01w7h" path="res://addons/Blastula/Graphics/Bullets/orb.png" id="14_nuun3"]
-[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/InvColoredAdditive.gdshader" id="15_3cmmm"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/InvColoredAdditive.gdshader" id="15_3cmmm"]
 [ext_resource type="Texture2D" uid="uid://bd6njr8jd3xnv" path="res://addons/Blastula/Graphics/Bullets/bubble.png" id="15_4cpwf"]
 [ext_resource type="Texture2D" uid="uid://bwvkned7kfkj8" path="res://addons/Blastula/Graphics/Bullets/arrowBullet.png" id="15_gj71c"]
-[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Standard.gdshader" id="15_vupyf"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Standard.gdshader" id="15_vupyf"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/GraphicsSelector/MultimeshBullet.cs" id="16_yom2p"]
 [ext_resource type="Texture2D" uid="uid://bgujfp1s8llso" path="res://addons/Blastula/Graphics/Bullets/crystal.png" id="17_gjiw2"]
 [ext_resource type="Texture2D" uid="uid://dx23p8nt56m10" path="res://addons/Blastula/Graphics/Bullets/bubbleHuge.png" id="17_h7h8t"]
@@ -27,14 +27,14 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/ButtonInfo.cs" id="18_b0g1x"]
 [ext_resource type="Texture2D" uid="uid://dtatjabcdc7fm" path="res://addons/Blastula/Graphics/Bullets/kunai.png" id="19_8tg4g"]
 [ext_resource type="Texture2D" uid="uid://28gh8i5f8v61" path="res://addons/Blastula/Graphics/Bullets/bullet.png" id="19_863oj"]
-[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/InvColoredGrayscale.gdshader" id="19_hx3pk"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/InvColoredGrayscale.gdshader" id="19_hx3pk"]
 [ext_resource type="Texture2D" uid="uid://bebsj5vxyiv61" path="res://addons/Blastula/Graphics/Bullets/laserBit.png" id="19_qbq2r"]
 [ext_resource type="Texture2D" uid="uid://clxndni2n8l13" path="res://addons/Blastula/Graphics/Bullets/pellet.png" id="21_2bt56"]
 [ext_resource type="ArrayMesh" uid="uid://cwdm03v3roqbc" path="res://addons/Blastula/Graphics/GraphicsSelector/ArrayMeshSample.tres" id="21_3rreq"]
 [ext_resource type="Texture2D" uid="uid://bxo8aydwgdhj" path="res://addons/Blastula/Graphics/Bullets/butterfly.png" id="21_jd4y2"]
 [ext_resource type="Texture2D" uid="uid://cxr7xeqras55s" path="res://addons/Blastula/Graphics/Bullets/checkered.png" id="21_tf4co"]
 [ext_resource type="Texture2D" uid="uid://dkallnc8kr13t" path="res://addons/Blastula/Graphics/Bullets/heart.png" id="21_trwxo"]
-[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/StandardSpin.gdshader" id="22_2qk1a"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/StandardSpin.gdshader" id="22_2qk1a"]
 [ext_resource type="Texture2D" uid="uid://cqnfuiw8b1niw" path="res://addons/Blastula/Graphics/Bullets/orbBig.png" id="22_187e0"]
 [ext_resource type="Texture2D" uid="uid://bf0v73jg44qkf" path="res://addons/Blastula/Graphics/Bullets/orbDark.png" id="22_rjfk1"]
 [ext_resource type="Texture2D" uid="uid://w5lun47g0dq8" path="res://addons/Blastula/Graphics/Bullets/leaf.png" id="23_bxeop"]
@@ -44,17 +44,17 @@
 [ext_resource type="Texture2D" uid="uid://dqf4ob37t5m26" path="res://addons/Blastula/Graphics/Bullets/orbBigDark.png" id="25_h7yak"]
 [ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="26_yhurp"]
 [ext_resource type="Texture2D" uid="uid://dtyyc8mjkguu7" path="res://addons/Blastula/Graphics/Bullets/deletion.png" id="29_7qac7"]
-[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Deletion.gdshader" id="30_eiabq"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Deletion.gdshader" id="30_eiabq"]
 [ext_resource type="Texture2D" uid="uid://dfgm30y05tlob" path="res://addons/Blastula/Graphics/Bullets/mist.png" id="35_7frid"]
-[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/AdditiveSpin.gdshader" id="35_b8d48"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/AdditiveSpin.gdshader" id="35_b8d48"]
 [ext_resource type="Texture2D" uid="uid://cgdo5iku7p2te" path="res://addons/Blastula/Graphics/Bullets/star.png" id="37_gdhem"]
-[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/InvColoredSpin.gdshader" id="38_uld8k"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/InvColoredSpin.gdshader" id="38_uld8k"]
 [ext_resource type="Texture2D" uid="uid://d1hy605bgvcbs" path="res://addons/Blastula/Graphics/Bullets/starBig.png" id="39_o0qo0"]
 [ext_resource type="Texture2D" uid="uid://cxubm6gatru8e" path="res://addons/Blastula/Graphics/Bullets/teardrop.png" id="40_7pce2"]
 [ext_resource type="Texture2D" uid="uid://8a2kk8vb4l0l" path="res://addons/Blastula/Graphics/Collectibles/point.png" id="48_hga65"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/LaserRendererManager.cs" id="48_k35cx"]
 [ext_resource type="Texture2D" uid="uid://d4j2k6hwa0ir2" path="res://addons/Blastula/PictusXXIV/spike.png" id="48_uqpna"]
-[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Collectible.gdshader" id="49_hetvq"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Collectible.gdshader" id="49_hetvq"]
 [ext_resource type="Texture2D" uid="uid://cwqw1d5hs3ejo" path="res://addons/Blastula/PictusXXIV/starDNA.png" id="49_sr0qj"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/ParticleEffectPool.cs" id="50_eyr8l"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/InputManager.cs" id="50_fax0d"]
@@ -85,7 +85,6 @@
 [ext_resource type="Script" path="res://addons/Blastula/Stage/StageManager.cs" id="62_lftpa"]
 [ext_resource type="Script" path="res://addons/Blastula/Stage/StageSector.cs" id="63_d8ira"]
 [ext_resource type="PackedScene" uid="uid://dhs5bv06xyf0f" path="res://addons/Blastula/Graphics/MinorItemPopup.tscn" id="64_dsgu3"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Sound.cs" id="64_w3bqr"]
 [ext_resource type="PackedScene" uid="uid://dy1rv3s4i26wp" path="res://addons/Blastula/Stage/EnemySpamTest.tscn" id="65_1m2vo"]
 [ext_resource type="PackedScene" uid="uid://cgd1mi7xmt07f" path="res://addons/Blastula/Graphics/MajorItemPopup.tscn" id="65_x2evx"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="66_doh6d"]
@@ -124,6 +123,8 @@
 [ext_resource type="AudioStream" uid="uid://fvvcbw2sx75j" path="res://addons/Blastula/Sounds/Menu/selectBig.ogg" id="93_quwg7"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/SetItemGetHeight.cs" id="98_4pc22"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Aim.cs" id="111_b4os7"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/PlayMusic.cs" id="121_odgj2"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/MusicEnvelope.cs" id="124_ktqkr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cv5ct"]
 shader = ExtResource("49_hetvq")
@@ -1695,14 +1696,18 @@ script = ExtResource("62_lftpa")
 [node name="Stage 0" type="Node" parent="Stage Manager"]
 script = ExtResource("63_d8ira")
 
+[node name="Wait2" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("66_doh6d")
+
+[node name="Reconception" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("121_odgj2")
+nodeName = "Reconception"
+volume = "0.6"
+
 [node name="Substage 0" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("63_d8ira")
 duration = "7"
 endWhenChildrenComplete = false
-
-[node name="Sound" type="Node" parent="Stage Manager/Stage 0"]
-script = ExtResource("64_w3bqr")
-commonSFXName = "Enemy/Shot3"
 
 [node name="Sound2" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("98_4pc22")
@@ -1728,8 +1733,6 @@ endWhenChildrenComplete = false
 shouldUseTimer = true
 formation = ExtResource("65_1m2vo")
 
-[node name="Substage 3" type="Node" parent="Stage Manager/Stage 0"]
-script = ExtResource("63_d8ira")
-duration = "196"
-endWhenChildrenComplete = false
-shouldUseTimer = true
+[node name="Reconception2" type="Node" parent="Stage Manager/Stage 0"]
+script = ExtResource("124_ktqkr")
+mode = 1

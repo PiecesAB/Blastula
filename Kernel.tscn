@@ -1,4 +1,4 @@
-[gd_scene load_steps=172 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=175 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -125,6 +125,9 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Aim.cs" id="111_b4os7"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/PlayMusic.cs" id="121_odgj2"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/MusicEnvelope.cs" id="124_ktqkr"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Player/PlayerManager.cs" id="126_daosb"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Player/PlayerEntry.cs" id="127_ecdrd"]
+[ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/PictusXXIV/PictusXXIV.tscn" id="128_p54iq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cv5ct"]
 shader = ExtResource("49_hetvq")
@@ -1690,49 +1693,59 @@ power = "0.2"
 script = ExtResource("89_l3rau")
 other = NodePath("../../Subroutines/Drop From Enemy")
 
+[node name="Player Manager" type="Node" parent="."]
+script = ExtResource("126_daosb")
+
+[node name="TestPlayer" type="Node" parent="Player Manager"]
+script = ExtResource("127_ecdrd")
+playerScene = ExtResource("128_p54iq")
+
 [node name="Stage Manager" type="Node" parent="."]
 script = ExtResource("62_lftpa")
 
-[node name="Stage 0" type="Node" parent="Stage Manager"]
+[node name="MainSequence" type="Node" parent="Stage Manager"]
 script = ExtResource("63_d8ira")
 
-[node name="Wait2" type="Node" parent="Stage Manager/Stage 0"]
+[node name="Stage 0" type="Node" parent="Stage Manager/MainSequence"]
+script = ExtResource("63_d8ira")
+
+[node name="Wait2" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("66_doh6d")
 
-[node name="Reconception" type="Node" parent="Stage Manager/Stage 0"]
+[node name="Reconception" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("121_odgj2")
 nodeName = "Reconception"
 volume = "0.6"
 
-[node name="Substage 0" type="Node" parent="Stage Manager/Stage 0"]
+[node name="Substage 0" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("63_d8ira")
 duration = "7"
 endWhenChildrenComplete = false
 
-[node name="Sound2" type="Node" parent="Stage Manager/Stage 0"]
+[node name="Sound2" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("98_4pc22")
 newHeight = "0"
 
-[node name="Substage 1" type="Node" parent="Stage Manager/Stage 0"]
+[node name="Substage 1" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("63_d8ira")
 duration = "30"
 endWhenChildrenComplete = false
 shouldUseTimer = true
 formation = ExtResource("65_1m2vo")
 
-[node name="Sound3" type="Node" parent="Stage Manager/Stage 0"]
+[node name="Sound3" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("98_4pc22")
 
-[node name="Wait" type="Node" parent="Stage Manager/Stage 0"]
+[node name="Wait" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("66_doh6d")
 
-[node name="Substage 2" type="Node" parent="Stage Manager/Stage 0"]
+[node name="Substage 2" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("63_d8ira")
 duration = "30"
 endWhenChildrenComplete = false
 shouldUseTimer = true
 formation = ExtResource("65_1m2vo")
 
-[node name="Reconception2" type="Node" parent="Stage Manager/Stage 0"]
+[node name="Reconception2" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("124_ktqkr")
 mode = 1

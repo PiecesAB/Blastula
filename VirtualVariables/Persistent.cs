@@ -65,6 +65,22 @@ namespace Blastula.VirtualVariables
             main = this;
         }
 
+
+        private static Node2D cachedMainScene = null;
+        public static Node2D GetMainScene()
+        {
+            if (cachedMainScene != null) { return cachedMainScene; }
+            if (main == null) { return null; }
+            foreach (Node n in main.GetWindow().GetChildren())
+            {
+                if (n.IsInGroup("MainScene"))
+                {
+                    return cachedMainScene = (Node2D)n;
+                }
+            }
+            return null;
+        }
+
         public Variant GetSpecial(string varName)
         {
             switch (varName)

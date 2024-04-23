@@ -1,6 +1,7 @@
 using Blastula.Schedules;
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 namespace Blastula
 {
@@ -43,16 +44,27 @@ namespace Blastula
             pointItemCount += (ulong)amount;
         }
 
-        public override void _Ready()
+        /// <summary>
+        /// Begins a single player game.
+        /// </summary>
+        public async Task InitializeSinglePlayerSession(string playerPath, string stageGroupName)
         {
-            base._Ready();
-            main = this;
+            while (PlayerManager.main == null) { await this.WaitOneFrame(); }
+            await PlayerManager.main.SpawnPlayer(playerPath);
             // Spawn test scene for now
             RNG.Reseed(0);
             GD.Seed(0);
             StageSector s = (StageSector)GetChild(0);
             s.Preload();
             _ = s.Execute();
+        }
+
+        public override void _Ready()
+        {
+            base._Ready();
+            main = this;
+            _ = InitializeSinglePlayerSession("TestPlayer", "MainSequence");
+            
         }
     }
 }

@@ -34,7 +34,11 @@ namespace Blastula
             /// <summary>
             /// The right player in a two-player game.
             /// </summary>
-            RightPlayer
+            RightPlayer,
+            /// <summary>
+            /// Empty value for assorted uses.
+            /// </summary>
+            None
         }
         /// <summary>
         /// Determines the player's role.

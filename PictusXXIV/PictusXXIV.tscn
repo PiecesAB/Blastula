@@ -945,7 +945,7 @@ _data = {
 
 [node name="PictusXXIV" type="Node2D" node_paths=PackedStringArray("hurtbox", "grazebox", "attractbox")]
 z_index = -50
-position = Vector2(362, 320)
+position = Vector2(0, 320)
 script = ExtResource("1_1dvfo")
 boundaryShrink = 24.0
 hurtbox = NodePath("Hurtbox")

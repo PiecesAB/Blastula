@@ -21,6 +21,7 @@ namespace Blastula
         /// Multiple targets may have the same ID.
         /// </remarks>
         [Export] public string ID = "Target";
+
         private int IDNumber = -1;
 
         private static UnsafeArray<LinkedList<Transform2D>> globalPositions;

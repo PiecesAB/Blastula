@@ -111,9 +111,10 @@ namespace Blastula.Schedules
             {
                 formationInstance = formation.Instantiate();
             }
+            while (Persistent.GetMainScene == null) { await this.WaitOneFrame(); }
             if (formationInstance != null)
             {
-                GetTree().Root.AddChild(formationInstance);
+                Persistent.GetMainScene().AddChild(formationInstance);
             }
             timeRemaining = double.PositiveInfinity;
             if (duration != null && duration != "")

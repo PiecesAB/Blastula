@@ -300,6 +300,7 @@ namespace Blastula.VirtualVariables
             // The other score functions ensure this digit doesn't change otherwise.
             score = score % 10;
             if (score < 9) { score += 1; }
+            continueCount += 1;
             if (Player.playersByControl.ContainsKey(Player.Role.SinglePlayer))
             {
                 Player singlePlayer = Player.playersByControl[Player.Role.SinglePlayer];

@@ -1,4 +1,4 @@
-[gd_scene load_steps=140 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=139 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_eg8pa"]
 [ext_resource type="Texture2D" uid="uid://bddg1oxe3uvq8" path="res://addons/Blastula/Graphics/UI/overlayIconScore.png" id="2_wj38h"]
@@ -64,7 +64,6 @@
 [ext_resource type="Texture2D" uid="uid://t6nbf3684wvf" path="res://addons/Blastula/Graphics/UI/music.png" id="38_lmgw2"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="38_qn6do"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/PauseMenu.cs" id="38_svrqm"]
-[ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/PictusXXIV/PictusXXIV.tscn" id="38_tvlm6"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/ListNode.cs" id="39_oq2gn"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Additive.gdshader" id="40_iwfxj"]
 [ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/BasicEnemy.tscn" id="41_3fr6s"]
@@ -272,18 +271,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, -40), Vector2(0, 0), Vector2(0, 0), Vector2(0, 40)]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AnimationPlayer:active")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
 
 [sub_resource type="Animation" id="Animation_e2fqv"]
 length = 0.001
@@ -298,18 +285,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AnimationPlayer:active")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_arm6g"]
@@ -329,181 +304,6 @@ shader = ExtResource("38_qn6do")
 shader_parameter/top_color = Vector4(0.8, 1, 1, 1)
 shader_parameter/bottom_color = Vector4(0, 0.3, 0.3, 1)
 shader_parameter/glisten_factor = Vector3(0.2, 4, 0.2)
-
-[sub_resource type="Animation" id="Animation_obwom"]
-resource_name = "Pause"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MainMenu/PauseTitle:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("MainMenu/GameOverTitle:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("MainMenu/Resume:selectable")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("MainMenu/Resume:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("MainMenu/Continue:selectable")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("MainMenu/Continue:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("MainMenu:cancelable")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="Animation" id="Animation_wm4rb"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MainMenu/PauseTitle:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("MainMenu/GameOverTitle:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("MainMenu/Resume:selectable")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("MainMenu/Resume:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("MainMenu/Continue:selectable")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("MainMenu/Continue:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("MainMenu:cancelable")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
 
 [sub_resource type="Animation" id="Animation_prnbn"]
 resource_name = "GameOver"
@@ -679,6 +479,181 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_obwom"]
+resource_name = "Pause"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainMenu/PauseTitle:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainMenu/GameOverTitle:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MainMenu/Resume:selectable")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MainMenu/Resume:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MainMenu/Continue:selectable")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MainMenu/Continue:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("MainMenu:cancelable")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_wm4rb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainMenu/PauseTitle:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainMenu/GameOverTitle:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MainMenu/Resume:selectable")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MainMenu/Resume:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MainMenu/Continue:selectable")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MainMenu/Continue:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("MainMenu:cancelable")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uw2fi"]
@@ -1364,7 +1339,7 @@ point_count = 3
 _data = [Vector2(0, 1), 0.0, -0.977923, 0, 1, Vector2(1, 0.022077), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[node name="Main Scene" type="Node2D"]
+[node name="Main Scene" type="Node2D" groups=["MainScene"]]
 
 [node name="Rendering Zone" type="Camera2D" parent="."]
 position = Vector2(-10000, 0)
@@ -2884,7 +2859,7 @@ libraries = {
 "": SubResource("AnimationLibrary_1wglm")
 }
 autoplay = "Closed"
-blend_times = [&"Open", &"Open", 0.1, &"Open", &"Closed", 0.1, &"Closed", &"Open", 0.1, &"Closed", &"Closed", 0.1]
+blend_times = [&"Closed", &"Closed", 0.1, &"Closed", &"Open", 0.1, &"Open", &"Closed", 0.1, &"Open", &"Open", 0.1]
 
 [node name="Title" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation"]
 layout_mode = 2
@@ -3109,9 +3084,6 @@ mainSchedule = NodePath("Main schedule")
 
 [node name="Main schedule" type="Node" parent="Sanae midboss nonspell clone2"]
 script = ExtResource("42_51n0m")
-
-[node name="PictusXXIV" parent="." instance=ExtResource("38_tvlm6")]
-position = Vector2(0, 320)
 
 [node name="BasicEnemy" parent="." instance=ExtResource("41_3fr6s")]
 position = Vector2(0, -200)
@@ -3719,6 +3691,11 @@ waitTime = "0.05"
 script = ExtResource("27_c8yub")
 varName = "r"
 newValue = "r + 7.8"
+
+[node name="PlayerSpawn" type="Node2D" parent="."]
+unique_name_in_owner = true
+editor_description = "The Blastula.PlayerEntry class searches for the node of this name and places the player here to start."
+position = Vector2(0, 320)
 
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Resume"]
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Continue"]

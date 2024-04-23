@@ -1,13 +1,16 @@
+using Blastula.VirtualVariables;
 using Godot;
 using System;
 using System.Threading.Tasks;
 
 namespace Blastula.Sounds
-{ 
+{
     /// <summary>
     /// Represents a track of background music. 
     /// Should have a unique name and be a descendent of the MusicManager.
     /// </summary>
+    [GlobalClass]
+    [Icon(Persistent.NODE_ICON_PATH + "/wolfDark.png")]
     public partial class Music : AudioStreamPlayer
     {
         /// <summary>

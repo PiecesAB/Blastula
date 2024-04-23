@@ -36,8 +36,19 @@ namespace Blastula.Menus
             Close();
         }
 
+        private void Retry()
+        {
+            // TODO: something less stupid here
+        }
+
         public void OpenConfirmRetryMenu()
         {
+            if (PauseMenuManager.main != null && PauseMenuManager.main.mode == PauseMenuManager.Mode.GameOverNoContinue)
+            {
+                // The player probably wants to retry because they can't continue/resume, so no need to confirm.
+                Retry();
+                return;
+            }
             confirmType = ConfirmType.Retry;
             confirmMenu.Position = confirmRetryMenuPosition;
             confirmMenu.Open();
@@ -59,11 +70,7 @@ namespace Blastula.Menus
         {
             switch (confirmType)
             {
-                case ConfirmType.Retry:
-                    {
-                        // TODO: something less stupid here
-                    }
-                    break;
+                case ConfirmType.Retry: Retry(); break;
                 case ConfirmType.Quit:
                     {
                         // TODO: something less stupid here

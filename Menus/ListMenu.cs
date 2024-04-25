@@ -9,11 +9,19 @@ using System.Xml.Linq;
 namespace Blastula.Menus
 {
     /// <summary>
-    /// Handles menus in which children can be highlighted using up/down buttons,
+    /// Handles menus in which children can be highlighted using up/down or left/right buttons,
     /// and selected using the select button.
     /// </summary>
-    public partial class VerticalListMenu : BaseMenu
+    public partial class ListMenu : BaseMenu
     {
+        public enum Direction
+        {
+            Vertical, Horizontal
+        }
+        /// <summary>
+        /// Whether the up/down or left/right buttons are used to navigate the menu.
+        /// </summary>
+        [Export] public Direction direction = Direction.Vertical;
         /// <summary>
         /// If it exists, we expect it to start in the "Closed" state.
         /// When the menu opens, it is put in the "Open" state.
@@ -136,14 +144,26 @@ namespace Blastula.Menus
             CommonSFXManager.PlayByName("Menu/Back");
         }
 
-        private bool HitUpButton()
+        private bool HitPrevButton()
         {
-            return InputManager.ButtonPressedThisFrame("Menu/Up");
+            switch (direction)
+            {
+                case Direction.Vertical: default:
+                    return InputManager.ButtonPressedThisFrame("Menu/Up");
+                case Direction.Horizontal:
+                    return InputManager.ButtonPressedThisFrame("Menu/Left");
+            }
         }
 
-        private bool HitDownButton()
+        private bool HitNextButton()
         {
-            return InputManager.ButtonPressedThisFrame("Menu/Down");
+            switch (direction)
+            {
+                case Direction.Vertical: default:
+                    return InputManager.ButtonPressedThisFrame("Menu/Down");
+                case Direction.Horizontal:
+                    return InputManager.ButtonPressedThisFrame("Menu/Right");
+            }
         }
 
         public override void _Process(double delta)
@@ -182,9 +202,9 @@ namespace Blastula.Menus
             }
 
             int oldSelection = selection;
-            bool hitDown = HitDownButton();
-            bool hitUp = HitUpButton();
-            if (hitDown && !hitUp)
+            bool hitNext = HitNextButton();
+            bool hitPrev = HitPrevButton();
+            if (hitNext && !hitPrev)
             {
                 ++selection;
                 if (selection >= menuNodes.Count)
@@ -200,7 +220,7 @@ namespace Blastula.Menus
                     else if (selection == menuNodes.Count) { selection = oldSelection; break; }
                 }
             }
-            else if (hitUp && !hitDown)
+            else if (hitPrev && !hitNext)
             {
                 --selection;
                 if (selection < 0)

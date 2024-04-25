@@ -56,6 +56,7 @@ namespace Blastula.Schedules
         /// </summary>
         public static StageSector GetCurrentSector()
         {
+            if (sectorStack.Count == 0) { return null; }
             return sectorStack.Peek();
         }
 

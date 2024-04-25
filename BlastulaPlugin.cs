@@ -2,6 +2,7 @@
 using Blastula;
 using Blastula.Graphics;
 using Blastula.Schedules;
+using Blastula.VirtualVariables;
 using Godot;
 
 [Tool]
@@ -29,7 +30,9 @@ public partial class BlastulaPlugin : EditorPlugin
     public override void _EnterTree()
     {
         main = this;
-        AddAutoloadSingleton("BlastulaKernel", "res://addons/Blastula/Kernel.tscn");
+        // Set game environment conditions
+        ProjectSettings.SetSetting("application/run/main_scene", "res://addons/Blastula/Loader.tscn");
+        ProjectSettings.SetSetting("application/run/max_fps", Persistent.SIMULATED_FPS);
         // Set to recommended resolution and auto-scale
         ProjectSettings.SetSetting("display/window/size/viewport_width", 1280);
         ProjectSettings.SetSetting("display/window/size/viewport_height", 960);
@@ -40,12 +43,8 @@ public partial class BlastulaPlugin : EditorPlugin
         RenderingServer.GlobalShaderParameterAdd(BulletRendererManager.STAGE_TIME_NAME, RenderingServer.GlobalShaderParameterType.Float, 0);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public override void _ExitTree()
     {
-        RemoveAutoloadSingleton("BlastulaKernel");
         RenderingServer.GlobalShaderParameterRemove(BulletRendererManager.STAGE_TIME_NAME);
     }
 }

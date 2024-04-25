@@ -1696,8 +1696,11 @@ other = NodePath("../../Subroutines/Drop From Enemy")
 [node name="Player Manager" type="Node" parent="."]
 script = ExtResource("126_daosb")
 
-[node name="TestPlayer" type="Node" parent="Player Manager"]
+[node name="PictusXXIV" type="Node" parent="Player Manager"]
 script = ExtResource("127_ecdrd")
+fullName = "Pictus XXIV"
+shortName = "Pictus"
+description = "A robot who is a painted dog, not a hyena. They are a pack of one animal. (One of the Blastula example characters.)"
 playerScene = ExtResource("128_p54iq")
 
 [node name="Stage Manager" type="Node" parent="."]

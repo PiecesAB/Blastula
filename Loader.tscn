@@ -1,0 +1,236 @@
+[gd_scene load_steps=31 format=3 uid="uid://c81krd7jn13vh"]
+
+[ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="1_3e6oa"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_3r5cj"]
+[ext_resource type="Script" path="res://addons/Blastula/Loader.cs" id="1_7j1j1"]
+[ext_resource type="Texture2D" uid="uid://ckrxpe026jxya" path="res://addons/Blastula/Graphics/UI/sampleBackground.png" id="1_clhc3"]
+[ext_resource type="FontFile" uid="uid://dtwct8imbtrpq" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RI.otf" id="2_2wuvy"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Additive.gdshader" id="2_ny0r2"]
+[ext_resource type="AudioStream" uid="uid://bfc0m2qmr5htc" path="res://addons/Blastula/Sounds/fatalError.ogg" id="2_qipkg"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/AdditiveSpin.gdshader" id="3_1qd8s"]
+[ext_resource type="AudioStream" uid="uid://obwr65pxfiqt" path="res://addons/Blastula/Sounds/success.ogg" id="3_3hq18"]
+[ext_resource type="FontFile" uid="uid://ggirehmyeo2f" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_R.otf" id="3_ppwkl"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Collectible.gdshader" id="4_gpest"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Deletion.gdshader" id="5_dp5l3"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/InvColored.gdshader" id="6_bl57f"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/InvColoredAdditive.gdshader" id="7_4n856"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/InvColoredAnimated.gdshader" id="8_ioibh"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/InvColoredGrayscale.gdshader" id="9_x6hp5"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/InvColoredSpin.gdshader" id="10_6bnq5"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Standard.gdshader" id="11_5skfb"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/StandardSpin.gdshader" id="12_8ek74"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/LabelPopup.gdshader" id="14_l7s60"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/PlayerResourceIcon.gdshader" id="15_a81oq"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/PowerBar.gdshader" id="16_m628x"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/PowerBarText.gdshader" id="17_v5dl6"]
+[ext_resource type="Shader" path="res://addons/Blastula/PictusXXIV/DeathStarExpansion.gdshader" id="18_ln006"]
+[ext_resource type="Shader" path="res://addons/Blastula/PictusXXIV/GrazeboxSpin.gdshader" id="19_i8dr7"]
+[ext_resource type="Shader" path="res://addons/Blastula/PictusXXIV/HitboxFlash.gdshader" id="20_wv1pm"]
+[ext_resource type="Texture2D" uid="uid://6ltikvcvgx7a" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar1.png" id="28_d1vhe"]
+[ext_resource type="Texture2D" uid="uid://dnicpnwg6nx4b" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar2.png" id="29_o1g07"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8u5to"]
+shader = ExtResource("1_3r5cj")
+shader_parameter/top_color = Vector4(0.2, 0.2, 0.2, 1)
+shader_parameter/bottom_color = Vector4(-5, 0.5, 0.5, 1)
+shader_parameter/glisten_factor = Vector3(0.1, -3, 0.005)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_awhja"]
+
+[node name="Loader" type="Node2D" node_paths=PackedStringArray("shaderLoader", "fatalErrorSound", "successSound", "errorText", "successText", "progressText", "progressBar")]
+script = ExtResource("1_7j1j1")
+shaderLoader = NodePath("Rendering Zone/Control/ShaderLoader")
+shaderCompileList = Array[Shader]([ExtResource("2_ny0r2"), ExtResource("3_1qd8s"), ExtResource("4_gpest"), ExtResource("5_dp5l3"), ExtResource("6_bl57f"), ExtResource("7_4n856"), ExtResource("8_ioibh"), ExtResource("9_x6hp5"), ExtResource("10_6bnq5"), ExtResource("11_5skfb"), ExtResource("12_8ek74"), ExtResource("1_3r5cj"), ExtResource("14_l7s60"), ExtResource("15_a81oq"), ExtResource("16_m628x"), ExtResource("17_v5dl6"), ExtResource("18_ln006"), ExtResource("19_i8dr7"), ExtResource("20_wv1pm")])
+fatalErrorSound = NodePath("FatalError")
+successSound = NodePath("Success")
+errorText = NodePath("Rendering Zone/Control/Fatal")
+successText = NodePath("Rendering Zone/Control/Success")
+progressText = NodePath("Rendering Zone/Control/Progress text")
+progressBar = NodePath("Rendering Zone/Control/Control/TextureProgressBar")
+
+[node name="FatalError" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_qipkg")
+
+[node name="Success" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_3hq18")
+
+[node name="Rendering Zone" type="Camera2D" parent="."]
+position = Vector2(-10000, 0)
+
+[node name="Control" type="Control" parent="Rendering Zone"]
+z_index = 4000
+layout_mode = 3
+anchors_preset = 0
+offset_left = -853.0
+offset_top = -480.0
+offset_right = 853.0
+offset_bottom = 480.0
+
+[node name="BG" type="TextureRect" parent="Rendering Zone/Control"]
+material = SubResource("ShaderMaterial_8u5to")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_clhc3")
+expand_mode = 1
+
+[node name="Panel" type="ColorRect" parent="Rendering Zone/Control"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.752941)
+
+[node name="Title" type="Label" parent="Rendering Zone/Control/Panel"]
+layout_mode = 2
+offset_top = 52.0
+offset_right = 1706.0
+offset_bottom = 144.0
+grow_horizontal = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 2.0
+theme_override_fonts/font = ExtResource("1_3e6oa")
+theme_override_font_sizes/font_size = 60
+text = "Blastula Starter Project"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Rendering Zone/Control/Panel"]
+layout_mode = 2
+offset_top = 172.0
+offset_right = 1706.0
+offset_bottom = 227.0
+grow_horizontal = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 2.0
+theme_override_fonts/font = ExtResource("2_2wuvy")
+theme_override_font_sizes/font_size = 36
+text = "Now theoretically usable!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Author1" type="Label" parent="Rendering Zone/Control/Panel"]
+layout_mode = 2
+offset_top = 320.0
+offset_right = 1706.0
+offset_bottom = 397.0
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("3_ppwkl")
+theme_override_font_sizes/font_size = 24
+text = "Composed using Godot Engine
+Inspired by Touhou Project / Team Shanghai Alice"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Fatal" type="Label" parent="Rendering Zone/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 370.0
+offset_bottom = 418.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.486275, 0.419608, 1)
+theme_override_fonts/font = ExtResource("3_ppwkl")
+theme_override_font_sizes/font_size = 40
+text = "Embryonic lethal error. Press anything to quit."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Success" type="Label" parent="Rendering Zone/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 370.0
+offset_bottom = 418.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.419608, 0.933333, 1, 1)
+theme_override_fonts/font = ExtResource("3_ppwkl")
+theme_override_font_sizes/font_size = 40
+text = "Press anything to enter the game."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Progress text" type="Label" parent="Rendering Zone/Control"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 280.0
+offset_bottom = 328.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_ppwkl")
+theme_override_font_sizes/font_size = 40
+text = "Loading"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FadeToWhite" type="ColorRect" parent="Rendering Zone/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="ShaderLoader" type="ColorRect" parent="Rendering Zone/Control"]
+material = SubResource("ShaderMaterial_awhja")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 800.0
+offset_top = 400.0
+offset_right = -906.0
+offset_bottom = -560.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="Rendering Zone/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 800.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Rendering Zone/Control/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -15.0
+offset_right = 200.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 1.0
+step = 0.0
+value = 0.3
+nine_patch_stretch = true
+texture_under = ExtResource("28_d1vhe")
+texture_progress = ExtResource("29_o1g07")

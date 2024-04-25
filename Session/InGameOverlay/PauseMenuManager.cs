@@ -35,7 +35,7 @@ namespace Blastula
         /// </summary>
         [Export] public AnimationPlayer modeAnimPlayer;
         public Mode mode { get; private set; } = Mode.Pause;
-        [Export] public VerticalListMenu mainMenu;
+        [Export] public ListMenu mainMenu;
 
         public enum State
         {

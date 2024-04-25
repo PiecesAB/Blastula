@@ -63,8 +63,6 @@ namespace Blastula
         {
             base._Ready();
             main = this;
-            _ = InitializeSinglePlayerSession("TestPlayer", "MainSequence");
-            
         }
     }
 }

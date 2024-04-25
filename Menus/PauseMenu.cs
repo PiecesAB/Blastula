@@ -11,7 +11,7 @@ namespace Blastula.Menus
     /// <summary>
     /// Handles the main pause menu. Contains functionality for pause menu options.
     /// </summary>
-    public partial class PauseMenu : VerticalListMenu
+    public partial class PauseMenu : ListMenu
     {
         /// <summary>
         /// The confirmation selection of Yes/No

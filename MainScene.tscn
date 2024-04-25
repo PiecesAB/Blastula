@@ -1,0 +1,3707 @@
+[gd_scene load_steps=139 format=3 uid="uid://wx1rs8ldtkla"]
+
+[ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="1_5qpbx"]
+[ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_m6k27"]
+[ext_resource type="Texture2D" uid="uid://cmfditw0p7ben" path="res://addons/Blastula/Graphics/UI/overlayIconRecord.png" id="3_sph87"]
+[ext_resource type="FontFile" uid="uid://brdkumahfmmgw" path="res://addons/Blastula/Graphics/UI/mainScoreNumbers.png" id="4_f5k6f"]
+[ext_resource type="Texture2D" uid="uid://c7xo60lyrebch" path="res://addons/Blastula/Graphics/UI/overlayIconNextExtend.png" id="5_302jb"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Border/ScoreDisplay.cs" id="6_i7dnn"]
+[ext_resource type="Texture2D" uid="uid://bddg1oxe3uvq8" path="res://addons/Blastula/Graphics/UI/overlayIconScore.png" id="7_i0ymw"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Border/ResourceIconDisplay.cs" id="8_36cmf"]
+[ext_resource type="Texture2D" uid="uid://x1ajkb5rd2vk" path="res://addons/Blastula/Graphics/UI/overlayIconLives.png" id="9_21a1f"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/PlayerResourceIcon.gdshader" id="10_fbcxs"]
+[ext_resource type="Texture2D" uid="uid://43l8tj7wbl6p" path="res://addons/Blastula/Graphics/UI/playerResourceSymbol.png" id="11_vgkfn"]
+[ext_resource type="Texture2D" uid="uid://bbc8b5kqjwkv7" path="res://addons/Blastula/Graphics/UI/overlayIconBombs.png" id="12_jkksd"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Border/PowerDisplay.cs" id="13_s4cy8"]
+[ext_resource type="Texture2D" uid="uid://6ltikvcvgx7a" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar1.png" id="14_p8oam"]
+[ext_resource type="Texture2D" uid="uid://dnicpnwg6nx4b" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar2.png" id="15_sj8j1"]
+[ext_resource type="Texture2D" uid="uid://bw14s4d47f4m7" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar3.png" id="16_5rutb"]
+[ext_resource type="Texture2D" uid="uid://yrv6fpw8xhmj" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar4.png" id="17_jcphf"]
+[ext_resource type="Texture2D" uid="uid://cv2u3ytyfk7v" path="res://addons/Blastula/Graphics/UI/overlayIconPower.png" id="18_r8d73"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/PowerBar.gdshader" id="19_xk1di"]
+[ext_resource type="Texture2D" uid="uid://hbukgsq7dkjo" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBarNoiseSampler.png" id="20_8or6c"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/PowerBarText.gdshader" id="21_t7hk7"]
+[ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="22_hvkwy"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Border/ResourceNumberDisplay.cs" id="23_bq0l1"]
+[ext_resource type="Texture2D" uid="uid://byw1fbjj2w0ox" path="res://addons/Blastula/Graphics/UI/overlayIconGraze.png" id="24_n6472"]
+[ext_resource type="Texture2D" uid="uid://bc6hl1kax8q2v" path="res://addons/Blastula/Graphics/UI/overlayIconPointItem.png" id="25_5yyqb"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Border/DefaultLogoController.cs" id="26_1ix8h"]
+[ext_resource type="Texture2D" uid="uid://dhaplybn1jabj" path="res://addons/Blastula/Graphics/MiscTextures/logo.png" id="27_7he6w"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Debug/StatsViews.cs" id="28_vi41q"]
+[ext_resource type="FontFile" uid="uid://djia8pojyn6eq" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Regular.ttf" id="29_b511e"]
+[ext_resource type="FontFile" uid="uid://ggirehmyeo2f" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_R.otf" id="30_f14at"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Border/FPSDisplay.cs" id="31_ftlls"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Debug/DebugCollision.cs" id="32_feufc"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/SectorTimer.cs" id="33_ef6f6"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Border/ItemGetLineDisplay.cs" id="34_trh85"]
+[ext_resource type="FontFile" uid="uid://dtwct8imbtrpq" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RI.otf" id="35_nf306"]
+[ext_resource type="Texture2D" uid="uid://brtg0dp7i1813" path="res://addons/Blastula/Graphics/UI/itemGetLineArrow.png" id="36_r6wi6"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/MusicNotifier.cs" id="37_4rgln"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="38_12h8g"]
+[ext_resource type="Texture2D" uid="uid://t6nbf3684wvf" path="res://addons/Blastula/Graphics/UI/music.png" id="39_6ff6w"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/PauseMenuManager.cs" id="40_3bmt3"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/PauseMenu.cs" id="41_ebkby"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Additive.gdshader" id="42_rcii8"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/ListNode.cs" id="43_0alcd"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/ListMenu.cs" id="44_j3yym"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Debug/DebugConsole.cs" id="45_jhi6l"]
+[ext_resource type="FontFile" uid="uid://c0msc3x0utd1o" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Italic.ttf" id="46_yed1c"]
+[ext_resource type="FontFile" uid="uid://cdkr7rv70t74f" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Bold.ttf" id="47_uvs0x"]
+[ext_resource type="FontFile" uid="uid://dwexpt8v22wmh" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-BoldItalic.ttf" id="48_fojb6"]
+[ext_resource type="Script" path="res://addons/Blastula/Graphics/ScreenSetup.cs" id="49_pv7gi"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/MainBoundary.cs" id="50_4fyhh"]
+[ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="51_suwsw"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/ScheduleReference.cs" id="52_hr82e"]
+[ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/BasicEnemy.tscn" id="53_3j5av"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Sequence.cs" id="54_dvc7i"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/CreateSingle.cs" id="55_aru50"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Morph.cs" id="56_ybru1"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Forth.cs" id="57_beylf"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Adapt.cs" id="58_vr74y"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/PlaceOnPath2D.cs" id="59_80hwk"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Shift.cs" id="60_xgobl"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/CloneInPlace.cs" id="61_ac181"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Lifespan.cs" id="62_n50mu"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/PlaySound.cs" id="63_83u84"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Circle.cs" id="64_7nik6"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ClearBehaviors.cs" id="65_beugp"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Repaint.cs" id="66_wffq2"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetMultimeshExtraData.cs" id="67_yn6tv"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="68_71e1u"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="69_v6d21"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Variables/SetVar.cs" id="70_ahusq"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Reference.cs" id="71_dm4nr"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="72_5skpn"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Variables/UnsetVar.cs" id="73_8elnl"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/TimeStretch.cs" id="74_kfbat"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/AdaptPattern.cs" id="75_abxjt"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetZIndex.cs" id="76_lxwsf"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/ForEachChild.cs" id="77_flmy6"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Trail.cs" id="78_adg8s"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="79_aaomk"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/WindForth.cs" id="80_lnbdv"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Spread.cs" id="81_cqmgs"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8cbxs"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vp18f"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ormah"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l6muc"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fcfdr"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wg67a"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mbtpv"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_llnbd"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1.5, 1, 1, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vhh4v"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wvacd"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sa605"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o6qv2"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hhy7e"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_berny"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ae67c"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_76iiy"]
+shader = ExtResource("10_fbcxs")
+shader_parameter/tint = Vector4(1, 1.25, 1.5, 1)
+shader_parameter/uv_center = Vector2(0.5, 0.525)
+shader_parameter/center_brightness_cutoff = 0.5
+shader_parameter/filled_fraction = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j7el3"]
+shader = ExtResource("19_xk1di")
+shader_parameter/world_top_left = Vector2(-9571, -194)
+shader_parameter/world_size = Vector2(174, 39)
+shader_parameter/filled_fraction = 0.5
+shader_parameter/back_sampler = ExtResource("16_5rutb")
+shader_parameter/front_sampler = ExtResource("17_jcphf")
+shader_parameter/noise_sampler = ExtResource("20_8or6c")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_olceh"]
+shader = ExtResource("21_t7hk7")
+shader_parameter/world_top_left = Vector2(-9571, -194)
+shader_parameter/world_size = Vector2(174, 39)
+shader_parameter/filled_fraction = 0.5
+shader_parameter/noise_sampler = ExtResource("20_8or6c")
+
+[sub_resource type="LabelSettings" id="LabelSettings_rjsw2"]
+font = ExtResource("22_hvkwy")
+font_size = 72
+font_color = Color(0.588235, 0.588235, 0.588235, 1)
+shadow_color = Color(0.415686, 0.415686, 0.415686, 1)
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cblxf"]
+font = ExtResource("22_hvkwy")
+font_size = 36
+font_color = Color(0.588235, 0.588235, 0.588235, 1)
+shadow_color = Color(0.415686, 0.415686, 0.415686, 1)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_lp3rm"]
+line_spacing = -3.0
+font = ExtResource("22_hvkwy")
+font_size = 48
+font_color = Color(1, 1, 0, 1)
+shadow_color = Color(0.415686, 0.415686, 0.415686, 1)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xprkr"]
+content_margin_left = 12.0
+content_margin_top = 0.0
+content_margin_right = 12.0
+content_margin_bottom = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_8ttft"]
+font = ExtResource("30_f14at")
+font_size = 28
+shadow_color = Color(0.415686, 0.415686, 0.415686, 1)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="Sky" id="Sky_j6c5r"]
+
+[sub_resource type="Environment" id="Environment_hxelk"]
+background_mode = 1
+background_color = Color(0.4, 0.533333, 0.678431, 1)
+sky = SubResource("Sky_j6c5r")
+fog_enabled = true
+fog_light_color = Color(0.4, 0.533333, 0.678431, 1)
+fog_density = 0.3831
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dl8qm"]
+
+[sub_resource type="Animation" id="Animation_6n7pd"]
+resource_name = "Main"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Container:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 5.5, 6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -40), Vector2(0, 0), Vector2(0, 0), Vector2(0, 40)]
+}
+
+[sub_resource type="Animation" id="Animation_e2fqv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Container:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_arm6g"]
+_data = {
+"Main": SubResource("Animation_6n7pd"),
+"RESET": SubResource("Animation_e2fqv")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ng5m5"]
+shader = ExtResource("38_12h8g")
+shader_parameter/top_color = Vector4(0.8, 1, 1, 1)
+shader_parameter/bottom_color = Vector4(0, 0.3, 0.3, 1)
+shader_parameter/glisten_factor = Vector3(0.2, 4, 0.2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u0k8i"]
+shader = ExtResource("38_12h8g")
+shader_parameter/top_color = Vector4(0.8, 1, 1, 1)
+shader_parameter/bottom_color = Vector4(0, 0.3, 0.3, 1)
+shader_parameter/glisten_factor = Vector3(0.2, 4, 0.2)
+
+[sub_resource type="Animation" id="Animation_prnbn"]
+resource_name = "GameOver"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainMenu/PauseTitle:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainMenu/GameOverTitle:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MainMenu/Resume:selectable")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MainMenu/Resume:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MainMenu/Continue:selectable")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MainMenu/Continue:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("MainMenu:cancelable")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_di331"]
+resource_name = "GameOverNoContinue"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainMenu/PauseTitle:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainMenu/GameOverTitle:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MainMenu/Resume:selectable")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MainMenu/Resume:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MainMenu/Continue:selectable")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MainMenu/Continue:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("MainMenu:cancelable")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_obwom"]
+resource_name = "Pause"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainMenu/PauseTitle:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainMenu/GameOverTitle:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MainMenu/Resume:selectable")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MainMenu/Resume:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MainMenu/Continue:selectable")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MainMenu/Continue:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("MainMenu:cancelable")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_wm4rb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainMenu/PauseTitle:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainMenu/GameOverTitle:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MainMenu/Resume:selectable")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MainMenu/Resume:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MainMenu/Continue:selectable")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MainMenu/Continue:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("MainMenu:cancelable")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uw2fi"]
+_data = {
+"GameOver": SubResource("Animation_prnbn"),
+"GameOverNoContinue": SubResource("Animation_di331"),
+"Pause": SubResource("Animation_obwom"),
+"RESET": SubResource("Animation_wm4rb")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ftxip"]
+shader = ExtResource("42_rcii8")
+shader_parameter/tint = Vector4(1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_k2443"]
+resource_name = "Highlight"
+length = 0.5
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Subtext:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 50)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:size")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 80), Vector2(300, 80), Vector2(400, 80)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Highlight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.2415, 0.183, 0.3, 1)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.025),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Switch"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_gut73"]
+resource_name = "Normal"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.627451, 0.627451, 0.627451, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(40, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Subtext:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(40, 50)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 80)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Highlight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.2415, 0.183, 0.3, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tdecy"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.627451, 0.627451, 0.627451, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(40, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Subtext:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 50)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 80)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Highlight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.2415, 0.183, 0.3, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_5p4gl"]
+resource_name = "Select"
+length = 0.3
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Subtext:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 50)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:size")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(400, 80)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Highlight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.15, 0.225, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.3034, 0.2368, 0.37, 1), Color(0.2025, 0.155, 0.25, 1), Color(0.3034, 0.2368, 0.37, 1), Color(0.2025, 0.155, 0.25, 1), Color(0.3034, 0.2368, 0.37, 1)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Select"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hbhh8"]
+_data = {
+"Highlight": SubResource("Animation_k2443"),
+"Normal": SubResource("Animation_gut73"),
+"RESET": SubResource("Animation_tdecy"),
+"Select": SubResource("Animation_5p4gl")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n41s0"]
+shader = ExtResource("42_rcii8")
+shader_parameter/tint = Vector4(1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_hjm1c"]
+resource_name = "Closed"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1e-05)]
+}
+
+[sub_resource type="Animation" id="Animation_tkhci"]
+resource_name = "Open"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_eqq1u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1e-05)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1wglm"]
+_data = {
+"Closed": SubResource("Animation_hjm1c"),
+"Open": SubResource("Animation_tkhci"),
+"RESET": SubResource("Animation_eqq1u")
+}
+
+[sub_resource type="Animation" id="Animation_5j6hw"]
+resource_name = "Highlight"
+length = 0.5
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Subtext:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 50)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:size")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 50), Vector2(190, 50), Vector2(250, 50)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Highlight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.301961, 0.184314, 0.184314, 1)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.025),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Switch"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_fy1f3"]
+resource_name = "Normal"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.627451, 0.627451, 0.627451, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(40, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Subtext:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(40, 50)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 50)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Highlight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.301961, 0.184314, 0.184314, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cvky3"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.627451, 0.627451, 0.627451, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(40, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Subtext:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 50)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 50)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Highlight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.301961, 0.184314, 0.184314, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_uepci"]
+resource_name = "Select"
+length = 0.3
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Subtext:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 50)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:size")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(250, 50)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Highlight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.15, 0.225, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.368627, 0.235294, 0.235294, 1), Color(0.25098, 0.156863, 0.156863, 1), Color(0.368627, 0.235294, 0.235294, 1), Color(0.25098, 0.156863, 0.156863, 1), Color(0.368627, 0.235294, 0.235294, 1)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Select"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rkflj"]
+_data = {
+"Highlight": SubResource("Animation_5j6hw"),
+"Normal": SubResource("Animation_fy1f3"),
+"RESET": SubResource("Animation_cvky3"),
+"Select": SubResource("Animation_uepci")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x5a55"]
+content_margin_left = 12.0
+content_margin_top = 0.0
+content_margin_right = 12.0
+content_margin_bottom = 0.0
+bg_color = Color(0.152941, 0.152941, 0.152941, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aq0o8"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cwuca"]
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="Curve2D" id="Curve2D_sn1b5"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 126, -176, -4.24264, -298.399, 4.24264, 298.399, 328, -10, 0, 0, 0, 0, 143, 148)
+}
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_wmp8t"]
+_data = [Vector2(0, 1), 0.0, -0.977923, 0, 1, Vector2(1, 0.022077), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Main Scene" type="Node2D" groups=["MainScene"]]
+
+[node name="Rendering Zone" type="Camera2D" parent="."]
+position = Vector2(-10000, 0)
+
+[node name="Border" type="Sprite2D" parent="Rendering Zone"]
+texture = ExtResource("1_5qpbx")
+
+[node name="Pillarbox" type="ColorRect" parent="Rendering Zone/Border"]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2500.0
+offset_top = -480.0
+offset_right = 800.0
+offset_bottom = -480.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.00784314, 0.00784314, 0.164706, 1)
+
+[node name="Stats" type="Control" parent="Rendering Zone/Border"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 160.0
+offset_top = -448.0
+offset_right = 608.0
+offset_bottom = 448.0
+
+[node name="RecordScore" type="Control" parent="Rendering Zone/Border/Stats"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -448.0
+offset_right = 10.0
+offset_bottom = -392.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.45, 0.5)
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/RecordScore"]
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -364.0
+offset_top = -6.0
+offset_right = 1.0
+offset_bottom = 6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_m6k27")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/RecordScore"]
+modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("3_sph87")
+expand_mode = 1
+
+[node name="Number" type="Label" parent="Rendering Zone/Border/Stats/RecordScore"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_f5k6f")
+theme_override_font_sizes/font_size = 44
+text = "5.67801e10"
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="NextExtendScore" type="Control" parent="Rendering Zone/Border/Stats"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 246.0
+offset_top = -448.0
+offset_right = 246.0
+offset_bottom = -392.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.45, 0.5)
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/NextExtendScore"]
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -364.0
+offset_top = -6.0
+offset_right = 1.0
+offset_bottom = 6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_m6k27")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/NextExtendScore"]
+modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("5_302jb")
+expand_mode = 1
+
+[node name="Number" type="Label" parent="Rendering Zone/Border/Stats/NextExtendScore"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_f5k6f")
+theme_override_font_sizes/font_size = 44
+text = "----------"
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="CurrentScore" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("currentScore", "recordScore")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -420.0
+offset_bottom = -364.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_i7dnn")
+currentScore = NodePath("Number")
+recordScore = NodePath("../RecordScore/Number")
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/CurrentScore"]
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_m6k27")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/CurrentScore"]
+modulate = Color(0.792157, 0.792157, 0.792157, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("7_i0ymw")
+expand_mode = 1
+
+[node name="Number" type="Label" parent="Rendering Zone/Border/Stats/CurrentScore"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_f5k6f")
+theme_override_font_sizes/font_size = 44
+text = "1234567890"
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Lives" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("icons")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -364.0
+offset_bottom = -292.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_36cmf")
+icons = [NodePath("IconHolder/0"), NodePath("IconHolder/1"), NodePath("IconHolder/2"), NodePath("IconHolder/3"), NodePath("IconHolder/4"), NodePath("IconHolder/5"), NodePath("IconHolder/6"), NodePath("IconHolder/7")]
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives"]
+visible = false
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_m6k27")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives"]
+modulate = Color(0.792157, 0.792157, 0.792157, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("9_21a1f")
+expand_mode = 1
+
+[node name="IconHolder" type="HBoxContainer" parent="Rendering Zone/Border/Stats/Lives"]
+layout_mode = 2
+offset_left = 138.0
+offset_top = 28.0
+offset_right = 450.0
+offset_bottom = 66.0
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="0" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_8cbxs")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="1" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_vp18f")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="2" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_ormah")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="3" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_l6muc")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="4" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_fcfdr")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="5" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_wg67a")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="6" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_mbtpv")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="7" type="TextureRect" parent="Rendering Zone/Border/Stats/Lives/IconHolder"]
+material = SubResource("ShaderMaterial_llnbd")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="Bombs" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("icons")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -308.0
+offset_bottom = -236.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_36cmf")
+stat = 1
+icons = [NodePath("IconHolder/0"), NodePath("IconHolder/1"), NodePath("IconHolder/2"), NodePath("IconHolder/3"), NodePath("IconHolder/4"), NodePath("IconHolder/5"), NodePath("IconHolder/6"), NodePath("IconHolder/7")]
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs"]
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = 18.0
+offset_bottom = 24.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_m6k27")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs"]
+modulate = Color(0.792157, 0.792157, 0.792157, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("12_jkksd")
+expand_mode = 1
+
+[node name="IconHolder" type="HBoxContainer" parent="Rendering Zone/Border/Stats/Bombs"]
+layout_mode = 2
+offset_left = 138.0
+offset_top = 28.0
+offset_right = 450.0
+offset_bottom = 66.0
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="0" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_vhh4v")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="1" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_wvacd")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="2" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_sa605")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="3" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_o6qv2")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="4" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_hhy7e")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="5" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_berny")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="6" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_ae67c")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="7" type="TextureRect" parent="Rendering Zone/Border/Stats/Bombs/IconHolder"]
+material = SubResource("ShaderMaterial_76iiy")
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+texture = ExtResource("11_vgkfn")
+expand_mode = 1
+
+[node name="Power" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("barTextNode", "barVisualNode")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -208.0
+offset_bottom = -152.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("13_s4cy8")
+barTextNode = NodePath("Bar/PowerNumber")
+barVisualNode = NodePath("Bar")
+barImages = Array[Texture2D]([ExtResource("14_p8oam"), ExtResource("15_sj8j1"), ExtResource("16_5rutb"), ExtResource("17_jcphf")])
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/Power"]
+visible = false
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_m6k27")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/Power"]
+modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("18_r8d73")
+expand_mode = 1
+
+[node name="Bar" type="TextureRect" parent="Rendering Zone/Border/Stats/Power"]
+material = SubResource("ShaderMaterial_j7el3")
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -182.0
+offset_top = -45.0
+offset_right = -2.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("14_p8oam")
+expand_mode = 1
+
+[node name="PowerNumber" type="RichTextLabel" parent="Rendering Zone/Border/Stats/Power/Bar"]
+z_index = 1
+material = SubResource("ShaderMaterial_olceh")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("22_hvkwy")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center]3.50[font_size=18]/4.00[/font_size][/center]"
+scroll_active = false
+shortcut_keys_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="Graze" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("label")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -112.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("23_bq0l1")
+label = NodePath("Number")
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/Graze"]
+visible = false
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_m6k27")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/Graze"]
+modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("24_n6472")
+expand_mode = 1
+
+[node name="Number" type="Label" parent="Rendering Zone/Border/Stats/Graze"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_f5k6f")
+theme_override_font_sizes/font_size = 44
+text = "123456"
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="PointItemValue" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("label")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -160.0
+offset_bottom = -104.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("23_bq0l1")
+stat = 1
+label = NodePath("Number")
+
+[node name="Line" type="TextureRect" parent="Rendering Zone/Border/Stats/PointItemValue"]
+visible = false
+modulate = Color(0.482353, 0.482353, 0.482353, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("2_m6k27")
+expand_mode = 1
+
+[node name="Symbol" type="TextureRect" parent="Rendering Zone/Border/Stats/PointItemValue"]
+modulate = Color(0.486275, 0.486275, 0.486275, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -42.0
+offset_right = 130.0
+offset_bottom = -6.0
+grow_vertical = 0
+texture = ExtResource("25_5yyqb")
+expand_mode = 1
+
+[node name="Number" type="Label" parent="Rendering Zone/Border/Stats/PointItemValue"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_f5k6f")
+theme_override_font_sizes/font_size = 44
+text = "654321"
+horizontal_alignment = 2
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="DefaultLogo" type="Control" parent="Rendering Zone/Border/Stats" node_paths=PackedStringArray("mainLogo", "debugNotification")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("26_1ix8h")
+mainLogo = NodePath("MainLogo")
+debugNotification = NodePath("DebugNotification")
+
+[node name="MainLogo" type="Control" parent="Rendering Zone/Border/Stats/DefaultLogo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Text" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/MainLogo"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 314.0
+offset_bottom = 397.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "blastula"
+label_settings = SubResource("LabelSettings_rjsw2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtext" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/MainLogo"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 364.0
+offset_bottom = 447.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "danmaku framework"
+label_settings = SubResource("LabelSettings_cblxf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LogoShadow" type="TextureRect" parent="Rendering Zone/Border/Stats/DefaultLogo/MainLogo"]
+modulate = Color(0.415686, 0.415686, 0.415686, 1)
+texture_filter = 4
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 64.0
+offset_top = 35.0
+offset_right = -64.0
+offset_bottom = 355.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("27_7he6w")
+expand_mode = 1
+
+[node name="Logo" type="TextureRect" parent="Rendering Zone/Border/Stats/DefaultLogo/MainLogo"]
+modulate = Color(0.588235, 0.588235, 0.588235, 1)
+texture_filter = 4
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 61.0
+offset_top = 32.0
+offset_right = -67.0
+offset_bottom = 352.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("27_7he6w")
+expand_mode = 1
+
+[node name="DebugNotification" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 143.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Running via debug!
+Press ~ for console."
+label_settings = SubResource("LabelSettings_lp3rm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DebugStatsView" type="Control" parent="Rendering Zone/Border/Stats/DefaultLogo"]
+layout_mode = 1
+anchor_top = 0.55
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("28_vi41q")
+
+[node name="Timings" type="ColorRect" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("28_vi41q")
+
+[node name="Structure" type="VBoxContainer" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Total" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Total: 5.67 ms"
+
+[node name="Blank" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+
+[node name="Execute" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Exec Bhvrs: 1.23 ms "
+
+[node name="Collision" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Collision: 1.23 ms "
+
+[node name="PostExecute" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Post Exec: 1.23 ms "
+
+[node name="Render" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Render: 1.23 ms "
+
+[node name="BulletRender" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "    Bullet: 0.56 ms "
+
+[node name="LaserRender" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Timings/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "    Laser: 0.56 ms "
+
+[node name="Counts" type="ColorRect" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("28_vi41q")
+
+[node name="Structure" type="VBoxContainer" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Total" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Total BNodes: 1337"
+
+[node name="Bullets" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Bullets: 500"
+
+[node name="LaserPieces" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Laser Pieces: 500"
+
+[node name="Blank" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+
+[node name="Blastodiscs" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Blastodiscs: 10"
+
+[node name="Blank2" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+
+[node name="MQTail" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Master queue tail: 111111"
+
+[node name="MQHead" type="Label" parent="Rendering Zone/Border/Stats/DefaultLogo/DebugStatsView/Counts/Structure"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("29_b511e")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xprkr")
+text = "Master queue head: 222222 "
+
+[node name="FPS" type="Label" parent="Rendering Zone/Border"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 466.0
+offset_top = -34.0
+offset_right = -1091.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "59.9 fps"
+label_settings = SubResource("LabelSettings_8ttft")
+horizontal_alignment = 2
+vertical_alignment = 1
+script = ExtResource("31_ftlls")
+
+[node name="MainViewHolder" type="Control" parent="Rendering Zone"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -608.0
+offset_top = -448.0
+offset_right = 160.0
+offset_bottom = 448.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(384, 448)
+
+[node name="MainViewBorder" type="ColorRect" parent="Rendering Zone/MainViewHolder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.588235, 0.588235, 0.588235, 1)
+
+[node name="MainView" type="SubViewportContainer" parent="Rendering Zone/MainViewHolder"]
+light_mask = 0
+visibility_layer = 524288
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="Objects" type="SubViewport" parent="Rendering Zone/MainViewHolder/MainView"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(768, 896)
+render_target_update_mode = 4
+
+[node name="Camera" type="Camera2D" parent="Rendering Zone/MainViewHolder/MainView/Objects"]
+
+[node name="Backdrop" type="SubViewportContainer" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera"]
+light_mask = 0
+visibility_layer = 524288
+z_index = -4096
+texture_filter = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -384.0
+offset_top = -448.0
+offset_right = 384.0
+offset_bottom = 448.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="InternalBG" type="SubViewport" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop"]
+handle_input_locally = false
+size = Vector2i(768, 896)
+render_target_update_mode = 4
+
+[node name="Node3D" type="Node3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+environment = SubResource("Environment_hxelk")
+
+[node name="Camera3D" type="Camera3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 8, 0, -0.908, -2)
+mesh = SubResource("PlaneMesh_dl8qm")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 8, 1, 0, -2)
+mesh = SubResource("PlaneMesh_dl8qm")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 8, -1, 0, -2)
+mesh = SubResource("PlaneMesh_dl8qm")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 8, 0, 1, -2)
+mesh = SubResource("PlaneMesh_dl8qm")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.512964, 1.06552, -1.20129)
+light_color = Color(0.533333, 0.713726, 0.878431, 1)
+light_energy = 2.0
+
+[node name="DebugCollision" type="Node2D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera"]
+z_index = 1000
+script = ExtResource("32_feufc")
+
+[node name="InGameOverlay" type="Control" parent="Rendering Zone/MainViewHolder"]
+z_index = 100
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Timer" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay" node_paths=PackedStringArray("integerPart", "fractionalPart", "mainViewHolder")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.0
+offset_right = 60.0
+offset_bottom = 52.0
+grow_horizontal = 2
+scale = Vector2(0.8, 0.8)
+pivot_offset = Vector2(60, 0)
+script = ExtResource("33_ef6f6")
+integerPart = NodePath("IntegerPart")
+fractionalPart = NodePath("FractionalPart")
+mainViewHolder = NodePath("../..")
+
+[node name="IntegerPart" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/Timer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -174.0
+offset_right = -54.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_f5k6f")
+theme_override_font_sizes/font_size = 50
+text = "32"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Dot" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/Timer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -36.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_f5k6f")
+theme_override_font_sizes/font_size = 36
+text = "."
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="FractionalPart" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/Timer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_f5k6f")
+theme_override_font_sizes/font_size = 32
+text = "97"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="ItemGetLineHolder" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 448.0
+offset_right = -768.0
+offset_bottom = -448.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemGetLine" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay/ItemGetLineHolder" node_paths=PackedStringArray("line")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -448.0
+offset_bottom = -448.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("34_trh85")
+line = NodePath("Line")
+
+[node name="Line" type="ColorRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/ItemGetLineHolder/ItemGetLine"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+offset_right = 768.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/ItemGetLineHolder/ItemGetLine/Line"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("35_nf306")
+theme_override_font_sizes/font_size = 28
+text = "Exceed this line to get all item!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Arrow" type="TextureRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/ItemGetLineHolder/ItemGetLine"]
+layout_mode = 0
+offset_left = -24.0
+offset_top = -12.0
+offset_bottom = 12.0
+texture = ExtResource("36_r6wi6")
+expand_mode = 1
+
+[node name="MusicNotifier" type="ColorRect" parent="Rendering Zone/MainViewHolder/InGameOverlay" node_paths=PackedStringArray("animationPlayer", "mainText")]
+clip_children = 1
+layout_mode = 0
+offset_left = -436.0
+offset_top = 860.0
+offset_right = 764.0
+offset_bottom = 896.0
+script = ExtResource("37_4rgln")
+animationPlayer = NodePath("AnimationPlayer")
+mainText = NodePath("Container/TextureRect2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/InGameOverlay/MusicNotifier"]
+libraries = {
+"": SubResource("AnimationLibrary_arm6g")
+}
+autoplay = "Main"
+
+[node name="Container" type="HBoxContainer" parent="Rendering Zone/MainViewHolder/InGameOverlay/MusicNotifier"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 4800.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/MusicNotifier/Container"]
+material = SubResource("ShaderMaterial_ng5m5")
+layout_mode = 2
+texture = ExtResource("39_6ff6w")
+expand_mode = 2
+
+[node name="TextureRect2" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/MusicNotifier/Container"]
+material = SubResource("ShaderMaterial_u0k8i")
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("35_nf306")
+theme_override_font_sizes/font_size = 28
+text = "Insert song name here"
+
+[node name="PauseMenu" type="ColorRect" parent="Rendering Zone/MainViewHolder" node_paths=PackedStringArray("modeAnimPlayer", "mainMenu")]
+visible = false
+z_index = 500
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.627451)
+script = ExtResource("40_3bmt3")
+modeAnimPlayer = NodePath("Mode")
+mainMenu = NodePath("MainMenu")
+
+[node name="Mode" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu"]
+libraries = {
+"": SubResource("AnimationLibrary_uw2fi")
+}
+autoplay = "Pause"
+
+[node name="MainMenu" type="VBoxContainer" parent="Rendering Zone/MainViewHolder/PauseMenu" node_paths=PackedStringArray("confirmMenu")]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 88.0
+offset_right = 424.0
+offset_bottom = 888.0
+alignment = 2
+script = ExtResource("41_ebkby")
+confirmMenu = NodePath("../Confirmation")
+confirmRetryMenuPosition = Vector2(480, 340)
+confirmQuitMenuPosition = Vector2(480, 660)
+
+[node name="PauseTitle" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("22_hvkwy")
+theme_override_font_sizes/font_size = 52
+text = "    Diapause"
+
+[node name="Decoration" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/PauseTitle"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 5.0
+offset_top = 10.0
+offset_right = 35.0
+offset_bottom = 40.0
+rotation = 0.785398
+color = Color(0.161785, 0.15584, 0.254592, 1)
+
+[node name="Decoration2" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/PauseTitle"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 70.0
+offset_top = -5.0
+offset_right = 120.0
+offset_bottom = 45.0
+rotation = 0.785398
+color = Color(0.161785, 0.15584, 0.254592, 1)
+
+[node name="Decoration3" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/PauseTitle"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 30.0
+offset_right = 45.0
+offset_bottom = 15.0
+rotation = 0.785398
+color = Color(0.161785, 0.15584, 0.254592, 1)
+
+[node name="Decoration4" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/PauseTitle"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 30.0
+offset_top = 40.0
+offset_right = 45.0
+offset_bottom = 55.0
+rotation = 0.785398
+color = Color(0.161785, 0.15584, 0.254592, 1)
+
+[node name="GameOverTitle" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("22_hvkwy")
+theme_override_font_sizes/font_size = 52
+text = "    End of life"
+
+[node name="Decoration" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/GameOverTitle"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 5.0
+offset_top = 10.0
+offset_right = 35.0
+offset_bottom = 40.0
+rotation = 0.785398
+color = Color(0.161785, 0.15584, 0.254592, 1)
+
+[node name="Decoration2" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/GameOverTitle"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 70.0
+offset_top = -5.0
+offset_right = 120.0
+offset_bottom = 45.0
+rotation = 0.785398
+color = Color(0.161785, 0.15584, 0.254592, 1)
+
+[node name="Decoration3" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/GameOverTitle"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 30.0
+offset_right = 45.0
+offset_bottom = 15.0
+rotation = 0.785398
+color = Color(0.161785, 0.15584, 0.254592, 1)
+
+[node name="Decoration4" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/GameOverTitle"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 30.0
+offset_top = 40.0
+offset_right = 45.0
+offset_bottom = 55.0
+rotation = 0.785398
+color = Color(0.161785, 0.15584, 0.254592, 1)
+
+[node name="Resume" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("43_0alcd")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume"]
+libraries = {
+"": SubResource("AnimationLibrary_hbhh8")
+}
+autoplay = "Normal"
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume"]
+material = SubResource("ShaderMaterial_n41s0")
+layout_mode = 0
+offset_bottom = 80.0
+color = Color(0.2415, 0.183, 0.3, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 46.0
+theme_override_fonts/font = ExtResource("22_hvkwy")
+theme_override_font_sizes/font_size = 40
+text = "Resume"
+
+[node name="Subtext" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume"]
+layout_mode = 2
+offset_left = 60.0
+offset_top = 50.0
+offset_right = 444.0
+offset_bottom = 78.0
+theme_override_fonts/font = ExtResource("30_f14at")
+theme_override_font_sizes/font_size = 24
+text = "Continue development"
+
+[node name="Continue" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("43_0alcd")
+animationPlayer = NodePath("AnimationPlayer")
+selectable = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue"]
+libraries = {
+"": SubResource("AnimationLibrary_hbhh8")
+}
+autoplay = "Normal"
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue"]
+material = SubResource("ShaderMaterial_n41s0")
+layout_mode = 0
+offset_bottom = 80.0
+color = Color(0.2415, 0.183, 0.3, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 46.0
+theme_override_fonts/font = ExtResource("22_hvkwy")
+theme_override_font_sizes/font_size = 40
+text = "Continue"
+
+[node name="Subtext" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue"]
+layout_mode = 2
+offset_left = 60.0
+offset_top = 50.0
+offset_right = 444.0
+offset_bottom = 78.0
+theme_override_fonts/font = ExtResource("30_f14at")
+theme_override_font_sizes/font_size = 24
+text = "Life finds a way"
+
+[node name="Retry" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("43_0alcd")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Retry"]
+libraries = {
+"": SubResource("AnimationLibrary_hbhh8")
+}
+autoplay = "Normal"
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Retry"]
+material = SubResource("ShaderMaterial_n41s0")
+layout_mode = 0
+offset_bottom = 80.0
+color = Color(0.2415, 0.183, 0.3, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Retry"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 46.0
+theme_override_fonts/font = ExtResource("22_hvkwy")
+theme_override_font_sizes/font_size = 40
+text = "Retry"
+
+[node name="Subtext" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Retry"]
+layout_mode = 2
+offset_left = 60.0
+offset_top = 50.0
+offset_right = 444.0
+offset_bottom = 78.0
+theme_override_fonts/font = ExtResource("30_f14at")
+theme_override_font_sizes/font_size = 24
+text = "Reconception"
+
+[node name="Settings" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("43_0alcd")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Settings"]
+libraries = {
+"": SubResource("AnimationLibrary_hbhh8")
+}
+autoplay = "Normal"
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Settings"]
+material = SubResource("ShaderMaterial_n41s0")
+layout_mode = 0
+offset_bottom = 80.0
+color = Color(0.2415, 0.183, 0.3, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Settings"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 46.0
+theme_override_fonts/font = ExtResource("22_hvkwy")
+theme_override_font_sizes/font_size = 40
+text = "Settings"
+
+[node name="Subtext" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Settings"]
+layout_mode = 2
+offset_left = 60.0
+offset_top = 50.0
+offset_right = 444.0
+offset_bottom = 78.0
+theme_override_fonts/font = ExtResource("30_f14at")
+theme_override_font_sizes/font_size = 24
+text = "Optimize growth medium"
+
+[node name="Quit" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("43_0alcd")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Quit"]
+libraries = {
+"": SubResource("AnimationLibrary_hbhh8")
+}
+autoplay = "Normal"
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Quit"]
+material = SubResource("ShaderMaterial_n41s0")
+layout_mode = 0
+offset_bottom = 80.0
+color = Color(0.2415, 0.183, 0.3, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Quit"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 46.0
+theme_override_fonts/font = ExtResource("22_hvkwy")
+theme_override_font_sizes/font_size = 40
+text = "Quit"
+
+[node name="Subtext" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Quit"]
+layout_mode = 2
+offset_left = 60.0
+offset_top = 50.0
+offset_right = 444.0
+offset_bottom = 78.0
+theme_override_fonts/font = ExtResource("30_f14at")
+theme_override_font_sizes/font_size = 24
+text = "Back to primordial menu"
+
+[node name="Confirmation" type="VBoxContainer" parent="Rendering Zone/MainViewHolder/PauseMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 660.0
+offset_right = 732.0
+offset_bottom = 860.0
+scale = Vector2(1, 1e-05)
+pivot_offset = Vector2(0, 200)
+alignment = 2
+script = ExtResource("44_j3yym")
+animationPlayer = NodePath("AnimationPlayer")
+initialSelection = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation"]
+libraries = {
+"": SubResource("AnimationLibrary_1wglm")
+}
+autoplay = "Closed"
+blend_times = [&"Open", &"Open", 0.1, &"Open", &"Closed", 0.1, &"Closed", &"Open", 0.1, &"Closed", &"Closed", 0.1]
+
+[node name="Title" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation"]
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 1.4
+theme_override_fonts/font = ExtResource("22_hvkwy")
+theme_override_font_sizes/font_size = 52
+text = "    Confirm"
+
+[node name="Decoration" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Title"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 5.0
+offset_top = 10.0
+offset_right = 35.0
+offset_bottom = 40.0
+rotation = 0.785398
+color = Color(0.25098, 0.152941, 0.152941, 1)
+
+[node name="Decoration2" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Title"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 70.0
+offset_top = -5.0
+offset_right = 120.0
+offset_bottom = 45.0
+rotation = 0.785398
+color = Color(0.25098, 0.152941, 0.152941, 1)
+
+[node name="Decoration3" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Title"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 30.0
+offset_right = 45.0
+offset_bottom = 15.0
+rotation = 0.785398
+color = Color(0.25098, 0.152941, 0.152941, 1)
+
+[node name="Decoration4" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Title"]
+material = SubResource("ShaderMaterial_ftxip")
+layout_mode = 0
+offset_left = 30.0
+offset_top = 40.0
+offset_right = 45.0
+offset_bottom = 55.0
+rotation = 0.785398
+color = Color(0.25098, 0.152941, 0.152941, 1)
+
+[node name="Option1" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("43_0alcd")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
+libraries = {
+"": SubResource("AnimationLibrary_rkflj")
+}
+blend_times = [&"Highlight", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Normal", &"Normal", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
+material = SubResource("ShaderMaterial_n41s0")
+layout_mode = 0
+offset_bottom = 50.0
+color = Color(0.301961, 0.184314, 0.184314, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 46.0
+theme_override_fonts/font = ExtResource("22_hvkwy")
+theme_override_font_sizes/font_size = 40
+text = "Yes"
+
+[node name="Subtext" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
+layout_mode = 2
+offset_left = 60.0
+offset_top = 50.0
+offset_right = 444.0
+offset_bottom = 78.0
+scale = Vector2(1e-05, 1e-05)
+theme_override_fonts/font = ExtResource("30_f14at")
+theme_override_font_sizes/font_size = 24
+
+[node name="Option2" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("43_0alcd")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option2"]
+libraries = {
+"": SubResource("AnimationLibrary_rkflj")
+}
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option2"]
+material = SubResource("ShaderMaterial_n41s0")
+layout_mode = 0
+offset_bottom = 50.0
+color = Color(0.301961, 0.184314, 0.184314, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option2"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 46.0
+theme_override_fonts/font = ExtResource("22_hvkwy")
+theme_override_font_sizes/font_size = 40
+text = "No"
+
+[node name="Subtext" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option2"]
+layout_mode = 2
+offset_left = 60.0
+offset_top = 50.0
+offset_right = 444.0
+offset_bottom = 78.0
+scale = Vector2(1e-05, 1e-05)
+theme_override_fonts/font = ExtResource("30_f14at")
+theme_override_font_sizes/font_size = 24
+
+[node name="DebugConsole" type="Control" parent="Rendering Zone" node_paths=PackedStringArray("inputLine", "lastText")]
+visible = false
+z_index = 1000
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -480.0
+offset_right = 640.0
+offset_bottom = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("45_jhi6l")
+inputLine = NodePath("Main/Input")
+lastText = NodePath("Main/Messages/FirstMessage")
+
+[node name="BackRect" type="ColorRect" parent="Rendering Zone/DebugConsole"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.752941)
+
+[node name="Main" type="Control" parent="Rendering Zone/DebugConsole"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Input" type="LineEdit" parent="Rendering Zone/DebugConsole/Main"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("46_yed1c")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_x5a55")
+theme_override_styles/focus = SubResource("StyleBoxFlat_aq0o8")
+deselect_on_focus_loss_enabled = false
+caret_blink = true
+
+[node name="Messages" type="VBoxContainer" parent="Rendering Zone/DebugConsole/Main"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = -24120.0
+offset_bottom = 880.0
+grow_horizontal = 2
+alignment = 2
+
+[node name="FirstMessage" type="RichTextLabel" parent="Rendering Zone/DebugConsole/Main/Messages"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("29_b511e")
+theme_override_fonts/bold_font = ExtResource("47_uvs0x")
+theme_override_fonts/italics_font = ExtResource("46_yed1c")
+theme_override_fonts/bold_italics_font = ExtResource("48_fojb6")
+theme_override_fonts/mono_font = ExtResource("29_b511e")
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxEmpty_cwuca")
+bbcode_enabled = true
+text = "[font_size=40][b]Welcome ❤ Shell[/b][/font_size]
+
+Type [b][i]help[/i][/b] to view a list of commands. Type [b][i]help {command name}[/i][/b] to learn about that command, for example: [b][i]help speed[/i][/b]"
+fit_content = true
+scroll_active = false
+
+[node name="Screen Setup" type="Node2D" parent="." node_paths=PackedStringArray("objectViewports")]
+script = ExtResource("49_pv7gi")
+objectViewports = [NodePath("../Rendering Zone/MainViewHolder/MainView/Objects")]
+
+[node name="Main Boundary" type="Node2D" parent="." node_paths=PackedStringArray("inheritSize")]
+script = ExtResource("50_4fyhh")
+ID = "Main"
+inheritSize = NodePath("../Rendering Zone/MainViewHolder")
+
+[node name="Sanae midboss nonspell clone2" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
+position = Vector2(0, -136)
+rotation = -1.5708
+script = ExtResource("51_suwsw")
+ID = "Enemy"
+enabled = false
+mainSchedule = NodePath("Main schedule")
+
+[node name="Main schedule" type="Node" parent="Sanae midboss nonspell clone2"]
+script = ExtResource("52_hr82e")
+
+[node name="BasicEnemy" parent="." instance=ExtResource("53_3j5av")]
+position = Vector2(0, -200)
+health = 500.0
+lowHealthCutoff = 100.0
+
+[node name="Mind Shaker clone" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+position = Vector2(1000, 0)
+script = ExtResource("51_suwsw")
+ID = "Enemy"
+enabled = false
+mainSchedule = NodePath("Main Loop")
+cleanupSchedule = NodePath("Cleanup")
+deleteAction = 1
+
+[node name="Fire Circle Left" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("54_dvc7i")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+script = ExtResource("55_aru50")
+renderName = "Bullet/Blue"
+
+[node name="Mist" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+script = ExtResource("56_ybru1")
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+script = ExtResource("57_beylf")
+speed = "120"
+
+[node name="Adapt bullet on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left" node_paths=PackedStringArray("operation")]
+script = ExtResource("58_vr74y")
+operation = NodePath("../../Start illusion on bullet")
+condition = "illusion_time"
+wait = ""
+
+[node name="Circle" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left" node_paths=PackedStringArray("path2D")]
+script = ExtResource("59_80hwk")
+path2D = NodePath("Path2D")
+extraRotation = "-90"
+number = "40"
+
+[node name="Path2D" type="Path2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left/Circle"]
+curve = SubResource("Curve2D_sn1b5")
+
+[node name="Adapt circle on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left" node_paths=PackedStringArray("operation")]
+script = ExtResource("58_vr74y")
+operation = NodePath("../../Start illusion on circle")
+condition = "illusion_time"
+wait = ""
+
+[node name="Rotate in the illusion direction" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+rotation = 120.0
+script = ExtResource("60_xgobl")
+childPlacement = 1
+
+[node name="Super container to avoid lifespan getting deleted" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+script = ExtResource("61_ac181")
+number = "1"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+script = ExtResource("62_n50mu")
+duration = "900"
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+script = ExtResource("63_83u84")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Fire Circle Right" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("54_dvc7i")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("55_aru50")
+renderName = "Bullet/Red"
+
+[node name="Mist" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("56_ybru1")
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("57_beylf")
+speed = "120"
+
+[node name="Adapt bullet on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right" node_paths=PackedStringArray("operation")]
+script = ExtResource("58_vr74y")
+operation = NodePath("../../Start illusion on bullet")
+condition = "illusion_time"
+wait = ""
+
+[node name="Circle" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("64_7nik6")
+number = "40"
+
+[node name="Adapt circle on illusion" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right" node_paths=PackedStringArray("operation")]
+script = ExtResource("58_vr74y")
+operation = NodePath("../../Start illusion on circle")
+condition = "illusion_time"
+wait = ""
+
+[node name="Rotate in the illusion direction" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+rotation = 60.0
+script = ExtResource("60_xgobl")
+childPlacement = 1
+
+[node name="Super container to avoid lifespan getting deleted" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("61_ac181")
+number = "1"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("62_n50mu")
+duration = "900"
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+script = ExtResource("63_83u84")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Start illusion on bullet" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("54_dvc7i")
+
+[node name="Clear behaviors" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
+script = ExtResource("65_beugp")
+
+[node name="Make transparent2" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
+script = ExtResource("66_wffq2")
+replaceMode = 0
+graphicsList = PackedStringArray("Bullet/Orange")
+
+[node name="Make transparent" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
+script = ExtResource("67_yn6tv")
+color = "Color(1, 1, 1, 0.5)"
+
+[node name="Make uncollidable" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
+script = ExtResource("68_71e1u")
+newCollisionLayer = "None"
+
+[node name="Adapt bullet on illusion end" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet" node_paths=PackedStringArray("operation")]
+script = ExtResource("58_vr74y")
+operation = NodePath("../../End illusion on bullet")
+condition = "!illusion_time"
+wait = ""
+
+[node name="End illusion on bullet" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("54_dvc7i")
+
+[node name="Clear behaviors" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet"]
+script = ExtResource("65_beugp")
+
+[node name="Make opaque" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet"]
+script = ExtResource("67_yn6tv")
+color = "Color(1, 1, 1, 1)"
+
+[node name="Make collidable" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet"]
+script = ExtResource("68_71e1u")
+newCollisionLayer = "EnemyShot"
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet"]
+script = ExtResource("57_beylf")
+speed = "120"
+
+[node name="Adapt bullet on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet" node_paths=PackedStringArray("operation")]
+script = ExtResource("58_vr74y")
+operation = NodePath("../../Start illusion on bullet")
+condition = "illusion_time"
+wait = ""
+
+[node name="Start illusion on circle" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("54_dvc7i")
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on circle"]
+script = ExtResource("57_beylf")
+
+[node name="Adapt circle on illusion end" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on circle" node_paths=PackedStringArray("operation")]
+script = ExtResource("58_vr74y")
+operation = NodePath("../../End illusion on circle")
+condition = "!illusion_time"
+wait = ""
+
+[node name="End illusion on circle" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("54_dvc7i")
+
+[node name="Clear behaviors" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on circle"]
+script = ExtResource("65_beugp")
+
+[node name="Adapt circle on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on circle" node_paths=PackedStringArray("operation")]
+script = ExtResource("58_vr74y")
+operation = NodePath("../../Start illusion on circle")
+condition = "illusion_time"
+wait = ""
+
+[node name="Main Loop" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("69_v6d21")
+
+[node name="Illusion time is false" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("70_ahusq")
+varName = "illusion_time"
+environment = 1
+newValue = "false"
+
+[node name="Fire Circle Left" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop" node_paths=PackedStringArray("other")]
+script = ExtResource("71_dm4nr")
+other = NodePath("../../Fire Circle Left")
+
+[node name="Fire Circle Right" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop" node_paths=PackedStringArray("other")]
+script = ExtResource("71_dm4nr")
+other = NodePath("../../Fire Circle Right")
+
+[node name="Wait" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("72_5skpn")
+
+[node name="Illusion time is true" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("70_ahusq")
+varName = "illusion_time"
+environment = 1
+newValue = "true"
+
+[node name="Shine sound 1" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("63_83u84")
+commonSFXName = "Enemy/Shine"
+
+[node name="Wait2" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("72_5skpn")
+waitTime = "2"
+
+[node name="Illusion time is false again" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("70_ahusq")
+varName = "illusion_time"
+environment = 1
+newValue = "false"
+
+[node name="Shine sound" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("63_83u84")
+commonSFXName = "Enemy/Shine"
+
+[node name="Wait3" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+script = ExtResource("72_5skpn")
+waitTime = "1.5"
+
+[node name="Cleanup" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+script = ExtResource("69_v6d21")
+cycleCount = "1"
+
+[node name="Unset illusion time" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Cleanup"]
+script = ExtResource("73_8elnl")
+varName = "illusion_time"
+environment = 1
+
+[node name="Lightning" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+script = ExtResource("51_suwsw")
+ID = "Enemy"
+enabled = false
+mainSchedule = NodePath("Main Loop")
+cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
+deleteAction = 1
+
+[node name="Rotate left and leap forth" type="Node" parent="BasicEnemy/Lightning"]
+script = ExtResource("54_dvc7i")
+
+[node name="Truncate" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
+position = Vector2(0, -200)
+script = ExtResource("65_beugp")
+remain = "2"
+
+[node name="Rotate left" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
+position = Vector2(0, -200)
+rotation = 30.0
+script = ExtResource("60_xgobl")
+myRotation = "45"
+
+[node name="Slow" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
+position = Vector2(0, -200)
+script = ExtResource("74_kfbat")
+curve = SubResource("Curve_wmp8t")
+endTime = "30"
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
+position = Vector2(0, -200)
+script = ExtResource("57_beylf")
+speed = "500"
+
+[node name="Rotate right and leap forth" type="Node" parent="BasicEnemy/Lightning"]
+script = ExtResource("54_dvc7i")
+
+[node name="Truncate" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
+position = Vector2(0, -200)
+script = ExtResource("65_beugp")
+remain = "2"
+
+[node name="Rotate right" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
+position = Vector2(0, -200)
+rotation = -30.0
+script = ExtResource("60_xgobl")
+myRotation = "-45"
+
+[node name="Slow" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
+position = Vector2(0, -200)
+script = ExtResource("74_kfbat")
+curve = SubResource("Curve_wmp8t")
+endTime = "30"
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
+position = Vector2(0, -200)
+script = ExtResource("57_beylf")
+speed = "500"
+
+[node name="Main Loop" type="Node2D" parent="BasicEnemy/Lightning"]
+script = ExtResource("69_v6d21")
+
+[node name="Lines" type="Node2D" parent="BasicEnemy/Lightning/Main Loop"]
+script = ExtResource("69_v6d21")
+cycleCount = "6"
+
+[node name="Make the it" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines"]
+script = ExtResource("54_dvc7i")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+script = ExtResource("55_aru50")
+renderName = "Arrow/Yellow"
+
+[node name="Mist" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+script = ExtResource("56_ybru1")
+
+[node name="Adapt bullet on illusion start" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+script = ExtResource("75_abxjt")
+wait = "30"
+
+[node name="RL" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it/Adapt bullet on illusion start" node_paths=PackedStringArray("other")]
+script = ExtResource("71_dm4nr")
+other = NodePath("../../../../../Rotate left and leap forth")
+
+[node name="RR" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it/Adapt bullet on illusion start" node_paths=PackedStringArray("other")]
+script = ExtResource("71_dm4nr")
+other = NodePath("../../../../../Rotate right and leap forth")
+
+[node name="RL" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it" node_paths=PackedStringArray("other")]
+script = ExtResource("71_dm4nr")
+other = NodePath("../../../../Rotate left and leap forth")
+
+[node name="Circle" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+script = ExtResource("64_7nik6")
+radius = "0"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+script = ExtResource("62_n50mu")
+duration = "450"
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+script = ExtResource("63_83u84")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Wait" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines"]
+script = ExtResource("72_5skpn")
+waitTime = "15"
+units = 1
+
+[node name="Wait" type="Node2D" parent="BasicEnemy/Lightning/Main Loop"]
+script = ExtResource("72_5skpn")
+
+[node name="overlap test" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+script = ExtResource("51_suwsw")
+ID = "Enemy"
+enabled = false
+mainSchedule = NodePath("Main Loop")
+cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
+deleteAction = 1
+
+[node name="Main Loop" type="Node2D" parent="BasicEnemy/overlap test"]
+script = ExtResource("69_v6d21")
+
+[node name="Wait4" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("76_lxwsf")
+graphicType = 1
+graphicName = "Orb/Yellow"
+
+[node name="Wait5" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("76_lxwsf")
+graphicType = 1
+graphicName = "Orb/Blue"
+newZIndex = "1"
+
+[node name="Make the it" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("54_dvc7i")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+script = ExtResource("55_aru50")
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+script = ExtResource("57_beylf")
+speed = "300"
+
+[node name="Circle" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+script = ExtResource("64_7nik6")
+radius = "0"
+number = "100"
+
+[node name="Circle2" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+script = ExtResource("77_flmy6")
+progressVariable = ""
+countVariable = "i"
+
+[node name="Circle3" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it/Circle2"]
+script = ExtResource("54_dvc7i")
+execute = "i % 2 == 0"
+
+[node name="Trail" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it/Circle2/Circle3"]
+script = ExtResource("78_adg8s")
+laserRenderName = "Orb/Blue"
+
+[node name="Circle4" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it/Circle2"]
+script = ExtResource("54_dvc7i")
+execute = "i % 2 == 1"
+
+[node name="Trail" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it/Circle2/Circle4"]
+script = ExtResource("78_adg8s")
+laserRenderName = "Orb/Yellow"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+script = ExtResource("62_n50mu")
+duration = "300"
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+script = ExtResource("63_83u84")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Wait" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("72_5skpn")
+
+[node name="Wait2" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("76_lxwsf")
+graphicType = 1
+graphicName = "Orb/Yellow"
+newZIndex = "1"
+
+[node name="Wait3" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("76_lxwsf")
+graphicType = 1
+graphicName = "Orb/Blue"
+
+[node name="Make the it2" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("54_dvc7i")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+script = ExtResource("55_aru50")
+
+[node name="Forth" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+script = ExtResource("57_beylf")
+speed = "300"
+
+[node name="Circle" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+script = ExtResource("64_7nik6")
+radius = "0"
+number = "100"
+
+[node name="Circle2" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+script = ExtResource("77_flmy6")
+progressVariable = ""
+countVariable = "i"
+
+[node name="Circle3" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2/Circle2"]
+script = ExtResource("54_dvc7i")
+execute = "i % 2 == 0"
+
+[node name="Trail" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2/Circle2/Circle3"]
+script = ExtResource("78_adg8s")
+laserRenderName = "Orb/Blue"
+
+[node name="Circle4" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2/Circle2"]
+script = ExtResource("54_dvc7i")
+execute = "i % 2 == 1"
+
+[node name="Trail" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2/Circle2/Circle4"]
+script = ExtResource("78_adg8s")
+laserRenderName = "Orb/Yellow"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+script = ExtResource("62_n50mu")
+duration = "300"
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+script = ExtResource("63_83u84")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Wait6" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+script = ExtResource("72_5skpn")
+
+[node name="misc test" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+script = ExtResource("51_suwsw")
+ID = "Enemy"
+enabled = false
+mainSchedule = NodePath("Main Loop")
+cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
+deleteAction = 2
+
+[node name="del bound" type="Node2D" parent="BasicEnemy/misc test"]
+script = ExtResource("79_aaomk")
+boundaryID = "Main"
+specialAction = 3
+shrink = -80.0
+
+[node name="Main Loop" type="Node2D" parent="BasicEnemy/misc test"]
+script = ExtResource("69_v6d21")
+
+[node name="Make the it" type="Node2D" parent="BasicEnemy/misc test/Main Loop"]
+script = ExtResource("54_dvc7i")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+script = ExtResource("55_aru50")
+
+[node name="Wind blow2" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+script = ExtResource("56_ybru1")
+throttle = 0.99
+
+[node name="Wind blow" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+script = ExtResource("80_lnbdv")
+channel = "Gravity"
+initialSpeed = "0"
+
+[node name="Circle" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+script = ExtResource("78_adg8s")
+laserRenderName = "Orb/Red"
+
+[node name="Circle2" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+script = ExtResource("60_xgobl")
+mode = 2
+myRotation = "180 * sin(shot_count * 0.04)"
+offsetX = "400 * cos(shot_count * 0.1)"
+offsetY = "100 * cos(shot_count * 0.23) - 100"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+script = ExtResource("62_n50mu")
+duration = "300"
+deletionEffect = true
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+script = ExtResource("63_83u84")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Wait6" type="Node2D" parent="BasicEnemy/misc test/Main Loop"]
+script = ExtResource("72_5skpn")
+waitTime = "[2, 420][max(0, (shot_count % 50) - 48)]"
+units = 1
+
+[node name="alice" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+script = ExtResource("51_suwsw")
+ID = "Enemy"
+enabled = false
+mainSchedule = NodePath("Main Loop")
+cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
+deleteAction = 2
+
+[node name="Main Loop" type="Node2D" parent="BasicEnemy/alice"]
+script = ExtResource("69_v6d21")
+
+[node name="Wait7" type="Node2D" parent="BasicEnemy/alice/Main Loop"]
+script = ExtResource("70_ahusq")
+varName = "r"
+newValue = "0"
+
+[node name="Main Loop2" type="Node2D" parent="BasicEnemy/alice/Main Loop"]
+script = ExtResource("69_v6d21")
+
+[node name="Make the it" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2"]
+script = ExtResource("54_dvc7i")
+
+[node name="Start" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("55_aru50")
+renderName = "Sonic/Yellow"
+
+[node name="Start2" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("79_aaomk")
+boundaryID = "Main"
+specialAction = 3
+shrink = -50.0
+
+[node name="Wind blow3" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("57_beylf")
+speed = "500"
+
+[node name="Wind blow4" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("81_cqmgs")
+radius = "0"
+angularWidth = "90"
+number = "5"
+
+[node name="Wind blow5" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("81_cqmgs")
+radius = "0"
+number = "2"
+
+[node name="Wind blow6" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("60_xgobl")
+myRotation = "r"
+
+[node name="Lifespan" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("62_n50mu")
+duration = "120"
+deletionEffect = true
+
+[node name="Shot Sound" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+script = ExtResource("63_83u84")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Wait6" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2"]
+script = ExtResource("72_5skpn")
+waitTime = "0.05"
+
+[node name="Wait7" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2"]
+script = ExtResource("70_ahusq")
+varName = "r"
+newValue = "r + 7.8"
+
+[node name="PlayerSpawn" type="Node2D" parent="."]
+unique_name_in_owner = true
+editor_description = "The Blastula.PlayerEntry class searches for the node of this name and places the player here to start."
+position = Vector2(0, 320)
+
+[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Resume"]
+[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Continue"]
+[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Retry" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="OpenConfirmRetryMenu"]
+[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Quit" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="OpenConfirmQuitMenu"]
+[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Confirm"]
+[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option2" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="CloseConfirmMenu"]

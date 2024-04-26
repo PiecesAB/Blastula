@@ -29,6 +29,7 @@ namespace Blastula.Schedules
 
         public override async Task Execute(IVariableContainer source)
         {
+            if (base.Execute(source) == null) { return; }
             int cyclesRemaining = -1;
             if (cycleCount != null && cycleCount != "")
             {
@@ -38,7 +39,7 @@ namespace Blastula.Schedules
             bool useCompletedCyclesVar = completedCyclesVariableName != null && completedCyclesVariableName != "";
             bool completedCyclesVarWasSet = false;
             int completedCycles = 0;
-            while (cyclesRemaining != 0 && IsInsideTree())
+            while (cyclesRemaining != 0 && IsInsideTree() && (Session.main?.inSession ?? false))
             {
                 if (source != null && source is Node && !((Node)source).IsInsideTree()) { break; }
                 if (useCompletedCyclesVar)

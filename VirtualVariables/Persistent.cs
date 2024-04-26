@@ -14,6 +14,9 @@ namespace Blastula.VirtualVariables
         /// Used for the editor to find custom icons.
         /// </summary>
         public const string NODE_ICON_PATH = BLASTULA_ROOT_PATH + "/Graphics/NodeIcons";
+        public const string KERNEL_PATH = BLASTULA_ROOT_PATH + "/Kernel.tscn";
+        public const string MAIN_SCENE_PATH = BLASTULA_ROOT_PATH + "/MainScene.tscn";
+        public const string TITLE_MENU_PATH = BLASTULA_ROOT_PATH + "/TitleMenu.tscn";
         /// <summary>
         /// This determines the timestep of behaviors. The actual framerate may be lower.
         /// </summary>

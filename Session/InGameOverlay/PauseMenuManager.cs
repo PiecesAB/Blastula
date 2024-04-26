@@ -112,8 +112,7 @@ namespace Blastula
         public override void _Process(double delta)
         {
             if (Session.main == null) { return; }
-            if (!Session.main.inSession) { return; }
-            bool pausePressed = InputManager.ButtonPressedThisFrame("Menu/Pause");
+            bool pausePressed = Session.main.inSession && InputManager.ButtonPressedThisFrame("Menu/Pause");
             if (pausePressed && state == State.Paused)
             {
                 pausePressed &= mainMenu.cancelable;
@@ -138,7 +137,6 @@ namespace Blastula
                     PrepareToOpen();
                 }
             }
-
             // No async used because that will easily cause the game state to change when it's paused.
             // We want to ensure all pauses/unpauses are solved after all game action is processed.
             if (state == State.Unpausing) { UnpausingAnimation(); }

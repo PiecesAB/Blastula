@@ -19,6 +19,12 @@ namespace Blastula.Menus
         /// </summary>
         protected bool controlStunned = false;
 
+        public override void _ExitTree()
+        {
+            base._ExitTree();
+            Close();
+        }
+
         public bool IsActive()
         {
             return activeStack.Count > 0 
@@ -34,7 +40,7 @@ namespace Blastula.Menus
         {
             if (activeStack.Contains(this))
             {
-                if (activeStack.Peek() != this)
+                while (activeStack.Peek() != this)
                 {
                     activeStack.Pop().Close();
                 }

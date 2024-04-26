@@ -306,7 +306,7 @@ namespace Blastula
 
             if (movementSchedule != null)
             {
-                movementSchedule.Execute(this);
+                _ = movementSchedule.Execute(this);
             }
 
             formation = StageSector.GetCurrentEnemyFormation();

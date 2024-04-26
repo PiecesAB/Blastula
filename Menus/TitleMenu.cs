@@ -27,12 +27,13 @@ namespace Blastula.Menus
 
         public void Start()
         {
-            // This is a placeholder.
+            // TODO: be able to select stuff.
             MusicManager.Stop();
             if (StageManager.main != null)
             {
                 _ = StageManager.main.InitializeSinglePlayerSession("PictusXXIV", "MainSequence");
             }
+            Close();
             root.QueueFree();
         }
 

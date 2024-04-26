@@ -33,7 +33,11 @@ namespace Blastula.Menus
 
         private void Retry()
         {
-            // TODO: something less stupid here
+            Close();
+            if (StageManager.main != null)
+            {
+                _ = StageManager.main.RetrySinglePlayerSession();
+            }
         }
 
         public void OpenConfirmRetryMenu()
@@ -68,14 +72,15 @@ namespace Blastula.Menus
                 case ConfirmType.Retry: Retry(); break;
                 case ConfirmType.Quit:
                     {
+                        Close();
                         if (StageManager.main != null)
                         {
                             StageManager.main.ForceEndSinglePlayerSession();
+                            Loader.LoadExternal(this, Persistent.TITLE_MENU_PATH);
                         }
                     }
                     break;
             }
-            Close();
         }
 
         // Insert credit

@@ -13,6 +13,7 @@ namespace Blastula.Schedules
     {
         public override Task Execute(IVariableContainer source)
         {
+            if (base.Execute(source) == null) { return null; }
             foreach (var child in GetChildren())
             {
                 _ = ExecuteOrShoot(source, child);

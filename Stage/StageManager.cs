@@ -29,6 +29,9 @@ namespace Blastula
         /// </summary>
         public ulong powerItemCount { get; private set; } = 0;
 
+        private string currentPlayerPath = "";
+        private string currentStageGroupName = "";
+
         public static StageManager main { get; private set; } = null;
 
         public void Reset()
@@ -53,12 +56,22 @@ namespace Blastula
             pointItemCount += (ulong)amount;
         }
 
+        public async Task RetrySinglePlayerSession()
+        {
+            ForceEndSinglePlayerSession();
+            await this.WaitOneFrame();
+            await InitializeSinglePlayerSession(currentPlayerPath, currentStageGroupName);
+        }
+
         /// <summary>
         /// Begins a single player game.
         /// </summary>
         public async Task InitializeSinglePlayerSession(string playerPath, string stageGroupName)
         {
-            while (PlayerManager.main == null) { await this.WaitOneFrame(); }
+            while (Session.main == null || PlayerManager.main == null) { await this.WaitOneFrame(); }
+            Session.main.Reset();
+            currentPlayerPath = playerPath; 
+            currentStageGroupName = stageGroupName;
             await PlayerManager.main.SpawnPlayer(playerPath);
             if (Session.main != null) { Session.main.StartInSession(); }
             // Spawn test scene for now
@@ -72,11 +85,11 @@ namespace Blastula
         public void ForceEndSinglePlayerSession()
         {
             if (Session.main != null) { Session.main.EndInSession(); }
+            Waiters.IncrementSceneLoadCounter();
             StageSector.DumpStack();
             foreach (var kvp in Player.playersByControl) { kvp.Value.QueueFree(); }
             Player.playersByControl.Clear();
             foreach (Blastodisc bd in Blastodisc.all) { bd.ClearBullets(false); }
-            if (Session.main != null) { Session.main.Reset(); }
             MusicManager.Stop();
         }
 

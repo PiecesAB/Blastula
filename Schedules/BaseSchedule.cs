@@ -23,6 +23,7 @@ namespace Blastula.Schedules
 
         protected async Task ExecuteOrShoot(IVariableContainer source, Node node)
         {
+            if (Session.main == null || !Session.main.inSession) { return; }
             if (source != null && source is Blastodisc)
             {
                 Blastodisc sd = (Blastodisc)source;
@@ -55,7 +56,14 @@ namespace Blastula.Schedules
             }
         }
 
-        public abstract Task Execute(IVariableContainer source);
+        public virtual Task Execute(IVariableContainer source)
+        {
+            if (Session.main == null || !Session.main.inSession)
+            {
+                return null;
+            }
+            return Task.CompletedTask;
+        }
 
         public Variant Solve(string varName)
         {

@@ -23,6 +23,7 @@ namespace Blastula.Schedules
 
         public override Task Execute(IVariableContainer source)
         {
+            if (base.Execute(source) == null) { return null; }
             if (source == null) { return Task.CompletedTask; }
             if (source is not Node2D) { return Task.CompletedTask; }
             Node2D source2D = (Node2D)source;

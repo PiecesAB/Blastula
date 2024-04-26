@@ -43,8 +43,9 @@ namespace Blastula.Graphics
 
         private float GetTargetValue()
         {
-            if (player == null)
+            if (player == null || !IsInstanceValid(player))
             {
+                player = null;
                 if (Player.playersByControl.ContainsKey(role)) 
                 { 
                     player = Player.playersByControl[role]; 

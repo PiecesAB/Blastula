@@ -17,6 +17,11 @@ namespace Blastula
         public static long sceneLoadCounter { get; private set; } = 0;
         public static void IncrementSceneLoadCounter() { sceneLoadCounter++; }
 
+        private static bool HasPausedCondition()
+        {
+            return !Session.main.paused && !Debug.GameFlow.frozen;
+        }
+
         /// <summary>
         /// Wait one frame. Not affected by time scale.
         /// </summary>
@@ -35,7 +40,7 @@ namespace Blastula
             while (currFrames < frames)
             {
                 if (slc2 != sceneLoadCounter) { return; }
-                if ((!Session.main.paused && !Debug.GameFlow.frozen) || ignorePause) { ++currFrames; }
+                if (HasPausedCondition() || ignorePause) { ++currFrames; }
                 if (!dispatcher.IsInsideTree()) { return; }
                 await dispatcher.ToSignal(dispatcher.GetTree(), SceneTree.SignalName.ProcessFrame);
             }
@@ -51,7 +56,7 @@ namespace Blastula
             while (currSeconds < seconds - 0.0001f)
             {
                 if (slc2 != sceneLoadCounter) { return; }
-                if ((!Session.main.paused && !Debug.GameFlow.frozen) || ignorePause) { currSeconds += (float)Engine.TimeScale / Persistent.SIMULATED_FPS; }
+                if (HasPausedCondition() || ignorePause) { currSeconds += (float)Engine.TimeScale / Persistent.SIMULATED_FPS; }
                 if (!dispatcher.IsInsideTree()) { return; }
                 await dispatcher.ToSignal(dispatcher.GetTree(), SceneTree.SignalName.ProcessFrame);
             }

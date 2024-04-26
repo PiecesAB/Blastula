@@ -280,6 +280,7 @@ offset_right = 853.0
 offset_bottom = 480.0
 
 [node name="BG" type="TextureRect" parent="Rendering Zone/Control"]
+clip_children = 2
 material = SubResource("ShaderMaterial_s24xo")
 layout_mode = 1
 anchors_preset = 15

@@ -16,6 +16,7 @@ namespace Blastula.Schedules
 
         public sealed override Task Execute(IVariableContainer _)
         {
+            if (base.Execute(_) == null) { return null; }
             return Execute();
         }
     }

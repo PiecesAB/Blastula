@@ -15,6 +15,7 @@ namespace Blastula.Schedules
 
         public override async Task Execute(IVariableContainer source)
         {
+            if (base.Execute(source) == null) { return; }
             while (GetTree() != null)
             {
                 if (source != null) { ExpressionSolver.currentLocalContainer = source; }

@@ -19,6 +19,7 @@ namespace Blastula.Schedules
 
         public override async Task Execute(IVariableContainer source)
         {
+            if (base.Execute(source) == null) { return; }
             if (scheduleID != null && scheduleID != "")
             {
                 if (waitForIDExistence)

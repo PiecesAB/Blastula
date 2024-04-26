@@ -49,11 +49,12 @@ namespace Blastula.Graphics
 
         private string GetTargetValue()
         {
-            if (player == null)
+            if (player == null || !IsInstanceValid(player))
             {
-                if (Player.playersByControl.ContainsKey(role)) 
-                { 
-                    player = Player.playersByControl[role]; 
+                player = null;
+                if (Player.playersByControl.ContainsKey(role))
+                {
+                    player = Player.playersByControl[role];
                 }
             }
             if (player == null) { return "0"; }

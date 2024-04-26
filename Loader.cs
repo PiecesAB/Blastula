@@ -11,9 +11,6 @@ namespace Blastula
 	/// </summary>
 	public partial class Loader : Node
 	{
-		[Export] public string kernelPath = "Kernel.tscn";
-		[Export] public string mainScenePath = "MainScene.tscn";
-        [Export] public string titleMenuPath = "TitleMenu.tscn";
         [Export] public AnimationPlayer exitAnimator;
         [Export] public Control shaderLoader;
         [Export] public Shader[] shaderCompileList;
@@ -76,6 +73,16 @@ namespace Blastula
             }
         }
 
+        /// <summary>
+        /// Load a PackedScene from another script.
+        /// </summary>
+        public static void LoadExternal(Node dispatcher, string path)
+        {
+            PackedScene ps = (PackedScene)ResourceLoader.Load(path);
+            Node n = ps.Instantiate();
+            dispatcher.GetTree().Root.AddChild(n);
+        }
+
         private async Task CompileShaders()
         {
             SceneTree st = GetTree();
@@ -94,7 +101,7 @@ namespace Blastula
         {
             if (Engine.IsEditorHint()) { return; }
             Window window = GetTree().Root;
-            string path = Persistent.BLASTULA_ROOT_PATH + "/" + titleMenuPath;
+            string path = Persistent.TITLE_MENU_PATH;
             Node newScene = ((PackedScene)ResourceLoader.LoadThreadedGet(path)).Instantiate();
             window.AddChild(newScene);
             QueueFree();
@@ -103,16 +110,16 @@ namespace Blastula
 		public async Task LoadGame()
 		{
             progressCurrentBase = 0f / 4f; progressCurrentPiece = 1f / 4f;
-            await LoadScene(Persistent.BLASTULA_ROOT_PATH + "/" + kernelPath, "kernel");
+            await LoadScene(Persistent.KERNEL_PATH, "kernel");
             if (loadError != Error.Ok) { return; }
             progressCurrentBase = 1f / 4f; progressCurrentPiece = 1f / 4f;
-            await LoadScene(Persistent.BLASTULA_ROOT_PATH + "/" + mainScenePath, "main scene");
+            await LoadScene(Persistent.MAIN_SCENE_PATH, "main scene");
             if (loadError != Error.Ok) { return; }
             progressCurrentBase = 2f / 4f; progressCurrentPiece = 1f / 4f;
             await CompileShaders();
             if (loadError != Error.Ok) { return; }
             progressCurrentBase = 3f / 4f; progressCurrentPiece = 1f / 4f;
-            await LoadScene(Persistent.BLASTULA_ROOT_PATH + "/" + titleMenuPath, "title menu", false);
+            await LoadScene(Persistent.TITLE_MENU_PATH, "title menu", false);
             if (loadError != Error.Ok) { return; }
             progressCurrentBase = 1f; progressCurrentPiece = 0f;
             SetProgressBar(1f);

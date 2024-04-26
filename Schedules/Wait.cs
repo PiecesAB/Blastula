@@ -21,6 +21,7 @@ namespace Blastula.Schedules
 
         public override async Task Execute(IVariableContainer source)
         {
+            if (base.Execute(source) == null) { return; }
             if (source != null) { ExpressionSolver.currentLocalContainer = source; }
             float waitTime = Solve("waitTime").AsSingle();
             switch (units)

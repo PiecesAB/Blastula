@@ -47,7 +47,7 @@ namespace Blastula.Graphics
 
         private void SetPlayerIfNeeded()
         {
-            if (player == null)
+            if (player == null || !player.IsInsideTree())
             {
                 if (Player.playersByControl.ContainsKey(role))
                 {
@@ -59,12 +59,12 @@ namespace Blastula.Graphics
         public async Task SetWithoutLineDisplay()
         {
             SetPlayerIfNeeded();
-            if (player == null)
+            if (player == null || !IsInstanceValid(player))
             {
                 // Try again to get the player next frame; give up if they still don't exist.
                 await this.WaitOneFrame();
                 SetPlayerIfNeeded();
-                if (player == null) { return; }
+                if (player == null || !IsInstanceValid(player)) { return; }
             }
             Position = new Vector2(Position.X, player.itemGetHeight);
         }

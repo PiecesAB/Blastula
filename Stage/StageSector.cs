@@ -44,10 +44,10 @@ namespace Blastula.Schedules
 
         public enum State
         {
-            NotStarted, Ongoing, Complete
+            Inactive, Active
         }
         
-        public State state { get; private set; } = State.NotStarted;
+        public State state { get; private set; } = State.Inactive;
         private double timeRemaining = 0;
         private static Stack<StageSector> sectorStack = new Stack<StageSector>();
 
@@ -113,14 +113,14 @@ namespace Blastula.Schedules
 
         public override async Task Execute()
         {
-            if (state != State.NotStarted) { return; }
-            state = State.Ongoing;
+            if (state == State.Active) { return; }
+            state = State.Active;
             sectorStack.Push(this);
             if (formationInstance == null && formation != null)
             {
                 formationInstance = formation.Instantiate();
             }
-            while (Persistent.GetMainScene == null) { await this.WaitOneFrame(); }
+            while (Persistent.GetMainScene() == null) { await this.WaitOneFrame(); }
             if (formationInstance != null)
             {
                 Persistent.GetMainScene().AddChild(formationInstance);
@@ -156,8 +156,9 @@ namespace Blastula.Schedules
                     Waiters.DelayedQueueFree(formationInstance, fdd, Wait.TimeUnits.Seconds);
                 }
             }
+            formationInstance = null;
             while (sectorStack.Contains(this)) { sectorStack.Pop(); }
-            state = State.Complete;
+            state = State.Inactive;
             //GD.Print(Name, " sector has ended");
         }
 

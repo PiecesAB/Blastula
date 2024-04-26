@@ -29,15 +29,25 @@ namespace Blastula.Graphics
         [Export] public float movementSpeed = 800;
         private Player player = null;
 
-        /// <summary>
-        /// 
-        /// </summary>
         public static Dictionary<Player.Role, ItemGetLineDisplay> displaysByPlayerRole = new Dictionary<Player.Role, ItemGetLineDisplay>();
 
         public override void _Ready()
         {
             displaysByPlayerRole[role] = this;
+            if (StageManager.main != null)
+            {
+                StageManager.main.Connect(
+                    StageManager.SignalName.SessionBeginning,
+                    new Callable(this, MethodName.OnSessionBeginning)
+                );
+            }
             _ = SetWithoutLineDisplay();
+        }
+
+        public async void OnSessionBeginning()
+        {
+            await SetWithoutLineDisplay();
+            await DisplayLine();
         }
 
         private float GetOpacityPulse()
@@ -47,8 +57,9 @@ namespace Blastula.Graphics
 
         private void SetPlayerIfNeeded()
         {
-            if (player == null || !player.IsInsideTree())
+            if (player == null || !IsInstanceValid(player))
             {
+                player = null;
                 if (Player.playersByControl.ContainsKey(role))
                 {
                     player = Player.playersByControl[role];

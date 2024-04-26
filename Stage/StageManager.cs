@@ -15,6 +15,7 @@ namespace Blastula
 	{
         [Signal] public delegate void StageSectorChangedEventHandler(StageSector newSector);
         [Signal] public delegate void StageChangedEventHandler(StageSector newStage);
+        [Signal] public delegate void SessionBeginningEventHandler();
 
         /// <summary>
         /// The number of bullets grazed in this stage. Mainly for single-player use.
@@ -80,6 +81,7 @@ namespace Blastula
             StageSector s = (StageSector)GetChild(0);
             s.Preload();
             _ = s.Execute();
+            EmitSignal(SignalName.SessionBeginning);
         }
 
         public void ForceEndSinglePlayerSession()

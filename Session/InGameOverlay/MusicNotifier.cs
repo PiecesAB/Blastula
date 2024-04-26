@@ -24,11 +24,13 @@ namespace Blastula
 
         public void OnMusicChange(Music oldMusic, Music newMusic)
         {
+            if (Session.main == null || !Session.main.inSession) { return; }
             if (oldMusic == newMusic || newMusic == null) { return; }
             if (!newMusic.displaysNotification) { return; }
             mainText.Text = newMusic.fullName;
             animationPlayer.Active = true;
-            animationPlayer.Seek(0, true);
+            animationPlayer.Stop();
+            animationPlayer.Play();
         }
 
         public override void _Ready()

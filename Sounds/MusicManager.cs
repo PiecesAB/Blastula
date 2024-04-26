@@ -88,6 +88,8 @@ namespace Blastula.Sounds
         public static void Stop()
         {
             PlayImmediate("");
+            main.currentMusicNodePath = "";
+            main.currentMusic = null;
         }
 
         /// <summary>

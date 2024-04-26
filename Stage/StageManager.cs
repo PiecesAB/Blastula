@@ -1,4 +1,6 @@
 using Blastula.Schedules;
+using Blastula.Sounds;
+using Blastula.VirtualVariables;
 using Godot;
 using System;
 using System.Threading.Tasks;
@@ -29,6 +31,13 @@ namespace Blastula
 
         public static StageManager main { get; private set; } = null;
 
+        public void Reset()
+        {
+            grazeCount = 0;
+            pointItemCount = 0;
+            powerItemCount = 0;
+        }
+
         public void AddGraze(int amount)
         {
             grazeCount += (ulong)amount;
@@ -51,12 +60,24 @@ namespace Blastula
         {
             while (PlayerManager.main == null) { await this.WaitOneFrame(); }
             await PlayerManager.main.SpawnPlayer(playerPath);
+            if (Session.main != null) { Session.main.StartInSession(); }
             // Spawn test scene for now
             RNG.Reseed(0);
             GD.Seed(0);
             StageSector s = (StageSector)GetChild(0);
             s.Preload();
             _ = s.Execute();
+        }
+
+        public void ForceEndSinglePlayerSession()
+        {
+            if (Session.main != null) { Session.main.EndInSession(); }
+            StageSector.DumpStack();
+            foreach (var kvp in Player.playersByControl) { kvp.Value.QueueFree(); }
+            Player.playersByControl.Clear();
+            foreach (Blastodisc bd in Blastodisc.all) { bd.ClearBullets(false); }
+            if (Session.main != null) { Session.main.Reset(); }
+            MusicManager.Stop();
         }
 
         public override void _Ready()

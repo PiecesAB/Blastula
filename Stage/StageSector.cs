@@ -60,6 +60,14 @@ namespace Blastula.Schedules
             return sectorStack.Peek();
         }
 
+        /// <summary>
+        /// Remove all sectors from the stack, effectively ending all waves and stages.
+        /// </summary>
+        public static void DumpStack()
+        {
+            sectorStack.Clear();
+        }
+
         public static EnemyFormation GetCurrentEnemyFormation()
         {
             if (GetCurrentSector() == null) { return null; }
@@ -139,7 +147,14 @@ namespace Blastula.Schedules
             if (formationInstance != null && formationDeletionDelay != null && formationDeletionDelay != "")
             {
                 float fdd = Solve("formationDeletionDelay").AsSingle();
-                Waiters.DelayedQueueFree(formationInstance, fdd, Wait.TimeUnits.Seconds);
+                if (Session.main == null || !Session.main.inSession)
+                {
+                    formationInstance.QueueFree();
+                }
+                else
+                {
+                    Waiters.DelayedQueueFree(formationInstance, fdd, Wait.TimeUnits.Seconds);
+                }
             }
             while (sectorStack.Contains(this)) { sectorStack.Pop(); }
             state = State.Complete;

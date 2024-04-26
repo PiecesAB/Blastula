@@ -1,0 +1,533 @@
+[gd_scene load_steps=15 format=3 uid="uid://cd55uq42oxtbe"]
+
+[ext_resource type="Texture2D" uid="uid://b6qw6t8i61aum" path="res://addons/Blastula/Graphics/UI/starterProjectLogo.png" id="3_2fi84"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/TitleMenu.cs" id="4_6rrxd"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/ListNode.cs" id="5_81rfq"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Standard.gdshader" id="6_lp2po"]
+[ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="7_wcm5g"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="13_glec0"]
+[ext_resource type="Texture2D" uid="uid://ckrxpe026jxya" path="res://addons/Blastula/Graphics/UI/sampleBackground.png" id="23_uir4b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s24xo"]
+shader = ExtResource("13_glec0")
+shader_parameter/top_color = Vector4(0.5, 0.5, 0.5, 1)
+shader_parameter/bottom_color = Vector4(0.7, 0.8, 0.8, 1)
+shader_parameter/glisten_factor = Vector3(0.1, -3, 0.005)
+
+[sub_resource type="Animation" id="Animation_yeq37"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.627451, 0.627451, 0.627451, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(40, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Highlight:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 70)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.2415, 0.183, 0.3, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8objl"]
+resource_name = "Normal"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.168627, 0.168627, 0.168627, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(40, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Highlight:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 70)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.2415, 0.183, 0.3, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_xsb63"]
+resource_name = "Highlight"
+length = 0.5
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Highlight:size")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 70), Vector2(300, 70), Vector2(400, 70)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.192157, 0.247059, 0.235294, 0.501961)]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("..")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.025),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Switch"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_o1xor"]
+resource_name = "Select"
+length = 0.3
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Highlight:size")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(400, 70)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Highlight:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.15, 0.225, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.654902, 0.74902, 0.72549, 0.501961), Color(0.190998, 0.248388, 0.234993, 0.501961), Color(0.654902, 0.74902, 0.72549, 0.501961), Color(0.190998, 0.248388, 0.234993, 0.501961), Color(0.654902, 0.74902, 0.72549, 0.501961)]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("..")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Select"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wvdtq"]
+_data = {
+"Highlight": SubResource("Animation_xsb63"),
+"Normal": SubResource("Animation_8objl"),
+"RESET": SubResource("Animation_yeq37"),
+"Select": SubResource("Animation_o1xor")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w6kfx"]
+shader = ExtResource("6_lp2po")
+shader_parameter/tint = Vector4(1, 1, 1, 1)
+
+[node name="TitleMenu" type="Node2D"]
+z_index = 4000
+
+[node name="Rendering Zone" type="Camera2D" parent="."]
+position = Vector2(-10000, 0)
+
+[node name="Control" type="Control" parent="Rendering Zone"]
+z_index = 4000
+layout_mode = 3
+anchors_preset = 0
+offset_left = -853.0
+offset_top = -480.0
+offset_right = 853.0
+offset_bottom = 480.0
+
+[node name="BG" type="TextureRect" parent="Rendering Zone/Control"]
+material = SubResource("ShaderMaterial_s24xo")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("23_uir4b")
+expand_mode = 1
+
+[node name="BG2" type="TextureRect" parent="Rendering Zone/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 243.0
+offset_top = 40.0
+offset_right = -663.0
+offset_bottom = -520.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(400, 200)
+texture = ExtResource("3_2fi84")
+expand_mode = 1
+
+[node name="MainMenu" type="VBoxContainer" parent="Rendering Zone/Control" node_paths=PackedStringArray("root")]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 450.0
+offset_right = 800.0
+offset_bottom = 930.0
+alignment = 1
+script = ExtResource("4_6rrxd")
+root = NodePath("../../..")
+music = "CanisMinor"
+cancelable = false
+
+[node name="Start" type="Control" parent="Rendering Zone/Control/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("5_81rfq")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Control/MainMenu/Start"]
+libraries = {
+"": SubResource("AnimationLibrary_wvdtq")
+}
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/Control/MainMenu/Start"]
+material = SubResource("ShaderMaterial_w6kfx")
+layout_mode = 0
+offset_bottom = 70.0
+color = Color(0.2415, 0.183, 0.3, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/Control/MainMenu/Start"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 65.0
+theme_override_fonts/font = ExtResource("7_wcm5g")
+theme_override_font_sizes/font_size = 56
+text = "Start"
+
+[node name="Extra Start" type="Control" parent="Rendering Zone/Control/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("5_81rfq")
+animationPlayer = NodePath("AnimationPlayer")
+selectable = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Control/MainMenu/Extra Start"]
+libraries = {
+"": SubResource("AnimationLibrary_wvdtq")
+}
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/Control/MainMenu/Extra Start"]
+material = SubResource("ShaderMaterial_w6kfx")
+layout_mode = 0
+offset_bottom = 70.0
+color = Color(0.2415, 0.183, 0.3, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/Control/MainMenu/Extra Start"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 65.0
+theme_override_fonts/font = ExtResource("7_wcm5g")
+theme_override_font_sizes/font_size = 56
+text = "Extra Start"
+
+[node name="Text2" type="ColorRect" parent="Rendering Zone/Control/MainMenu/Extra Start"]
+modulate = Color(0.168627, 0.168627, 0.168627, 1)
+layout_mode = 2
+offset_left = 20.0
+offset_top = 30.0
+offset_right = 340.0
+offset_bottom = 38.0
+
+[node name="Practice" type="Control" parent="Rendering Zone/Control/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("5_81rfq")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Control/MainMenu/Practice"]
+libraries = {
+"": SubResource("AnimationLibrary_wvdtq")
+}
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/Control/MainMenu/Practice"]
+material = SubResource("ShaderMaterial_w6kfx")
+layout_mode = 0
+offset_bottom = 70.0
+color = Color(0.2415, 0.183, 0.3, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/Control/MainMenu/Practice"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 65.0
+theme_override_fonts/font = ExtResource("7_wcm5g")
+theme_override_font_sizes/font_size = 56
+text = "Practice"
+
+[node name="Record" type="Control" parent="Rendering Zone/Control/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("5_81rfq")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Control/MainMenu/Record"]
+libraries = {
+"": SubResource("AnimationLibrary_wvdtq")
+}
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/Control/MainMenu/Record"]
+material = SubResource("ShaderMaterial_w6kfx")
+layout_mode = 0
+offset_bottom = 70.0
+color = Color(0.2415, 0.183, 0.3, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/Control/MainMenu/Record"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 65.0
+theme_override_fonts/font = ExtResource("7_wcm5g")
+theme_override_font_sizes/font_size = 56
+text = "Record"
+
+[node name="Music Room" type="Control" parent="Rendering Zone/Control/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("5_81rfq")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Control/MainMenu/Music Room"]
+libraries = {
+"": SubResource("AnimationLibrary_wvdtq")
+}
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/Control/MainMenu/Music Room"]
+material = SubResource("ShaderMaterial_w6kfx")
+layout_mode = 0
+offset_bottom = 70.0
+color = Color(0.2415, 0.183, 0.3, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/Control/MainMenu/Music Room"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 65.0
+theme_override_fonts/font = ExtResource("7_wcm5g")
+theme_override_font_sizes/font_size = 56
+text = "Music Room"
+
+[node name="Settings" type="Control" parent="Rendering Zone/Control/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("5_81rfq")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Control/MainMenu/Settings"]
+libraries = {
+"": SubResource("AnimationLibrary_wvdtq")
+}
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/Control/MainMenu/Settings"]
+material = SubResource("ShaderMaterial_w6kfx")
+layout_mode = 0
+offset_bottom = 70.0
+color = Color(0.2415, 0.183, 0.3, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/Control/MainMenu/Settings"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 65.0
+theme_override_fonts/font = ExtResource("7_wcm5g")
+theme_override_font_sizes/font_size = 56
+text = "Settings"
+
+[node name="Quit" type="Control" parent="Rendering Zone/Control/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("5_81rfq")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Control/MainMenu/Quit"]
+libraries = {
+"": SubResource("AnimationLibrary_wvdtq")
+}
+
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/Control/MainMenu/Quit"]
+material = SubResource("ShaderMaterial_w6kfx")
+layout_mode = 0
+offset_bottom = 70.0
+color = Color(0.2415, 0.183, 0.3, 1)
+
+[node name="Text" type="Label" parent="Rendering Zone/Control/MainMenu/Quit"]
+modulate = Color(0.627451, 0.627451, 0.627451, 1)
+layout_mode = 2
+offset_left = 40.0
+offset_right = 424.0
+offset_bottom = 65.0
+theme_override_fonts/font = ExtResource("7_wcm5g")
+theme_override_font_sizes/font_size = 56
+text = "Quit"
+
+[node name="SafeZone" type="ReferenceRect" parent="Rendering Zone"]
+z_index = 4001
+offset_left = -640.0
+offset_top = -480.0
+offset_right = 640.0
+offset_bottom = 480.0
+border_width = 4.0
+
+[connection signal="SelectAction" from="Rendering Zone/Control/MainMenu/Start" to="Rendering Zone/Control/MainMenu" method="Start"]
+[connection signal="SelectAction" from="Rendering Zone/Control/MainMenu/Quit" to="Rendering Zone/Control/MainMenu" method="QuitGame"]

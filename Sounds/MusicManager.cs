@@ -83,6 +83,14 @@ namespace Blastula.Sounds
         }
 
         /// <summary>
+        /// Stop the music.
+        /// </summary>
+        public static void Stop()
+        {
+            PlayImmediate("");
+        }
+
+        /// <summary>
         /// Places the current music at this time in seconds.
         /// </summary>
         public static void Seek(float time)

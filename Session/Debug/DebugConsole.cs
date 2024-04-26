@@ -265,6 +265,7 @@ namespace Blastula.Debug
         public override void _Process(double delta)
         {
             if (Session.main == null) { return; }
+            if (!Session.main.inSession) { return; }
             if (!OS.IsDebugBuild()) { return; }
             bool pausePressed = InputManager.ButtonPressedThisFrame("Debug");
             if (pausePressed)

@@ -1,3 +1,4 @@
+using Blastula.Graphics;
 using Blastula.VirtualVariables;
 using Godot;
 using System;
@@ -12,6 +13,8 @@ namespace Blastula
 	{
 		[Export] public string kernelPath = "Kernel.tscn";
 		[Export] public string mainScenePath = "MainScene.tscn";
+        [Export] public string titleMenuPath = "TitleMenu.tscn";
+        [Export] public AnimationPlayer exitAnimator;
         [Export] public Control shaderLoader;
         [Export] public Shader[] shaderCompileList;
         [Export] AudioStreamPlayer fatalErrorSound;
@@ -30,7 +33,7 @@ namespace Blastula
             progressBar.Value = progressCurrentBase + currProgress * progressCurrentPiece;
         }
 
-        private async Task LoadScene(string path, string description)
+        private async Task LoadScene(string path, string description, bool instantiate = true)
         {
             SceneTree st = GetTree();
             Window window = st.Root;
@@ -66,8 +69,11 @@ namespace Blastula
                 progressText.Text = $"The {description} couldn't be loaded.";
                 return;
             }
-            Node newScene = ((PackedScene)ResourceLoader.LoadThreadedGet(path)).Instantiate();
-            window.AddChild(newScene);
+            if (instantiate)
+            {
+                Node newScene = ((PackedScene)ResourceLoader.LoadThreadedGet(path)).Instantiate();
+                window.AddChild(newScene);
+            }
         }
 
         private async Task CompileShaders()
@@ -84,16 +90,29 @@ namespace Blastula
             }
         }
 
+        public void ChangeToTitleScreen()
+        {
+            if (Engine.IsEditorHint()) { return; }
+            Window window = GetTree().Root;
+            string path = Persistent.BLASTULA_ROOT_PATH + "/" + titleMenuPath;
+            Node newScene = ((PackedScene)ResourceLoader.LoadThreadedGet(path)).Instantiate();
+            window.AddChild(newScene);
+            QueueFree();
+        }
+
 		public async Task LoadGame()
 		{
-            progressCurrentBase = 0f; progressCurrentPiece = 1f / 3f;
+            progressCurrentBase = 0f / 4f; progressCurrentPiece = 1f / 4f;
             await LoadScene(Persistent.BLASTULA_ROOT_PATH + "/" + kernelPath, "kernel");
             if (loadError != Error.Ok) { return; }
-            progressCurrentBase = 1f / 3f; progressCurrentPiece = 1f / 3f;
+            progressCurrentBase = 1f / 4f; progressCurrentPiece = 1f / 4f;
             await LoadScene(Persistent.BLASTULA_ROOT_PATH + "/" + mainScenePath, "main scene");
             if (loadError != Error.Ok) { return; }
-            progressCurrentBase = 2f / 3f; progressCurrentPiece = 1f / 3f;
+            progressCurrentBase = 2f / 4f; progressCurrentPiece = 1f / 4f;
             await CompileShaders();
+            if (loadError != Error.Ok) { return; }
+            progressCurrentBase = 3f / 4f; progressCurrentPiece = 1f / 4f;
+            await LoadScene(Persistent.BLASTULA_ROOT_PATH + "/" + titleMenuPath, "title menu", false);
             if (loadError != Error.Ok) { return; }
             progressCurrentBase = 1f; progressCurrentPiece = 0f;
             SetProgressBar(1f);
@@ -116,18 +135,24 @@ namespace Blastula
                 }
                 else if (loadComplete)
                 {
-                    QueueFree();
+                    exitAnimator.Active = true;
+                    exitAnimator.Play();
+                    exitAnimator.SpeedScale = 1;
                 }
             }
-
-            
         }
 
 
         private Task loadTask;
         public override void _Ready()
 		{
-			errorText.Visible = false;
+            RenderingServer.GlobalShaderParameterAdd(
+                BulletRendererManager.STAGE_TIME_NAME, 
+                RenderingServer.GlobalShaderParameterType.Float, 
+                0f
+            );
+            BulletRendererManager.stageTimeHasBeenAdded = true;
+            errorText.Visible = false;
             successText.Visible = false;
             progressBar.Visible = true;
             loadTask = LoadGame();

@@ -10,6 +10,10 @@ namespace Blastula.VirtualVariables
 	public partial class Session : Node, IVariableContainer
     {
         /// <summary>
+        /// Whether the game is actually in session. Otherwise, we are in a title menu.
+        /// </summary>
+        public bool inSession { get; private set; } = false;
+        /// <summary>
         /// True if the game can be paused.
         /// </summary>
         public bool canPause { get; private set; } = true;
@@ -104,6 +108,16 @@ namespace Blastula.VirtualVariables
         /// </summary>
         public ulong continueCount { get; private set; } = 0;
 
+        public void StartInSession()
+        {
+            inSession = true;
+        }
+
+        public void EndInSession()
+        {
+            inSession = false;
+        }
+
         public void SetCanPause(bool s)
         {
             canPause = s;
@@ -134,8 +148,25 @@ namespace Blastula.VirtualVariables
 
         public void Reset()
         {
+            canPause = true;
             paused = false;
             timeScale = 1f;
+            difficulty = 1;
+            rank = 0.5f;
+            rankFrozen = false;
+            score = BigInteger.Zero;
+            recordScore = BigInteger.Zero;
+            grazeCount = 0;
+            pointItemCount = 0;
+            pointItemValue = minPointItemValue;
+            powerItemCount = 0;
+            powerItemValue = minPowerItemValue;
+            if (StageManager.main != null)
+            {
+                StageManager.main.Reset();
+            }
+            canContinue = true;
+            continueCount = 0;
         }
 
         public static bool IsPaused()

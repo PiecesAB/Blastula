@@ -271,6 +271,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, -40), Vector2(0, 0), Vector2(0, 0), Vector2(0, 40)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Container:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1200, 36)]
+}
 
 [sub_resource type="Animation" id="Animation_e2fqv"]
 length = 0.001
@@ -285,6 +297,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Container:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1200, 36)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_arm6g"]
@@ -2499,8 +2523,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 4800.0
-offset_bottom = 144.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
@@ -2804,26 +2826,26 @@ theme_override_fonts/font = ExtResource("30_f14at")
 theme_override_font_sizes/font_size = 24
 text = "Optimize growth medium"
 
-[node name="Quit" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+[node name="End" type="Control" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" node_paths=PackedStringArray("animationPlayer")]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("43_0alcd")
 animationPlayer = NodePath("AnimationPlayer")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Quit"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/End"]
 libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
 blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 
-[node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Quit"]
+[node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/End"]
 material = SubResource("ShaderMaterial_n41s0")
 layout_mode = 0
 offset_bottom = 80.0
 color = Color(0.2415, 0.183, 0.3, 1)
 
-[node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Quit"]
+[node name="Text" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/End"]
 modulate = Color(0.627451, 0.627451, 0.627451, 1)
 layout_mode = 2
 offset_left = 40.0
@@ -2831,9 +2853,9 @@ offset_right = 424.0
 offset_bottom = 46.0
 theme_override_fonts/font = ExtResource("22_hvkwy")
 theme_override_font_sizes/font_size = 40
-text = "Quit"
+text = "Leave"
 
-[node name="Subtext" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Quit"]
+[node name="Subtext" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/End"]
 layout_mode = 2
 offset_left = 60.0
 offset_top = 50.0
@@ -3066,6 +3088,14 @@ text = "[font_size=40][b]Welcome ❤ Shell[/b][/font_size]
 Type [b][i]help[/i][/b] to view a list of commands. Type [b][i]help {command name}[/i][/b] to learn about that command, for example: [b][i]help speed[/i][/b]"
 fit_content = true
 scroll_active = false
+
+[node name="SafeZone" type="ReferenceRect" parent="Rendering Zone"]
+z_index = 4001
+offset_left = -640.0
+offset_top = -480.0
+offset_right = 640.0
+offset_bottom = 480.0
+border_width = 4.0
 
 [node name="Screen Setup" type="Node2D" parent="." node_paths=PackedStringArray("objectViewports")]
 script = ExtResource("49_pv7gi")
@@ -3702,6 +3732,6 @@ position = Vector2(0, 320)
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Resume"]
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Continue"]
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Retry" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="OpenConfirmRetryMenu"]
-[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Quit" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="OpenConfirmQuitMenu"]
+[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/End" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="OpenConfirmQuitMenu"]
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Confirm"]
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option2" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="CloseConfirmMenu"]

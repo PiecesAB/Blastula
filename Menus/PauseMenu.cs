@@ -1,10 +1,5 @@
-using Blastula.Input;
-using Blastula.Sounds;
 using Blastula.VirtualVariables;
 using Godot;
-using System;
-using System.Collections.Generic;
-using System.Xml.Linq;
 
 namespace Blastula.Menus
 {
@@ -73,8 +68,10 @@ namespace Blastula.Menus
                 case ConfirmType.Retry: Retry(); break;
                 case ConfirmType.Quit:
                     {
-                        // TODO: something less stupid here
-                        GetTree().Quit();
+                        if (StageManager.main != null)
+                        {
+                            StageManager.main.ForceEndSinglePlayerSession();
+                        }
                     }
                     break;
             }

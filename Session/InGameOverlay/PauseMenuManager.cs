@@ -112,6 +112,7 @@ namespace Blastula
         public override void _Process(double delta)
         {
             if (Session.main == null) { return; }
+            if (!Session.main.inSession) { return; }
             bool pausePressed = InputManager.ButtonPressedThisFrame("Menu/Pause");
             if (pausePressed && state == State.Paused)
             {

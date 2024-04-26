@@ -51,6 +51,10 @@ namespace Blastula.Graphics
         /// The compromise is that at the looping point, the shader will appear disjoint.
         /// </remarks>
         public const double STAGE_TIME_ROLLOVER = 60.0 * 60.0 * 3.0;
+        /// <summary>
+        /// Tracks whether the shader global has been added yet.
+        /// </summary>
+        public static bool stageTimeHasBeenAdded = false;
 
         private void RegisterGraphicInfos(Node root)
         {
@@ -117,7 +121,16 @@ namespace Blastula.Graphics
             multimeshInstancesByID = new MultimeshBullet[registeredCount];
             BulletRenderer.Initialize(registeredCount);
             ProcessPriority = Persistent.Priorities.RENDER;
-            RenderingServer.GlobalShaderParameterAdd(STAGE_TIME_NAME, RenderingServer.GlobalShaderParameterType.Float, 0);
+            // STAGE_TIME may have already been added by the Loader. Only add if necessary.
+            if (!stageTimeHasBeenAdded)
+            {
+                RenderingServer.GlobalShaderParameterAdd(
+                    STAGE_TIME_NAME,
+                    RenderingServer.GlobalShaderParameterType.Float,
+                    0
+                );
+                stageTimeHasBeenAdded = true;
+            }
         }
 
         public override void _Process(double delta)

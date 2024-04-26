@@ -19,6 +19,8 @@ namespace Blastula
     [Icon(Persistent.NODE_ICON_PATH + "/enemy.png")]
     public partial class Enemy : Node2D, IVariableContainer
     {
+        public static HashSet<Enemy> all = new HashSet<Enemy>();
+
         public enum DefenseMode
         {
             /// <summary>
@@ -297,6 +299,7 @@ namespace Blastula
         public override void _Ready()
         {
             base._Ready();
+            all.Add(this);
             startPosition = GlobalPosition;
             maxHealth = health;
             lifeLeft = selfMaxLifespan;
@@ -324,7 +327,11 @@ namespace Blastula
                 formation.DecrementEnemy();
                 formation = null;
             }
-            BecomeDefeated();
+            if (Session.main != null && Session.main.inSession)
+            {
+                BecomeDefeated();
+            }
+            all.Remove(this);
         }
 
         public override void _Process(double delta)

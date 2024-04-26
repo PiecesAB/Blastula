@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://c81krd7jn13vh"]
+[gd_scene load_steps=34 format=3 uid="uid://c81krd7jn13vh"]
 
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="1_3e6oa"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_3r5cj"]
@@ -29,6 +29,58 @@
 [ext_resource type="Texture2D" uid="uid://6ltikvcvgx7a" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar1.png" id="28_d1vhe"]
 [ext_resource type="Texture2D" uid="uid://dnicpnwg6nx4b" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar2.png" id="29_o1g07"]
 
+[sub_resource type="Animation" id="Animation_no88y"]
+resource_name = "Main"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rendering Zone/Control/FadeToWhite:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"ChangeToTitleScreen"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_6r7ec"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rendering Zone/Control/FadeToWhite:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rmxav"]
+_data = {
+"Main": SubResource("Animation_no88y"),
+"RESET": SubResource("Animation_6r7ec")
+}
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8u5to"]
 shader = ExtResource("1_3r5cj")
 shader_parameter/top_color = Vector4(0.2, 0.2, 0.2, 1)
@@ -37,8 +89,10 @@ shader_parameter/glisten_factor = Vector3(0.1, -3, 0.005)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_awhja"]
 
-[node name="Loader" type="Node2D" node_paths=PackedStringArray("shaderLoader", "fatalErrorSound", "successSound", "errorText", "successText", "progressText", "progressBar")]
+[node name="Loader" type="Node2D" node_paths=PackedStringArray("exitAnimator", "shaderLoader", "fatalErrorSound", "successSound", "errorText", "successText", "progressText", "progressBar")]
+z_index = 4000
 script = ExtResource("1_7j1j1")
+exitAnimator = NodePath("ExitAnimation")
 shaderLoader = NodePath("Rendering Zone/Control/ShaderLoader")
 shaderCompileList = Array[Shader]([ExtResource("2_ny0r2"), ExtResource("3_1qd8s"), ExtResource("4_gpest"), ExtResource("5_dp5l3"), ExtResource("6_bl57f"), ExtResource("7_4n856"), ExtResource("8_ioibh"), ExtResource("9_x6hp5"), ExtResource("10_6bnq5"), ExtResource("11_5skfb"), ExtResource("12_8ek74"), ExtResource("1_3r5cj"), ExtResource("14_l7s60"), ExtResource("15_a81oq"), ExtResource("16_m628x"), ExtResource("17_v5dl6"), ExtResource("18_ln006"), ExtResource("19_i8dr7"), ExtResource("20_wv1pm")])
 fatalErrorSound = NodePath("FatalError")
@@ -47,6 +101,13 @@ errorText = NodePath("Rendering Zone/Control/Fatal")
 successText = NodePath("Rendering Zone/Control/Success")
 progressText = NodePath("Rendering Zone/Control/Progress text")
 progressBar = NodePath("Rendering Zone/Control/Control/TextureProgressBar")
+
+[node name="ExitAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_rmxav")
+}
+autoplay = "Main"
+speed_scale = 0.0
 
 [node name="FatalError" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_qipkg")
@@ -183,15 +244,6 @@ text = "Loading"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="FadeToWhite" type="ColorRect" parent="Rendering Zone/Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0)
-
 [node name="ShaderLoader" type="ColorRect" parent="Rendering Zone/Control"]
 material = SubResource("ShaderMaterial_awhja")
 layout_mode = 1
@@ -234,3 +286,20 @@ value = 0.3
 nine_patch_stretch = true
 texture_under = ExtResource("28_d1vhe")
 texture_progress = ExtResource("29_o1g07")
+
+[node name="FadeToWhite" type="ColorRect" parent="Rendering Zone/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="SafeZone" type="ReferenceRect" parent="Rendering Zone"]
+z_index = 4001
+offset_left = -640.0
+offset_top = -480.0
+offset_right = 640.0
+offset_bottom = 480.0
+border_width = 4.0

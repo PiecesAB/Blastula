@@ -44,6 +44,11 @@ namespace Blastula.Menus
             }
         }
 
+        private void UpdateValue()
+        {
+            SettingsLoader.Set(settingName, settingValues[valueIndex]);
+        }
+
         public override void _Ready()
         {
             base._Ready();
@@ -87,6 +92,7 @@ namespace Blastula.Menus
                 if (valueIndex < 0) { valueIndex = 0; }
                 holdKeyCooldown = 8;
                 UpdateGraphic(-1);
+                UpdateValue();
             }
             else if (rightPressed)
             {
@@ -94,6 +100,7 @@ namespace Blastula.Menus
                 if (valueIndex >= settingValues.Length) { valueIndex = settingValues.Length - 1; }
                 holdKeyCooldown = 8;
                 UpdateGraphic(1);
+                UpdateValue();
             }
             
             if (holdKeyCooldown > 0) { --holdKeyCooldown; }

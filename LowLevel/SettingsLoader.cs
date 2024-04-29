@@ -59,7 +59,7 @@ namespace Blastula
             ApplyAll();
         }
 
-        private static void LoadDefault()
+        public static void LoadDefault()
         {
             if (main == null) { return; }
             main.settings = main.defaultSettings;
@@ -72,6 +72,7 @@ namespace Blastula
         {
             if (!Godot.FileAccess.FileExists(SAVE_PATH)) { LoadDefault(); return Error.FileNotFound; }
             Godot.FileAccess settingsFile = Godot.FileAccess.Open(SAVE_PATH, Godot.FileAccess.ModeFlags.Read);
+            GD.Print($"Loading settings file: {settingsFile.GetPathAbsolute()}");
             if (settingsFile.GetError() != Error.Ok) { return settingsFile.GetError(); }
             string jsonString = settingsFile.GetAsText(true);
             settingsFile.Close();
@@ -87,6 +88,7 @@ namespace Blastula
             string jsonString = Json.Stringify(main.settings);
             Godot.FileAccess settingsFile = Godot.FileAccess.Open(SAVE_PATH, Godot.FileAccess.ModeFlags.Write);
             if (settingsFile.GetError() != Error.Ok) { return settingsFile.GetError(); }
+            GD.Print($"Saving settings file: {settingsFile.GetPathAbsolute()}");
             settingsFile.StoreString(jsonString);
             settingsFile.Close();
             return Error.Ok;

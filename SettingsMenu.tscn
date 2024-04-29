@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://eke71hhuvqf8"]
+[gd_scene load_steps=27 format=3 uid="uid://eke71hhuvqf8"]
 
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_f168q"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/SettingsMenuManager.cs" id="1_jaxt4"]
@@ -10,6 +10,7 @@
 [ext_resource type="FontFile" uid="uid://ggirehmyeo2f" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_R.otf" id="6_u3c0d"]
 [ext_resource type="Texture2D" uid="uid://dxafby8ws3ltt" path="res://addons/Blastula/Graphics/UI/Settings/widgetShift.png" id="7_wov4k"]
 [ext_resource type="Texture2D" uid="uid://r31wgkvf5pa8" path="res://addons/Blastula/Graphics/UI/Settings/shiftArrow.png" id="8_hva4y"]
+[ext_resource type="FontFile" uid="uid://dtwct8imbtrpq" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RI.otf" id="11_oto2m"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2drar"]
 shader = ExtResource("1_f168q")
@@ -788,6 +789,21 @@ theme_override_styles/scroll = SubResource("StyleBoxFlat_744cj")
 max_value = 5.0
 page = 1.0
 value = 1.0
+
+[node name="Save Explanation" type="Label" parent="Rendering Zone/Control"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 428.0
+offset_bottom = 472.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("11_oto2m")
+theme_override_font_sizes/font_size = 28
+text = "Settings are saved upon exiting this menu."
+horizontal_alignment = 1
 
 [node name="SafeZone" type="ReferenceRect" parent="Rendering Zone"]
 z_index = 4001

@@ -75,10 +75,10 @@ namespace Blastula
             currentStageGroupName = stageGroupName;
             await PlayerManager.main.SpawnPlayer(playerPath);
             if (Session.main != null) { Session.main.StartInSession(); }
-            // Spawn test scene for now
+            // TODO: not always have the same RNG
             RNG.Reseed(0);
             GD.Seed(0);
-            StageSector s = (StageSector)GetChild(0);
+            StageSector s = (StageSector)FindChild(stageGroupName);
             s.Preload();
             _ = s.Execute();
             EmitSignal(SignalName.SessionBeginning);

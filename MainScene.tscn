@@ -1,4 +1,4 @@
-[gd_scene load_steps=139 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=140 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="1_5qpbx"]
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_m6k27"]
@@ -32,6 +32,7 @@
 [ext_resource type="FontFile" uid="uid://ggirehmyeo2f" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_R.otf" id="30_f14at"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Border/FPSDisplay.cs" id="31_ftlls"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Debug/DebugCollision.cs" id="32_feufc"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/BackgroundHolder.cs" id="32_n8s3g"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/SectorTimer.cs" id="33_ef6f6"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Border/ItemGetLineDisplay.cs" id="34_trh85"]
 [ext_resource type="FontFile" uid="uid://dtwct8imbtrpq" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RI.otf" id="35_nf306"]
@@ -2317,7 +2318,7 @@ render_target_update_mode = 4
 
 [node name="Camera" type="Camera2D" parent="Rendering Zone/MainViewHolder/MainView/Objects"]
 
-[node name="Backdrop" type="SubViewportContainer" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera"]
+[node name="Background" type="SubViewportContainer" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera"]
 light_mask = 0
 visibility_layer = 524288
 z_index = -4096
@@ -2334,36 +2335,37 @@ offset_bottom = 448.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
+script = ExtResource("32_n8s3g")
 
-[node name="InternalBG" type="SubViewport" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop"]
+[node name="InternalBG" type="SubViewport" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background"]
 handle_input_locally = false
 size = Vector2i(768, 896)
 render_target_update_mode = 4
 
-[node name="Node3D" type="Node3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG"]
+[node name="Node3D" type="Node3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
 environment = SubResource("Environment_hxelk")
 
-[node name="Camera3D" type="Camera3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+[node name="Camera3D" type="Camera3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 8, 0, -0.908, -2)
 mesh = SubResource("PlaneMesh_dl8qm")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 8, 1, 0, -2)
 mesh = SubResource("PlaneMesh_dl8qm")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 8, -1, 0, -2)
 mesh = SubResource("PlaneMesh_dl8qm")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 8, 0, 1, -2)
 mesh = SubResource("PlaneMesh_dl8qm")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Backdrop/InternalBG/Node3D"]
+[node name="OmniLight3D" type="OmniLight3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.512964, 1.06552, -1.20129)
 light_color = Color(0.533333, 0.713726, 0.878431, 1)
 light_energy = 2.0

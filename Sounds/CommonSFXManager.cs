@@ -12,6 +12,7 @@ namespace Blastula.Sounds
         /// If this string is non-empty, the audio bus of each effect will use it.
         /// </summary>
         [Export] public string sfxBusName = "SFX";
+        public float settingMultiplier { get; private set; } = 0;
 
         /// <summary>
         /// There should only be one CommonSFXManager, and this is the one.
@@ -33,12 +34,23 @@ namespace Blastula.Sounds
 
         private int registeredCount = 0;
 
+        public static void UseSFXSetting(string setting)
+        {
+            if (main == null) { return; }
+            if (int.TryParse(setting, out int settingNum))
+            {
+                main.settingMultiplier = 0.01f * settingNum * settingNum;
+            }
+        }
+
         /// <summary>
         /// Play a sound by direct reference to the AudioStreamPlayer.
         /// </summary>
         /// <param name="position">If move == true, moves spatial sounds to this position.</param>
         public static void Play(Node n, float pitch = 1f, float volume = 1f, Vector2 position = default, bool move = false)
         {
+            if (main == null) { return; }
+            float realVolume = main.settingMultiplier * volume;
             if (!lastPlayedFrame.ContainsKey(n))
             {
                 lastPlayedFrame[n] = ulong.MaxValue;
@@ -50,7 +62,7 @@ namespace Blastula.Sounds
             {
                 AudioStreamPlayer asp = n as AudioStreamPlayer;
                 asp.PitchScale = pitch;
-                asp.VolumeDb = Mathf.LinearToDb(volume);
+                asp.VolumeDb = Mathf.LinearToDb(realVolume);
                 asp.Play();
             }
             else if (n is AudioStreamPlayer2D)
@@ -58,7 +70,7 @@ namespace Blastula.Sounds
                 AudioStreamPlayer2D asp = n as AudioStreamPlayer2D;
                 if (move) { asp.GlobalPosition = position; }
                 asp.PitchScale = pitch;
-                asp.VolumeDb = Mathf.LinearToDb(volume);
+                asp.VolumeDb = Mathf.LinearToDb(realVolume);
                 asp.Play();
             }
             else if (n is AudioStreamPlayer3D)
@@ -66,7 +78,7 @@ namespace Blastula.Sounds
                 AudioStreamPlayer3D asp = n as AudioStreamPlayer3D;
                 if (move) { asp.GlobalPosition = new Vector3(position.X, position.Y, 0); }
                 asp.PitchScale = pitch;
-                asp.VolumeDb = Mathf.LinearToDb(volume);
+                asp.VolumeDb = Mathf.LinearToDb(realVolume);
                 asp.Play();
             }
         }

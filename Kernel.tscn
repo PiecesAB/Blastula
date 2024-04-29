@@ -1251,7 +1251,6 @@ current = true
 
 [node name="Music Manager" type="Node" parent="Sound"]
 script = ExtResource("52_l68ss")
-volumeMultiplier = 0.6
 
 [node name="Reconception" type="AudioStreamPlayer" parent="Sound/Music Manager"]
 stream = ExtResource("69_5wumw")
@@ -1262,7 +1261,7 @@ loopRegion = Vector2(16.696, 150.261)
 
 [node name="CanisMinor" type="AudioStreamPlayer" parent="Sound/Music Manager"]
 stream = ExtResource("71_x7bal")
-volume_db = 3.0
+volume_db = 2.0
 script = ExtResource("70_abo3h")
 fullName = "My New Body From Canis Minor"
 description = "Stereotypical sci-fi music!!! The melody is often in a different key as if to represent that ones' soul has been placed in a new body. Time to learn how to use it."
@@ -1780,7 +1779,10 @@ mode = 1
 [node name="Settings Loader" type="Node" parent="."]
 script = ExtResource("130_wuyde")
 settings = {
+"immortality": "off",
 "music": "8",
 "sfx": "10",
+"show_bg": "on",
+"start_bomb": "def.t",
 "start_life": "def.t"
 }

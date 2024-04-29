@@ -9,7 +9,9 @@ namespace Blastula.Sounds
     /// </summary>
     public partial class MusicManager : Node
     {
-        [Export] public float volumeMultiplier = 1f;
+        [Export] public float volumeMultiplier { get; private set; } = 1f;
+
+        public float settingMultiplier { get; private set; } = 0;
 
         [Signal] public delegate void OnMusicChangeEventHandler(Music oldMusic, Music newMusic);
         
@@ -147,6 +149,21 @@ namespace Blastula.Sounds
             main.currentMusic.PitchScale = newPitch;
         }
 
+        public static void SetVolumeMultiplier(float newMul)
+        {
+            if (main == null) { return; }
+            main.volumeMultiplier = newMul;
+        }
+
+        public static void UseMusicSetting(string setting)
+        {
+            if (main == null) { return; }
+            if (int.TryParse(setting, out int settingNum))
+            {
+                main.settingMultiplier = 0.01f * settingNum * settingNum;
+            }
+        }
+
         public override void _Ready()
         {
             base._Ready();
@@ -217,7 +234,7 @@ namespace Blastula.Sounds
             HandleFadeMultiplier();
 
             currentMusic.VolumeDb = Mathf.LinearToDb(
-                volumeMultiplier 
+                volumeMultiplier * settingMultiplier
                 * startVolumesByNodeName[currentMusicNodePath]
                 * duckMultiplier * fadeMultiplier
             );

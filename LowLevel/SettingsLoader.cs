@@ -1,3 +1,5 @@
+using Blastula.Sounds;
+using Blastula.VirtualVariables;
 using Godot;
 using System;
 using System.IO;
@@ -22,7 +24,17 @@ namespace Blastula
         public static string Get(string key)
         {
             if (main == null) { return default; }
-            if (!main.settings.ContainsKey(key)) { return default; }
+            if (!main.settings.ContainsKey(key)) { 
+                if (main.defaultSettings.ContainsKey(key))
+                {
+                    main.settings[key] = main.defaultSettings[key];
+                    return main.settings[key].AsString();
+                }
+                else
+                {
+                    return default;
+                }
+            }
             return main.settings[key].AsString();
         }
 
@@ -30,7 +42,24 @@ namespace Blastula
         {
             switch (key)
             {
-
+                case "music":
+                    MusicManager.UseMusicSetting(main.settings["music"].AsString());
+                    break;
+                case "sfx":
+                    CommonSFXManager.UseSFXSetting(main.settings["sfx"].AsString());
+                    break;
+                case "start_life":
+                    if (Session.main != null) { Session.main.SetLifeOverride(main.settings["start_life"].AsString()); }
+                    break;
+                case "start_bomb":
+                    if (Session.main != null) { Session.main.SetBombOverride(main.settings["start_bomb"].AsString()); }
+                    break;
+                case "immortality":
+                    Player.settingInvulnerable = (main.settings["immortality"].AsString() == "on");
+                    break;
+                case "show_bg":
+                    BackgroundHolder.SetVisible(main.settings["show_bg"].AsString() == "on");
+                    break;
             }
         }
 
@@ -72,7 +101,7 @@ namespace Blastula
         {
             if (!Godot.FileAccess.FileExists(SAVE_PATH)) { LoadDefault(); return Error.FileNotFound; }
             Godot.FileAccess settingsFile = Godot.FileAccess.Open(SAVE_PATH, Godot.FileAccess.ModeFlags.Read);
-            GD.Print($"Loading settings file: {settingsFile.GetPathAbsolute()}");
+            //GD.Print($"Loading settings file: {settingsFile.GetPathAbsolute()}");
             if (settingsFile.GetError() != Error.Ok) { return settingsFile.GetError(); }
             string jsonString = settingsFile.GetAsText(true);
             settingsFile.Close();
@@ -88,7 +117,7 @@ namespace Blastula
             string jsonString = Json.Stringify(main.settings);
             Godot.FileAccess settingsFile = Godot.FileAccess.Open(SAVE_PATH, Godot.FileAccess.ModeFlags.Write);
             if (settingsFile.GetError() != Error.Ok) { return settingsFile.GetError(); }
-            GD.Print($"Saving settings file: {settingsFile.GetPathAbsolute()}");
+            //GD.Print($"Saving settings file: {settingsFile.GetPathAbsolute()}");
             settingsFile.StoreString(jsonString);
             settingsFile.Close();
             return Error.Ok;

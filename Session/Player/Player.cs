@@ -66,8 +66,9 @@ namespace Blastula
         [Export] public float lives = 2;
         /// <summary>
         /// When the player "inserts credit" (continues), the lives will be refilled to this amount.
+        /// This is set to the lives count at the player's conception.
         /// </summary>
-        [Export] public float lifeRefillOnContinue = 2;
+        private float lifeRefillOnContinue;
         /// <summary>
         /// This is spawned in the player's scene when they die.
         /// </summary>
@@ -128,8 +129,9 @@ namespace Blastula
         [Export] public float bombs = 3;
         /// <summary>
         /// When the player resurrects, the bombs will be refilled to this amount.
+        /// This is set to the bomb count at the player's conception.
         /// </summary>
-        [Export] public float bombRefillOnDeath = 3;
+        private float bombRefillOnDeath = 3;
         /// <summary>
         /// The number of frames early the player can press the Bomb input before they are able to use it.
         /// </summary>
@@ -176,6 +178,7 @@ namespace Blastula
         }
         public LifeState lifeState = LifeState.Normal;
         public bool recoveryGracePeriodActive { get; set; } = false;
+        public static bool settingInvulnerable = false;
         public bool debugInvulnerable = false;
 
         private string leftName = "Left";
@@ -239,6 +242,22 @@ namespace Blastula
             }
             if (!playersByControl.ContainsKey(role)) { playersByControl[role] = this; }
             else { GD.PushWarning("Two or more players exist with the same role. This is not expected."); }
+            // Override lives and bombs if necessary
+            lifeRefillOnContinue = lives;
+            bombRefillOnDeath = bombs;
+            if (Session.main != null)
+            {
+                if (Session.main.lifeOverride >= 0) 
+                { 
+                    lives = Session.main.lifeOverride;
+                    lifeRefillOnContinue = lives;
+                }
+                if (Session.main.bombOverride >= 0) 
+                { 
+                    bombs = Session.main.bombOverride;
+                    bombRefillOnDeath = bombs;
+                }
+            }
             FindDiscs();
             SetVarsInDiscs();
             attractboxOriginalSize = attractbox.size;
@@ -339,6 +358,16 @@ namespace Blastula
             else { PerformExtendPieceEffect(); }
         }
 
+        public void SetInitialLives()
+        {
+            lives = lifeRefillOnContinue;
+        }
+
+        public void SetInitialBombs()
+        {
+            bombs = bombRefillOnDeath;
+        }
+
         public void AddBombs(float amount)
         {
             float oldBombs = bombs;
@@ -359,11 +388,6 @@ namespace Blastula
             // or else a minor effect.
             if (Mathf.Floor(bombs) > Mathf.Floor(oldBombs)) { PerformGetBombEffect(); }
             else { PerformGetBombPieceEffect(); }
-        }
-
-        public void RefillLivesOnContinue()
-        {
-            lives += lifeRefillOnContinue + 1;
         }
 
         public void PerformExtendEffect()
@@ -409,7 +433,7 @@ namespace Blastula
         /// </summary>
         public async Task Die()
         {
-            if (debugInvulnerable || lifeState != LifeState.Normal) { return; }
+            if (debugInvulnerable || settingInvulnerable || lifeState != LifeState.Normal) { return; }
             lifeState = LifeState.Dying;
             recoveryGracePeriodActive = false;
             CommonSFXManager.PlayByName("Player/Struck", 1, 1f, GlobalPosition, true);
@@ -452,6 +476,10 @@ namespace Blastula
                 {
                     Session.main.SinglePlayerGameOver();
                 }
+            }
+            else
+            {
+                SetInitialBombs();
             }
             lifeState = LifeState.Recovering;
             GlobalPosition = homePosition;

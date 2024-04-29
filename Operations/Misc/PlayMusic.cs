@@ -31,7 +31,7 @@ namespace Blastula.Operations
             MusicManager.SetPitch(pitchSolved);
             if (MusicManager.main != null)
             {
-                MusicManager.main.volumeMultiplier = volSolved;
+                MusicManager.SetVolumeMultiplier(volSolved);
             }
         }
     }

@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -107,6 +107,14 @@ namespace Blastula.VirtualVariables
         /// The number of times the player has continued.
         /// </summary>
         public ulong continueCount { get; private set; } = 0;
+        /// <summary>
+        /// If nonnegative, overrides the player's initial life count.
+        /// </summary>
+        public float lifeOverride { get; private set; } = -1;
+        /// <summary>
+        /// If nonnegative, overrides the player's bombs per life.
+        /// </summary>
+        public float bombOverride { get; private set; } = -1;
 
         public void StartInSession()
         {
@@ -313,6 +321,24 @@ namespace Blastula.VirtualVariables
 
         #endregion
 
+        #region Override Life/Bombs
+
+        public void SetLifeOverride(string setting)
+        {
+            if (setting == "∞") { lifeOverride = Mathf.Inf; return; }
+            else if (float.TryParse(setting, out float settingNum)) { lifeOverride = settingNum; return; }
+            lifeOverride = -1; return;
+        }
+
+        public void SetBombOverride(string setting)
+        {
+            if (setting == "∞") { bombOverride = Mathf.Inf; return; }
+            else if (float.TryParse(setting, out float settingNum)) { bombOverride = settingNum; return; }
+            bombOverride = -1; return;
+        }
+
+        #endregion
+
         // Used when the player runs out of lives and tries to respawn.
         public void SinglePlayerGameOver()
         {
@@ -335,7 +361,8 @@ namespace Blastula.VirtualVariables
             if (Player.playersByControl.ContainsKey(Player.Role.SinglePlayer))
             {
                 Player singlePlayer = Player.playersByControl[Player.Role.SinglePlayer];
-                singlePlayer.RefillLivesOnContinue();
+                singlePlayer.SetInitialLives();
+                singlePlayer.SetInitialBombs();
             }
         }
 

@@ -17,6 +17,7 @@ namespace Blastula.VirtualVariables
         public const string KERNEL_PATH = BLASTULA_ROOT_PATH + "/Kernel.tscn";
         public const string MAIN_SCENE_PATH = BLASTULA_ROOT_PATH + "/MainScene.tscn";
         public const string TITLE_MENU_PATH = BLASTULA_ROOT_PATH + "/TitleMenu.tscn";
+        public const string SETTINGS_MENU_PATH = BLASTULA_ROOT_PATH + "/SettingsMenu.tscn";
         /// <summary>
         /// This determines the timestep of behaviors. The actual framerate may be lower.
         /// </summary>

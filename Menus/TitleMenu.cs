@@ -37,6 +37,12 @@ namespace Blastula.Menus
             root.QueueFree();
         }
 
+        public void OpenSettingsMenu()
+        {
+            SettingsMenuManager.SetMode(SettingsMenuManager.Mode.NoSession);
+            Loader.LoadExternal(this, Persistent.SETTINGS_MENU_PATH);
+        }
+
         public void QuitGame()
         {
             GetTree().Quit();

@@ -22,15 +22,23 @@ namespace Blastula.Menus
         /// If false, the menu will skip over this node.
         /// </summary>
         [Export] public bool selectable = true;
+        /// <summary>
+        /// If false, pressing the select button will not do anything (in a ListMenu).
+        /// </summary>
+        [Export] public bool performsActionOnSelect = true;
         [Signal] public delegate void SelectActionEventHandler();
+
+        public bool currentlyHighlighted { get; private set; } = false;
 
         public void Highlight()
         {
+            currentlyHighlighted = true;
             if (animationPlayer != null) { animationPlayer.Play("Highlight"); }
         }
 
         public void Normal()
         {
+            currentlyHighlighted = false;
             if (animationPlayer != null) { animationPlayer.Play("Normal"); }
         }
 

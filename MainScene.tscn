@@ -2883,7 +2883,7 @@ libraries = {
 "": SubResource("AnimationLibrary_1wglm")
 }
 autoplay = "Closed"
-blend_times = [&"Closed", &"Closed", 0.1, &"Closed", &"Open", 0.1, &"Open", &"Closed", 0.1, &"Open", &"Open", 0.1]
+blend_times = [&"Open", &"Open", 0.1, &"Open", &"Closed", 0.1, &"Closed", &"Open", 0.1, &"Closed", &"Closed", 0.1]
 
 [node name="Title" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation"]
 layout_mode = 2
@@ -3732,6 +3732,7 @@ position = Vector2(0, 320)
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Resume"]
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Continue"]
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Retry" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="OpenConfirmRetryMenu"]
+[connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Settings" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="OpenSettingsMenu"]
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/End" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="OpenConfirmQuitMenu"]
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Confirm"]
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option2" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="CloseConfirmMenu"]

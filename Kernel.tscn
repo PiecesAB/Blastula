@@ -1,4 +1,4 @@
-[gd_scene load_steps=176 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=177 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -129,6 +129,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/PlayerManager.cs" id="126_daosb"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/PlayerEntry.cs" id="127_ecdrd"]
 [ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/PictusXXIV/PictusXXIV.tscn" id="128_p54iq"]
+[ext_resource type="Script" path="res://addons/Blastula/LowLevel/SettingsLoader.cs" id="130_wuyde"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cv5ct"]
 shader = ExtResource("49_hetvq")
@@ -1042,18 +1043,20 @@ ID = "ExplodeMedium"
 sample = ExtResource("51_njfs0")
 count = 100
 
-[node name="Score Popup Pool" type="Node" parent="Rendering"]
+[node name="Label Pools" type="Node" parent="Rendering"]
+
+[node name="Score Popup Pool" type="Node" parent="Rendering/Label Pools"]
 script = ExtResource("62_kcacq")
 sample = ExtResource("57_2mb1d")
 
-[node name="Minor Item Popup Pool" type="Node" parent="Rendering"]
+[node name="Minor Item Popup Pool" type="Node" parent="Rendering/Label Pools"]
 script = ExtResource("62_kcacq")
 ID = "MinorItem"
 sample = ExtResource("64_dsgu3")
 count = 60
 effectDurationFrames = 240
 
-[node name="Major Item Popup Pool" type="Node" parent="Rendering"]
+[node name="Major Item Popup Pool" type="Node" parent="Rendering/Label Pools"]
 script = ExtResource("62_kcacq")
 ID = "MajorItem"
 sample = ExtResource("65_x2evx")
@@ -1763,3 +1766,11 @@ formation = ExtResource("65_1m2vo")
 [node name="Reconception2" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("124_ktqkr")
 mode = 1
+
+[node name="Settings Loader" type="Node" parent="."]
+script = ExtResource("130_wuyde")
+settings = {
+"music": "8",
+"sfx": "10",
+"start_life": "def.t"
+}

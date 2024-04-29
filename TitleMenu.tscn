@@ -291,7 +291,7 @@ grow_vertical = 2
 texture = ExtResource("23_uir4b")
 expand_mode = 1
 
-[node name="BG2" type="TextureRect" parent="Rendering Zone/Control"]
+[node name="Logo" type="TextureRect" parent="Rendering Zone/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -531,4 +531,5 @@ offset_bottom = 480.0
 border_width = 4.0
 
 [connection signal="SelectAction" from="Rendering Zone/Control/MainMenu/Start" to="Rendering Zone/Control/MainMenu" method="Start"]
+[connection signal="SelectAction" from="Rendering Zone/Control/MainMenu/Settings" to="Rendering Zone/Control/MainMenu" method="OpenSettingsMenu"]
 [connection signal="SelectAction" from="Rendering Zone/Control/MainMenu/Quit" to="Rendering Zone/Control/MainMenu" method="QuitGame"]

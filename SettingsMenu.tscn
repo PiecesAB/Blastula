@@ -1,0 +1,764 @@
+[gd_scene load_steps=26 format=3 uid="uid://eke71hhuvqf8"]
+
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_f168q"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/SettingsMenuManager.cs" id="1_jaxt4"]
+[ext_resource type="Texture2D" uid="uid://ckrxpe026jxya" path="res://addons/Blastula/Graphics/UI/sampleBackground.png" id="2_ged45"]
+[ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="3_od36t"]
+[ext_resource type="Texture2D" uid="uid://bxrtp2k7avokd" path="res://addons/Blastula/Graphics/UI/Settings/unit.png" id="4_rqc3r"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/SettingSlider.cs" id="5_8dx16"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/ListMenu.cs" id="5_nfjwb"]
+[ext_resource type="FontFile" uid="uid://ggirehmyeo2f" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_R.otf" id="6_u3c0d"]
+[ext_resource type="Texture2D" uid="uid://dxafby8ws3ltt" path="res://addons/Blastula/Graphics/UI/Settings/widgetShift.png" id="7_wov4k"]
+[ext_resource type="Texture2D" uid="uid://r31wgkvf5pa8" path="res://addons/Blastula/Graphics/UI/Settings/shiftArrow.png" id="8_hva4y"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2drar"]
+shader = ExtResource("1_f168q")
+shader_parameter/top_color = Vector4(0.2, 0.2, 0.2, 1)
+shader_parameter/bottom_color = Vector4(-5, 0.5, 0.5, 1)
+shader_parameter/glisten_factor = Vector3(0.1, -3, 0.005)
+
+[sub_resource type="Animation" id="Animation_4mdae"]
+resource_name = "NoSession"
+
+[sub_resource type="Animation" id="Animation_3nllu"]
+resource_name = "InSession"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_or2di"]
+_data = {
+"InSession": SubResource("Animation_3nllu"),
+"NoSession": SubResource("Animation_4mdae")
+}
+
+[sub_resource type="Theme" id="Theme_kwmux"]
+
+[sub_resource type="Animation" id="Animation_ytimw"]
+resource_name = "Normal"
+length = 0.5
+step = 0.02
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlideWidget:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.690196, 0.690196, 0.690196, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SlideWidget/L:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SlideWidget/R:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("SlideWidget/Text:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_v78v1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlideWidget:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.690196, 0.690196, 0.690196, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SlideWidget/L:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SlideWidget/R:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("SlideWidget/Text:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.909804, 0.909804, 0.909804, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_p7cgo"]
+resource_name = "Highlight"
+loop_mode = 1
+step = 0.02
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlideWidget:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.4, 0.4, 0.4, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.637, 1.204, 1.1, 1), Color(0.529, 1, 0.914, 1), Color(0.637, 1.204, 1.1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SlideWidget/L:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SlideWidget/R:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("SlideWidget/Text:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.619608, 1, 0.929412, 1), Color(0.619608, 1, 0.929412, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c1l31"]
+_data = {
+"Highlight": SubResource("Animation_p7cgo"),
+"Normal": SubResource("Animation_ytimw"),
+"RESET": SubResource("Animation_v78v1")
+}
+
+[sub_resource type="Animation" id="Animation_a1lpc"]
+resource_name = "Normal"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("L:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("R:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Text:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Text:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(200, 70)]
+}
+
+[sub_resource type="Animation" id="Animation_y70cf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("L:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("R:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Text:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Text:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(200, 70)]
+}
+
+[sub_resource type="Animation" id="Animation_egrfy"]
+resource_name = "Right"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("L:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("R:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.3, 1),
+"update": 0,
+"values": [Vector2(1.3, 1.3), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Text:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(6, 0), Vector2(-3, 0), Vector2(1.5, 0), Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Text:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(200, 70)]
+}
+
+[sub_resource type="Animation" id="Animation_32xdp"]
+resource_name = "Left"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("L:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.3, 1),
+"update": 0,
+"values": [Vector2(1.3, 1.3), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("R:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Text:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-6, 0), Vector2(3, 0), Vector2(-1.5, 0), Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Text:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(200, 70)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x5ocv"]
+_data = {
+"Left": SubResource("Animation_32xdp"),
+"Normal": SubResource("Animation_a1lpc"),
+"RESET": SubResource("Animation_y70cf"),
+"Right": SubResource("Animation_egrfy")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_744cj"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="SettingsMenu" type="Node2D"]
+z_index = 4000
+
+[node name="Rendering Zone" type="Camera2D" parent="."]
+position = Vector2(-10000, 0)
+
+[node name="Control" type="Control" parent="Rendering Zone"]
+z_index = 4000
+layout_mode = 3
+anchors_preset = 0
+offset_left = -853.0
+offset_top = -480.0
+offset_right = 853.0
+offset_bottom = 480.0
+
+[node name="BG" type="TextureRect" parent="Rendering Zone/Control"]
+material = SubResource("ShaderMaterial_2drar")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ged45")
+expand_mode = 1
+
+[node name="Title" type="Label" parent="Rendering Zone/Control"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -480.0
+offset_bottom = -384.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_od36t")
+theme_override_font_sizes/font_size = 72
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="Holder" type="ColorRect" parent="Rendering Zone/Control" node_paths=PackedStringArray("sceneRoot", "modeAnimPlayer", "mainMenu")]
+clip_children = 2
+layout_mode = 0
+offset_left = 453.0
+offset_top = 100.0
+offset_right = 1263.0
+offset_bottom = 900.0
+color = Color(0, 0, 0, 1)
+script = ExtResource("1_jaxt4")
+sceneRoot = NodePath("../../..")
+modeAnimPlayer = NodePath("AnimationPlayer")
+mainMenu = NodePath("MainMenu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Control/Holder"]
+libraries = {
+"": SubResource("AnimationLibrary_or2di")
+}
+
+[node name="MainMenu" type="VBoxContainer" parent="Rendering Zone/Control/Holder"]
+layout_mode = 0
+offset_right = 800.0
+offset_bottom = 1000.0
+script = ExtResource("5_nfjwb")
+
+[node name="Music" type="NinePatchRect" parent="Rendering Zone/Control/Holder/MainMenu" node_paths=PackedStringArray("selectorAnimPlayer", "selectorText", "selectorLeftArrow", "selectorRightArrow", "animationPlayer")]
+self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme = SubResource("Theme_kwmux")
+texture = ExtResource("4_rqc3r")
+region_rect = Rect2(12, 12, 488, 104)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+script = ExtResource("5_8dx16")
+selectorAnimPlayer = NodePath("SlideWidget/AnimationPlayer")
+selectorText = NodePath("SlideWidget/Text")
+selectorLeftArrow = NodePath("SlideWidget/L")
+selectorRightArrow = NodePath("SlideWidget/R")
+settingName = "music"
+settingValues = PackedStringArray("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
+animationPlayer = NodePath("AnimationPlayer")
+performsActionOnSelect = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Control/Holder/MainMenu/Music"]
+libraries = {
+"": SubResource("AnimationLibrary_c1l31")
+}
+autoplay = "Normal"
+blend_times = [&"Normal", &"Highlight", 0.05, &"Highlight", &"Normal", 0.05]
+
+[node name="Text" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/Music"]
+layout_mode = 2
+offset_left = 10.0
+offset_right = 610.0
+offset_bottom = 50.0
+theme_override_fonts/font = ExtResource("3_od36t")
+theme_override_font_sizes/font_size = 42
+text = "Music"
+vertical_alignment = 1
+
+[node name="Bar" type="ColorRect" parent="Rendering Zone/Control/Holder/MainMenu/Music"]
+layout_mode = 2
+offset_top = 50.0
+offset_right = 800.0
+offset_bottom = 80.0
+color = Color(0, 0, 0, 0.12549)
+
+[node name="Subtext" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/Music"]
+layout_mode = 2
+offset_left = 10.0
+offset_top = 50.0
+offset_right = 590.0
+offset_bottom = 80.0
+theme_override_fonts/font = ExtResource("6_u3c0d")
+theme_override_font_sizes/font_size = 24
+text = "Music loudness for game and menu."
+autowrap_mode = 2
+text_overrun_behavior = 3
+
+[node name="SlideWidget" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/Music"]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 595.0
+offset_top = 5.0
+offset_right = 795.0
+offset_bottom = 75.0
+texture = ExtResource("7_wov4k")
+expand_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Control/Holder/MainMenu/Music/SlideWidget"]
+libraries = {
+"": SubResource("AnimationLibrary_x5ocv")
+}
+autoplay = "Normal"
+
+[node name="L" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/Music/SlideWidget"]
+visible = false
+layout_mode = 0
+offset_left = 16.0
+offset_top = 23.0
+offset_right = 32.0
+offset_bottom = 47.0
+pivot_offset = Vector2(8, 12)
+texture = ExtResource("8_hva4y")
+expand_mode = 1
+flip_h = true
+
+[node name="R" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/Music/SlideWidget"]
+visible = false
+layout_mode = 0
+offset_left = 168.0
+offset_top = 23.0
+offset_right = 184.0
+offset_bottom = 47.0
+pivot_offset = Vector2(8, 12)
+texture = ExtResource("8_hva4y")
+expand_mode = 1
+
+[node name="Text" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/Music/SlideWidget"]
+modulate = Color(0.909804, 0.909804, 0.909804, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 200.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_od36t")
+theme_override_font_sizes/font_size = 40
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 2
+
+[node name="SFX" type="NinePatchRect" parent="Rendering Zone/Control/Holder/MainMenu" node_paths=PackedStringArray("selectorAnimPlayer", "selectorText", "selectorLeftArrow", "selectorRightArrow", "animationPlayer")]
+self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme = SubResource("Theme_kwmux")
+texture = ExtResource("4_rqc3r")
+region_rect = Rect2(12, 12, 488, 104)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+script = ExtResource("5_8dx16")
+selectorAnimPlayer = NodePath("SlideWidget/AnimationPlayer")
+selectorText = NodePath("SlideWidget/Text")
+selectorLeftArrow = NodePath("SlideWidget/L")
+selectorRightArrow = NodePath("SlideWidget/R")
+settingName = "sfx"
+settingValues = PackedStringArray("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
+animationPlayer = NodePath("AnimationPlayer")
+performsActionOnSelect = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Control/Holder/MainMenu/SFX"]
+libraries = {
+"": SubResource("AnimationLibrary_c1l31")
+}
+autoplay = "Normal"
+
+[node name="Text" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/SFX"]
+layout_mode = 2
+offset_left = 10.0
+offset_right = 610.0
+offset_bottom = 50.0
+theme_override_fonts/font = ExtResource("3_od36t")
+theme_override_font_sizes/font_size = 42
+text = "SFX"
+vertical_alignment = 1
+
+[node name="Bar" type="ColorRect" parent="Rendering Zone/Control/Holder/MainMenu/SFX"]
+layout_mode = 2
+offset_top = 50.0
+offset_right = 800.0
+offset_bottom = 80.0
+color = Color(0, 0, 0, 0.12549)
+
+[node name="Subtext" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/SFX"]
+layout_mode = 2
+offset_left = 10.0
+offset_top = 50.0
+offset_right = 590.0
+offset_bottom = 80.0
+theme_override_fonts/font = ExtResource("6_u3c0d")
+theme_override_font_sizes/font_size = 24
+text = "Loudness of sound effects."
+autowrap_mode = 2
+text_overrun_behavior = 3
+
+[node name="SlideWidget" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/SFX"]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 595.0
+offset_top = 5.0
+offset_right = 795.0
+offset_bottom = 75.0
+texture = ExtResource("7_wov4k")
+expand_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Control/Holder/MainMenu/SFX/SlideWidget"]
+libraries = {
+"": SubResource("AnimationLibrary_x5ocv")
+}
+autoplay = "Normal"
+
+[node name="L" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/SFX/SlideWidget"]
+visible = false
+layout_mode = 0
+offset_left = 16.0
+offset_top = 23.0
+offset_right = 32.0
+offset_bottom = 47.0
+pivot_offset = Vector2(8, 12)
+texture = ExtResource("8_hva4y")
+expand_mode = 1
+flip_h = true
+
+[node name="R" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/SFX/SlideWidget"]
+visible = false
+layout_mode = 0
+offset_left = 168.0
+offset_top = 23.0
+offset_right = 184.0
+offset_bottom = 47.0
+pivot_offset = Vector2(8, 12)
+texture = ExtResource("8_hva4y")
+expand_mode = 1
+
+[node name="Text" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/SFX/SlideWidget"]
+modulate = Color(0.909804, 0.909804, 0.909804, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 200.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_od36t")
+theme_override_font_sizes/font_size = 40
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 2
+
+[node name="VScrollBar" type="VScrollBar" parent="Rendering Zone/Control/Holder"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/scroll = SubResource("StyleBoxFlat_744cj")
+max_value = 5.0
+page = 1.0
+value = 1.0
+
+[node name="SafeZone" type="ReferenceRect" parent="Rendering Zone"]
+z_index = 4001
+offset_left = -640.0
+offset_top = -480.0
+offset_right = 640.0
+offset_bottom = 480.0
+border_width = 4.0

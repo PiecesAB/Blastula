@@ -193,7 +193,7 @@ namespace Blastula.Menus
                 Close(); return;
             }
 
-            if (InputManager.ButtonPressedThisFrame("Menu/Select"))
+            if (menuNodes[selection].performsActionOnSelect && InputManager.ButtonPressedThisFrame("Menu/Select"))
             {
                 selectFramesRemaining = waitAfterSelectFrames;
                 controlStunned = true;

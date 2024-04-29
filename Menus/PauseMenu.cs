@@ -60,6 +60,12 @@ namespace Blastula.Menus
             confirmMenu.Open();
         }
 
+        public void OpenSettingsMenu()
+        {
+            SettingsMenuManager.SetMode(SettingsMenuManager.Mode.InSession);
+            Loader.LoadExternal(this, Persistent.SETTINGS_MENU_PATH);
+        }
+
         public void CloseConfirmMenu()
         {
             confirmMenu.Close();

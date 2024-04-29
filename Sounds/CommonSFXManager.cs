@@ -26,6 +26,10 @@ namespace Blastula.Sounds
         /// Such an action would cause lag, and mitigating it would be unnoticed.
         /// </summary>
         private static Dictionary<Node, ulong> lastPlayedFrame = new Dictionary<Node, ulong>();
+        /// <summary>
+        /// Linear volumes that the AudioStreamPlayer nodes begin with.
+        /// </summary>
+        private static Dictionary<string, float> startVolumesByNodeName = new Dictionary<string, float>();
 
         private int registeredCount = 0;
 
@@ -76,7 +80,8 @@ namespace Blastula.Sounds
             if (!IDFromName.ContainsKey(name)) { return; }
             int id = IDFromName[name];
             if (!soundPlayerFromID.ContainsKey(id)) { return; }
-            Play(soundPlayerFromID[id], pitch, volume, position, move);
+            float startVolume = startVolumesByNodeName[name];
+            Play(soundPlayerFromID[id], pitch, startVolume * volume, position, move);
         }
 
         private bool IsSoundPlayer(Node n)
@@ -104,6 +109,18 @@ namespace Blastula.Sounds
                     nameFromID[registeredCount] = path;
                     IDFromName[path] = registeredCount;
                     soundPlayerFromID[registeredCount] = n;
+                    if (n is AudioStreamPlayer)
+                    {
+                        startVolumesByNodeName[path] = Mathf.DbToLinear(((AudioStreamPlayer)n).VolumeDb);
+                    }
+                    else if (n is AudioStreamPlayer2D)
+                    {
+                        startVolumesByNodeName[path] = Mathf.DbToLinear(((AudioStreamPlayer2D)n).VolumeDb);
+                    }
+                    else if (n is AudioStreamPlayer3D)
+                    {
+                        startVolumesByNodeName[path] = Mathf.DbToLinear(((AudioStreamPlayer3D)n).VolumeDb);
+                    }
                     UseSFXBus(n);
                     //GD.Print($"Common sound {path} registered with ID {registeredCount}, bus is {n.Get("bus")}");
                     registeredCount++;

@@ -138,6 +138,15 @@ namespace Blastula.Menus
             CommonSFXManager.PlayByName(sfxName);
         }
 
+        // Play it once per selection. Useful for the sound when switching, if the animation loops.
+        private bool commonSFXOnceSwitch = false;
+        public void PlayCommonSFXOnce(string sfxName)
+        {
+            if (commonSFXOnceSwitch) { return; }
+            commonSFXOnceSwitch = true;
+            CommonSFXManager.PlayByName(sfxName);
+        }
+
         public void PlayBackSFX()
         {
             CommonSFXManager.PlayByName("Menu/Back");
@@ -241,6 +250,7 @@ namespace Blastula.Menus
             {
                 menuNodes[oldSelection].Normal();
                 menuNodes[selection].Highlight();
+                commonSFXOnceSwitch = false;
             }
         }
     }

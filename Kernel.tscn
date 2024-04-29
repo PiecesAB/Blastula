@@ -1,4 +1,4 @@
-[gd_scene load_steps=177 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=179 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -123,6 +123,8 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="93_kt2yj"]
 [ext_resource type="AudioStream" uid="uid://fvvcbw2sx75j" path="res://addons/Blastula/Sounds/Menu/selectBig.ogg" id="93_quwg7"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/SetItemGetHeight.cs" id="98_4pc22"]
+[ext_resource type="AudioStream" uid="uid://cytekk0pwry8p" path="res://addons/Blastula/Sounds/Menu/tickLeft.ogg" id="99_24upv"]
+[ext_resource type="AudioStream" uid="uid://bt3106hh5njie" path="res://addons/Blastula/Sounds/Menu/tickRight.ogg" id="100_wjuh5"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Aim.cs" id="111_b4os7"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/PlayMusic.cs" id="121_odgj2"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/MusicEnvelope.cs" id="124_ktqkr"]
@@ -1356,6 +1358,14 @@ stream = ExtResource("93_quwg7")
 
 [node name="Back" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Menu"]
 stream = ExtResource("92_ijk5m")
+
+[node name="TickLeft" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Menu"]
+stream = ExtResource("99_24upv")
+volume_db = -12.0
+
+[node name="TickRight" type="AudioStreamPlayer" parent="Sound/Common SFX Manager/Menu"]
+stream = ExtResource("100_wjuh5")
+volume_db = -12.0
 
 [node name="Game Logic" type="Node" parent="."]
 

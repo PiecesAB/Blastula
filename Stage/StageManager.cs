@@ -59,7 +59,7 @@ namespace Blastula
 
         public async Task RetrySinglePlayerSession()
         {
-            ForceEndSinglePlayerSession();
+            EndSinglePlayerSession();
             await this.WaitOneFrame();
             await InitializeSinglePlayerSession(currentPlayerPath, currentStageGroupName);
         }
@@ -75,6 +75,7 @@ namespace Blastula
             currentStageGroupName = stageGroupName;
             await PlayerManager.main.SpawnPlayer(playerPath);
             if (Session.main != null) { Session.main.StartInSession(); }
+            if (FrameCounter.main != null) { FrameCounter.main.ResetSessionFrame(); }
             // TODO: not always have the same RNG
             RNG.Reseed(0);
             GD.Seed(0);
@@ -84,9 +85,10 @@ namespace Blastula
             EmitSignal(SignalName.SessionBeginning);
         }
 
-        public void ForceEndSinglePlayerSession()
+        public void EndSinglePlayerSession()
         {
             if (Session.main != null) { Session.main.EndInSession(); }
+            BackgroundHolder.FadeAway(0);
             Waiters.IncrementSceneLoadCounter();
             StageSector.DumpStack();
             foreach (var kvp in Player.playersByControl) { kvp.Value.QueueFree(); }

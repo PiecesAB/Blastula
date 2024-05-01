@@ -81,7 +81,7 @@ namespace Blastula.Menus
                         Close();
                         if (StageManager.main != null)
                         {
-                            StageManager.main.ForceEndSinglePlayerSession();
+                            StageManager.main.EndSinglePlayerSession();
                             Loader.LoadExternal(this, Persistent.TITLE_MENU_PATH);
                         }
                     }

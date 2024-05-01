@@ -8,6 +8,8 @@ namespace Blastula
     /// </summary>
     public partial class FrameCounter : Node
     {
+        public static FrameCounter main { get; private set; } = null;
+
         /// <summary>
         /// Number of real frames since the program began, regardless of pausing.
         /// </summary>
@@ -17,6 +19,10 @@ namespace Blastula
         /// </summary>
         public static ulong stageFrame { get; private set; }
         /// <summary>
+        /// Time passed in the stage, which also accounts for time scaling and pausing.
+        /// </summary>
+        public static double stageTime { get; private set; }
+        /// <summary>
         /// Number of frames since the session began, regardless of pausing.
         /// </summary>
         public static ulong realSessionFrame { get; private set; }
@@ -24,6 +30,7 @@ namespace Blastula
         public void ResetStageFrame()
         {
             stageFrame = 0;
+            stageTime = 0.0;
         }
 
         public void ResetSessionFrame()
@@ -195,7 +202,11 @@ namespace Blastula
 
         public override void _Ready()
         {
+            main = this;
             realGameFrame = 0;
+            realSessionFrame = 0;
+            stageFrame = 0;
+            stageTime = 0.0;
             ProcessPriority = Persistent.Priorities.FRAME_COUNTER_INCREMENT;
             BNodeFunctions.InitializeQueue();
         }
@@ -207,6 +218,7 @@ namespace Blastula
             if (Session.main != null && !Session.main.paused)
             {
                 stageFrame++;
+                stageTime += Engine.TimeScale / Persistent.SIMULATED_FPS;
             }
         }
     }

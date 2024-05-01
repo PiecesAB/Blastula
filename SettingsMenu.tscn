@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://eke71hhuvqf8"]
+[gd_scene load_steps=30 format=3 uid="uid://eke71hhuvqf8"]
 
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_f168q"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/SettingsMenuManager.cs" id="1_jaxt4"]
@@ -10,6 +10,7 @@
 [ext_resource type="FontFile" uid="uid://ggirehmyeo2f" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_R.otf" id="6_u3c0d"]
 [ext_resource type="Texture2D" uid="uid://dxafby8ws3ltt" path="res://addons/Blastula/Graphics/UI/Settings/widgetShift.png" id="7_wov4k"]
 [ext_resource type="Texture2D" uid="uid://r31wgkvf5pa8" path="res://addons/Blastula/Graphics/UI/Settings/shiftArrow.png" id="8_hva4y"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/ListNode.cs" id="11_15gha"]
 [ext_resource type="FontFile" uid="uid://dtwct8imbtrpq" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RI.otf" id="11_oto2m"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2drar"]
@@ -115,26 +116,26 @@ step = 0.02
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("SlideWidget:self_modulate")
+tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 0, 0, 1)]
+"values": [Color(0.690196, 0.690196, 0.690196, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:self_modulate")
+tracks/1/path = NodePath("SlideWidget:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0.690196, 0.690196, 0.690196, 1)]
+"values": [Color(0, 0, 0, 1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -167,10 +168,10 @@ tracks/4/path = NodePath("SlideWidget/Text:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_v78v1"]
@@ -178,26 +179,26 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("SlideWidget:self_modulate")
+tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 0, 0, 1)]
+"values": [Color(0.690196, 0.690196, 0.690196, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:self_modulate")
+tracks/1/path = NodePath("SlideWidget:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0.690196, 0.690196, 0.690196, 1)]
+"values": [Color(0.4, 0.4, 0.4, 1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -233,7 +234,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0.909804, 0.909804, 0.909804, 1)]
+"values": [Color(0.619608, 1, 0.929412, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_p7cgo"]
@@ -243,38 +244,40 @@ step = 0.02
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("SlideWidget:self_modulate")
+tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0.4, 0.4, 0.4, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(0.637, 1.204, 1.1, 1), Color(0.529, 1, 0.914, 1), Color(0.637, 1.204, 1.1, 1)]
 }
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.02),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Switch"],
+"method": &"PlayCommonSFXOnce"
+}]
+}
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("SlideWidget/L:visible")
+tracks/2/path = NodePath("SlideWidget:self_modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.02),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, true]
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.4, 0.4, 0.4, 1)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -291,27 +294,56 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("SlideWidget/Text:modulate")
+tracks/4/path = NodePath("SlideWidget/L:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.02),
 "transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0.619608, 1, 0.929412, 1), Color(0.619608, 1, 0.929412, 1)]
+"update": 1,
+"values": [true, true]
 }
-tracks/5/type = "method"
+tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("..")
+tracks/5/path = NodePath("SlideWidget/Text:modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.619608, 1, 0.929412, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hrn7k"]
+resource_name = "Select"
+length = 0.3
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.15, 0.225, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.637, 1.204, 1.1, 1), Color(0.529, 1, 0.914, 1), Color(0.637, 1.204, 1.1, 1), Color(0.529, 1, 0.914, 1), Color(0.637, 1.204, 1.1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0.02),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": ["Menu/Switch"],
-"method": &"PlayCommonSFXOnce"
+"args": ["Menu/Select"],
+"method": &"PlayCommonSFX"
 }]
 }
 
@@ -319,7 +351,8 @@ tracks/5/keys = {
 _data = {
 "Highlight": SubResource("Animation_p7cgo"),
 "Normal": SubResource("Animation_ytimw"),
-"RESET": SubResource("Animation_v78v1")
+"RESET": SubResource("Animation_v78v1"),
+"Select": SubResource("Animation_hrn7k")
 }
 
 [sub_resource type="Animation" id="Animation_a1lpc"]
@@ -617,9 +650,9 @@ horizontal_alignment = 1
 clip_children = 2
 layout_mode = 0
 offset_left = 453.0
-offset_top = 100.0
+offset_top = 90.0
 offset_right = 1263.0
-offset_bottom = 900.0
+offset_bottom = 910.0
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_jaxt4")
 sceneRoot = NodePath("../../..")
@@ -704,7 +737,7 @@ autowrap_mode = 2
 text_overrun_behavior = 3
 
 [node name="SlideWidget" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/Music"]
-self_modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0.4, 0.4, 0.4, 1)
 layout_mode = 0
 offset_left = 595.0
 offset_top = 5.0
@@ -743,7 +776,7 @@ texture = ExtResource("8_hva4y")
 expand_mode = 1
 
 [node name="Text" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/Music/SlideWidget"]
-modulate = Color(0.909804, 0.909804, 0.909804, 1)
+modulate = Color(0.619608, 1, 0.929412, 1)
 layout_mode = 0
 offset_right = 200.0
 offset_bottom = 70.0
@@ -811,7 +844,7 @@ autowrap_mode = 2
 text_overrun_behavior = 3
 
 [node name="SlideWidget" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/SFX"]
-self_modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0.4, 0.4, 0.4, 1)
 layout_mode = 0
 offset_left = 595.0
 offset_top = 5.0
@@ -850,7 +883,7 @@ texture = ExtResource("8_hva4y")
 expand_mode = 1
 
 [node name="Text" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/SFX/SlideWidget"]
-modulate = Color(0.909804, 0.909804, 0.909804, 1)
+modulate = Color(0.619608, 1, 0.929412, 1)
 layout_mode = 0
 offset_right = 200.0
 offset_bottom = 70.0
@@ -938,7 +971,7 @@ autowrap_mode = 2
 text_overrun_behavior = 3
 
 [node name="SlideWidget" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/StartLife"]
-self_modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0.4, 0.4, 0.4, 1)
 layout_mode = 0
 offset_left = 595.0
 offset_top = 5.0
@@ -977,7 +1010,7 @@ texture = ExtResource("8_hva4y")
 expand_mode = 1
 
 [node name="Text" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/StartLife/SlideWidget"]
-modulate = Color(0.909804, 0.909804, 0.909804, 1)
+modulate = Color(0.619608, 1, 0.929412, 1)
 layout_mode = 0
 offset_right = 200.0
 offset_bottom = 70.0
@@ -1045,7 +1078,7 @@ autowrap_mode = 2
 text_overrun_behavior = 3
 
 [node name="SlideWidget" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/StartBomb"]
-self_modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0.4, 0.4, 0.4, 1)
 layout_mode = 0
 offset_left = 595.0
 offset_top = 5.0
@@ -1084,7 +1117,7 @@ texture = ExtResource("8_hva4y")
 expand_mode = 1
 
 [node name="Text" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/StartBomb/SlideWidget"]
-modulate = Color(0.909804, 0.909804, 0.909804, 1)
+modulate = Color(0.619608, 1, 0.929412, 1)
 layout_mode = 0
 offset_right = 200.0
 offset_bottom = 70.0
@@ -1151,7 +1184,7 @@ autowrap_mode = 2
 text_overrun_behavior = 3
 
 [node name="SlideWidget" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/Immortality"]
-self_modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0.4, 0.4, 0.4, 1)
 layout_mode = 0
 offset_left = 595.0
 offset_top = 5.0
@@ -1190,7 +1223,7 @@ texture = ExtResource("8_hva4y")
 expand_mode = 1
 
 [node name="Text" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/Immortality/SlideWidget"]
-modulate = Color(0.909804, 0.909804, 0.909804, 1)
+modulate = Color(0.619608, 1, 0.929412, 1)
 layout_mode = 0
 offset_right = 200.0
 offset_bottom = 70.0
@@ -1257,7 +1290,7 @@ autowrap_mode = 2
 text_overrun_behavior = 3
 
 [node name="SlideWidget" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/ShowBackground"]
-self_modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0.4, 0.4, 0.4, 1)
 layout_mode = 0
 offset_left = 595.0
 offset_top = 5.0
@@ -1296,7 +1329,7 @@ texture = ExtResource("8_hva4y")
 expand_mode = 1
 
 [node name="Text" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/ShowBackground/SlideWidget"]
-modulate = Color(0.909804, 0.909804, 0.909804, 1)
+modulate = Color(0.619608, 1, 0.929412, 1)
 layout_mode = 0
 offset_right = 200.0
 offset_bottom = 70.0
@@ -1307,7 +1340,137 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 2
 
+[node name="RebindInput" type="NinePatchRect" parent="Rendering Zone/Control/Holder/MainMenu" node_paths=PackedStringArray("animationPlayer")]
+self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
+custom_minimum_size = Vector2(0, 208)
+layout_mode = 2
+theme = SubResource("Theme_kwmux")
+texture = ExtResource("4_rqc3r")
+region_rect = Rect2(12, 12, 488, 104)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+script = ExtResource("11_15gha")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Control/Holder/MainMenu/RebindInput"]
+libraries = {
+"": SubResource("AnimationLibrary_c1l31")
+}
+autoplay = "Normal"
+
+[node name="Text" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/RebindInput"]
+layout_mode = 2
+offset_left = 10.0
+offset_right = 610.0
+offset_bottom = 50.0
+theme_override_fonts/font = ExtResource("3_od36t")
+theme_override_font_sizes/font_size = 42
+text = "Input bindings"
+vertical_alignment = 1
+
+[node name="Bar" type="ColorRect" parent="Rendering Zone/Control/Holder/MainMenu/RebindInput"]
+layout_mode = 2
+offset_top = 50.0
+offset_right = 800.0
+offset_bottom = 80.0
+color = Color(0, 0, 0, 0.12549)
+
+[node name="Subtext" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/RebindInput"]
+layout_mode = 2
+offset_left = 10.0
+offset_top = 50.0
+offset_right = 590.0
+offset_bottom = 80.0
+theme_override_fonts/font = ExtResource("6_u3c0d")
+theme_override_font_sizes/font_size = 24
+text = "Press the selection button to rebind inputs."
+autowrap_mode = 2
+text_overrun_behavior = 3
+
+[node name="VDiv" type="ColorRect" parent="Rendering Zone/Control/Holder/MainMenu/RebindInput"]
+layout_mode = 0
+offset_left = 398.0
+offset_top = 84.0
+offset_right = 400.0
+offset_bottom = 204.0
+
+[node name="BindDirs" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/RebindInput"]
+layout_mode = 2
+offset_left = 10.0
+offset_top = 80.0
+offset_right = 400.0
+offset_bottom = 204.0
+theme_override_fonts/font = ExtResource("6_u3c0d")
+theme_override_font_sizes/font_size = 24
+text = "Left = [Joypad X, Button X]
+Right = [Joypad X, Button X]
+Up = [Joypad X, Button X]
+Down = [Joypad X, Button X]"
+autowrap_mode = 2
+text_overrun_behavior = 4
+
+[node name="BindActions" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/RebindInput"]
+layout_mode = 2
+offset_left = 405.0
+offset_top = 80.0
+offset_right = 795.0
+offset_bottom = 204.0
+theme_override_fonts/font = ExtResource("6_u3c0d")
+theme_override_font_sizes/font_size = 24
+text = "Shoot/Select = [Joypad X, Button X]
+Back/Bomb = [Joypad X, Button X]
+Focus = [Joypad X, Button X]
+Special = [Joypad X, Button X]"
+autowrap_mode = 2
+
+[node name="SlideWidget" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/RebindInput"]
+visible = false
+self_modulate = Color(0.4, 0.4, 0.4, 1)
+layout_mode = 0
+texture = ExtResource("7_wov4k")
+expand_mode = 1
+
+[node name="L" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/RebindInput/SlideWidget"]
+visible = false
+layout_mode = 0
+offset_left = 16.0
+offset_top = 23.0
+offset_right = 32.0
+offset_bottom = 47.0
+scale = Vector2(1.3, 1.3)
+pivot_offset = Vector2(8, 12)
+texture = ExtResource("8_hva4y")
+expand_mode = 1
+flip_h = true
+
+[node name="R" type="TextureRect" parent="Rendering Zone/Control/Holder/MainMenu/RebindInput/SlideWidget"]
+visible = false
+layout_mode = 0
+offset_left = 168.0
+offset_top = 23.0
+offset_right = 184.0
+offset_bottom = 47.0
+pivot_offset = Vector2(8, 12)
+texture = ExtResource("8_hva4y")
+expand_mode = 1
+
+[node name="Text" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/RebindInput/SlideWidget"]
+modulate = Color(0.619608, 1, 0.929412, 1)
+layout_mode = 0
+offset_left = -6.0
+offset_right = 194.0
+offset_bottom = 70.0
+theme_override_fonts/font = ExtResource("3_od36t")
+theme_override_font_sizes/font_size = 40
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 2
+
 [node name="VScrollBar" type="VScrollBar" parent="Rendering Zone/Control/Holder"]
+visible = false
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
@@ -1327,8 +1490,8 @@ anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = 428.0
-offset_bottom = 472.0
+offset_top = 438.0
+offset_bottom = 482.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("11_oto2m")

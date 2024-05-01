@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://t8dnmubk3oni"]
+
+[sub_resource type="Sky" id="Sky_j6c5r"]
+
+[sub_resource type="Environment" id="Environment_hxelk"]
+background_mode = 1
+background_color = Color(0.4, 0.533333, 0.678431, 1)
+sky = SubResource("Sky_j6c5r")
+fog_enabled = true
+fog_light_color = Color(0.4, 0.533333, 0.678431, 1)
+fog_density = 0.3831
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dl8qm"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hxelk")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 8, 0, -0.908, -2)
+mesh = SubResource("PlaneMesh_dl8qm")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 8, 1, 0, -2)
+mesh = SubResource("PlaneMesh_dl8qm")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 8, -1, 0, -2)
+mesh = SubResource("PlaneMesh_dl8qm")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 8, 0, 1, -2)
+mesh = SubResource("PlaneMesh_dl8qm")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.512964, 1.06552, -1.20129)
+light_color = Color(0.533333, 0.713726, 0.878431, 1)
+light_energy = 2.0

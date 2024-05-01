@@ -1,4 +1,4 @@
-[gd_scene load_steps=179 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=181 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -130,7 +130,9 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/MusicEnvelope.cs" id="124_ktqkr"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/PlayerManager.cs" id="126_daosb"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/PlayerEntry.cs" id="127_ecdrd"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/LoadBackground.cs" id="128_bar8m"]
 [ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/PictusXXIV/PictusXXIV.tscn" id="128_p54iq"]
+[ext_resource type="PackedScene" uid="uid://t8dnmubk3oni" path="res://addons/Blastula/Session/Backgrounds/basic_sample.tscn" id="129_whd7m"]
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/SettingsLoader.cs" id="130_wuyde"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cv5ct"]
@@ -1734,9 +1736,14 @@ script = ExtResource("63_d8ira")
 
 [node name="Stage 0" type="Node" parent="Stage Manager/MainSequence"]
 script = ExtResource("63_d8ira")
+isStage = true
 
 [node name="Wait2" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("66_doh6d")
+
+[node name="LoadBackground" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
+script = ExtResource("128_bar8m")
+backgroundScene = ExtResource("129_whd7m")
 
 [node name="Reconception" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("121_odgj2")

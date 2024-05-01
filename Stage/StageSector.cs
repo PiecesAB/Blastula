@@ -39,6 +39,10 @@ namespace Blastula.Schedules
         /// which may cause the game's memory to be slowly burdened.
         /// </summary>
         [Export] public string formationDeletionDelay = "0";
+        /// <summary>
+        /// If this represents a stage, then we require special behavior, such as resetting the stage time.
+        /// </summary>
+        [Export] public bool isStage = false;
 
         private Node formationInstance = null;
 
@@ -116,6 +120,10 @@ namespace Blastula.Schedules
             if (state == State.Active) { return; }
             state = State.Active;
             sectorStack.Push(this);
+            if (isStage)
+            {
+                if (FrameCounter.main != null) { FrameCounter.main.ResetStageFrame(); }
+            }
             if (formationInstance == null && formation != null)
             {
                 formationInstance = formation.Instantiate();

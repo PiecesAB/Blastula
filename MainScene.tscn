@@ -1,4 +1,4 @@
-[gd_scene load_steps=140 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=137 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="1_5qpbx"]
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_m6k27"]
@@ -244,18 +244,6 @@ font = ExtResource("30_f14at")
 font_size = 28
 shadow_color = Color(0.415686, 0.415686, 0.415686, 1)
 shadow_offset = Vector2(2, 2)
-
-[sub_resource type="Sky" id="Sky_j6c5r"]
-
-[sub_resource type="Environment" id="Environment_hxelk"]
-background_mode = 1
-background_color = Color(0.4, 0.533333, 0.678431, 1)
-sky = SubResource("Sky_j6c5r")
-fog_enabled = true
-fog_light_color = Color(0.4, 0.533333, 0.678431, 1)
-fog_density = 0.3831
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_dl8qm"]
 
 [sub_resource type="Animation" id="Animation_6n7pd"]
 resource_name = "Main"
@@ -2318,10 +2306,10 @@ render_target_update_mode = 4
 
 [node name="Camera" type="Camera2D" parent="Rendering Zone/MainViewHolder/MainView/Objects"]
 
-[node name="Background" type="SubViewportContainer" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera"]
+[node name="Background" type="SubViewportContainer" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera" node_paths=PackedStringArray("backgroundSceneParent", "fadeOverlay")]
 light_mask = 0
 visibility_layer = 524288
-z_index = -4096
+z_index = -4000
 texture_filter = 2
 anchors_preset = 8
 anchor_left = 0.5
@@ -2336,39 +2324,21 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 script = ExtResource("32_n8s3g")
+backgroundSceneParent = NodePath("InternalBG")
+fadeOverlay = NodePath("../FadeOverlay")
 
 [node name="InternalBG" type="SubViewport" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background"]
 handle_input_locally = false
 size = Vector2i(768, 896)
 render_target_update_mode = 4
 
-[node name="Node3D" type="Node3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG"]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
-environment = SubResource("Environment_hxelk")
-
-[node name="Camera3D" type="Camera3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 8, 0, -0.908, -2)
-mesh = SubResource("PlaneMesh_dl8qm")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 8, 1, 0, -2)
-mesh = SubResource("PlaneMesh_dl8qm")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 8, -1, 0, -2)
-mesh = SubResource("PlaneMesh_dl8qm")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
-transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 8, 0, 1, -2)
-mesh = SubResource("PlaneMesh_dl8qm")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera/Background/InternalBG/Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.512964, 1.06552, -1.20129)
-light_color = Color(0.533333, 0.713726, 0.878431, 1)
-light_energy = 2.0
+[node name="FadeOverlay" type="ColorRect" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera"]
+z_index = -3999
+offset_left = -384.0
+offset_top = -448.0
+offset_right = 384.0
+offset_bottom = 448.0
+color = Color(0, 0, 0, 1)
 
 [node name="DebugCollision" type="Node2D" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera"]
 z_index = 1000
@@ -2525,8 +2495,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 1200.0
-offset_bottom = 36.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 2

@@ -88,7 +88,7 @@ namespace Blastula
         public void EndSinglePlayerSession()
         {
             if (Session.main != null) { Session.main.EndInSession(); }
-            BackgroundHolder.FadeAway(0);
+            _ = BackgroundHolder.FadeAway(0);
             Waiters.IncrementSceneLoadCounter();
             StageSector.DumpStack();
             foreach (var kvp in Player.playersByControl) { kvp.Value.QueueFree(); }

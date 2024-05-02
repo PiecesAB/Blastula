@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cg10eplw862s5"
-path.s3tc="res://.godot/imported/placeholderBorder.png-f660f039ea5c18b3e59474a2bf986974.s3tc.ctex"
+uid="uid://dshklv2qhlbp"
+path.s3tc="res://.godot/imported/tile.png-1bec63ea7d508085709040fddec166d3.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/Blastula/Graphics/UI/placeholderBorder.png"
-dest_files=["res://.godot/imported/placeholderBorder.png-f660f039ea5c18b3e59474a2bf986974.s3tc.ctex"]
+source_file="res://addons/Blastula/Session/Backgrounds/Lab/tile.png"
+dest_files=["res://.godot/imported/tile.png-1bec63ea7d508085709040fddec166d3.s3tc.ctex"]
 
 [params]
 

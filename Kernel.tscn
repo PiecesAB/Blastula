@@ -132,7 +132,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/PlayerEntry.cs" id="127_ecdrd"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/LoadBackground.cs" id="128_bar8m"]
 [ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/PictusXXIV/PictusXXIV.tscn" id="128_p54iq"]
-[ext_resource type="PackedScene" uid="uid://t8dnmubk3oni" path="res://addons/Blastula/Session/Backgrounds/basic_sample.tscn" id="129_whd7m"]
+[ext_resource type="PackedScene" uid="uid://bhqd5e51x5qy6" path="res://addons/Blastula/Session/Backgrounds/Lab/lab.tscn" id="129_yne45"]
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/SettingsLoader.cs" id="130_wuyde"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cv5ct"]
@@ -1743,7 +1743,7 @@ script = ExtResource("66_doh6d")
 
 [node name="LoadBackground" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("128_bar8m")
-backgroundScene = ExtResource("129_whd7m")
+backgroundScene = ExtResource("129_yne45")
 
 [node name="Reconception" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
 script = ExtResource("121_odgj2")

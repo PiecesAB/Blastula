@@ -1,11 +1,21 @@
 using Blastula.Schedules;
 using Godot;
 using System;
+using System.Text;
 
 namespace Blastula
 {
     public partial class BossHealthIndicator : Node
     {
+        /// <summary>
+        /// The boss name, as it is displayed.
+        /// </summary>
+        [Export] public string bossName = "Insert boss name here";
+        /// <summary>
+        /// The label that displays the boss name. 
+        /// Due to an idiosyncratic shader mechanism, the boss name given in this script is reversed.
+        /// </summary>
+        [Export] public Label bossNameLabel;
         /// <summary>
         /// USed to show tokens that hint towards future attacks.
         /// </summary>
@@ -105,9 +115,22 @@ namespace Blastula
             tokenLabel.Text = fullString;
         }
 
+        public void UpdateName(string newName = null)
+        {
+            StringBuilder reversedName = new StringBuilder();
+            if (newName == null) { newName = bossName; }
+            bossName = newName;
+            for (int i = 0; i < newName.Length; ++i)
+            {
+                reversedName.Append(newName[newName.Length - 1 - i]);
+            }
+            bossNameLabel.Text = reversedName.ToString();
+        }
+
         public override void _Ready()
         {
             base._Ready();
+            UpdateName();
             PopulateSequenceTokens((StageSector)StageManager.main.FindChild("TestBoss"));
         }
     }

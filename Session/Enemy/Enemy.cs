@@ -6,6 +6,7 @@ using Godot;
 using System.Collections.Generic;
 using Blastula.Sounds;
 using System.Diagnostics;
+using Blastula.LowLevel;
 
 namespace Blastula
 {
@@ -35,6 +36,10 @@ namespace Blastula
 
         [ExportGroup("Health & Defense")]
         [Export] public float health = 100;
+        /// <summary>
+        /// References a ParticleEffectPool that activates when damaged by a player's bullet.
+        /// </summary>
+        [Export] public string damageParticlePool = "EnemyHit";
         /// <summary>
         /// If the enemy is damaged and the health becomes below this cutoff, another sound effect will play.
         /// This lets the player know that their attacks have not been in vain, and it will be over soon.
@@ -121,10 +126,6 @@ namespace Blastula
         public bool defeated { get; private set; } = false;
         public bool onScreen { get; private set; } = false;
 
-        /// <summary>
-        /// Used to keep track of the animation when the enemy is damaged so they darken all the sprites.
-        /// </summary>
-        private int damageDarkenTimer = 0;
         private EnemyFormation formation;
         private System.Collections.Generic.Dictionary<string, EnemyMover> myMovers = new System.Collections.Generic.Dictionary<string, EnemyMover>();
 
@@ -196,8 +197,9 @@ namespace Blastula
                     }
                     else
                     {
-                        damageDarkenTimer = 3;
-                        Modulate = new Color(1f, 0.7f, 0.7f, 1f);
+                        Vector2 bulletWorldPos = BulletWorldTransforms.Get(bNodeIndex).Origin;
+                        BulletWorldTransforms.Invalidate(bNodeIndex); // Just in case the caching affects the behavior. Hopefully not too many bullets hit the enemy at once.
+                        ParticleEffectPool.PlayEffect(damageParticlePool, bulletWorldPos);
                         CommonSFXManager.PlayByName("Enemy/Damaged", 1, 1, GlobalPosition, true);
                         if (health <= lowHealthCutoff)
                         {
@@ -363,16 +365,6 @@ namespace Blastula
                 {
                     lifeLeft = 0;
                     BecomeDefeated();
-                }
-            }
-
-            // Turn the enemy white if it was red from being damaged recently.
-            if (damageDarkenTimer > 0)
-            {
-                damageDarkenTimer--;
-                if (damageDarkenTimer == 0)
-                {
-                    Modulate = Colors.White;
                 }
             }
 

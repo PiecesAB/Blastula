@@ -121,7 +121,10 @@ namespace Blastula.Collision
         public override void _ExitTree()
         {
             base._ExitTree();
-            enabled = false;
+            if (!Engine.IsEditorHint())
+            {
+                enabled = false;
+            }
             UnregisterIfNeeded();
         }
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=181 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=182 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -59,7 +59,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/ParticleEffectPool.cs" id="50_eyr8l"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/InputManager.cs" id="50_fax0d"]
 [ext_resource type="Texture2D" uid="uid://dtfx7la3l3xpt" path="res://addons/Blastula/Graphics/Collectibles/power.png" id="50_y2uyf"]
-[ext_resource type="PackedScene" uid="uid://htuij3trjfo5" path="res://addons/Blastula/Graphics/ExplodeMedium.tscn" id="51_njfs0"]
+[ext_resource type="PackedScene" uid="uid://htuij3trjfo5" path="res://addons/Blastula/Graphics/ParticleExplodeMedium.tscn" id="51_njfs0"]
 [ext_resource type="Script" path="res://addons/Blastula/Sounds/MusicManager.cs" id="52_l68ss"]
 [ext_resource type="Script" path="res://addons/Blastula/Sounds/CommonSFXManager.cs" id="53_22pks"]
 [ext_resource type="Texture2D" uid="uid://1ow6sv288rh8" path="res://addons/Blastula/Graphics/Collectibles/extend.png" id="53_i3y4t"]
@@ -82,6 +82,7 @@
 [ext_resource type="AudioStream" uid="uid://b40ppbhpry1iv" path="res://addons/Blastula/Sounds/Player/graze.ogg" id="60_mqmjd"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/GrazeLines.cs" id="62_deiuq"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/LabelPool.cs" id="62_kcacq"]
+[ext_resource type="PackedScene" uid="uid://bj4lrgafd2s65" path="res://addons/Blastula/Graphics/ParticleEnemyHit.tscn" id="62_km1iw"]
 [ext_resource type="Script" path="res://addons/Blastula/Stage/StageManager.cs" id="62_lftpa"]
 [ext_resource type="Script" path="res://addons/Blastula/Stage/StageSector.cs" id="63_d8ira"]
 [ext_resource type="PackedScene" uid="uid://dhs5bv06xyf0f" path="res://addons/Blastula/Graphics/MinorItemPopup.tscn" id="64_dsgu3"]
@@ -1047,6 +1048,12 @@ ID = "ExplodeMedium"
 sample = ExtResource("51_njfs0")
 count = 100
 
+[node name="EnemyHit" type="Node" parent="Rendering/Particle Effect Pools"]
+script = ExtResource("50_eyr8l")
+ID = "EnemyHit"
+sample = ExtResource("62_km1iw")
+count = 200
+
 [node name="Label Pools" type="Node" parent="Rendering"]
 
 [node name="Score Popup Pool" type="Node" parent="Rendering/Label Pools"]
@@ -1861,6 +1868,9 @@ role = 5
 [node name="Life4" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part05"]
 script = ExtResource("63_d8ira")
 role = 5
+
+[node name="Unknown" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
+script = ExtResource("63_d8ira")
 
 [node name="Settings Loader" type="Node" parent="."]
 script = ExtResource("130_wuyde")

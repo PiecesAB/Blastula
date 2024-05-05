@@ -1,24 +1,18 @@
-[gd_scene load_steps=19 format=3 uid="uid://ccm1h8jgbo63m"]
+[gd_scene load_steps=18 format=3 uid="uid://ccm1h8jgbo63m"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossEnemy.cs" id="1_okdxs"]
 [ext_resource type="Texture2D" uid="uid://cgg752h3ys7w2" path="res://addons/Blastula/Graphics/NodeIcons/enemy.png" id="2_hpex5"]
 [ext_resource type="Script" path="res://addons/Blastula/Collision/BlastulaCollider.cs" id="3_lkec2"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Target.cs" id="4_evqlk"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossHealthIndicator.cs" id="5_a1uah"]
-[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="5_agn1c"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Additive.gdshader" id="5_is46e"]
 [ext_resource type="Texture2D" uid="uid://8hd8rkm4u5mx" path="res://addons/Blastula/Graphics/Enemy/bossBar1.png" id="5_tkf03"]
 [ext_resource type="Texture2D" uid="uid://b7wh00s8sgoi7" path="res://addons/Blastula/Graphics/Enemy/bossBar2.png" id="7_5fvb2"]
+[ext_resource type="Texture2D" uid="uid://bbe4o5c2h56o2" path="res://addons/Blastula/Graphics/Enemy/bossBarBack.png" id="7_ndiou"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Enemy/BossSequenceTokens.gdshader" id="9_ev315"]
 [ext_resource type="FontFile" uid="uid://d3qy5qooo3jqa" path="res://addons/Blastula/Graphics/Enemy/bossSequenceTokens.png" id="9_phaw4"]
 [ext_resource type="Texture2D" uid="uid://ulwvg4hbsyjx" path="res://addons/Blastula/Graphics/Enemy/bossBarTick.png" id="11_0rf1s"]
 [ext_resource type="FontFile" uid="uid://cdkr7rv70t74f" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Bold.ttf" id="11_aut60"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8oija"]
-shader = ExtResource("5_agn1c")
-shader_parameter/top_color = Vector4(0.8, 0.8, 0.8, 1)
-shader_parameter/bottom_color = Vector4(0.4, 0.4, 0.4, 1)
-shader_parameter/glisten_factor = Vector3(0.2, 2, 0.01)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g0m1q"]
 shader = ExtResource("5_is46e")
@@ -57,8 +51,7 @@ texture = ExtResource("2_hpex5")
 
 [node name="Bullet Collider" type="Node2D" parent="."]
 script = ExtResource("3_lkec2")
-enabled = false
-size = Vector2(80, 0)
+size = Vector2(40, 0)
 objectLayer = "Enemy"
 showMode = 0
 
@@ -69,7 +62,7 @@ ID = "Enemy"
 [node name="Visible Check" type="VisibleOnScreenNotifier2D" parent="."]
 rect = Rect2(-30, -30, 60, 60)
 
-[node name="HealthIndicator" type="Control" parent="." node_paths=PackedStringArray("tokenLabel")]
+[node name="HealthIndicator" type="Control" parent="." node_paths=PackedStringArray("bossNameLabel", "tokenLabel")]
 z_index = 20
 layout_mode = 3
 anchors_preset = 0
@@ -78,15 +71,18 @@ offset_top = -128.0
 offset_right = 128.0
 offset_bottom = 128.0
 script = ExtResource("5_a1uah")
+bossNameLabel = NodePath("Name")
 tokenLabel = NodePath("SequenceTokens")
 
 [node name="Back" type="TextureRect" parent="HealthIndicator"]
-modulate = Color(0.160784, 0.160784, 0.160784, 0.25098)
-material = SubResource("ShaderMaterial_8oija")
+modulate = Color(1, 1, 1, 0.501961)
 layout_mode = 0
-offset_right = 256.0
-offset_bottom = 256.0
-texture = ExtResource("5_tkf03")
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 320.0
+offset_bottom = 320.0
+pivot_offset = Vector2(192, 192)
+texture = ExtResource("7_ndiou")
 
 [node name="BombBar" type="TextureProgressBar" parent="HealthIndicator"]
 material = SubResource("ShaderMaterial_g0m1q")
@@ -138,7 +134,7 @@ offset_right = 500.0
 offset_bottom = 300.0
 theme_override_fonts/font = ExtResource("11_aut60")
 theme_override_font_sizes/font_size = 20
-text = "ereH seoG emaN ssoB"
+text = "???"
 text_overrun_behavior = 3
 
 [node name="Ticks" type="Control" parent="HealthIndicator"]

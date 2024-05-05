@@ -5,7 +5,7 @@ uniform highp vec2 center = vec2(228.0, 220.0);
 uniform mediump float use_rotation = 0.0;
 
 void vertex() {
-	float x = spacing * (float(INSTANCE_ID) + 0.5);
+	float x = spacing * (float(INSTANCE_ID) + 0.7);
 	float radius = length(center - start_offset);
 	float t = (-x / radius) - (PI * 0.5);
 	vec2 dir = vec2(cos(t), sin(t));

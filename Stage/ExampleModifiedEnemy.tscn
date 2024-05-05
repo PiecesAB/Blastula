@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dfglvhf0vgk1k"]
 
-[ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/BasicEnemy.tscn" id="1_04axi"]
+[ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/ExampleEnemy.tscn" id="1_04axi"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/ScheduleReference.cs" id="2_2syau"]
 [ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="3_55vrq"]
 

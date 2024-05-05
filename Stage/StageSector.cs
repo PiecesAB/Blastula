@@ -17,6 +17,48 @@ namespace Blastula.Schedules
     public partial class StageSector : StageSchedule
     {
         /// <summary>
+        /// The role of a StageSector; important for parsing.
+        /// </summary>
+        public enum Role
+        {
+            /// <summary>
+            /// A StageSector for an arbitrary purpose.
+            /// </summary>
+            Unknown,
+            /// <summary>
+            /// Encompasses a whole stage.
+            /// </summary>
+            Stage,
+            /// <summary>
+            /// Encompasses a self-contained section of a stage.
+            /// </summary>
+            Chapter,
+            /// <summary>
+            /// Spawns and encompasses boss (and midboss) fights. Expected child of Stage sector.
+            /// </summary>
+            Boss,
+            /// <summary>
+            /// Groups attacks together under the same healthbar, if possible.
+            /// Can be used for a phased attack, as well.
+            /// </summary>
+            BossAttackGroup,
+            /// <summary>
+            /// A "standard" boss attack. Expected child of Boss sector.
+            /// </summary>
+            BossLife,
+            /// <summary>
+            /// A "special" boss attack. Expected child of Boss sector.
+            /// </summary>
+            BossBomb,
+            /// <summary>
+            /// A boss attack where offense is useless -- the player must survive. Expected child of Boss sector.
+            /// </summary>
+            BossTimeout,
+        }
+
+        [Export] public Role role = Role.Unknown;
+
+        /// <summary>
         /// This portion of the stage will end after this number of seconds, if it's not yet ended.
         /// Leave blank to have infinite time.
         /// </summary>
@@ -39,10 +81,6 @@ namespace Blastula.Schedules
         /// which may cause the game's memory to be slowly burdened.
         /// </summary>
         [Export] public string formationDeletionDelay = "0";
-        /// <summary>
-        /// If this represents a stage, then we require special behavior, such as resetting the stage time.
-        /// </summary>
-        [Export] public bool isStage = false;
 
         private Node formationInstance = null;
 
@@ -120,7 +158,7 @@ namespace Blastula.Schedules
             if (state == State.Active) { return; }
             state = State.Active;
             sectorStack.Push(this);
-            if (isStage)
+            if (role == Role.Stage)
             {
                 if (FrameCounter.main != null) { FrameCounter.main.ResetStageFrame(); }
             }

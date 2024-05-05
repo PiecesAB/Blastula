@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Collision/BlastulaCollider.cs" id="3_7ciy7"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Target.cs" id="4_1w061"]
 
-[node name="BasicEnemy" type="Node2D"]
+[node name="ExampleEnemy" type="Node2D"]
 position = Vector2(100, -200)
 script = ExtResource("1_jevmo")
 collectibleSpawnNames = PackedStringArray("ScatterPoint", "ScatterPower", "DropExtendPiece")

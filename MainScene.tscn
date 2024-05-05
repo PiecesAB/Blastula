@@ -1,4 +1,4 @@
-[gd_scene load_steps=137 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=138 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="1_5qpbx"]
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_m6k27"]
@@ -53,7 +53,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/MainBoundary.cs" id="50_4fyhh"]
 [ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="51_suwsw"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/ScheduleReference.cs" id="52_hr82e"]
-[ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/BasicEnemy.tscn" id="53_3j5av"]
+[ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/ExampleEnemy.tscn" id="53_3j5av"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Sequence.cs" id="54_dvc7i"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/CreateSingle.cs" id="55_aru50"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Morph.cs" id="56_ybru1"]
@@ -82,6 +82,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="79_aaomk"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/WindForth.cs" id="80_lnbdv"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Spread.cs" id="81_cqmgs"]
+[ext_resource type="PackedScene" uid="uid://ccm1h8jgbo63m" path="res://addons/Blastula/Session/Enemy/ExampleBoss.tscn" id="83_at0au"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cbxs"]
 shader = ExtResource("10_fbcxs")
@@ -2653,7 +2654,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2694,7 +2695,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2733,7 +2734,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Retry"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2772,7 +2773,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Settings"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2811,7 +2812,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/End"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2916,7 +2917,7 @@ animationPlayer = NodePath("AnimationPlayer")
 libraries = {
 "": SubResource("AnimationLibrary_rkflj")
 }
-blend_times = [&"Highlight", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Normal", &"Normal", 0.1]
+blend_times = [&"Normal", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Highlight", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3092,7 +3093,7 @@ mainSchedule = NodePath("Main schedule")
 script = ExtResource("52_hr82e")
 
 [node name="BasicEnemy" parent="." instance=ExtResource("53_3j5av")]
-position = Vector2(0, -200)
+position = Vector2(200, 400)
 health = 500.0
 lowHealthCutoff = 100.0
 
@@ -3702,6 +3703,9 @@ newValue = "r + 7.8"
 unique_name_in_owner = true
 editor_description = "The Blastula.PlayerEntry class searches for the node of this name and places the player here to start."
 position = Vector2(0, 320)
+
+[node name="ExampleBoss" parent="." instance=ExtResource("83_at0au")]
+position = Vector2(0, -200)
 
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Resume"]
 [connection signal="SelectAction" from="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue" to="Rendering Zone/MainViewHolder/PauseMenu/MainMenu" method="Continue"]

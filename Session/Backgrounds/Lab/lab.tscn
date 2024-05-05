@@ -1,6 +1,7 @@
-[gd_scene load_steps=21 format=3 uid="uid://bhqd5e51x5qy6"]
+[gd_scene load_steps=22 format=3 uid="uid://bhqd5e51x5qy6"]
 
 [ext_resource type="Texture2D" uid="uid://dshklv2qhlbp" path="res://addons/Blastula/Session/Backgrounds/Lab/tile.png" id="1_jkylm"]
+[ext_resource type="Script" path="res://addons/Blastula/LowLevel/AnimationFrameAdvance.cs" id="1_umg0j"]
 [ext_resource type="Texture2D" uid="uid://cn0npwjunpvb0" path="res://addons/Blastula/Session/Backgrounds/Lab/ceiling.png" id="2_dfkjq"]
 [ext_resource type="Texture2D" uid="uid://f115sulsibst" path="res://addons/Blastula/Session/Backgrounds/Lab/door.png" id="2_dlggu"]
 
@@ -15,6 +16,21 @@ ambient_light_color = Color(0.235294, 0.27451, 0.372549, 1)
 fog_enabled = true
 fog_light_color = Color(0.0627451, 0.105882, 0.156863, 1)
 fog_density = 0.2855
+
+[sub_resource type="Animation" id="Animation_cudy6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.3, 6)]
+}
 
 [sub_resource type="Animation" id="Animation_q7al0"]
 resource_name = "Start"
@@ -33,25 +49,25 @@ tracks/0/keys = {
 "values": [Vector3(0, 0.3, 6), Vector3(0, 0.3, 3)]
 }
 
-[sub_resource type="Animation" id="Animation_cudy6"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3o3jg"]
+_data = {
+"RESET": SubResource("Animation_cudy6"),
+"Start": SubResource("Animation_q7al0")
+}
+
+[sub_resource type="Animation" id="Animation_l7qbd"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0.3, 6)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_3o3jg"]
-_data = {
-"RESET": SubResource("Animation_cudy6"),
-"Start": SubResource("Animation_q7al0")
+"values": [Vector3(-0.349066, 0.0872665, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_1g07g"]
@@ -69,21 +85,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector3(-0.349066, -0.0872665, 0), Vector3(-0.349066, 0.0872665, 0), Vector3(-0.349066, -0.0872665, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_l7qbd"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-0.349066, 0.0872665, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dsydf"]
@@ -133,19 +134,21 @@ uv1_scale = Vector3(1, 32, 1)
 environment = SubResource("Environment_hxelk")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.996195, -0.029809, 0.0818996, 0, 0.939693, 0.34202, -0.0871557, -0.340719, 0.936117, 0, 0.3, 6)
+transform = Transform3D(0.996195, -0.0298091, 0.0818996, 0, 0.939693, 0.34202, -0.0871558, -0.340719, 0.936117, 0, 0.3, 6)
 
 [node name="MoveForward" type="AnimationPlayer" parent="Camera3D"]
 libraries = {
 "": SubResource("AnimationLibrary_3o3jg")
 }
 autoplay = "Start"
+script = ExtResource("1_umg0j")
 
 [node name="Tilt" type="AnimationPlayer" parent="Camera3D"]
 libraries = {
 "": SubResource("AnimationLibrary_dsydf")
 }
 autoplay = "Start"
+script = ExtResource("1_umg0j")
 
 [node name="Floor" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 8, 0, -0.908, -2)

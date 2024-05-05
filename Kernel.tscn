@@ -1731,57 +1731,136 @@ playerScene = ExtResource("128_p54iq")
 [node name="Stage Manager" type="Node" parent="."]
 script = ExtResource("62_lftpa")
 
-[node name="MainSequence" type="Node" parent="Stage Manager"]
+[node name="Stage 0" type="Node" parent="Stage Manager"]
 script = ExtResource("63_d8ira")
+role = 1
 
-[node name="Stage 0" type="Node" parent="Stage Manager/MainSequence"]
-script = ExtResource("63_d8ira")
-isStage = true
-
-[node name="Wait2" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
+[node name="Wait2" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("66_doh6d")
 
-[node name="LoadBackground" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
+[node name="LoadBackground" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("128_bar8m")
 backgroundScene = ExtResource("129_yne45")
 
-[node name="Reconception" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
+[node name="Reconception" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("121_odgj2")
 nodeName = "Reconception"
 volume = "0.6"
 
-[node name="Substage 0" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
+[node name="Substage 0" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("63_d8ira")
+role = 2
 duration = "7"
 endWhenChildrenComplete = false
 
-[node name="Sound2" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
+[node name="Sound2" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("98_4pc22")
 newHeight = "0"
 
-[node name="Substage 1" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
+[node name="Substage 1" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("63_d8ira")
+role = 2
 duration = "30"
 endWhenChildrenComplete = false
 shouldUseTimer = true
 formation = ExtResource("65_1m2vo")
 
-[node name="Sound3" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
+[node name="Sound3" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("98_4pc22")
 
-[node name="Wait" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
+[node name="Wait" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("66_doh6d")
 
-[node name="Substage 2" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
+[node name="Substage 2" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("63_d8ira")
+role = 2
 duration = "30"
 endWhenChildrenComplete = false
 shouldUseTimer = true
 formation = ExtResource("65_1m2vo")
 
-[node name="Reconception2" type="Node" parent="Stage Manager/MainSequence/Stage 0"]
+[node name="Reconception2" type="Node" parent="Stage Manager/Stage 0"]
 script = ExtResource("124_ktqkr")
 mode = 1
+
+[node name="MainSequence" type="Node" parent="Stage Manager"]
+script = ExtResource("63_d8ira")
+
+[node name="BossStageTest" type="Node" parent="Stage Manager/MainSequence"]
+script = ExtResource("63_d8ira")
+role = 1
+
+[node name="TestBoss" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
+script = ExtResource("63_d8ira")
+role = 3
+
+[node name="Part01" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
+script = ExtResource("63_d8ira")
+role = 4
+
+[node name="Life" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
+script = ExtResource("63_d8ira")
+role = 5
+
+[node name="Bomb" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
+script = ExtResource("63_d8ira")
+role = 6
+
+[node name="Part02" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
+script = ExtResource("63_d8ira")
+role = 4
+
+[node name="Life" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part02"]
+script = ExtResource("63_d8ira")
+role = 5
+
+[node name="Bomb" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part02"]
+script = ExtResource("63_d8ira")
+role = 6
+
+[node name="Bomb2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part02"]
+script = ExtResource("63_d8ira")
+role = 6
+
+[node name="Part03" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
+script = ExtResource("63_d8ira")
+role = 4
+
+[node name="Bomb" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part03"]
+script = ExtResource("63_d8ira")
+role = 6
+
+[node name="Bomb2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part03"]
+script = ExtResource("63_d8ira")
+role = 6
+
+[node name="Life04" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
+script = ExtResource("63_d8ira")
+role = 5
+
+[node name="Timeout" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
+script = ExtResource("63_d8ira")
+role = 7
+
+[node name="Part05" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
+script = ExtResource("63_d8ira")
+role = 4
+
+[node name="Life" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part05"]
+script = ExtResource("63_d8ira")
+role = 5
+
+[node name="Life2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part05"]
+script = ExtResource("63_d8ira")
+role = 5
+
+[node name="Life3" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part05"]
+script = ExtResource("63_d8ira")
+role = 5
+
+[node name="Life4" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part05"]
+script = ExtResource("63_d8ira")
+role = 5
 
 [node name="Settings Loader" type="Node" parent="."]
 script = ExtResource("130_wuyde")

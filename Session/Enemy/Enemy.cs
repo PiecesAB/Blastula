@@ -137,7 +137,7 @@ namespace Blastula
         /// </summary>
         public HashSet<string> specialNames { get; set; } = new HashSet<string>()
         {
-            "pos", "dpos", "enemy_count", "health_frac", "on_screen"
+            "pos", "dpos", "start_pos", "enemy_count", "health_frac", "on_screen"
         };
         /// <summary>
         /// Implemented for IVariableContainer; solves special variable names.
@@ -148,6 +148,7 @@ namespace Blastula
             {
                 case "pos": return GlobalPosition;
                 case "dpos": return GlobalPosition - startPosition;
+                case "start_pos": return startPosition;
                 case "enemy_count": return (formation == null) ? 1 : formation.enemyCount;
                 case "health_frac": return (maxHealth == 0) ? 1 : (health / maxHealth);
                 case "on_screen": return onScreen;

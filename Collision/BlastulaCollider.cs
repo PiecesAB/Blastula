@@ -33,6 +33,11 @@ namespace Blastula.Collision
         }
 
         /// <summary>
+        /// The collider is only registered when this is true.
+        /// </summary>
+        [Export] public bool enabled = true;
+        private bool actuallyEnabled = false;
+        /// <summary>
         /// The shape of the collider.
         /// </summary>
         [Export] public Shape shape = Shape.Circle;
@@ -76,9 +81,11 @@ namespace Blastula.Collision
 
         private bool prevDebugColShapes = false;
 
-        public override void _Ready()
+        private void RegisterIfNeeded()
         {
-            base._Ready();
+            if (!enabled || actuallyEnabled) { return; }
+            actuallyEnabled = true;
+
             if (Engine.IsEditorHint()) { return; }
             ID = IDCounter++;
             collisions = (LinkedList<Collision>*)Marshal.AllocHGlobal(sizeof(LinkedList<Collision>));
@@ -93,13 +100,29 @@ namespace Blastula.Collision
             deletionPtr = CollisionSolver.RegisterObject((IntPtr)colliderInfo, objectLayerID);
         }
 
-        public override void _ExitTree()
+        private void UnregisterIfNeeded()
         {
-            base._ExitTree();
+            if (enabled || !actuallyEnabled) { return; }
+            actuallyEnabled = false;
+
             if (Engine.IsEditorHint() || ID == -1) { return; }
             CollisionSolver.UnregisterObject(deletionPtr, objectLayerID);
             Marshal.FreeHGlobal((IntPtr)colliderInfo);
+            collisions->Dispose();
             Marshal.FreeHGlobal((IntPtr)collisions);
+        }
+
+        public override void _Ready()
+        {
+            base._Ready();
+            RegisterIfNeeded();
+        }
+
+        public override void _ExitTree()
+        {
+            base._ExitTree();
+            enabled = false;
+            UnregisterIfNeeded();
         }
 
         public override void _Process(double delta)
@@ -113,23 +136,27 @@ namespace Blastula.Collision
             {
                 if (showMode == ShowMode.Always || prevDebugColShapes) { QueueRedraw(); }
                 prevDebugColShapes = Debug.DebugCollision.showCollisionShapes;
-                colliderInfo->shape = shape;
-                colliderInfo->size = size;
-                colliderInfo->transform = GlobalTransform;
-                while (collisions->count > 0)
+                RegisterIfNeeded(); 
+                UnregisterIfNeeded();
+                if (actuallyEnabled)
                 {
-                    Collision c = collisions->RemoveHead();
-                    switch (actMode)
+                    colliderInfo->shape = shape;
+                    colliderInfo->size = size;
+                    colliderInfo->transform = GlobalTransform;
+                    while (collisions->count > 0)
                     {
-                        case ActMode.Signal:
-                        default:
-                            EmitSignal(SignalName.Collision, this, c.bNodeIndex);
-                            break;
-                        case ActMode.DeleteWithEffect:
-                            PostExecute.ScheduleDeletion(c.bNodeIndex, true);
-                            break;
+                        Collision c = collisions->RemoveHead();
+                        switch (actMode)
+                        {
+                            case ActMode.Signal:
+                            default:
+                                EmitSignal(SignalName.Collision, this, c.bNodeIndex);
+                                break;
+                            case ActMode.DeleteWithEffect:
+                                PostExecute.ScheduleDeletion(c.bNodeIndex, true);
+                                break;
+                        }
                     }
-                    
                 }
             }
         }

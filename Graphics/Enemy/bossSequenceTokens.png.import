@@ -1,0 +1,22 @@
+[remap]
+
+importer="font_data_image"
+type="FontFile"
+uid="uid://d3qy5qooo3jqa"
+path="res://.godot/imported/bossSequenceTokens.png-2b5e062991a2fcf811d0daccfe422f4b.fontdata"
+
+[deps]
+
+source_file="res://addons/Blastula/Graphics/Enemy/bossSequenceTokens.png"
+dest_files=["res://.godot/imported/bossSequenceTokens.png-2b5e062991a2fcf811d0daccfe422f4b.fontdata"]
+
+[params]
+
+character_ranges=PackedStringArray("\'0\'-\'9\'", "\'a\'-\'j\'", "\'A\'-\'J\'")
+columns=10
+rows=3
+image_margin=Rect2i(0, 0, 0, 0)
+character_margin=Rect2i(0, 0, 0, 0)
+fallbacks=[]
+compress=true
+scaling_mode=2

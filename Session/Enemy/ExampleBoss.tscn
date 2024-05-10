@@ -37,8 +37,10 @@ shader_parameter/center = Vector2(228, 230)
 shader_parameter/use_rotation = 1.0
 
 [node name="ExampleBoss" type="Node2D"]
-position = Vector2(100, -200)
+position = Vector2(0, -200)
 script = ExtResource("1_okdxs")
+health = 0.0
+lowHealthCutoff = 0.05
 collectibleSpawnNames = PackedStringArray("ScatterPoint", "ScatterPower", "DropExtendPiece")
 collectibleSpawnAmounts = PackedInt32Array(4, 4, 1)
 pointsOnDestroy = 5000.0
@@ -62,7 +64,7 @@ ID = "Enemy"
 [node name="Visible Check" type="VisibleOnScreenNotifier2D" parent="."]
 rect = Rect2(-30, -30, 60, 60)
 
-[node name="HealthIndicator" type="Control" parent="." node_paths=PackedStringArray("bossNameLabel", "tokenLabel")]
+[node name="HealthIndicator" type="Control" parent="." node_paths=PackedStringArray("bossNameLabel", "tokenLabel", "lifeBar", "bombBar")]
 z_index = 20
 layout_mode = 3
 anchors_preset = 0
@@ -73,6 +75,8 @@ offset_bottom = 128.0
 script = ExtResource("5_a1uah")
 bossNameLabel = NodePath("Name")
 tokenLabel = NodePath("SequenceTokens")
+lifeBar = NodePath("LifeBar")
+bombBar = NodePath("BombBar")
 
 [node name="Back" type="TextureRect" parent="HealthIndicator"]
 modulate = Color(1, 1, 1, 0.501961)
@@ -97,7 +101,7 @@ texture_progress = ExtResource("7_5fvb2")
 tint_under = Color(0.160784, 0.160784, 0.160784, 0.376471)
 tint_progress = Color(0, 0.54902, 0.921569, 1)
 
-[node name="HealthBar" type="TextureProgressBar" parent="HealthIndicator"]
+[node name="LifeBar" type="TextureProgressBar" parent="HealthIndicator"]
 material = SubResource("ShaderMaterial_hkyts")
 layout_mode = 0
 offset_right = 256.0

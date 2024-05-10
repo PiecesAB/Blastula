@@ -1,4 +1,4 @@
-[gd_scene load_steps=182 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=184 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -135,6 +135,8 @@
 [ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/PictusXXIV/PictusXXIV.tscn" id="128_p54iq"]
 [ext_resource type="PackedScene" uid="uid://bhqd5e51x5qy6" path="res://addons/Blastula/Session/Backgrounds/Lab/lab.tscn" id="129_yne45"]
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/SettingsLoader.cs" id="130_wuyde"]
+[ext_resource type="PackedScene" uid="uid://ccm1h8jgbo63m" path="res://addons/Blastula/Session/Enemy/ExampleBoss.tscn" id="135_ekk57"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossRefill.cs" id="136_1n5ct"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cv5ct"]
 shader = ExtResource("49_hetvq")
@@ -1800,6 +1802,7 @@ role = 1
 [node name="TestBoss" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
 script = ExtResource("63_d8ira")
 role = 3
+formation = ExtResource("135_ekk57")
 
 [node name="Part01" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
 script = ExtResource("63_d8ira")
@@ -1808,10 +1811,22 @@ role = 4
 [node name="Life" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
 script = ExtResource("63_d8ira")
 role = 5
+duration = "30"
+endWhenChildrenComplete = false
+shouldUseTimer = true
+
+[node name="Wait" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
+script = ExtResource("66_doh6d")
+
+[node name="BossRefill" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
+script = ExtResource("136_1n5ct")
 
 [node name="Bomb" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
 script = ExtResource("63_d8ira")
 role = 6
+duration = "30"
+endWhenChildrenComplete = false
+shouldUseTimer = true
 
 [node name="Part02" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
 script = ExtResource("63_d8ira")
@@ -1820,57 +1835,90 @@ role = 4
 [node name="Life" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part02"]
 script = ExtResource("63_d8ira")
 role = 5
+duration = "30"
+endWhenChildrenComplete = false
+shouldUseTimer = true
 
 [node name="Bomb" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part02"]
 script = ExtResource("63_d8ira")
 role = 6
+duration = "30"
+endWhenChildrenComplete = false
+shouldUseTimer = true
+bossHealthCutoff = 0.5
 
 [node name="Bomb2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part02"]
 script = ExtResource("63_d8ira")
 role = 6
+duration = "30"
+endWhenChildrenComplete = false
+shouldUseTimer = true
 
 [node name="Part03" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
 script = ExtResource("63_d8ira")
 role = 4
+duration = "40"
+endWhenChildrenComplete = false
+shouldUseTimer = true
 
 [node name="Bomb" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part03"]
 script = ExtResource("63_d8ira")
 role = 6
+duration = "20"
+endWhenChildrenComplete = false
+bossHealthCutoff = 0.5
 
 [node name="Bomb2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part03"]
 script = ExtResource("63_d8ira")
 role = 6
+endWhenChildrenComplete = false
 
 [node name="Life04" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
 script = ExtResource("63_d8ira")
 role = 5
+duration = "15"
+endWhenChildrenComplete = false
+shouldUseTimer = true
 
 [node name="Timeout" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
 script = ExtResource("63_d8ira")
 role = 7
+duration = "15"
+endWhenChildrenComplete = false
+shouldUseTimer = true
 
 [node name="Part05" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
 script = ExtResource("63_d8ira")
 role = 4
+duration = "120"
+endWhenChildrenComplete = false
+shouldUseTimer = true
 
 [node name="Life" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part05"]
 script = ExtResource("63_d8ira")
 role = 5
+duration = "30"
+endWhenChildrenComplete = false
+bossHealthCutoff = 0.833
 
 [node name="Life2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part05"]
 script = ExtResource("63_d8ira")
 role = 5
+duration = "30"
+endWhenChildrenComplete = false
+bossHealthCutoff = 0.583
 
 [node name="Life3" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part05"]
 script = ExtResource("63_d8ira")
 role = 5
+duration = "30"
+endWhenChildrenComplete = false
+bossHealthCutoff = 0.333
 
 [node name="Life4" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part05"]
 script = ExtResource("63_d8ira")
 role = 5
-
-[node name="Unknown" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
-script = ExtResource("63_d8ira")
+endWhenChildrenComplete = false
 
 [node name="Settings Loader" type="Node" parent="."]
 script = ExtResource("130_wuyde")

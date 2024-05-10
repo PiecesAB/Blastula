@@ -1,10 +1,15 @@
 using Blastula.Schedules;
+using Blastula.VirtualVariables;
 using Godot;
 using System;
+using System.ComponentModel.Design;
 using System.Text;
 
 namespace Blastula
 {
+    /// <summary>
+    /// The parent should be a BossEnemy. 
+    /// </summary>
     public partial class BossHealthIndicator : Node
     {
         /// <summary>
@@ -17,9 +22,11 @@ namespace Blastula
         /// </summary>
         [Export] public Label bossNameLabel;
         /// <summary>
-        /// USed to show tokens that hint towards future attacks.
+        /// Used to show tokens that hint towards future attacks.
         /// </summary>
         [Export] public Label tokenLabel;
+        [Export] public TextureProgressBar lifeBar;
+        [Export] public TextureProgressBar bombBar;
 
         private const char emptyLetter = '0';
         private const char unknownLetter = 'a';
@@ -28,6 +35,7 @@ namespace Blastula
         private const string timeoutLetters = "1234";
         private const string lifeBombLetters = "ghi";
 
+        private BossEnemy bossNode = null;
         public string fullString { get; private set; } = ""; 
 
         private string PopulateSingle(StageSector s)
@@ -127,11 +135,35 @@ namespace Blastula
             bossNameLabel.Text = reversedName.ToString();
         }
 
+        public void InitializeFill()
+        {
+            lifeBar.Value = 0;
+        }
+
+        public void UpdateFill()
+        {
+            if (bossNode != null)
+            {
+                float newVal = ((IVariableContainer)(Enemy)bossNode).GetSpecial("health_frac").AsSingle();
+                lifeBar.Value = Mathf.Lerp(lifeBar.Value, newVal, 0.2f);
+            }
+        }
+
         public override void _Ready()
         {
             base._Ready();
-            UpdateName();
+            Node parent = GetParent();
+            if (parent is BossEnemy) { bossNode = (BossEnemy)parent; }
             PopulateSequenceTokens((StageSector)StageManager.main.FindChild("TestBoss"));
+            UpdateName();
+            InitializeFill();
+            UpdateFill();
+        }
+
+        public override void _Process(double delta)
+        {
+            base._Process(delta);
+            UpdateFill();
         }
     }
 }

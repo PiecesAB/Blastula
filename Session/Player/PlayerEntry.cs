@@ -39,11 +39,11 @@ namespace Blastula
                 await this.WaitOneFrame();
                 mainScene = Persistent.GetMainScene();
             }
-            Node2D spawn = (Node2D)mainScene.GetNode("%PlayerSpawn");
+            Node2D spawn = (Node2D)mainScene.GetNode("%PlayerHome");
             while (spawn == null)
             {
                 await this.WaitOneFrame();
-                spawn = (Node2D)mainScene.GetNode("%PlayerSpawn");
+                spawn = (Node2D)mainScene.GetNode("%PlayerHome");
             }
             spawn.GetParent().CallDeferred(MethodName.AddChild, newPlayer);
             newPlayer.GlobalPosition = spawn.GlobalPosition;

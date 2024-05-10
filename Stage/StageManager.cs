@@ -1,3 +1,4 @@
+using Blastula.Graphics;
 using Blastula.Schedules;
 using Blastula.Sounds;
 using Blastula.VirtualVariables;
@@ -16,6 +17,7 @@ namespace Blastula
         [Signal] public delegate void StageSectorChangedEventHandler(StageSector newSector);
         [Signal] public delegate void StageChangedEventHandler(StageSector newStage);
         [Signal] public delegate void SessionBeginningEventHandler();
+        [Signal] public delegate void SessionEndingEventHandler();
 
         /// <summary>
         /// The number of bullets grazed in this stage. Mainly for single-player use.
@@ -87,6 +89,7 @@ namespace Blastula
 
         public void EndSinglePlayerSession()
         {
+            EmitSignal(SignalName.SessionEnding);
             if (Session.main != null) { Session.main.EndInSession(); }
             _ = BackgroundHolder.FadeAway(0);
             Waiters.IncrementSceneLoadCounter();
@@ -95,6 +98,7 @@ namespace Blastula
             Player.playersByControl.Clear();
             foreach (Blastodisc bd in Blastodisc.all) { bd.ClearBullets(false); }
             MusicManager.Stop();
+            LabelPool.StopAll();
         }
 
         public override void _Ready()

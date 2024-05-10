@@ -89,13 +89,30 @@ namespace Blastula.Graphics
             }
         }
 
+        private void PopRemoveQueue()
+        {
+            RemovalOrder r = removeQueue.Dequeue();
+            Label effect = instances[r.instanceIndex];
+            effect.Visible = false;
+        }
+
+        public static void StopAll()
+        {
+            foreach (LabelPool p in poolByID.Values)
+            {
+                while (p.removeQueue.Count > 0)
+                {
+                    p.PopRemoveQueue();
+                }
+            }
+        }
+
         public override void _Process(double delta)
         {
             base._Process(delta);
             while (removeQueue.Count > 0 && removeQueue.Peek().removalFrame <= FrameCounter.stageFrame)
             {
-                RemovalOrder r = removeQueue.Dequeue();
-                instances[r.instanceIndex].Visible = false;
+                PopRemoveQueue();
             }
         }
     }

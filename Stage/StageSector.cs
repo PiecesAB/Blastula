@@ -74,6 +74,7 @@ namespace Blastula.Schedules
         /// For example, we could load the overlay that introduces the stage.
         /// We could also load a boss, whose attacks are then loaded in child sectors.
         /// </summary>
+        [ExportGroup("Formation")]
         [Export] public PackedScene formation = null;
         /// <summary>
         /// The spawned formation instance is deleted after this number of seconds.
@@ -81,6 +82,15 @@ namespace Blastula.Schedules
         /// which may cause the game's memory to be slowly burdened.
         /// </summary>
         [Export] public string formationDeletionDelay = "0";
+        /// <summary>
+        /// If any existing BossEnemy's health fraction becomes at least this low, 
+        /// and the BossEnemy has decided to respond to this value, the sector is made to end immediately.
+        /// Normally, this is zero because we want the sector to end when one of their health is empty.
+        /// However, it may be above zero for phased attacks, 
+        /// or below zero to avoid triggering the next sector this way (it's impossible for enemies to have negative health).
+        /// </summary>
+        [ExportGroup("Boss")]
+        [Export] public float bossHealthCutoff = 0f;
 
         private Node formationInstance = null;
 

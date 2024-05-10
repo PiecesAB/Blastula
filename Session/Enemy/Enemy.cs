@@ -50,6 +50,7 @@ namespace Blastula
         /// </summary>
         [Export] public DefenseMode defenseMode = DefenseMode.Scale;
         [Export] public float defense = 0;
+        protected bool deflectAllDamage = false;
 
         /// <summary>
         /// Schedule that is executed primarily for the purpose of moving this enemy around.
@@ -118,12 +119,12 @@ namespace Blastula
         /// <summary>
         /// The time remaining (in the same units as selfMaxLifespan) until the enemy is destroyed no matter what.
         /// </summary>
-        public float lifeLeft { get; private set; } = float.PositiveInfinity;
+        public float lifespanLeft { get; protected set; } = float.PositiveInfinity;
         /// <summary>
         /// The amount of health the enemy spawned in with.
         /// </summary>
-        public float maxHealth { get; private set; }
-        public bool defeated { get; private set; } = false;
+        public float maxHealth { get; protected set; }
+        public bool defeated { get; protected set; } = false;
         public bool onScreen { get; private set; } = false;
 
         private EnemyFormation formation;
@@ -187,8 +188,10 @@ namespace Blastula
                     case DefenseMode.Scale: damageAmount *= 1f - defense; break;
                     case DefenseMode.Absorb: damageAmount = Mathf.Max(0, damageAmount - defense); break;
                 }
+                if (deflectAllDamage) { damageAmount = 0f; }
                 health = Mathf.Max(0, health - damageAmount);
-                // Play damaged sound
+
+                // Play damaged sound and effects
                 if (usedBulletHealth > 0)
                 {
                     if (damageAmount == 0)
@@ -208,8 +211,8 @@ namespace Blastula
                         Session.main.AddScore(pointsOnDamage * usedBulletHealth);
                     }
                 }
-                //GD.Print($"bullet dealt {damageAmount} damage: enemy health is now {health}");
-                if (health == 0)
+
+                if (damageAmount > 0 && health == 0 && !defeated)
                 {
                     if (spawnCollectiblesOnHealthZero)
                     {
@@ -256,13 +259,13 @@ namespace Blastula
         public void NoLongerVisibleFromNotifier()
         {
             onScreen = false;
-            if (selfMaxLifespan - lifeLeft >= selfMinLifespan)
+            if (selfMaxLifespan - lifespanLeft >= selfMinLifespan)
             {
                 QueueFree();
             }
             else
             {
-                Waiters.DelayedQueueFree(this, lifeLeft, lifespanUnits);
+                Waiters.DelayedQueueFree(this, lifespanLeft, lifespanUnits);
             }
         }
 
@@ -305,7 +308,7 @@ namespace Blastula
             all.Add(this);
             startPosition = GlobalPosition;
             maxHealth = health;
-            lifeLeft = selfMaxLifespan;
+            lifespanLeft = selfMaxLifespan;
 
             if (movementSchedule != null)
             {
@@ -354,16 +357,16 @@ namespace Blastula
 
             if (Debug.GameFlow.frozen) { return; }
 
-            // Count down the life and destroy self when 
-            if (lifeLeft > 0.0001)
+            // Count down the life and destroy self when it hits zero.
+            if (lifespanLeft > 0.0001)
             {
-                lifeLeft -= 
+                lifespanLeft -= 
                     (float)((lifespanUnits == Wait.TimeUnits.Seconds) 
                     ? (Engine.TimeScale / Persistent.SIMULATED_FPS) 
                     : ((Engine.TimeScale > 0) ? 1 : 0));
-                if (lifeLeft <= 0.0001)
+                if (lifespanLeft <= 0.0001)
                 {
-                    lifeLeft = 0;
+                    lifespanLeft = 0;
                     BecomeDefeated();
                 }
             }

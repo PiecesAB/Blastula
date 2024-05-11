@@ -41,11 +41,17 @@ namespace Blastula.Schedules
             else if ((parent = GetParent()) is StageSector) { container = (StageSector)parent; }
             if (container == null)
             {
-                GD.PushWarning("BossRefill has no containing StageSector; will not run.");
+                GD.PushWarning("BossRefill should be child of a StageSector; halting.");
                 return Task.CompletedTask;
             }
 
-            foreach (BossEnemy b in BossEnemy.GetBosses(bossID))
+            List<BossEnemy> bossList = BossEnemy.GetBosses(bossID);
+            if (bossList.Count == 0) 
+            {
+                GD.PushWarning("BossRefill tried to refill nonexistent boss(es).");
+                return Task.CompletedTask;
+            }
+            foreach (BossEnemy b in bossList)
             {
                 float nmh = Solve("newMaxHealth").AsSingle();
                 if (refillDuration != null && refillDuration != "")

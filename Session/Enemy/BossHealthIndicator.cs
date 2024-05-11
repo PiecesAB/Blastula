@@ -1,7 +1,9 @@
 using Blastula.Schedules;
 using Blastula.VirtualVariables;
 using Godot;
+using Godot.Collections;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Text;
 
@@ -36,7 +38,40 @@ namespace Blastula
         private const string lifeBombLetters = "ghi";
 
         private BossEnemy bossNode = null;
-        public string fullString { get; private set; } = ""; 
+        public string fullString { get; private set; } = "";
+        public System.Collections.Generic.Dictionary<StageSector, int> sectorToGroupIndex = new System.Collections.Generic.Dictionary<StageSector, int>();
+        public System.Collections.Generic.Dictionary<int, List<StageSector>> groupIndexToSectors = new System.Collections.Generic.Dictionary<int, List<StageSector>>();
+        public string currentLetter { get; private set; } = "";
+        private int currentGroupIndex = 0;
+
+        private string ReverseString(string s, string nullReplacement)
+        {
+            StringBuilder reversed = new StringBuilder();
+            if (s == null) { s = nullReplacement; }
+            for (int i = 0; i < s.Length; ++i)
+            {
+                reversed.Append(s[s.Length - 1 - i]);
+            }
+            return reversed.ToString();
+        }
+
+        private void TabulateSingle(StageSector s)
+        {
+            if (!groupIndexToSectors.ContainsKey(currentGroupIndex))
+            {
+                groupIndexToSectors[currentGroupIndex] = new List<StageSector>();
+            }
+            groupIndexToSectors[currentGroupIndex].Add(s);
+            sectorToGroupIndex[s] = currentGroupIndex;
+        }
+
+        private void TabulateAttackGroup(StageSector container)
+        {
+            foreach (Node c in container.GetChildren())
+            {
+                if (c is StageSector) { TabulateSingle((StageSector)c); }
+            }
+        }
 
         private string PopulateSingle(StageSector s)
         {
@@ -46,6 +81,8 @@ namespace Blastula
                 case StageSector.Role.BossBomb: return bombLetters[0].ToString();
                 case StageSector.Role.BossTimeout: return timeoutLetters[0].ToString();
             }
+            TabulateSingle(s);
+            currentGroupIndex++;
             return unknownLetter.ToString();
         }
 
@@ -69,11 +106,15 @@ namespace Blastula
             if (lifeCount > 0 && bombCount + timeoutCount + unknownCount == 0) // Multi-phase life bar
             {
                 int lifeIndex = Mathf.Min(lifeCount - 1, lifeLetters.Length - 1);
+                TabulateAttackGroup(s);
+                currentGroupIndex++;
                 return lifeLetters[lifeIndex].ToString();
             }
             else if (bombCount > 0 && lifeCount + timeoutCount + unknownCount == 0) // Multi-phase bomb bar
             {
                 int bombIndex = Mathf.Min(bombCount - 1, bombLetters.Length - 1);
+                TabulateAttackGroup(s);
+                currentGroupIndex++;
                 return bombLetters[bombIndex].ToString();
             }
             else if (lifeCount == 1 && bombCount > 0 
@@ -81,6 +122,8 @@ namespace Blastula
                 && firstLetter == lifeLetters[0].ToString()) // Life bar with bomb bar (bomb bar possibly multi-phase)
             {
                 int lbIndex = Mathf.Min(bombCount - 1, lifeBombLetters.Length - 1);
+                TabulateAttackGroup(s);
+                currentGroupIndex++;
                 return lifeBombLetters[lbIndex].ToString();
             }
             // Give up and return the separate bars...
@@ -99,12 +142,13 @@ namespace Blastula
         {
             fullString = emptyLetter.ToString();
 
-            if (bossSector.role != StageSector.Role.Boss)
+            if (bossSector == null || bossSector.role != StageSector.Role.Boss)
             {
                 GD.PushWarning("Attempted to populate tokens from StageSector that isn't Boss");
                 return;
             }
 
+            currentGroupIndex = 0;
             foreach (Node c in bossSector.GetChildren())
             {
                 if (c is not StageSector) { continue; }
@@ -119,20 +163,12 @@ namespace Blastula
                     fullString += PopulateSingle(s);
                 }
             }
-
-            tokenLabel.Text = fullString;
+            currentGroupIndex = 0;
         }
 
         public void UpdateName(string newName = null)
         {
-            StringBuilder reversedName = new StringBuilder();
-            if (newName == null) { newName = bossName; }
-            bossName = newName;
-            for (int i = 0; i < newName.Length; ++i)
-            {
-                reversedName.Append(newName[newName.Length - 1 - i]);
-            }
-            bossNameLabel.Text = reversedName.ToString();
+            bossNameLabel.Text = ReverseString(newName, bossName);
         }
 
         public void InitializeFill()
@@ -149,15 +185,49 @@ namespace Blastula
             }
         }
 
+        public void UpdateTokens()
+        {
+            if (currentGroupIndex >= fullString.Length - 1)
+            {
+                tokenLabel.Text = emptyLetter.ToString();
+            }
+            else
+            {
+                tokenLabel.Text = ReverseString(
+                    fullString.Substring(currentGroupIndex + 1), 
+                    emptyLetter.ToString()
+                );
+            }
+        }
+
+        public void OnBossRefillStart(StageSector sector)
+        {
+            currentGroupIndex = fullString.Length - 1;
+            if (sectorToGroupIndex.ContainsKey(sector)) {
+                currentGroupIndex = sectorToGroupIndex[sector];
+            }
+            UpdateTokens();
+        }
+
         public override void _Ready()
         {
             base._Ready();
             Node parent = GetParent();
-            if (parent is BossEnemy) { bossNode = (BossEnemy)parent; }
-            PopulateSequenceTokens((StageSector)StageManager.main.FindChild("TestBoss"));
+            if (parent == null || parent is not BossEnemy)
+            {
+                GD.PushError("The parent of BossHealthIndicator isn't a BossEnemy.");
+                return;
+            }
+            bossNode = (BossEnemy)parent;
+            bossNode.Connect(
+                BossEnemy.SignalName.OnRefillStart, 
+                new Callable(this, MethodName.OnBossRefillStart)
+            );
+            PopulateSequenceTokens(bossNode.bossSector);
             UpdateName();
             InitializeFill();
             UpdateFill();
+            UpdateTokens();
         }
 
         public override void _Process(double delta)

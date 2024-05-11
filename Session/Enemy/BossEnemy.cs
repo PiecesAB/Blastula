@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 namespace Blastula
 {
     /// <summary>
-    /// Boss enemy.
+    /// Boss enemy; a special enemy that can have multiple phases.
     /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/enemy.png")]
     public partial class BossEnemy : Enemy
@@ -22,7 +19,18 @@ namespace Blastula
         [Export] public string ID =  "Main";
         private static Dictionary<string, List<BossEnemy>> bossByID = new Dictionary<string, List<BossEnemy>>();
 
-        private StageSector currentSector = null;
+        /// <summary>
+        /// When this stops running, this boss should be truly defeated.
+        /// Auto-calculated as the sector on the stack with the Boss role.
+        /// </summary>
+        public StageSector bossSector { get; private set; } = null;
+        /// <summary>
+        /// When this stops running, the health bar is depleted or the time ran out.
+        /// Provided when health is refilled.
+        /// </summary>
+        public StageSector currentSector { get; private set; } = null;
+
+        [Signal] public delegate void OnRefillStartEventHandler(StageSector newSector);
 
         public static List<BossEnemy> GetBosses(string searchID)
         {
@@ -35,6 +43,7 @@ namespace Blastula
         /// </summary>
         public void WhenStageSectorChanged(StageSector _)
         {
+            // TODO: check for bossSector ended; delete the boss.
             if (currentSector != null && !currentSector.ShouldBeExecuting())
             {
                 // When the sector has timed out:
@@ -49,6 +58,7 @@ namespace Blastula
         public async Task RefillAndBecomeVulnerable(StageSector sector, float newMaxHealth, float refillTime = 1f)
         {
             currentSector = sector;
+            EmitSignal(SignalName.OnRefillStart, sector);
             long currAnimIteration = ++refillAnimIteration;
             health = 0;
             maxHealth = newMaxHealth;
@@ -70,7 +80,7 @@ namespace Blastula
         public override void BecomeDefeated()
         {
             if (defeated) { return; }
-            // End any refill if it's still going for some reason
+            // Ends any refill if it's still going for some reason.
             refillAnimIteration++;
             defeated = true;
             deflectAllDamage = true;
@@ -78,6 +88,17 @@ namespace Blastula
             if (currentSector != null && currentSector.ShouldBeExecuting())
             {
                 currentSector.EndImmediately();
+            }
+        }
+
+        public override void _EnterTree()
+        {
+            base._EnterTree();
+            // Set the bossSector so the health indicator and other children may know.
+            bossSector = StageSector.GetActiveSectorByRole(StageSector.Role.Boss);
+            if (bossSector == null)
+            {
+                GD.PushWarning("BossEnemy spawned outside of a Boss role StageSector. Unintended behavior may occur.");
             }
         }
 
@@ -91,6 +112,8 @@ namespace Blastula
             defeated = true;
             deflectAllDamage = true;
             health = 0;
+
+            // Make the ID globally searchable
             if (ID != null && ID != "") 
             { 
                 if (!bossByID.ContainsKey(ID))

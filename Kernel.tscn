@@ -1828,6 +1828,13 @@ duration = "30"
 endWhenChildrenComplete = false
 shouldUseTimer = true
 
+[node name="Wait" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
+script = ExtResource("66_doh6d")
+
+[node name="BossRefill" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
+script = ExtResource("136_1n5ct")
+newMaxHealth = "1800"
+
 [node name="Part02" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
 script = ExtResource("63_d8ira")
 role = 4
@@ -1838,6 +1845,13 @@ role = 5
 duration = "30"
 endWhenChildrenComplete = false
 shouldUseTimer = true
+
+[node name="Wait" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part02/Life"]
+script = ExtResource("66_doh6d")
+
+[node name="BossRefill" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part02/Life"]
+script = ExtResource("136_1n5ct")
+newMaxHealth = "1800"
 
 [node name="Bomb" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part02"]
 script = ExtResource("63_d8ira")

@@ -120,6 +120,20 @@ namespace Blastula.Schedules
             sectorStack.Clear();
         }
 
+        /// <summary>
+        /// Returns the sector with this role nearest the top of the stack, or null if none exist.
+        /// </summary>
+        public static StageSector GetActiveSectorByRole(Role role)
+        {
+            Stack<StageSector> tempStack = new Stack<StageSector>(sectorStack);
+            while (tempStack.Count > 0)
+            {
+                StageSector e = tempStack.Pop();
+                if (e.role == role) { return e; }
+            }
+            return null;
+        }
+
         public static EnemyFormation GetCurrentEnemyFormation()
         {
             if (GetCurrentSector() == null) { return null; }

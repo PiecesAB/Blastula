@@ -176,7 +176,6 @@ namespace Blastula
                 float healthFrac = GetSpecial("health_frac").AsSingle();
                 if (healthFrac <= currentSector.bossHealthCutoff)
                 {
-                    GD.Print($"I became defeated in {currentSector.Name} by fraction cutoff");
                     BecomeDefeated();
                 }
             }

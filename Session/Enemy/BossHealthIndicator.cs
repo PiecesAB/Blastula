@@ -76,16 +76,19 @@ namespace Blastula
             }
         }
 
-        private string PopulateSingle(StageSector s)
+        private string PopulateSingle(StageSector s, bool tabulate = true)
         {
+            if (tabulate)
+            {
+                TabulateSingle(s);
+                currentGroupIndex++;
+            }
             switch (s.role)
             {
                 case StageSector.Role.BossLife: return lifeLetters[0].ToString();
                 case StageSector.Role.BossBomb: return bombLetters[0].ToString();
                 case StageSector.Role.BossTimeout: return timeoutLetters[0].ToString();
             }
-            TabulateSingle(s);
-            currentGroupIndex++;
             return unknownLetter.ToString();
         }
 
@@ -98,7 +101,7 @@ namespace Blastula
             {
                 if (c is not StageSector) { continue; }
                 StageSector cs = (StageSector)c;
-                string newSingle = PopulateSingle(cs);
+                string newSingle = PopulateSingle(cs, false);
                 if (total == 0) { firstLetter = newSingle; }
                 if (newSingle == lifeLetters[0].ToString()) { lifeCount++; }
                 else if (newSingle == bombLetters[0].ToString()) { bombCount++; }

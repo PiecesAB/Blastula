@@ -1553,7 +1553,7 @@ libraries = {
 "": SubResource("AnimationLibrary_1moyp")
 }
 autoplay = "Unfocused"
-blend_times = [&"Unfocused", &"RESET", 0.1, &"Unfocused", &"Unfocused", 0.1, &"Unfocused", &"Focused", 0.1, &"Focused", &"RESET", 0.1, &"Focused", &"Unfocused", 0.1, &"Focused", &"Focused", 0.1]
+blend_times = [&"Focused", &"RESET", 0.1, &"Focused", &"Focused", 0.1, &"Focused", &"Unfocused", 0.1, &"Unfocused", &"RESET", 0.1, &"Unfocused", &"Focused", 0.1, &"Unfocused", &"Unfocused", 0.1]
 
 [node name="HitboxFocus" type="AnimationPlayer" parent="AnimOrchestrator"]
 root_node = NodePath("../..")

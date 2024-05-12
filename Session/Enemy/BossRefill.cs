@@ -29,6 +29,11 @@ namespace Blastula.Schedules
         /// </summary>
         [Export] public string newMaxHealth = "1200";
         /// <summary>
+        /// Number representing the new defense amount for the boss.
+        /// If empty string, the defense will be zero.
+        /// </summary>
+        [Export] public string newDefense = "";
+        /// <summary>
         /// If nonempty, a number of seconds for the animation of the health bar to fill.
         /// Setting this to 0 will make it fill instantly.
         /// Setting this to a negative number will cause never-ending fill (useful for timeout).
@@ -71,6 +76,11 @@ namespace Blastula.Schedules
                 {
                     nmh = Solve(PropertyName.newMaxHealth).AsSingle();
                 }
+                float ndf = 0f;
+                if (newDefense != null && newDefense != "")
+                {
+                    ndf = Solve(PropertyName.newDefense).AsSingle();
+                }
                 float dur = 1f;
                 if (refillDuration != null && refillDuration != "")
                 {
@@ -82,7 +92,7 @@ namespace Blastula.Schedules
                     dv = Solve(PropertyName.delayVulnerable).AsSingle();
                 }
 
-                _ = b.RefillAndBecomeVulnerable(container, nmh, dur, dv);
+                _ = b.RefillAndBecomeVulnerable(container, nmh, ndf, dur, dv);
             }
             return Task.CompletedTask;
         }

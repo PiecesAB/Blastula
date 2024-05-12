@@ -64,7 +64,7 @@ ID = "Enemy"
 [node name="Visible Check" type="VisibleOnScreenNotifier2D" parent="."]
 rect = Rect2(-30, -30, 60, 60)
 
-[node name="HealthIndicator" type="Control" parent="." node_paths=PackedStringArray("bossNameLabel", "tokenLabel", "lifeBar", "bombBar")]
+[node name="HealthIndicator" type="Control" parent="." node_paths=PackedStringArray("bossNameLabel", "tokenLabel", "lifeBar", "bombBar", "subticks")]
 z_index = 20
 layout_mode = 3
 anchors_preset = 0
@@ -77,6 +77,7 @@ bossNameLabel = NodePath("Name")
 tokenLabel = NodePath("SequenceTokens")
 lifeBar = NodePath("LifeBar")
 bombBar = NodePath("BombBar")
+subticks = NodePath("Ticks/Subticks")
 
 [node name="Back" type="TextureRect" parent="HealthIndicator"]
 modulate = Color(1, 1, 1, 0.501961)
@@ -148,7 +149,20 @@ offset_top = 128.0
 offset_right = 128.0
 offset_bottom = 128.0
 
-[node name="Main" type="TextureRect" parent="HealthIndicator/Ticks"]
+[node name="Main2" type="TextureRect" parent="HealthIndicator/Ticks"]
+layout_mode = 0
+offset_left = -5.6
+offset_top = -132.0
+offset_right = 10.4
+offset_bottom = -68.0
+scale = Vector2(0.7, 0.5)
+texture = ExtResource("11_0rf1s")
+
+[node name="Subticks" type="Control" parent="HealthIndicator/Ticks"]
+anchors_preset = 0
+
+[node name="0" type="TextureRect" parent="HealthIndicator/Ticks/Subticks"]
+visible = false
 layout_mode = 0
 offset_left = -8.0
 offset_top = -264.0
@@ -158,24 +172,79 @@ scale = Vector2(0.7, 0.5)
 pivot_offset = Vector2(8, 264)
 texture = ExtResource("11_0rf1s")
 
-[node name="Sub" type="TextureRect" parent="HealthIndicator/Ticks"]
+[node name="1" type="TextureRect" parent="HealthIndicator/Ticks/Subticks"]
+visible = false
 layout_mode = 0
 offset_left = -8.0
 offset_top = -264.0
 offset_right = 8.0
 offset_bottom = -200.0
-rotation = -1.73311
 scale = Vector2(0.7, 0.5)
 pivot_offset = Vector2(8, 264)
 texture = ExtResource("11_0rf1s")
 
-[node name="Sub2" type="TextureRect" parent="HealthIndicator/Ticks"]
+[node name="2" type="TextureRect" parent="HealthIndicator/Ticks/Subticks"]
+visible = false
 layout_mode = 0
 offset_left = -8.0
 offset_top = -264.0
 offset_right = 8.0
 offset_bottom = -200.0
-rotation = -3.61109
+scale = Vector2(0.7, 0.5)
+pivot_offset = Vector2(8, 264)
+texture = ExtResource("11_0rf1s")
+
+[node name="3" type="TextureRect" parent="HealthIndicator/Ticks/Subticks"]
+visible = false
+layout_mode = 0
+offset_left = -8.0
+offset_top = -264.0
+offset_right = 8.0
+offset_bottom = -200.0
+scale = Vector2(0.7, 0.5)
+pivot_offset = Vector2(8, 264)
+texture = ExtResource("11_0rf1s")
+
+[node name="4" type="TextureRect" parent="HealthIndicator/Ticks/Subticks"]
+visible = false
+layout_mode = 0
+offset_left = -8.0
+offset_top = -264.0
+offset_right = 8.0
+offset_bottom = -200.0
+scale = Vector2(0.7, 0.5)
+pivot_offset = Vector2(8, 264)
+texture = ExtResource("11_0rf1s")
+
+[node name="5" type="TextureRect" parent="HealthIndicator/Ticks/Subticks"]
+visible = false
+layout_mode = 0
+offset_left = -8.0
+offset_top = -264.0
+offset_right = 8.0
+offset_bottom = -200.0
+scale = Vector2(0.7, 0.5)
+pivot_offset = Vector2(8, 264)
+texture = ExtResource("11_0rf1s")
+
+[node name="6" type="TextureRect" parent="HealthIndicator/Ticks/Subticks"]
+visible = false
+layout_mode = 0
+offset_left = -8.0
+offset_top = -264.0
+offset_right = 8.0
+offset_bottom = -200.0
+scale = Vector2(0.7, 0.5)
+pivot_offset = Vector2(8, 264)
+texture = ExtResource("11_0rf1s")
+
+[node name="7" type="TextureRect" parent="HealthIndicator/Ticks/Subticks"]
+visible = false
+layout_mode = 0
+offset_left = -8.0
+offset_top = -264.0
+offset_right = 8.0
+offset_bottom = -200.0
 scale = Vector2(0.7, 0.5)
 pivot_offset = Vector2(8, 264)
 texture = ExtResource("11_0rf1s")

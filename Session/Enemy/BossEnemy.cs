@@ -59,7 +59,9 @@ namespace Blastula
         /// <summary>
         /// Used to possibly refill the boss health to a new amount and/or become vulnerable.
         /// </summary>
-        public async Task RefillAndBecomeVulnerable(StageSector sector, float newMaxHealth, float refillTime = 1f, float delayVulnerable = 0f)
+        public async Task RefillAndBecomeVulnerable(StageSector sector, 
+            float newMaxHealth, float newDefense,
+            float refillTime = 1f, float delayVulnerable = 0f)
         {
             // Set up the start of the filling.
             currentSector = sector;
@@ -76,6 +78,7 @@ namespace Blastula
             if (newMaxHealth > 0)
             {
                 health = 0;
+                defense = newDefense;
                 maxHealth = newMaxHealth;
                 startFill = health / maxHealth;
             }

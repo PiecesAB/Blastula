@@ -29,6 +29,21 @@ namespace Blastula
         [Export] public Label tokenLabel;
         [Export] public TextureProgressBar lifeBar;
         [Export] public TextureProgressBar bombBar;
+        /// <summary>
+        /// A node containing a list of subticks as children. 
+        /// These indicate the phases of the health bar, 
+        /// rotated clockwise in the direction of progress.
+        /// There can be at most the number of ticks provided within the list
+        /// (any further ticks suggested by the StageSectors are omitted).
+        /// </summary>
+        [Export] public Node subticks;
+        /// <summary>
+        /// Denotes the remaning fraction of health when the bar reaches the tick position.
+        /// If negative, this tick is invisible.
+        /// </summary>
+        private float[] subtickPositions = null;
+        private Control[] subtickList = null;
+        private int subtickUpdateFrames = 0;
 
         private const char emptyLetter = '0';
         private const char unknownLetter = 'a';
@@ -259,6 +274,102 @@ namespace Blastula
             else { fillMode = FillMode.Life; }
         }
 
+        private void InitializeSubticks()
+        {
+            subtickList = new Control[subticks.GetChildCount()];
+            subtickPositions = new float[subtickList.Length];
+            for (int i = 0; i < subtickList.Length; ++i)
+            {
+                subtickPositions[i] = -1;
+                Node child = subticks.GetChild(i);
+                if (child is Control) 
+                { 
+                    subtickList[i] = (Control)child;
+                    subtickList[i].Visible = false;
+                    subtickList[i].RotationDegrees = 0;
+                }
+                else { GD.PushWarning("Subtick should inherit Control class."); }
+            }
+        }
+
+        private void RecalculateSubticks()
+        {
+            if (bossNode == null || bossNode.currentSector == null) { return; }
+            // In which we search for the next sectors related to the next ticks.
+            // How? By finding the current sector and looking ahead for decreasing boss health cutoffs.
+            List<StageSector> nextTickSectors = new List<StageSector>();
+            if (!groupIndexToSectors.ContainsKey(currentGroupIndex)) { return; }
+            bool foundCurrent = false;
+            float currentLowCutoff = 1f;
+            foreach (StageSector s in groupIndexToSectors[currentGroupIndex])
+            {
+                if (s == bossNode.currentSector) 
+                { 
+                    foundCurrent = true;
+                    currentLowCutoff = s.bossHealthCutoff;
+                    nextTickSectors.Add(s);
+                }
+                else if (foundCurrent)
+                {
+                    if (s.bossHealthCutoff < currentLowCutoff)
+                    {
+                        currentLowCutoff = s.bossHealthCutoff;
+                        nextTickSectors.Add(s);
+                    }
+                    else { break; }
+                }
+            }
+            // We'll be populating the ticks in reverse for animation reasons.
+            // Unused ticks will be invisible and unmoved.
+            for (int i = 0; i < nextTickSectors.Count; ++i)
+            {
+                StageSector s = nextTickSectors[nextTickSectors.Count - 1 - i];
+                if (s.bossHealthCutoff > 0 && s.bossHealthCutoff < 1)
+                {
+                    subtickList[i].Visible = true;
+                    subtickPositions[i] = s.bossHealthCutoff;
+                }
+                else
+                {
+                    subtickList[i].Visible = false;
+                    subtickPositions[i] = -1;
+                    subtickList[i].RotationDegrees = 0;
+                }
+            }
+            for (int i = nextTickSectors.Count; i < subtickList.Length; ++i)
+            {
+                subtickList[i].Visible = false;
+                subtickPositions[i] = -1;
+                subtickList[i].RotationDegrees = 0;
+            }
+            subtickUpdateFrames = 30;
+        }
+
+        private void UpdateSubticks()
+        {
+            if (subtickUpdateFrames <= 0) { return; }
+            for (int i = 0; i < subtickList.Length; ++i)
+            {
+                float targetRotation = (subtickPositions[i] < 0) ? 0 : (360f - 360f * subtickPositions[i]);
+                if (subtickList[i] != null)
+                {
+                    subtickList[i].RotationDegrees = Mathf.Lerp(subtickList[i].RotationDegrees, targetRotation, 0.2f);
+                }
+            } 
+            --subtickUpdateFrames;
+            if (subtickUpdateFrames == 0)
+            {
+                for (int i = 0; i < subtickList.Length; ++i)
+                {
+                    float targetRotation = (subtickPositions[i] < 0) ? 0 : (360f - 360f * subtickPositions[i]);
+                    if (subtickList[i] != null)
+                    {
+                        subtickList[i].RotationDegrees = targetRotation;
+                    }
+                }
+            }
+        }
+
         public void OnBossRefillStart(StageSector sector)
         {
             currentGroupIndex = fullString.Length - 1;
@@ -267,6 +378,7 @@ namespace Blastula
             }
             UpdateTokens();
             UpdateFillMode();
+            RecalculateSubticks();
         }
 
         public override void _Ready()
@@ -289,12 +401,15 @@ namespace Blastula
             UpdateTokens();
             UpdateFillMode();
             UpdateFill();
+            InitializeSubticks();
         }
 
         public override void _Process(double delta)
         {
             base._Process(delta);
+            if (Session.main?.paused ?? true) { return; }
             UpdateFill();
+            UpdateSubticks();
         }
     }
 }

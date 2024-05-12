@@ -91,6 +91,12 @@ namespace Blastula.Schedules
         /// </summary>
         [ExportGroup("Boss")]
         [Export] public float bossHealthCutoff = 0f;
+        /// <summary>
+        /// If true, this sector will be skipped immediately if the health cutoff is satisfied.
+        /// This effectively skips the sector if the enemy health has been sufficiently lowered.
+        /// It can be used to make a punishment attack phase if the user tries to timeout.
+        /// </summary>
+        [Export] public bool ragePhase = false;
 
         private Node formationInstance = null;
 
@@ -191,6 +197,18 @@ namespace Blastula.Schedules
             timeRemaining = 0;
         }
 
+        private bool finishedExecuteChildren;
+        private async void ExecuteChildren()
+        {
+            finishedExecuteChildren = false;
+            foreach (Node child in GetChildren())
+            {
+                if (!ShouldBeExecuting()) { break; }
+                await ExecuteOrShoot(null, child);
+            }
+            finishedExecuteChildren = true;
+        }
+
         public override async Task Execute()
         {
             if (state == State.Active) { return; }
@@ -222,12 +240,11 @@ namespace Blastula.Schedules
                 StageManager.main.EmitSignal(StageManager.SignalName.StageChanged, this);
             }
             StageManager.main.EmitSignal(StageManager.SignalName.StageSectorChanged, this);
-            foreach (Node child in GetChildren())
-            {
-                if (!ShouldBeExecuting()) { break; }
-                await ExecuteOrShoot(null, child);
+            ExecuteChildren();
+            await this.WaitUntil(() => !ShouldBeExecuting() || finishedExecuteChildren);
+            if (!endWhenChildrenComplete) { 
+                await this.WaitUntil(() => !ShouldBeExecuting()); 
             }
-            if (!endWhenChildrenComplete) { await this.WaitUntil(() => !ShouldBeExecuting()); }
             timeRemaining = 0;
             if (formationInstance != null && formationDeletionDelay != null && formationDeletionDelay != "")
             {

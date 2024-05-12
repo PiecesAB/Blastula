@@ -171,10 +171,16 @@ namespace Blastula
             }
         }
 
+        private bool CanEndSectorByHealth()
+        {
+            return ((!refilling && !deflectAllDamage) || (currentSector != null && currentSector.ragePhase))
+                && currentSector != null && currentSector.ShouldBeExecuting();
+        }
+
         public override void _Process(double delta)
         {
             base._Process(delta);
-            if (!refilling && !deflectAllDamage && currentSector != null && currentSector.ShouldBeExecuting())
+            if (CanEndSectorByHealth())
             {
                 float healthFrac = GetSpecial("health_frac").AsSingle();
                 if (healthFrac <= currentSector.bossHealthCutoff)

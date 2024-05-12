@@ -62,19 +62,16 @@ namespace Blastula
         public FillMode fillMode { get; private set; } = FillMode.Life;
         public float fillValue { get; private set; } = 0;
 
-        private string ReverseString(string s, string nullReplacement)
+        private bool HasLeafRole(StageSector s)
         {
-            StringBuilder reversed = new StringBuilder();
-            if (s == null) { s = nullReplacement; }
-            for (int i = 0; i < s.Length; ++i)
-            {
-                reversed.Append(s[s.Length - 1 - i]);
-            }
-            return reversed.ToString();
+            return s.role == StageSector.Role.BossLife
+                || s.role == StageSector.Role.BossBomb
+                || s.role == StageSector.Role.BossTimeout;
         }
 
         private void TabulateSingle(StageSector s)
         {
+            if (!HasLeafRole(s)) { return; }
             if (!groupIndexToSectors.ContainsKey(currentGroupIndex))
             {
                 groupIndexToSectors[currentGroupIndex] = new List<StageSector>();
@@ -85,14 +82,20 @@ namespace Blastula
 
         private void TabulateAttackGroup(StageSector container)
         {
-            foreach (Node c in container.GetChildren())
+            foreach (Node c in container.GetDescendants())
             {
                 if (c is StageSector) { TabulateSingle((StageSector)c); }
             }
         }
 
+        private bool DoesTokenCount(StageSector s)
+        {
+            return !s.ragePhase;
+        }
+
         private string PopulateSingle(StageSector s, bool tabulate = true)
         {
+            if (!DoesTokenCount(s)) { return ""; }
             if (tabulate)
             {
                 TabulateSingle(s);
@@ -109,29 +112,31 @@ namespace Blastula
 
         private string PopulateAttackGroup(StageSector s)
         {
-            (int lifeCount, int bombCount, int timeoutCount, int unknownCount) = (0, 0, 0, 0);
+            if (!DoesTokenCount(s)) { return ""; }
+            (int lifeCount, int bombCount, int timeoutCount) = (0, 0, 0);
             int total = 0;
             string firstLetter = "";
-            foreach (Node c in s.GetChildren())
+            foreach (Node c in s.GetDescendants())
             {
                 if (c is not StageSector) { continue; }
                 StageSector cs = (StageSector)c;
+                if (!DoesTokenCount(s)) { continue; }
                 string newSingle = PopulateSingle(cs, false);
+                if (newSingle == unknownLetter.ToString()) { continue; }
                 if (total == 0) { firstLetter = newSingle; }
                 if (newSingle == lifeLetters[0].ToString()) { lifeCount++; }
                 else if (newSingle == bombLetters[0].ToString()) { bombCount++; }
                 else if (newSingle == timeoutLetters[0].ToString()) { timeoutCount++; }
-                else { unknownCount++; }
                 total++;
             }
-            if (lifeCount > 0 && bombCount + timeoutCount + unknownCount == 0) // Multi-phase life bar
+            if (lifeCount > 0 && bombCount + timeoutCount == 0) // Multi-phase life bar
             {
                 int lifeIndex = Mathf.Min(lifeCount - 1, lifeLetters.Length - 1);
                 TabulateAttackGroup(s);
                 currentGroupIndex++;
                 return lifeLetters[lifeIndex].ToString();
             }
-            else if (bombCount > 0 && lifeCount + timeoutCount + unknownCount == 0) // Multi-phase bomb bar
+            else if (bombCount > 0 && lifeCount + timeoutCount == 0) // Multi-phase bomb bar
             {
                 int bombIndex = Mathf.Min(bombCount - 1, bombLetters.Length - 1);
                 TabulateAttackGroup(s);
@@ -139,7 +144,7 @@ namespace Blastula
                 return bombLetters[bombIndex].ToString();
             }
             else if (lifeCount == 1 && bombCount > 0 
-                && timeoutCount + unknownCount == 0 
+                && timeoutCount == 0 
                 && firstLetter == lifeLetters[0].ToString()) // Life bar with bomb bar (bomb bar possibly multi-phase)
             {
                 int lbIndex = Mathf.Min(bombCount - 1, lifeBombLetters.Length - 1);
@@ -189,7 +194,7 @@ namespace Blastula
 
         public void UpdateName(string newName = null)
         {
-            bossNameLabel.Text = ReverseString(newName, bossName);
+            bossNameLabel.Text = newName.Reverse(bossName);
         }
 
         public void InitializeFill()
@@ -243,10 +248,7 @@ namespace Blastula
             }
             else
             {
-                tokenLabel.Text = ReverseString(
-                    fullString.Substring(currentGroupIndex + 1), 
-                    emptyLetter.ToString()
-                );
+                tokenLabel.Text = fullString.Substring(currentGroupIndex + 1).Reverse(emptyLetter.ToString());
             }
         }
 
@@ -316,7 +318,7 @@ namespace Blastula
                         currentLowCutoff = s.bossHealthCutoff;
                         nextTickSectors.Add(s);
                     }
-                    else { break; }
+                    else if (s.bossHealthCutoff > currentLowCutoff) { break; }
                 }
             }
             // We'll be populating the ticks in reverse for animation reasons.

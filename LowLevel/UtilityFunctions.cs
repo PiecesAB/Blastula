@@ -1,5 +1,8 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Blastula
 {
@@ -41,6 +44,37 @@ namespace Blastula
         public static void PathBuilder(Node root, Action<Node, string> Act, bool ignoreRoot = false)
         {
             PathBuilder(root, "", Act, ignoreRoot);
+        }
+
+        /// <summary>
+        /// Makes a string backwards!
+        /// </summary>
+        /// <param name="nullReplacement">If the string is null, the nullReplacement is used as alternate input.</param>
+        public static string Reverse(this string s, string nullReplacement = null)
+        {
+            StringBuilder reversed = new StringBuilder();
+            if (s == null) { s = nullReplacement; }
+            if (s == null) { return null; }
+            for (int i = 0; i < s.Length; ++i)
+            {
+                reversed.Append(s[s.Length - 1 - i]);
+            }
+            return reversed.ToString();
+        }
+
+        /// <summary>
+        /// Gets a list of all descendants of the node in tree order.
+        /// </summary>
+        public static List<Node> GetDescendants(this Node n, bool includeInternal = false)
+        {
+            if (n.GetChildCount() == 0) { return new List<Node>(); }
+            List<Node> total = new List<Node>();
+            foreach (Node child in n.GetChildren(includeInternal))
+            {
+                total.Add(child);
+                total.AddRange(GetDescendants(child, includeInternal));
+            }
+            return total;
         }
     }
 }

@@ -25,13 +25,26 @@ namespace Blastula.Schedules
         [Export] public string bossID = "Main";
         /// <summary>
         /// Number representing the new health for the boss.
+        /// If empty string or negative, the health will remain the same (useful for phased boss attacks).
         /// </summary>
         [Export] public string newMaxHealth = "1200";
         /// <summary>
         /// If nonempty, a number of seconds for the animation of the health bar to fill.
         /// Setting this to 0 will make it fill instantly.
+        /// Setting this to a negative number will cause never-ending fill (useful for timeout).
+        /// If empty string, the refill will take one second.
         /// </summary>
+        /// <remarks>
+        /// If newMaxHealth is empty string or negative, refillDuration naturally has no effect.
+        /// </remarks>
         [Export] public string refillDuration = "";
+        /// <summary>
+        /// If nonempty, a number of seconds between the point of health bar fill complete,
+        /// and the point when the boss becomes vulnerable.
+        /// Setting this to a negative number will cause the boss to remain invulnerable.
+        /// If empty string, there's no delay (boss becomes vulnerable instantly when the health bar is filled).
+        /// </summary>
+        [Export] public string delayVulnerable = "";
 
         public override Task Execute()
         {
@@ -53,16 +66,23 @@ namespace Blastula.Schedules
             }
             foreach (BossEnemy b in bossList)
             {
-                float nmh = Solve("newMaxHealth").AsSingle();
+                float nmh = -1f;
+                if (newMaxHealth != null && newMaxHealth != "")
+                {
+                    nmh = Solve(PropertyName.newMaxHealth).AsSingle();
+                }
+                float dur = 1f;
                 if (refillDuration != null && refillDuration != "")
                 {
-                    float dur = Solve("refillDuration").AsSingle();
-                    _ = b.RefillAndBecomeVulnerable(container, nmh, dur);
+                    dur = Solve(PropertyName.refillDuration).AsSingle();
                 }
-                else
+                float dv = 0f;
+                if (delayVulnerable != null && delayVulnerable != "")
                 {
-                    _ = b.RefillAndBecomeVulnerable(container, nmh);
+                    dv = Solve(PropertyName.delayVulnerable).AsSingle();
                 }
+
+                _ = b.RefillAndBecomeVulnerable(container, nmh, dur, dv);
             }
             return Task.CompletedTask;
         }

@@ -104,7 +104,7 @@ namespace Blastula.Schedules
         private static Stack<StageSector> sectorStack = new Stack<StageSector>();
 
         /// <summary>
-        /// Get the sector at the top of the stack; the most granular one right now.
+        /// Get the sector at the top of the stack; the most specific one currently ongoing.
         /// </summary>
         public static StageSector GetCurrentSector()
         {
@@ -142,10 +142,24 @@ namespace Blastula.Schedules
             return (EnemyFormation)fi;
         }
 
+        private static FrameCounter.Cache<double> timeRemainingCache = new FrameCounter.Cache<double>();
+        /// <summary>
+        /// Gets the remaining duration of the most specific StageSector with timer display (that is, nearest the top of the stack).
+        /// </summary>
         public static double GetTimeRemaining()
         {
-            StageSector stageSector = GetCurrentSector();
+            if (timeRemainingCache.IsValid()) { return timeRemainingCache.data; }
+            // We try to find that most specific StageSector with timer.
+            Stack<StageSector> tempStack = new Stack<StageSector>(sectorStack);
+            StageSector stageSector = null;
+            while (tempStack.Count > 0)
+            {
+                StageSector testSector = tempStack.Pop();
+                if (testSector.shouldUseTimer) { stageSector = testSector; break; }
+            }
+            // And upon finding it, return its remaining time.
             if (stageSector == null) { return 0; }
+            timeRemainingCache.Update(stageSector.timeRemaining);
             return stageSector.timeRemaining;
         }
 
@@ -181,6 +195,7 @@ namespace Blastula.Schedules
         {
             if (state == State.Active) { return; }
             state = State.Active;
+            timeRemainingCache.Invalidate();
             sectorStack.Push(this);
             if (role == Role.Stage)
             {
@@ -198,7 +213,7 @@ namespace Blastula.Schedules
             timeRemaining = double.PositiveInfinity;
             if (duration != null && duration != "")
             {
-                timeRemaining = Solve("duration").AsSingle();
+                timeRemaining = Solve(PropertyName.duration).AsSingle();
                 _ = RunTime();
             }
             //GD.Print(Name, " sector has began");
@@ -216,7 +231,7 @@ namespace Blastula.Schedules
             timeRemaining = 0;
             if (formationInstance != null && formationDeletionDelay != null && formationDeletionDelay != "")
             {
-                float fdd = Solve("formationDeletionDelay").AsSingle();
+                float fdd = Solve(PropertyName.formationDeletionDelay).AsSingle();
                 if (Session.main == null || !Session.main.inSession)
                 {
                     formationInstance.QueueFree();

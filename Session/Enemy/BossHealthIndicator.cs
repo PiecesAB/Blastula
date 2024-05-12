@@ -43,6 +43,9 @@ namespace Blastula
         public System.Collections.Generic.Dictionary<int, List<StageSector>> groupIndexToSectors = new System.Collections.Generic.Dictionary<int, List<StageSector>>();
         public string currentLetter { get; private set; } = "";
         private int currentGroupIndex = 0;
+        public enum FillMode { None, Life, Bomb, LifeWithBombBehind }
+        public FillMode fillMode { get; private set; } = FillMode.Life;
+        public float fillValue { get; private set; } = 0;
 
         private string ReverseString(string s, string nullReplacement)
         {
@@ -174,14 +177,43 @@ namespace Blastula
         public void InitializeFill()
         {
             lifeBar.Value = 0;
+            bombBar.Value = 0;
         }
 
         public void UpdateFill()
         {
-            if (bossNode != null)
+            if (bossNode == null) { return; }
+            float healthFrac = ((IVariableContainer)(Enemy)bossNode).GetSpecial("health_frac").AsSingle();
+
+            if (bossNode.refilling)
             {
-                float newVal = ((IVariableContainer)(Enemy)bossNode).GetSpecial("health_frac").AsSingle();
-                lifeBar.Value = Mathf.Lerp(lifeBar.Value, newVal, 0.2f);
+                // In this state we should only appear to gain health.
+                // (particularly FillMode.LifeWithBombBehind must maintain the full bomb bar)
+                fillValue = Mathf.Lerp(fillValue, Mathf.Max(healthFrac, fillValue), 0.2f);
+            }
+            else
+            {
+                fillValue = Mathf.Lerp(fillValue, healthFrac, 0.2f);
+            }
+            
+            switch (fillMode)
+            {
+                case FillMode.None:
+                    bombBar.Value = Mathf.Lerp(bombBar.Value, 0, 0.2f);
+                    lifeBar.Value = Mathf.Lerp(lifeBar.Value, 0, 0.2f);
+                    break;
+                case FillMode.Bomb:
+                    lifeBar.Value = Mathf.Lerp(lifeBar.Value, 0, 0.2f);
+                    bombBar.Value = fillValue;
+                    break;
+                case FillMode.Life:
+                    lifeBar.Value = fillValue;
+                    bombBar.Value = Mathf.Lerp(bombBar.Value, 0, 0.2f);
+                    break;
+                case FillMode.LifeWithBombBehind:
+                    lifeBar.Value = fillValue;
+                    bombBar.Value = Mathf.Lerp(bombBar.Value, 1, 0.2f);
+                    break;
             }
         }
 
@@ -200,6 +232,30 @@ namespace Blastula
             }
         }
 
+        public void UpdateFillMode()
+        {
+            if (bossNode == null || bossNode.currentSector == null) { return; }
+            if (currentGroupIndex < 0 || currentGroupIndex > fullString.Length) { return; }
+            char currentLetter = fullString[currentGroupIndex];
+            if (lifeBombLetters.Contains(currentLetter))
+            {
+                FillMode oldFillMode = fillMode;
+                if (bossNode.currentSector.role == StageSector.Role.BossLife) { fillMode = FillMode.LifeWithBombBehind; }
+                else 
+                { 
+                    fillMode = FillMode.Bomb;
+                    if (oldFillMode == FillMode.LifeWithBombBehind)
+                    {
+                        fillValue = 1f;
+                    }
+                }
+            }
+            else if (lifeLetters.Contains(currentLetter)) { fillMode = FillMode.Life; }
+            else if (bombLetters.Contains(currentLetter)) { fillMode = FillMode.Bomb; }
+            else if (timeoutLetters.Contains(currentLetter)) { fillMode = FillMode.None; }
+            else { fillMode = FillMode.Life; }
+        }
+
         public void OnBossRefillStart(StageSector sector)
         {
             currentGroupIndex = fullString.Length - 1;
@@ -207,6 +263,7 @@ namespace Blastula
                 currentGroupIndex = sectorToGroupIndex[sector];
             }
             UpdateTokens();
+            UpdateFillMode();
         }
 
         public override void _Ready()
@@ -226,8 +283,9 @@ namespace Blastula
             PopulateSequenceTokens(bossNode.bossSector);
             UpdateName();
             InitializeFill();
-            UpdateFill();
             UpdateTokens();
+            UpdateFillMode();
+            UpdateFill();
         }
 
         public override void _Process(double delta)

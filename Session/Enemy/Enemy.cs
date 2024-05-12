@@ -50,7 +50,7 @@ namespace Blastula
         /// </summary>
         [Export] public DefenseMode defenseMode = DefenseMode.Scale;
         [Export] public float defense = 0;
-        protected bool deflectAllDamage = false;
+        public bool deflectAllDamage { get; protected set; } = false;
 
         /// <summary>
         /// Schedule that is executed primarily for the purpose of moving this enemy around.

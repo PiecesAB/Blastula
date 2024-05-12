@@ -136,7 +136,7 @@ namespace Blastula
 
         public void StageSectorChanged(StageSector newSector)
         {
-            if (newSector.shouldUseTimer)
+            if (StageSector.GetTimeRemaining() > 0)
             {
                 _ = FadeInAndCountdown();
             }

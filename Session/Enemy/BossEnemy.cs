@@ -29,6 +29,7 @@ namespace Blastula
         /// Provided when health is refilled.
         /// </summary>
         public StageSector currentSector { get; private set; } = null;
+        public bool refilling { get; private set; } = false;
 
         [Signal] public delegate void OnRefillStartEventHandler(StageSector newSector);
 
@@ -51,29 +52,60 @@ namespace Blastula
             }
         }
 
+        /// <summary>
+        /// Used to assert a debounce condition that prevents refill behaviors from interleaving.
+        /// </summary>
         private long refillAnimIteration = 0;
         /// <summary>
-        /// Refill the boss health to a new amount over a time, 
+        /// Used to possibly refill the boss health to a new amount and/or become vulnerable.
         /// </summary>
-        public async Task RefillAndBecomeVulnerable(StageSector sector, float newMaxHealth, float refillTime = 1f)
+        public async Task RefillAndBecomeVulnerable(StageSector sector, float newMaxHealth, float refillTime = 1f, float delayVulnerable = 0f)
         {
+            // Set up the start of the filling.
             currentSector = sector;
+            deflectAllDamage = true;
+            defeated = true;
+            refilling = true;
             EmitSignal(SignalName.OnRefillStart, sector);
             long currAnimIteration = ++refillAnimIteration;
-            health = 0;
-            maxHealth = newMaxHealth;
-            float refillProgress = 0;
-            while (refillTime > 0 && refillAnimIteration == currAnimIteration && refillProgress < 1)
+            float startFill = 0;
+            // Some special cases and setup to be aware of:
+            // - If newMaxHealth is nonpositive, the health and maxHealth remain as they are now.
+            // - If refillTime is negative, refilling lasts forever; boss remains invulnerable.
+            // - If refillTime is zero, filling animation is instant.
+            if (newMaxHealth > 0)
             {
-                health = maxHealth * refillProgress;
+                health = 0;
+                maxHealth = newMaxHealth;
+                startFill = health / maxHealth;
+            }
+            float refillProgress = 0;
+            if (refillTime < 0) { return; }
+            // Actually filling it up every frame.
+            while (newMaxHealth > 0 && refillTime > 0 && refillAnimIteration == currAnimIteration && refillProgress < 1)
+            {
+                health = maxHealth * Mathf.Lerp(startFill, 1f, refillProgress);
                 await this.WaitOneFrame();
                 refillProgress += 1f / (refillTime * Persistent.SIMULATED_FPS);
             }
+            // The filling is complete.
+            // - If delayVulnerable is negative, the boss remains invulnerable.
+            // - If delayVulnerable is positive, the boss becomes vulnerable after the delay.
             if (refillAnimIteration == currAnimIteration)
             {
-                health = maxHealth;
+                if (newMaxHealth > 0)
+                {
+                    health = maxHealth;
+                }
+                if (delayVulnerable < 0f) { return; }
+                if (delayVulnerable > 0f) { await this.WaitSeconds(delayVulnerable); }
+            }
+            // Become vulnerable, and end the refilling.
+            if (refillAnimIteration == currAnimIteration)
+            {
                 deflectAllDamage = false;
                 defeated = false;
+                refilling = false;
             }
         }
 
@@ -84,7 +116,6 @@ namespace Blastula
             refillAnimIteration++;
             defeated = true;
             deflectAllDamage = true;
-            health = 0;
             if (currentSector != null && currentSector.ShouldBeExecuting())
             {
                 currentSector.EndImmediately();
@@ -133,6 +164,20 @@ namespace Blastula
                 if (bossByID[ID].Count == 0)
                 {
                     bossByID.Remove(ID);
+                }
+            }
+        }
+
+        public override void _Process(double delta)
+        {
+            base._Process(delta);
+            if (!refilling && !deflectAllDamage && currentSector != null && currentSector.ShouldBeExecuting())
+            {
+                float healthFrac = GetSpecial("health_frac").AsSingle();
+                if (healthFrac <= currentSector.bossHealthCutoff)
+                {
+                    GD.Print($"I became defeated in {currentSector.Name} by fraction cutoff");
+                    BecomeDefeated();
                 }
             }
         }

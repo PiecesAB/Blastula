@@ -1,4 +1,4 @@
-[gd_scene load_steps=186 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=187 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -139,6 +139,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossRefill.cs" id="136_1n5ct"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="137_u6g8j"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/DropCollectible.cs" id="138_ws6lk"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/ShakeCamera.cs" id="139_oisx3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cv5ct"]
 shader = ExtResource("49_hetvq")
@@ -1819,6 +1820,9 @@ shouldUseTimer = true
 
 [node name="Wait" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("66_doh6d")
+
+[node name="ShakeCamera" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
+script = ExtResource("139_oisx3")
 
 [node name="BossRefill" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("136_1n5ct")

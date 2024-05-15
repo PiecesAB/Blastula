@@ -33,7 +33,10 @@ namespace Blastula.Operations
 
         public override int ProcessStructure(int inStructure)
         {
-            if (inStructure >= 0 && inStructure < mqSize) { MasterQueuePushTree(inStructure); }
+            if (inStructure >= 0 && inStructure < mqSize) 
+            { 
+                MasterQueuePushTree(inStructure); 
+            }
             if (MasterQueueRemainingCapacity() < 1) { return -1; } // not even room for one... wow...
             int newBullet = MasterQueuePopOne();
             if (newBullet < 0) { return -1; }

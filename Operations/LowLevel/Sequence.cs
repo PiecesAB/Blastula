@@ -39,7 +39,7 @@ namespace Blastula.Operations
         public override int ProcessStructure(int inStructure)
         {
             int currentStructure = inStructure;
-            if (Solve("execute").AsBool())
+            if (Solve(PropertyName.execute).AsBool())
             {
                 foreach (Node child in GetChildren(true))
                 {

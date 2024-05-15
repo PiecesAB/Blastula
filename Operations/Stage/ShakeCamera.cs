@@ -19,6 +19,10 @@ namespace Blastula.Operations
     public partial class ShakeCamera : Discrete
 	{
         /// <summary>
+        /// The unique name of the Camera2D in the main scene of the game. Doesn't include "%".
+        /// </summary>
+        [Export] public string uniqueCameraName = "Camera";
+        /// <summary>
         /// The radius of the shaking repositioning.
         /// </summary>
         [Export] public string intensity = "3";
@@ -69,7 +73,7 @@ namespace Blastula.Operations
         private async Task FakeProcess(float intensity, float dur)
         {
             if (dur <= 0) { return; }
-            Camera2D camNode = (Camera2D)Persistent.GetMainScene()?.GetNode("%Camera");
+            Camera2D camNode = (Camera2D)Persistent.GetMainScene()?.GetNode($"%{uniqueCameraName}");
             if (camNode == null) { return; }
             long currProcessIter = ++processIteration;
             float t = 0;

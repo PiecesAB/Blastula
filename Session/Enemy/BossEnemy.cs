@@ -51,6 +51,10 @@ namespace Blastula
             if (currentSector != null && !currentSector.ShouldBeExecuting())
             {
                 // When the sector has timed out:
+                if (!currentSector.ragePhase && currentSector.bossHealthCutoff > 0 && currentSector.bossHealthCutoff < 1)
+                {
+                    health = currentSector.bossHealthCutoff * maxHealth;
+                }
                 BecomeDefeated();
             }
         }

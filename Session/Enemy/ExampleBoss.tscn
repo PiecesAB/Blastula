@@ -36,13 +36,12 @@ shader_parameter/start_offset = Vector2(228, 58)
 shader_parameter/center = Vector2(228, 230)
 shader_parameter/use_rotation = 1.0
 
-[node name="ExampleBoss" type="Node2D"]
+[node name="ExampleBoss" type="Node2D" node_paths=PackedStringArray("defeatSchedule")]
 position = Vector2(0, -200)
 script = ExtResource("1_okdxs")
 health = 0.0
 lowHealthCutoff = 200.0
-collectibleSpawnNames = PackedStringArray("ScatterPoint", "ScatterPower", "DropExtendPiece")
-collectibleSpawnAmounts = PackedInt32Array(4, 4, 1)
+defeatSchedule = NodePath("")
 pointsOnDestroy = 5000.0
 
 [node name="PlaceholderSprite" type="Sprite2D" parent="."]

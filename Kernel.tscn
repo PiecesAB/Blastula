@@ -1,4 +1,4 @@
-[gd_scene load_steps=184 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=186 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -123,20 +123,22 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Follow.cs" id="93_evxvp"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetCollisionData.cs" id="93_kt2yj"]
 [ext_resource type="AudioStream" uid="uid://fvvcbw2sx75j" path="res://addons/Blastula/Sounds/Menu/selectBig.ogg" id="93_quwg7"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/SetItemGetHeight.cs" id="98_4pc22"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/SetItemGetHeight.cs" id="98_4pc22"]
 [ext_resource type="AudioStream" uid="uid://cytekk0pwry8p" path="res://addons/Blastula/Sounds/Menu/tickLeft.ogg" id="99_24upv"]
 [ext_resource type="AudioStream" uid="uid://bt3106hh5njie" path="res://addons/Blastula/Sounds/Menu/tickRight.ogg" id="100_wjuh5"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Aim.cs" id="111_b4os7"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/PlayMusic.cs" id="121_odgj2"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/MusicEnvelope.cs" id="124_ktqkr"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/PlayMusic.cs" id="121_odgj2"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/MusicEnvelope.cs" id="124_ktqkr"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/PlayerManager.cs" id="126_daosb"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/PlayerEntry.cs" id="127_ecdrd"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/LoadBackground.cs" id="128_bar8m"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/LoadBackground.cs" id="128_bar8m"]
 [ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/PictusXXIV/PictusXXIV.tscn" id="128_p54iq"]
 [ext_resource type="PackedScene" uid="uid://bhqd5e51x5qy6" path="res://addons/Blastula/Session/Backgrounds/Lab/lab.tscn" id="129_yne45"]
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/SettingsLoader.cs" id="130_wuyde"]
 [ext_resource type="PackedScene" uid="uid://ccm1h8jgbo63m" path="res://addons/Blastula/Session/Enemy/ExampleBoss.tscn" id="135_ekk57"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossRefill.cs" id="136_1n5ct"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="137_u6g8j"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/DropCollectible.cs" id="138_ws6lk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cv5ct"]
 shader = ExtResource("49_hetvq")
@@ -1834,6 +1836,24 @@ script = ExtResource("66_doh6d")
 [node name="BossRefill" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
 script = ExtResource("136_1n5ct")
 newMaxHealth = "900"
+
+[node name="BossPayload1" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
+script = ExtResource("137_u6g8j")
+cycleCount = "1"
+
+[node name="Point" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/BossPayload1"]
+script = ExtResource("138_ws6lk")
+positioningMode = 3
+position = "Main"
+collectibleName = "ScatterPoint"
+collectibleAmount = "4"
+
+[node name="ExtendPiece" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/BossPayload1"]
+script = ExtResource("138_ws6lk")
+positioningMode = 3
+position = "Main"
+collectibleName = "DropExtendPiece"
+collectibleAmount = "1"
 
 [node name="Part02" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
 script = ExtResource("63_d8ira")

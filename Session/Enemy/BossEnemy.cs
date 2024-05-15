@@ -9,6 +9,9 @@ namespace Blastula
     /// <summary>
     /// Boss enemy; a special enemy that can have multiple phases.
     /// </summary>
+    /// <remarks>
+    /// - Bosses do not drop collectibles with a defeat schedule, you must trigger that manually with DropCollectible.
+    /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/enemy.png")]
     public partial class BossEnemy : Enemy

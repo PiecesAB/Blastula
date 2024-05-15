@@ -76,9 +76,17 @@ namespace Blastula
         private List<Blastodisc> varDiscs = new List<Blastodisc>();
 
         /// <summary>
+        /// Runs on defeat of the enemy. For example, this can drop collectibles using Schedules.DropCollectible.
+        /// </summary>
+        /// <remarks>
+        /// Be careful if the schedule is a child of this Blastodisc and waits, even one frame.
+        /// A deleted schedule won't do anything.
+        /// </remarks>
+        [ExportGroup("Deletion")]
+        [Export] public BaseSchedule defeatSchedule;
+        /// <summary>
         /// References a ParticleEffectPool that activates at the enemy's position when it is destroyed on-screen.
         /// </summary>
-        [ExportGroup("Deletion")]
         [Export] public string deletionParticlePool = "ExplodeMedium";
         /// <remarks>
         /// By default, an enemy contains a visibility notifier that deletes the enemy when it goes offscreen.
@@ -96,17 +104,6 @@ namespace Blastula
         [Export] public float selfMaxLifespan = -1;
         [Export] public Wait.TimeUnits lifespanUnits = Wait.TimeUnits.Frames;
         [ExportGroup("Collectibles")]
-        [Export] public bool spawnCollectiblesOnHealthZero = true;
-        /// <summary>
-        /// The name of sequences which scatter collectibles when the enemy dies.
-        /// For more information, see the Blastula.CollectibleManager class.
-        /// </summary>
-        [Export] public string[] collectibleSpawnNames;
-        /// <summary>
-        /// Populates the "item_amount" variable in collectible spawning sequences.
-        /// For more information, see the Blastula.CollectibleManager class.
-        /// </summary>
-        [Export] public int[] collectibleSpawnAmounts;
         /// <summary>
         /// The points obtained for dealing one unit of damage to this enemy.
         /// </summary>
@@ -214,18 +211,6 @@ namespace Blastula
 
                 if (damageAmount > 0 && health == 0 && !defeated)
                 {
-                    if (spawnCollectiblesOnHealthZero)
-                    {
-                        for (int i = 0; i < collectibleSpawnNames.Length; i++)
-                        {
-                            CollectibleManager.SpawnItems(
-                                collectibleSpawnNames[i], 
-                                GlobalPosition, 
-                                collectibleSpawnAmounts[i]
-                            );
-                        }
-                        spawnCollectiblesOnHealthZero = false;
-                    }
                     Session.main.AddScore(pointsOnDestroy);
                     pointsOnDestroy = 0;
                     BecomeDefeated();
@@ -237,6 +222,10 @@ namespace Blastula
         {
             if (defeated) { return; }
             defeated = true;
+            if (defeatSchedule != null)
+            {
+                defeatSchedule.Execute(this);
+            }
             if (onScreen)
             {
                 CommonSFXManager.PlayByName("Enemy/Explode", 1, 1, GlobalPosition, true);

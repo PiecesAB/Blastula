@@ -2305,6 +2305,7 @@ size = Vector2i(768, 896)
 render_target_update_mode = 4
 
 [node name="Camera" type="Camera2D" parent="Rendering Zone/MainViewHolder/MainView/Objects"]
+unique_name_in_owner = true
 
 [node name="Background" type="SubViewportContainer" parent="Rendering Zone/MainViewHolder/MainView/Objects/Camera" node_paths=PackedStringArray("backgroundSceneParent", "fadeOverlay")]
 light_mask = 0

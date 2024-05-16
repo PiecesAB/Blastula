@@ -525,22 +525,21 @@ namespace Blastula
         /// <summary>
         /// Performs all behaviors of masterQueue[i] recursively.
         /// </summary>
-        public static void Execute(int i, float stepSize)
+        public static void Execute(int i, float stepSize, bool noMultithreading = false)
         {
-            Execute(i, stepSize, 0, 1);
+            Execute(i, stepSize, noMultithreading, 0, 1);
         }
 
         /// <summary>
         /// Performs all behaviors of masterQueue[i] recursively.
         /// </summary>
-        private static void Execute(int i, float stepSize, int recursionDepth = 0, float stepSizeMultiplier = 1)
+        private static void Execute(int i, float stepSize, bool noMultithreading, int recursionDepth = 0, float stepSizeMultiplier = 1)
         {
             if (i < 0 || i >= mqSize) { throw new IndexOutOfRangeException(); }
             if (!masterQueue[i].initialized) { return; }
             float flow = stepSizeMultiplier;
             float selfFlow = 1;
             float tempFlow = 1;
-            bool noMultithreading = false;
             for (int j = 0; j < masterQueue[i].behaviors.count; ++j)
             {
                 BehaviorReceipt receipt = BehaviorOrderFunctions.Execute(
@@ -564,7 +563,7 @@ namespace Blastula
                     float f = flow;
                     int childIndex = masterQueue[ii].children[j];
                     if (childIndex < 0 || childIndex >= mqSize) { return; }
-                    Execute(childIndex, stepSize, recursionDepth + 1, f);
+                    Execute(childIndex, stepSize, noMultithreading, recursionDepth + 1, f);
                 });
             }
             else
@@ -574,7 +573,7 @@ namespace Blastula
                     float f = flow;
                     int childIndex = masterQueue[i].children[j];
                     if (childIndex < 0 || childIndex >= mqSize) { continue; }
-                    Execute(childIndex, stepSize, recursionDepth + 1, f);
+                    Execute(childIndex, stepSize, noMultithreading, recursionDepth + 1, f);
                 }
             }
         }

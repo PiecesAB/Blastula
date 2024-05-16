@@ -1,8 +1,7 @@
-[gd_scene load_steps=34 format=3 uid="uid://ccm1h8jgbo63m"]
+[gd_scene load_steps=18 format=3 uid="uid://ccm1h8jgbo63m"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossEnemy.cs" id="1_okdxs"]
 [ext_resource type="Texture2D" uid="uid://cgg752h3ys7w2" path="res://addons/Blastula/Graphics/NodeIcons/enemy.png" id="2_hpex5"]
-[ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="2_u51ps"]
 [ext_resource type="Script" path="res://addons/Blastula/Collision/BlastulaCollider.cs" id="3_lkec2"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Target.cs" id="4_evqlk"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossHealthIndicator.cs" id="5_a1uah"]
@@ -14,21 +13,6 @@
 [ext_resource type="FontFile" uid="uid://d3qy5qooo3jqa" path="res://addons/Blastula/Graphics/Enemy/bossSequenceTokens.png" id="9_phaw4"]
 [ext_resource type="Texture2D" uid="uid://ulwvg4hbsyjx" path="res://addons/Blastula/Graphics/Enemy/bossBarTick.png" id="11_0rf1s"]
 [ext_resource type="FontFile" uid="uid://cdkr7rv70t74f" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Bold.ttf" id="11_aut60"]
-[ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="14_0d04p"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Variables/SetVar.cs" id="16_vbsc2"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Sequence.cs" id="17_j7c7f"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/CreateSingle.cs" id="18_slvmh"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Forth.cs" id="19_irdn3"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Aim.cs" id="20_oshjm"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/AdaptPattern.cs" id="21_4fgmc"]
-[ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="21_laooe"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/PlaySound.cs" id="21_vqlqd"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/Fork.cs" id="22_d7oql"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Adapt.cs" id="22_pphrd"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Morph.cs" id="23_gyps5"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ClearBehaviors.cs" id="23_uejbo"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Circle.cs" id="24_2y0c5"]
-[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Lifespan.cs" id="24_bjsak"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g0m1q"]
 shader = ExtResource("5_is46e")
@@ -52,12 +36,11 @@ shader_parameter/start_offset = Vector2(228, 58)
 shader_parameter/center = Vector2(228, 230)
 shader_parameter/use_rotation = 1.0
 
-[node name="ExampleBoss" type="Node2D" node_paths=PackedStringArray("defeatSchedule")]
+[node name="ExampleBoss" type="Node2D"]
 position = Vector2(0, -200)
 script = ExtResource("1_okdxs")
 health = 0.0
 lowHealthCutoff = 200.0
-defeatSchedule = NodePath("")
 pointsOnDestroy = 5000.0
 
 [node name="PlaceholderSprite" type="Sprite2D" parent="."]
@@ -263,97 +246,6 @@ offset_bottom = -200.0
 scale = Vector2(0.7, 0.5)
 pivot_offset = Vector2(8, 264)
 texture = ExtResource("11_0rf1s")
-
-[node name="Blastodisc" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
-script = ExtResource("14_0d04p")
-mainSchedule = NodePath("Cycle")
-
-[node name="Cycle" type="Node" parent="Blastodisc"]
-script = ExtResource("2_u51ps")
-cycleCount = "1"
-
-[node name="SetVar" type="Node" parent="Blastodisc/Cycle"]
-script = ExtResource("16_vbsc2")
-varName = "r"
-newValue = "0"
-
-[node name="Cycle2" type="Node" parent="Blastodisc/Cycle"]
-script = ExtResource("2_u51ps")
-
-[node name="Sequence" type="Node" parent="Blastodisc/Cycle/Cycle2"]
-script = ExtResource("17_j7c7f")
-
-[node name="CreateSingle" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence"]
-script = ExtResource("18_slvmh")
-renderName = "Bubble/Huge"
-
-[node name="Forth" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence"]
-script = ExtResource("19_irdn3")
-speed = "300"
-
-[node name="Aim" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence"]
-script = ExtResource("20_oshjm")
-
-[node name="Die2" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence"]
-script = ExtResource("24_bjsak")
-duration = "10"
-units = 0
-
-[node name="Adapt" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence" node_paths=PackedStringArray("operation")]
-script = ExtResource("22_pphrd")
-operation = NodePath("ClearBehaviors")
-wait = "1"
-waitUnits = 0
-
-[node name="ClearBehaviors" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence/Adapt"]
-script = ExtResource("23_uejbo")
-remain = "4"
-
-[node name="AdaptPattern" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence"]
-script = ExtResource("21_4fgmc")
-wait = "0.1"
-waitUnits = 0
-
-[node name="Fork" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence/AdaptPattern"]
-script = ExtResource("22_d7oql")
-
-[node name="CreateSingle" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence/AdaptPattern/Fork"]
-script = ExtResource("18_slvmh")
-renderName = "Orb/Red"
-
-[node name="Morph" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence/AdaptPattern/Fork"]
-script = ExtResource("23_gyps5")
-duration = "30"
-throttle = 0.6
-
-[node name="Forth" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence/AdaptPattern/Fork"]
-script = ExtResource("19_irdn3")
-speed = "160"
-
-[node name="Circle" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence/AdaptPattern/Fork"]
-script = ExtResource("24_2y0c5")
-radius = "0"
-number = "3"
-
-[node name="Aim" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence/AdaptPattern/Fork"]
-script = ExtResource("20_oshjm")
-
-[node name="Die" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence/AdaptPattern/Fork"]
-script = ExtResource("24_bjsak")
-duration = "10"
-units = 0
-
-[node name="PlaySound" type="Node" parent="Blastodisc/Cycle/Cycle2/Sequence"]
-script = ExtResource("21_vqlqd")
-commonSFXName = "Enemy/Shot1"
-
-[node name="Wait" type="Node" parent="Blastodisc/Cycle/Cycle2"]
-script = ExtResource("21_laooe")
-
-[node name="SetVar" type="Node" parent="Blastodisc/Cycle/Cycle2"]
-script = ExtResource("16_vbsc2")
-varName = "r"
-newValue = "r + 137"
 
 [connection signal="Collision" from="Bullet Collider" to="." method="OnHit"]
 [connection signal="screen_entered" from="Visible Check" to="." method="BecameVisibleFromNotifier"]

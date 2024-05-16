@@ -1802,6 +1802,10 @@ script = ExtResource("63_d8ira")
 script = ExtResource("63_d8ira")
 role = 1
 
+[node name="LoadBackground" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
+script = ExtResource("128_bar8m")
+backgroundScene = ExtResource("129_yne45")
+
 [node name="TestBoss" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
 script = ExtResource("63_d8ira")
 role = 3

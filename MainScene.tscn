@@ -1,4 +1,4 @@
-[gd_scene load_steps=137 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=147 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="1_5qpbx"]
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_m6k27"]
@@ -53,7 +53,6 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/MainBoundary.cs" id="50_4fyhh"]
 [ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="51_suwsw"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/ScheduleReference.cs" id="52_hr82e"]
-[ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/ExampleEnemy.tscn" id="53_3j5av"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Sequence.cs" id="54_dvc7i"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/CreateSingle.cs" id="55_aru50"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Morph.cs" id="56_ybru1"]
@@ -82,6 +81,11 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="79_aaomk"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/WindForth.cs" id="80_lnbdv"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Spread.cs" id="81_cqmgs"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/Fork.cs" id="81_mavoi"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Wind/StandardWindSource.cs" id="82_mtx7p"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Scrimble.cs" id="82_vbuc8"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/ForthByPosition.cs" id="83_ixqft"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Spin.cs" id="84_xgdn6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cbxs"]
 shader = ExtResource("10_fbcxs")
@@ -1352,6 +1356,57 @@ point_count = 3
 _data = [Vector2(0, 1), 0.0, -0.977923, 0, 1, Vector2(1, 0.022077), 0.0, 0.0, 0, 0]
 point_count = 2
 
+[sub_resource type="Curve" id="Curve_qbmb1"]
+_data = [Vector2(0, 0.0423198), 0.0, 0.95768, 0, 1, Vector2(1, 1), 0.95768, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_5mrj3"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="Animation" id="Animation_w6wuu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_76lj1"]
+resource_name = "SGSpin"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qy760"]
+_data = {
+"RESET": SubResource("Animation_w6wuu"),
+"SGSpin": SubResource("Animation_76lj1")
+}
+
+[sub_resource type="Curve" id="Curve_3ok6x"]
+max_value = 200.0
+_data = [Vector2(0, 200), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [node name="Main Scene" type="Node2D" groups=["MainScene"]]
 
 [node name="Rendering Zone" type="Camera2D" parent="."]
@@ -2496,8 +2551,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 1200.0
-offset_bottom = 36.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
@@ -3092,13 +3145,7 @@ mainSchedule = NodePath("Main schedule")
 [node name="Main schedule" type="Node" parent="Sanae midboss nonspell clone2"]
 script = ExtResource("52_hr82e")
 
-[node name="BasicEnemy" parent="." instance=ExtResource("53_3j5av")]
-position = Vector2(200, 400)
-health = 500.0
-lowHealthCutoff = 100.0
-
-[node name="Mind Shaker clone" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
-position = Vector2(1000, 0)
+[node name="Mind Shaker clone" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("51_suwsw")
 ID = "Enemy"
 enabled = false
@@ -3106,236 +3153,236 @@ mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("Cleanup")
 deleteAction = 1
 
-[node name="Fire Circle Left" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+[node name="Fire Circle Left" type="Node2D" parent="Mind Shaker clone"]
 script = ExtResource("54_dvc7i")
 
-[node name="Start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+[node name="Start" type="Node2D" parent="Mind Shaker clone/Fire Circle Left"]
 script = ExtResource("55_aru50")
 renderName = "Bullet/Blue"
 
-[node name="Mist" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+[node name="Mist" type="Node2D" parent="Mind Shaker clone/Fire Circle Left"]
 script = ExtResource("56_ybru1")
 
-[node name="Forth" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+[node name="Forth" type="Node2D" parent="Mind Shaker clone/Fire Circle Left"]
 script = ExtResource("57_beylf")
 speed = "120"
 
-[node name="Adapt bullet on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left" node_paths=PackedStringArray("operation")]
+[node name="Adapt bullet on illusion start" type="Node2D" parent="Mind Shaker clone/Fire Circle Left" node_paths=PackedStringArray("operation")]
 script = ExtResource("58_vr74y")
 operation = NodePath("../../Start illusion on bullet")
 condition = "illusion_time"
 wait = ""
 
-[node name="Circle" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left" node_paths=PackedStringArray("path2D")]
+[node name="Circle" type="Node2D" parent="Mind Shaker clone/Fire Circle Left" node_paths=PackedStringArray("path2D")]
 script = ExtResource("59_80hwk")
 path2D = NodePath("Path2D")
 extraRotation = "-90"
 number = "40"
 
-[node name="Path2D" type="Path2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left/Circle"]
+[node name="Path2D" type="Path2D" parent="Mind Shaker clone/Fire Circle Left/Circle"]
 curve = SubResource("Curve2D_sn1b5")
 
-[node name="Adapt circle on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left" node_paths=PackedStringArray("operation")]
+[node name="Adapt circle on illusion start" type="Node2D" parent="Mind Shaker clone/Fire Circle Left" node_paths=PackedStringArray("operation")]
 script = ExtResource("58_vr74y")
 operation = NodePath("../../Start illusion on circle")
 condition = "illusion_time"
 wait = ""
 
-[node name="Rotate in the illusion direction" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+[node name="Rotate in the illusion direction" type="Node2D" parent="Mind Shaker clone/Fire Circle Left"]
 rotation = 120.0
 script = ExtResource("60_xgobl")
 childPlacement = 1
 
-[node name="Super container to avoid lifespan getting deleted" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+[node name="Super container to avoid lifespan getting deleted" type="Node2D" parent="Mind Shaker clone/Fire Circle Left"]
 script = ExtResource("61_ac181")
 number = "1"
 
-[node name="Lifespan" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+[node name="Lifespan" type="Node2D" parent="Mind Shaker clone/Fire Circle Left"]
 script = ExtResource("62_n50mu")
 duration = "900"
 
-[node name="Shot Sound" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Left"]
+[node name="Shot Sound" type="Node2D" parent="Mind Shaker clone/Fire Circle Left"]
 script = ExtResource("63_83u84")
 commonSFXName = "Enemy/Shot1"
 
-[node name="Fire Circle Right" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+[node name="Fire Circle Right" type="Node2D" parent="Mind Shaker clone"]
 script = ExtResource("54_dvc7i")
 
-[node name="Start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+[node name="Start" type="Node2D" parent="Mind Shaker clone/Fire Circle Right"]
 script = ExtResource("55_aru50")
 renderName = "Bullet/Red"
 
-[node name="Mist" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+[node name="Mist" type="Node2D" parent="Mind Shaker clone/Fire Circle Right"]
 script = ExtResource("56_ybru1")
 
-[node name="Forth" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+[node name="Forth" type="Node2D" parent="Mind Shaker clone/Fire Circle Right"]
 script = ExtResource("57_beylf")
 speed = "120"
 
-[node name="Adapt bullet on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right" node_paths=PackedStringArray("operation")]
+[node name="Adapt bullet on illusion start" type="Node2D" parent="Mind Shaker clone/Fire Circle Right" node_paths=PackedStringArray("operation")]
 script = ExtResource("58_vr74y")
 operation = NodePath("../../Start illusion on bullet")
 condition = "illusion_time"
 wait = ""
 
-[node name="Circle" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+[node name="Circle" type="Node2D" parent="Mind Shaker clone/Fire Circle Right"]
 script = ExtResource("64_7nik6")
 number = "40"
 
-[node name="Adapt circle on illusion" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right" node_paths=PackedStringArray("operation")]
+[node name="Adapt circle on illusion" type="Node2D" parent="Mind Shaker clone/Fire Circle Right" node_paths=PackedStringArray("operation")]
 script = ExtResource("58_vr74y")
 operation = NodePath("../../Start illusion on circle")
 condition = "illusion_time"
 wait = ""
 
-[node name="Rotate in the illusion direction" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+[node name="Rotate in the illusion direction" type="Node2D" parent="Mind Shaker clone/Fire Circle Right"]
 rotation = 60.0
 script = ExtResource("60_xgobl")
 childPlacement = 1
 
-[node name="Super container to avoid lifespan getting deleted" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+[node name="Super container to avoid lifespan getting deleted" type="Node2D" parent="Mind Shaker clone/Fire Circle Right"]
 script = ExtResource("61_ac181")
 number = "1"
 
-[node name="Lifespan" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+[node name="Lifespan" type="Node2D" parent="Mind Shaker clone/Fire Circle Right"]
 script = ExtResource("62_n50mu")
 duration = "900"
 
-[node name="Shot Sound" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Fire Circle Right"]
+[node name="Shot Sound" type="Node2D" parent="Mind Shaker clone/Fire Circle Right"]
 script = ExtResource("63_83u84")
 commonSFXName = "Enemy/Shot1"
 
-[node name="Start illusion on bullet" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+[node name="Start illusion on bullet" type="Node2D" parent="Mind Shaker clone"]
 script = ExtResource("54_dvc7i")
 
-[node name="Clear behaviors" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
+[node name="Clear behaviors" type="Node2D" parent="Mind Shaker clone/Start illusion on bullet"]
 script = ExtResource("65_beugp")
 
-[node name="Make transparent2" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
+[node name="Make transparent2" type="Node2D" parent="Mind Shaker clone/Start illusion on bullet"]
 script = ExtResource("66_wffq2")
 replaceMode = 0
 graphicsList = PackedStringArray("Bullet/Orange")
 
-[node name="Make transparent" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
+[node name="Make transparent" type="Node2D" parent="Mind Shaker clone/Start illusion on bullet"]
 script = ExtResource("67_yn6tv")
 color = "Color(1, 1, 1, 0.5)"
 
-[node name="Make uncollidable" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet"]
+[node name="Make uncollidable" type="Node2D" parent="Mind Shaker clone/Start illusion on bullet"]
 script = ExtResource("68_71e1u")
 newCollisionLayer = "None"
 
-[node name="Adapt bullet on illusion end" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on bullet" node_paths=PackedStringArray("operation")]
+[node name="Adapt bullet on illusion end" type="Node2D" parent="Mind Shaker clone/Start illusion on bullet" node_paths=PackedStringArray("operation")]
 script = ExtResource("58_vr74y")
 operation = NodePath("../../End illusion on bullet")
 condition = "!illusion_time"
 wait = ""
 
-[node name="End illusion on bullet" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+[node name="End illusion on bullet" type="Node2D" parent="Mind Shaker clone"]
 script = ExtResource("54_dvc7i")
 
-[node name="Clear behaviors" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet"]
+[node name="Clear behaviors" type="Node2D" parent="Mind Shaker clone/End illusion on bullet"]
 script = ExtResource("65_beugp")
 
-[node name="Make opaque" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet"]
+[node name="Make opaque" type="Node2D" parent="Mind Shaker clone/End illusion on bullet"]
 script = ExtResource("67_yn6tv")
 color = "Color(1, 1, 1, 1)"
 
-[node name="Make collidable" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet"]
+[node name="Make collidable" type="Node2D" parent="Mind Shaker clone/End illusion on bullet"]
 script = ExtResource("68_71e1u")
 newCollisionLayer = "EnemyShot"
 
-[node name="Forth" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet"]
+[node name="Forth" type="Node2D" parent="Mind Shaker clone/End illusion on bullet"]
 script = ExtResource("57_beylf")
 speed = "120"
 
-[node name="Adapt bullet on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on bullet" node_paths=PackedStringArray("operation")]
+[node name="Adapt bullet on illusion start" type="Node2D" parent="Mind Shaker clone/End illusion on bullet" node_paths=PackedStringArray("operation")]
 script = ExtResource("58_vr74y")
 operation = NodePath("../../Start illusion on bullet")
 condition = "illusion_time"
 wait = ""
 
-[node name="Start illusion on circle" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+[node name="Start illusion on circle" type="Node2D" parent="Mind Shaker clone"]
 script = ExtResource("54_dvc7i")
 
-[node name="Forth" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on circle"]
+[node name="Forth" type="Node2D" parent="Mind Shaker clone/Start illusion on circle"]
 script = ExtResource("57_beylf")
 
-[node name="Adapt circle on illusion end" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Start illusion on circle" node_paths=PackedStringArray("operation")]
+[node name="Adapt circle on illusion end" type="Node2D" parent="Mind Shaker clone/Start illusion on circle" node_paths=PackedStringArray("operation")]
 script = ExtResource("58_vr74y")
 operation = NodePath("../../End illusion on circle")
 condition = "!illusion_time"
 wait = ""
 
-[node name="End illusion on circle" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+[node name="End illusion on circle" type="Node2D" parent="Mind Shaker clone"]
 script = ExtResource("54_dvc7i")
 
-[node name="Clear behaviors" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on circle"]
+[node name="Clear behaviors" type="Node2D" parent="Mind Shaker clone/End illusion on circle"]
 script = ExtResource("65_beugp")
 
-[node name="Adapt circle on illusion start" type="Node2D" parent="BasicEnemy/Mind Shaker clone/End illusion on circle" node_paths=PackedStringArray("operation")]
+[node name="Adapt circle on illusion start" type="Node2D" parent="Mind Shaker clone/End illusion on circle" node_paths=PackedStringArray("operation")]
 script = ExtResource("58_vr74y")
 operation = NodePath("../../Start illusion on circle")
 condition = "illusion_time"
 wait = ""
 
-[node name="Main Loop" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+[node name="Main Loop" type="Node2D" parent="Mind Shaker clone"]
 script = ExtResource("69_v6d21")
 
-[node name="Illusion time is false" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+[node name="Illusion time is false" type="Node2D" parent="Mind Shaker clone/Main Loop"]
 script = ExtResource("70_ahusq")
 varName = "illusion_time"
 environment = 1
 newValue = "false"
 
-[node name="Fire Circle Left" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop" node_paths=PackedStringArray("other")]
+[node name="Fire Circle Left" type="Node2D" parent="Mind Shaker clone/Main Loop" node_paths=PackedStringArray("other")]
 script = ExtResource("71_dm4nr")
 other = NodePath("../../Fire Circle Left")
 
-[node name="Fire Circle Right" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop" node_paths=PackedStringArray("other")]
+[node name="Fire Circle Right" type="Node2D" parent="Mind Shaker clone/Main Loop" node_paths=PackedStringArray("other")]
 script = ExtResource("71_dm4nr")
 other = NodePath("../../Fire Circle Right")
 
-[node name="Wait" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+[node name="Wait" type="Node2D" parent="Mind Shaker clone/Main Loop"]
 script = ExtResource("72_5skpn")
 
-[node name="Illusion time is true" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+[node name="Illusion time is true" type="Node2D" parent="Mind Shaker clone/Main Loop"]
 script = ExtResource("70_ahusq")
 varName = "illusion_time"
 environment = 1
 newValue = "true"
 
-[node name="Shine sound 1" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+[node name="Shine sound 1" type="Node2D" parent="Mind Shaker clone/Main Loop"]
 script = ExtResource("63_83u84")
 commonSFXName = "Enemy/Shine"
 
-[node name="Wait2" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+[node name="Wait2" type="Node2D" parent="Mind Shaker clone/Main Loop"]
 script = ExtResource("72_5skpn")
 waitTime = "2"
 
-[node name="Illusion time is false again" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+[node name="Illusion time is false again" type="Node2D" parent="Mind Shaker clone/Main Loop"]
 script = ExtResource("70_ahusq")
 varName = "illusion_time"
 environment = 1
 newValue = "false"
 
-[node name="Shine sound" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+[node name="Shine sound" type="Node2D" parent="Mind Shaker clone/Main Loop"]
 script = ExtResource("63_83u84")
 commonSFXName = "Enemy/Shine"
 
-[node name="Wait3" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Main Loop"]
+[node name="Wait3" type="Node2D" parent="Mind Shaker clone/Main Loop"]
 script = ExtResource("72_5skpn")
 waitTime = "1.5"
 
-[node name="Cleanup" type="Node2D" parent="BasicEnemy/Mind Shaker clone"]
+[node name="Cleanup" type="Node2D" parent="Mind Shaker clone"]
 script = ExtResource("69_v6d21")
 cycleCount = "1"
 
-[node name="Unset illusion time" type="Node2D" parent="BasicEnemy/Mind Shaker clone/Cleanup"]
+[node name="Unset illusion time" type="Node2D" parent="Mind Shaker clone/Cleanup"]
 script = ExtResource("73_8elnl")
 varName = "illusion_time"
 environment = 1
 
-[node name="Lightning" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+[node name="Lightning" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("51_suwsw")
 ID = "Enemy"
 enabled = false
@@ -3343,110 +3390,110 @@ mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
 deleteAction = 1
 
-[node name="Rotate left and leap forth" type="Node" parent="BasicEnemy/Lightning"]
+[node name="Rotate left and leap forth" type="Node" parent="Lightning"]
 script = ExtResource("54_dvc7i")
 
-[node name="Truncate" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
+[node name="Truncate" type="Node2D" parent="Lightning/Rotate left and leap forth"]
 position = Vector2(0, -200)
 script = ExtResource("65_beugp")
 remain = "2"
 
-[node name="Rotate left" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
+[node name="Rotate left" type="Node2D" parent="Lightning/Rotate left and leap forth"]
 position = Vector2(0, -200)
 rotation = 30.0
 script = ExtResource("60_xgobl")
 myRotation = "45"
 
-[node name="Slow" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
+[node name="Slow" type="Node2D" parent="Lightning/Rotate left and leap forth"]
 position = Vector2(0, -200)
 script = ExtResource("74_kfbat")
 curve = SubResource("Curve_wmp8t")
 endTime = "30"
 
-[node name="Forth" type="Node2D" parent="BasicEnemy/Lightning/Rotate left and leap forth"]
+[node name="Forth" type="Node2D" parent="Lightning/Rotate left and leap forth"]
 position = Vector2(0, -200)
 script = ExtResource("57_beylf")
 speed = "500"
 
-[node name="Rotate right and leap forth" type="Node" parent="BasicEnemy/Lightning"]
+[node name="Rotate right and leap forth" type="Node" parent="Lightning"]
 script = ExtResource("54_dvc7i")
 
-[node name="Truncate" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
+[node name="Truncate" type="Node2D" parent="Lightning/Rotate right and leap forth"]
 position = Vector2(0, -200)
 script = ExtResource("65_beugp")
 remain = "2"
 
-[node name="Rotate right" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
+[node name="Rotate right" type="Node2D" parent="Lightning/Rotate right and leap forth"]
 position = Vector2(0, -200)
 rotation = -30.0
 script = ExtResource("60_xgobl")
 myRotation = "-45"
 
-[node name="Slow" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
+[node name="Slow" type="Node2D" parent="Lightning/Rotate right and leap forth"]
 position = Vector2(0, -200)
 script = ExtResource("74_kfbat")
 curve = SubResource("Curve_wmp8t")
 endTime = "30"
 
-[node name="Forth" type="Node2D" parent="BasicEnemy/Lightning/Rotate right and leap forth"]
+[node name="Forth" type="Node2D" parent="Lightning/Rotate right and leap forth"]
 position = Vector2(0, -200)
 script = ExtResource("57_beylf")
 speed = "500"
 
-[node name="Main Loop" type="Node2D" parent="BasicEnemy/Lightning"]
+[node name="Main Loop" type="Node2D" parent="Lightning"]
 script = ExtResource("69_v6d21")
 
-[node name="Lines" type="Node2D" parent="BasicEnemy/Lightning/Main Loop"]
+[node name="Lines" type="Node2D" parent="Lightning/Main Loop"]
 script = ExtResource("69_v6d21")
 cycleCount = "6"
 
-[node name="Make the it" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines"]
+[node name="Make the it" type="Node2D" parent="Lightning/Main Loop/Lines"]
 script = ExtResource("54_dvc7i")
 
-[node name="Start" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+[node name="Start" type="Node2D" parent="Lightning/Main Loop/Lines/Make the it"]
 script = ExtResource("55_aru50")
 renderName = "Arrow/Yellow"
 
-[node name="Mist" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+[node name="Mist" type="Node2D" parent="Lightning/Main Loop/Lines/Make the it"]
 script = ExtResource("56_ybru1")
 
-[node name="Adapt bullet on illusion start" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+[node name="Adapt bullet on illusion start" type="Node2D" parent="Lightning/Main Loop/Lines/Make the it"]
 script = ExtResource("75_abxjt")
 wait = "30"
 
-[node name="RL" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it/Adapt bullet on illusion start" node_paths=PackedStringArray("other")]
+[node name="RL" type="Node2D" parent="Lightning/Main Loop/Lines/Make the it/Adapt bullet on illusion start" node_paths=PackedStringArray("other")]
 script = ExtResource("71_dm4nr")
 other = NodePath("../../../../../Rotate left and leap forth")
 
-[node name="RR" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it/Adapt bullet on illusion start" node_paths=PackedStringArray("other")]
+[node name="RR" type="Node2D" parent="Lightning/Main Loop/Lines/Make the it/Adapt bullet on illusion start" node_paths=PackedStringArray("other")]
 script = ExtResource("71_dm4nr")
 other = NodePath("../../../../../Rotate right and leap forth")
 
-[node name="RL" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it" node_paths=PackedStringArray("other")]
+[node name="RL" type="Node2D" parent="Lightning/Main Loop/Lines/Make the it" node_paths=PackedStringArray("other")]
 script = ExtResource("71_dm4nr")
 other = NodePath("../../../../Rotate left and leap forth")
 
-[node name="Circle" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+[node name="Circle" type="Node2D" parent="Lightning/Main Loop/Lines/Make the it"]
 script = ExtResource("64_7nik6")
 radius = "0"
 
-[node name="Lifespan" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+[node name="Lifespan" type="Node2D" parent="Lightning/Main Loop/Lines/Make the it"]
 script = ExtResource("62_n50mu")
 duration = "450"
 
-[node name="Shot Sound" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines/Make the it"]
+[node name="Shot Sound" type="Node2D" parent="Lightning/Main Loop/Lines/Make the it"]
 script = ExtResource("63_83u84")
 commonSFXName = "Enemy/Shot1"
 
-[node name="Wait" type="Node2D" parent="BasicEnemy/Lightning/Main Loop/Lines"]
+[node name="Wait" type="Node2D" parent="Lightning/Main Loop/Lines"]
 script = ExtResource("72_5skpn")
 waitTime = "15"
 units = 1
 
-[node name="Wait" type="Node2D" parent="BasicEnemy/Lightning/Main Loop"]
+[node name="Wait" type="Node2D" parent="Lightning/Main Loop"]
 script = ExtResource("72_5skpn")
 
-[node name="overlap test" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+[node name="overlap test" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("51_suwsw")
 ID = "Enemy"
 enabled = false
@@ -3454,126 +3501,126 @@ mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
 deleteAction = 1
 
-[node name="Main Loop" type="Node2D" parent="BasicEnemy/overlap test"]
+[node name="Main Loop" type="Node2D" parent="overlap test"]
 script = ExtResource("69_v6d21")
 
-[node name="Wait4" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+[node name="Wait4" type="Node2D" parent="overlap test/Main Loop"]
 script = ExtResource("76_lxwsf")
 graphicType = 1
 graphicName = "Orb/Yellow"
 
-[node name="Wait5" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+[node name="Wait5" type="Node2D" parent="overlap test/Main Loop"]
 script = ExtResource("76_lxwsf")
 graphicType = 1
 graphicName = "Orb/Blue"
 newZIndex = "1"
 
-[node name="Make the it" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+[node name="Make the it" type="Node2D" parent="overlap test/Main Loop"]
 script = ExtResource("54_dvc7i")
 
-[node name="Start" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+[node name="Start" type="Node2D" parent="overlap test/Main Loop/Make the it"]
 script = ExtResource("55_aru50")
 
-[node name="Forth" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+[node name="Forth" type="Node2D" parent="overlap test/Main Loop/Make the it"]
 script = ExtResource("57_beylf")
 speed = "300"
 
-[node name="Circle" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+[node name="Circle" type="Node2D" parent="overlap test/Main Loop/Make the it"]
 script = ExtResource("64_7nik6")
 radius = "0"
 number = "100"
 
-[node name="Circle2" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+[node name="Circle2" type="Node2D" parent="overlap test/Main Loop/Make the it"]
 script = ExtResource("77_flmy6")
 progressVariable = ""
 countVariable = "i"
 
-[node name="Circle3" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it/Circle2"]
+[node name="Circle3" type="Node2D" parent="overlap test/Main Loop/Make the it/Circle2"]
 script = ExtResource("54_dvc7i")
 execute = "i % 2 == 0"
 
-[node name="Trail" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it/Circle2/Circle3"]
+[node name="Trail" type="Node2D" parent="overlap test/Main Loop/Make the it/Circle2/Circle3"]
 script = ExtResource("78_adg8s")
 laserRenderName = "Orb/Blue"
 
-[node name="Circle4" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it/Circle2"]
+[node name="Circle4" type="Node2D" parent="overlap test/Main Loop/Make the it/Circle2"]
 script = ExtResource("54_dvc7i")
 execute = "i % 2 == 1"
 
-[node name="Trail" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it/Circle2/Circle4"]
+[node name="Trail" type="Node2D" parent="overlap test/Main Loop/Make the it/Circle2/Circle4"]
 script = ExtResource("78_adg8s")
 laserRenderName = "Orb/Yellow"
 
-[node name="Lifespan" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+[node name="Lifespan" type="Node2D" parent="overlap test/Main Loop/Make the it"]
 script = ExtResource("62_n50mu")
 duration = "300"
 
-[node name="Shot Sound" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it"]
+[node name="Shot Sound" type="Node2D" parent="overlap test/Main Loop/Make the it"]
 script = ExtResource("63_83u84")
 commonSFXName = "Enemy/Shot1"
 
-[node name="Wait" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+[node name="Wait" type="Node2D" parent="overlap test/Main Loop"]
 script = ExtResource("72_5skpn")
 
-[node name="Wait2" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+[node name="Wait2" type="Node2D" parent="overlap test/Main Loop"]
 script = ExtResource("76_lxwsf")
 graphicType = 1
 graphicName = "Orb/Yellow"
 newZIndex = "1"
 
-[node name="Wait3" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+[node name="Wait3" type="Node2D" parent="overlap test/Main Loop"]
 script = ExtResource("76_lxwsf")
 graphicType = 1
 graphicName = "Orb/Blue"
 
-[node name="Make the it2" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+[node name="Make the it2" type="Node2D" parent="overlap test/Main Loop"]
 script = ExtResource("54_dvc7i")
 
-[node name="Start" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+[node name="Start" type="Node2D" parent="overlap test/Main Loop/Make the it2"]
 script = ExtResource("55_aru50")
 
-[node name="Forth" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+[node name="Forth" type="Node2D" parent="overlap test/Main Loop/Make the it2"]
 script = ExtResource("57_beylf")
 speed = "300"
 
-[node name="Circle" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+[node name="Circle" type="Node2D" parent="overlap test/Main Loop/Make the it2"]
 script = ExtResource("64_7nik6")
 radius = "0"
 number = "100"
 
-[node name="Circle2" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+[node name="Circle2" type="Node2D" parent="overlap test/Main Loop/Make the it2"]
 script = ExtResource("77_flmy6")
 progressVariable = ""
 countVariable = "i"
 
-[node name="Circle3" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2/Circle2"]
+[node name="Circle3" type="Node2D" parent="overlap test/Main Loop/Make the it2/Circle2"]
 script = ExtResource("54_dvc7i")
 execute = "i % 2 == 0"
 
-[node name="Trail" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2/Circle2/Circle3"]
+[node name="Trail" type="Node2D" parent="overlap test/Main Loop/Make the it2/Circle2/Circle3"]
 script = ExtResource("78_adg8s")
 laserRenderName = "Orb/Blue"
 
-[node name="Circle4" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2/Circle2"]
+[node name="Circle4" type="Node2D" parent="overlap test/Main Loop/Make the it2/Circle2"]
 script = ExtResource("54_dvc7i")
 execute = "i % 2 == 1"
 
-[node name="Trail" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2/Circle2/Circle4"]
+[node name="Trail" type="Node2D" parent="overlap test/Main Loop/Make the it2/Circle2/Circle4"]
 script = ExtResource("78_adg8s")
 laserRenderName = "Orb/Yellow"
 
-[node name="Lifespan" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+[node name="Lifespan" type="Node2D" parent="overlap test/Main Loop/Make the it2"]
 script = ExtResource("62_n50mu")
 duration = "300"
 
-[node name="Shot Sound" type="Node2D" parent="BasicEnemy/overlap test/Main Loop/Make the it2"]
+[node name="Shot Sound" type="Node2D" parent="overlap test/Main Loop/Make the it2"]
 script = ExtResource("63_83u84")
 commonSFXName = "Enemy/Shot1"
 
-[node name="Wait6" type="Node2D" parent="BasicEnemy/overlap test/Main Loop"]
+[node name="Wait6" type="Node2D" parent="overlap test/Main Loop"]
 script = ExtResource("72_5skpn")
 
-[node name="misc test" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+[node name="misc test" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("51_suwsw")
 ID = "Enemy"
 enabled = false
@@ -3581,56 +3628,381 @@ mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
 deleteAction = 2
 
-[node name="del bound" type="Node2D" parent="BasicEnemy/misc test"]
+[node name="del bound" type="Node2D" parent="misc test"]
 script = ExtResource("79_aaomk")
 boundaryID = "Main"
 specialAction = 3
 shrink = -80.0
 
-[node name="Main Loop" type="Node2D" parent="BasicEnemy/misc test"]
+[node name="Main Loop" type="Node2D" parent="misc test"]
 script = ExtResource("69_v6d21")
 
-[node name="Make the it" type="Node2D" parent="BasicEnemy/misc test/Main Loop"]
+[node name="Make the it" type="Node2D" parent="misc test/Main Loop"]
 script = ExtResource("54_dvc7i")
 
-[node name="Start" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+[node name="Start" type="Node2D" parent="misc test/Main Loop/Make the it"]
 script = ExtResource("55_aru50")
 
-[node name="Wind blow2" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+[node name="Wind blow2" type="Node2D" parent="misc test/Main Loop/Make the it"]
 script = ExtResource("56_ybru1")
 throttle = 0.99
 
-[node name="Wind blow" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+[node name="Wind blow" type="Node2D" parent="misc test/Main Loop/Make the it"]
 script = ExtResource("80_lnbdv")
 channel = "Gravity"
 initialSpeed = "0"
 
-[node name="Circle" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+[node name="Circle" type="Node2D" parent="misc test/Main Loop/Make the it"]
 script = ExtResource("78_adg8s")
 laserRenderName = "Orb/Red"
 
-[node name="Circle2" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+[node name="Circle2" type="Node2D" parent="misc test/Main Loop/Make the it"]
 script = ExtResource("60_xgobl")
 mode = 2
 myRotation = "180 * sin(shot_count * 0.04)"
 offsetX = "400 * cos(shot_count * 0.1)"
 offsetY = "100 * cos(shot_count * 0.23) - 100"
 
-[node name="Lifespan" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+[node name="Lifespan" type="Node2D" parent="misc test/Main Loop/Make the it"]
 script = ExtResource("62_n50mu")
 duration = "300"
 deletionEffect = true
 
-[node name="Shot Sound" type="Node2D" parent="BasicEnemy/misc test/Main Loop/Make the it"]
+[node name="Shot Sound" type="Node2D" parent="misc test/Main Loop/Make the it"]
 script = ExtResource("63_83u84")
 commonSFXName = "Enemy/Shot1"
 
-[node name="Wait6" type="Node2D" parent="BasicEnemy/misc test/Main Loop"]
+[node name="Wait6" type="Node2D" parent="misc test/Main Loop"]
 script = ExtResource("72_5skpn")
 waitTime = "[2, 420][max(0, (shot_count % 50) - 48)]"
 units = 1
 
-[node name="alice" type="Node2D" parent="BasicEnemy" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+[node name="Scarlet gensokyo clone" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule")]
+position = Vector2(0, -200)
+script = ExtResource("51_suwsw")
+ID = "Enemy"
+enabled = false
+mainSchedule = NodePath("Split")
+noMultithreading = true
+
+[node name="MakeBubble" type="Node" parent="Scarlet gensokyo clone"]
+script = ExtResource("54_dvc7i")
+
+[node name="Create" type="Node" parent="Scarlet gensokyo clone/MakeBubble"]
+script = ExtResource("55_aru50")
+renderName = "Bubble/Huge/Magenta"
+
+[node name="AdaptPattern" type="Node" parent="Scarlet gensokyo clone/MakeBubble"]
+script = ExtResource("75_abxjt")
+wait = "0.33"
+waitUnits = 0
+
+[node name="Fork" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern" node_paths=PackedStringArray("blastodisc")]
+script = ExtResource("81_mavoi")
+blastodisc = NodePath("../../..")
+
+[node name="CreateSingle" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork"]
+script = ExtResource("55_aru50")
+renderName = "Orb/Red"
+
+[node name="CreateSingle2" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork"]
+script = ExtResource("56_ybru1")
+duration = "30"
+scaleMultiplier = 2.0
+
+[node name="DeleteOutOfBounds" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork"]
+script = ExtResource("79_aaomk")
+boundaryID = "Main"
+specialAction = 3
+shrink = -30.0
+
+[node name="WhenBloodType0" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork"]
+script = ExtResource("54_dvc7i")
+execute = "blood_type == 0"
+
+[node name="Move randomly" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork/WhenBloodType0" node_paths=PackedStringArray("operation")]
+script = ExtResource("58_vr74y")
+operation = NodePath("Sequence")
+condition = "blood_type == 1"
+wait = ""
+waitUnits = 0
+
+[node name="Sequence" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork/WhenBloodType0/Move randomly"]
+script = ExtResource("54_dvc7i")
+
+[node name="Shift" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork/WhenBloodType0/Move randomly/Sequence"]
+script = ExtResource("60_xgobl")
+myRotation = "randf() * 360.0"
+
+[node name="Forth2" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork/WhenBloodType0/Move randomly/Sequence"]
+script = ExtResource("74_kfbat")
+curve = SubResource("Curve_qbmb1")
+endTime = "3"
+units = 0
+
+[node name="Forth" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork/WhenBloodType0/Move randomly/Sequence"]
+script = ExtResource("57_beylf")
+speed = "120"
+
+[node name="WhenBloodType1" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork"]
+script = ExtResource("54_dvc7i")
+execute = "blood_type == 1"
+
+[node name="Move by wind" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork/WhenBloodType1" node_paths=PackedStringArray("operation")]
+script = ExtResource("58_vr74y")
+operation = NodePath("Sequence")
+condition = "blood_type == 0"
+wait = ""
+waitUnits = 0
+
+[node name="Sequence" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork/WhenBloodType1/Move by wind"]
+script = ExtResource("54_dvc7i")
+
+[node name="WindForth" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork/WhenBloodType1/Move by wind/Sequence"]
+script = ExtResource("80_lnbdv")
+channel = "SG"
+affectStrength = "10"
+maxSpeed = "1"
+
+[node name="WindForth2" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork/WhenBloodType1/Move by wind/Sequence" node_paths=PackedStringArray("operation")]
+script = ExtResource("58_vr74y")
+operation = NodePath("../../Sequence2")
+wait = "0.01"
+waitUnits = 0
+
+[node name="Sequence2" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork/WhenBloodType1/Move by wind"]
+script = ExtResource("54_dvc7i")
+
+[node name="ClearBehaviors" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork/WhenBloodType1/Move by wind/Sequence2"]
+script = ExtResource("65_beugp")
+remain = "2"
+
+[node name="Forth3" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork/WhenBloodType1/Move by wind/Sequence2"]
+script = ExtResource("74_kfbat")
+curve = SubResource("Curve_qbmb1")
+endTime = "3"
+units = 0
+
+[node name="Forth" type="Node" parent="Scarlet gensokyo clone/MakeBubble/AdaptPattern/Fork/WhenBloodType1/Move by wind/Sequence2"]
+script = ExtResource("57_beylf")
+speed = "120"
+
+[node name="Split" type="Node" parent="Scarlet gensokyo clone"]
+script = ExtResource("69_v6d21")
+
+[node name="SetBloodType0" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("70_ahusq")
+varName = "blood_type"
+environment = 1
+newValue = "0"
+
+[node name="Sequence" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("54_dvc7i")
+
+[node name="MakeBubbleA" type="Node" parent="Scarlet gensokyo clone/Split/Sequence" node_paths=PackedStringArray("other")]
+script = ExtResource("71_dm4nr")
+other = NodePath("../../../MakeBubble")
+
+[node name="CreateSingle2" type="Node" parent="Scarlet gensokyo clone/Split/Sequence"]
+script = ExtResource("82_vbuc8")
+startRadius = "210"
+endRadius = "340"
+endAngle = "30"
+number = "4"
+
+[node name="ForthByPosition" type="Node" parent="Scarlet gensokyo clone/Split/Sequence"]
+script = ExtResource("83_ixqft")
+
+[node name="CreateSingle3" type="Node" parent="Scarlet gensokyo clone/Split/Sequence"]
+script = ExtResource("64_7nik6")
+radius = "0"
+
+[node name="Die2" type="Node" parent="Scarlet gensokyo clone/Split/Sequence"]
+script = ExtResource("62_n50mu")
+duration = "6"
+units = 0
+
+[node name="Wait" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("72_5skpn")
+waitTime = "4"
+
+[node name="SetBloodType1" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("70_ahusq")
+varName = "blood_type"
+environment = 1
+newValue = "1"
+
+[node name="Wait2" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("72_5skpn")
+
+[node name="Sequence2" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("54_dvc7i")
+
+[node name="MakeBubbleA" type="Node" parent="Scarlet gensokyo clone/Split/Sequence2" node_paths=PackedStringArray("other")]
+script = ExtResource("71_dm4nr")
+other = NodePath("../../../MakeBubble")
+
+[node name="Forth" type="Node" parent="Scarlet gensokyo clone/Split/Sequence2"]
+script = ExtResource("57_beylf")
+speed = "250"
+
+[node name="Forth2" type="Node" parent="Scarlet gensokyo clone/Split/Sequence2"]
+script = ExtResource("74_kfbat")
+curve = SubResource("Curve_5mrj3")
+endTime = "1"
+units = 0
+
+[node name="Forth3" type="Node" parent="Scarlet gensokyo clone/Split/Sequence2"]
+script = ExtResource("84_xgdn6")
+speed = "180"
+
+[node name="CreateSingle3" type="Node" parent="Scarlet gensokyo clone/Split/Sequence2"]
+script = ExtResource("64_7nik6")
+radius = "0"
+number = "18"
+
+[node name="Die2" type="Node" parent="Scarlet gensokyo clone/Split/Sequence2"]
+script = ExtResource("62_n50mu")
+duration = "6"
+units = 0
+
+[node name="Wait3" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("72_5skpn")
+waitTime = "4"
+
+[node name="SetBloodType2" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("70_ahusq")
+varName = "blood_type"
+environment = 1
+newValue = "0"
+
+[node name="Wait4" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("72_5skpn")
+
+[node name="Sequence3" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("54_dvc7i")
+
+[node name="MakeBubbleA" type="Node" parent="Scarlet gensokyo clone/Split/Sequence3" node_paths=PackedStringArray("other")]
+script = ExtResource("71_dm4nr")
+other = NodePath("../../../MakeBubble")
+
+[node name="Forth" type="Node" parent="Scarlet gensokyo clone/Split/Sequence3"]
+script = ExtResource("57_beylf")
+speed = "250"
+
+[node name="Forth2" type="Node" parent="Scarlet gensokyo clone/Split/Sequence3"]
+script = ExtResource("74_kfbat")
+curve = SubResource("Curve_5mrj3")
+endTime = "1"
+units = 0
+
+[node name="Forth3" type="Node" parent="Scarlet gensokyo clone/Split/Sequence3"]
+script = ExtResource("84_xgdn6")
+speed = "-180"
+
+[node name="CreateSingle3" type="Node" parent="Scarlet gensokyo clone/Split/Sequence3"]
+script = ExtResource("64_7nik6")
+radius = "0"
+number = "18"
+
+[node name="Die2" type="Node" parent="Scarlet gensokyo clone/Split/Sequence3"]
+script = ExtResource("62_n50mu")
+duration = "6"
+units = 0
+
+[node name="Wait5" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("72_5skpn")
+waitTime = "4"
+
+[node name="SetBloodType3" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("70_ahusq")
+varName = "blood_type"
+environment = 1
+newValue = "1"
+
+[node name="Wait6" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("72_5skpn")
+
+[node name="Sequence4" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("54_dvc7i")
+
+[node name="MakeBubbleA" type="Node" parent="Scarlet gensokyo clone/Split/Sequence4" node_paths=PackedStringArray("other")]
+script = ExtResource("71_dm4nr")
+other = NodePath("../../../MakeBubble")
+
+[node name="Forth" type="Node" parent="Scarlet gensokyo clone/Split/Sequence4"]
+script = ExtResource("57_beylf")
+speed = "250"
+
+[node name="Forth2" type="Node" parent="Scarlet gensokyo clone/Split/Sequence4"]
+script = ExtResource("74_kfbat")
+curve = SubResource("Curve_5mrj3")
+endTime = "1"
+units = 0
+
+[node name="Forth3" type="Node" parent="Scarlet gensokyo clone/Split/Sequence4"]
+script = ExtResource("84_xgdn6")
+speed = "180"
+
+[node name="CreateSingle3" type="Node" parent="Scarlet gensokyo clone/Split/Sequence4"]
+script = ExtResource("64_7nik6")
+radius = "0"
+number = "18"
+
+[node name="Die2" type="Node" parent="Scarlet gensokyo clone/Split/Sequence4"]
+script = ExtResource("62_n50mu")
+duration = "6"
+units = 0
+
+[node name="Wait7" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("72_5skpn")
+waitTime = "4"
+
+[node name="SetBloodType4" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("70_ahusq")
+varName = "blood_type"
+environment = 1
+newValue = "0"
+
+[node name="Wait8" type="Node" parent="Scarlet gensokyo clone/Split"]
+script = ExtResource("72_5skpn")
+waitTime = "2.5"
+
+[node name="Scarlet gensokyo wind" type="Node2D" parent="Scarlet gensokyo clone"]
+position = Vector2(0, -100)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Scarlet gensokyo clone/Scarlet gensokyo wind"]
+active = false
+libraries = {
+"": SubResource("AnimationLibrary_qy760")
+}
+autoplay = "SGSpin"
+
+[node name="StandardWindSource" type="Node2D" parent="Scarlet gensokyo clone/Scarlet gensokyo wind"]
+position = Vector2(-200, 0)
+script = ExtResource("82_mtx7p")
+strength = SubResource("Curve_3ok6x")
+radius = 2000.0
+differentialRotation = -90.0
+channel = "SG"
+
+[node name="StandardWindSource2" type="Node2D" parent="Scarlet gensokyo clone/Scarlet gensokyo wind"]
+position = Vector2(200, 0)
+script = ExtResource("82_mtx7p")
+strength = SubResource("Curve_3ok6x")
+radius = 2000.0
+differentialRotation = -90.0
+channel = "SG"
+
+[node name="StandardWindSource3" type="Node2D" parent="Scarlet gensokyo clone/Scarlet gensokyo wind"]
+position = Vector2(0, 500)
+script = ExtResource("82_mtx7p")
+strength = SubResource("Curve_3ok6x")
+radius = 2000.0
+differentialRotation = 180.0
+channel = "SG"
+
+[node name="alice" type="Node2D" parent="." node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("51_suwsw")
 ID = "Enemy"
 enabled = false
@@ -3638,63 +4010,63 @@ mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
 deleteAction = 2
 
-[node name="Main Loop" type="Node2D" parent="BasicEnemy/alice"]
+[node name="Main Loop" type="Node2D" parent="alice"]
 script = ExtResource("69_v6d21")
 
-[node name="Wait7" type="Node2D" parent="BasicEnemy/alice/Main Loop"]
+[node name="Wait7" type="Node2D" parent="alice/Main Loop"]
 script = ExtResource("70_ahusq")
 varName = "r"
 newValue = "0"
 
-[node name="Main Loop2" type="Node2D" parent="BasicEnemy/alice/Main Loop"]
+[node name="Main Loop2" type="Node2D" parent="alice/Main Loop"]
 script = ExtResource("69_v6d21")
 
-[node name="Make the it" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2"]
+[node name="Make the it" type="Node2D" parent="alice/Main Loop/Main Loop2"]
 script = ExtResource("54_dvc7i")
 
-[node name="Start" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+[node name="Start" type="Node2D" parent="alice/Main Loop/Main Loop2/Make the it"]
 script = ExtResource("55_aru50")
 renderName = "Sonic/Yellow"
 
-[node name="Start2" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+[node name="Start2" type="Node2D" parent="alice/Main Loop/Main Loop2/Make the it"]
 script = ExtResource("79_aaomk")
 boundaryID = "Main"
 specialAction = 3
 shrink = -50.0
 
-[node name="Wind blow3" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+[node name="Wind blow3" type="Node2D" parent="alice/Main Loop/Main Loop2/Make the it"]
 script = ExtResource("57_beylf")
 speed = "500"
 
-[node name="Wind blow4" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+[node name="Wind blow4" type="Node2D" parent="alice/Main Loop/Main Loop2/Make the it"]
 script = ExtResource("81_cqmgs")
 radius = "0"
 angularWidth = "90"
 number = "5"
 
-[node name="Wind blow5" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+[node name="Wind blow5" type="Node2D" parent="alice/Main Loop/Main Loop2/Make the it"]
 script = ExtResource("81_cqmgs")
 radius = "0"
 number = "2"
 
-[node name="Wind blow6" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+[node name="Wind blow6" type="Node2D" parent="alice/Main Loop/Main Loop2/Make the it"]
 script = ExtResource("60_xgobl")
 myRotation = "r"
 
-[node name="Lifespan" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+[node name="Lifespan" type="Node2D" parent="alice/Main Loop/Main Loop2/Make the it"]
 script = ExtResource("62_n50mu")
 duration = "120"
 deletionEffect = true
 
-[node name="Shot Sound" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2/Make the it"]
+[node name="Shot Sound" type="Node2D" parent="alice/Main Loop/Main Loop2/Make the it"]
 script = ExtResource("63_83u84")
 commonSFXName = "Enemy/Shot1"
 
-[node name="Wait6" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2"]
+[node name="Wait6" type="Node2D" parent="alice/Main Loop/Main Loop2"]
 script = ExtResource("72_5skpn")
 waitTime = "0.05"
 
-[node name="Wait7" type="Node2D" parent="BasicEnemy/alice/Main Loop/Main Loop2"]
+[node name="Wait7" type="Node2D" parent="alice/Main Loop/Main Loop2"]
 script = ExtResource("70_ahusq")
 varName = "r"
 newValue = "r + 7.8"

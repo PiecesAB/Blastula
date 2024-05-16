@@ -1,3 +1,4 @@
+using Blastula.LowLevel;
 using Blastula.VirtualVariables;
 using Godot;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Blastula.Operations
     /// This allows bullets to shoot from other bullets.
     /// </summary>
     [GlobalClass]
-    [Icon(Persistent.NODE_ICON_PATH + "/creation.png")]
+    [Icon(Persistent.NODE_ICON_PATH + "/bulletFork.png")]
     public partial class Fork : Sequence
     {
         public enum StartMode
@@ -60,7 +61,9 @@ namespace Blastula.Operations
             int subOut = base.ProcessStructure(subIn);
             if (inStructure >= 0)
             {
-                masterQueue[subOut].transform = masterQueue[inStructure].transform * masterQueue[subOut].transform;
+                Transform2D w = BulletWorldTransforms.Get(inStructure);
+                masterQueue[subOut].transform = w * masterQueue[subOut].transform;
+                BulletWorldTransforms.Invalidate(inStructure);
             }
             if (nextDisc != null) { nextDisc.Inherit(subOut); }
             return inStructure;

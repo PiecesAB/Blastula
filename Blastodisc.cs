@@ -61,6 +61,11 @@ namespace Blastula
         /// </summary>
         [Export] public bool bulletsExecutable = true;
         /// <summary>
+        /// If true, multithreading will not be used.
+        /// This is important to set if bullets use randomness heavily.
+        /// </summary>
+        [Export] public bool noMultithreading = false;
+        /// <summary>
         /// This schedule runs when the Blastodisc is about to be deleted. 
         /// </summary>
         /// <remarks>
@@ -365,7 +370,8 @@ namespace Blastula
                 if (bd.masterStructure < 0) { continue; }
                 BNodeFunctions.Execute(
                     bd.masterStructure,
-                    (float)Engine.TimeScale * bd.speedMultiplier
+                    (float)Engine.TimeScale * bd.speedMultiplier,
+                    bd.noMultithreading
                 );
             }
         }

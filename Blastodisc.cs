@@ -79,6 +79,10 @@ namespace Blastula
         /// </summary>
         [Export] public DeleteAction deleteAction = DeleteAction.BulletsRemain;
         /// <summary>
+        /// Whether cancel items are created as bullets are deleted by DeleteAction.
+        /// </summary>
+        [Export] public bool deleteCancel = true;
+        /// <summary>
         /// Multiplier for the time scale at which bullets are executed.
         /// </summary>
         /// <example>
@@ -101,7 +105,7 @@ namespace Blastula
         /// <summary>
         /// Children are all structures currently living and shot by this.
         /// </summary>
-        private int masterStructure = -1;
+        public int masterStructure { get; private set; } = -1;
         private int masterNextChildIndex = 0;
         private int masterLowerChildSearch = 0;
 
@@ -231,6 +235,10 @@ namespace Blastula
         {
             if (masterStructure >= 0)
             {
+                if (deleteCancel)
+                {
+                    CollectibleManager.Cancel(masterStructure);
+                }
                 if (deletionEffect)
                 {
                     BulletRenderer.ConvertToDeletionEffects(masterStructure);

@@ -263,6 +263,14 @@ namespace Blastula.Graphics
             ConvertToDeletionEffects(bNodeIndex, 0);
         }
 
+        /// <summary>
+        /// Turns all bullets controlled by the Blastodisc into deletion effects.
+        /// </summary>
+        public static void ConvertToDeletionEffects(Blastodisc blastodisc)
+        {
+            ConvertToDeletionEffects(blastodisc.masterStructure);
+        }
+
         // Render one bullet.
         private static void RenderOne(int nonzeroRenderID, int i)
         {

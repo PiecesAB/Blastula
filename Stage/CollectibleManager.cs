@@ -24,7 +24,14 @@ namespace Blastula
             {"Collectible/ExtendPiece", "Extend"},
             {"Collectible/GetBomb", "GetBomb"},
             {"Collectible/GetBombPiece" , "GetBomb"},
+            {"Collectible/CancelItem", "CancelItem" },
         };
+
+        /// <summary>
+        /// Sequence that takes a bullet structure and creates cancel items from all of them. 
+        /// </summary>
+        [Export] public Sequence bulletCancelSequence;
+
         private Dictionary<int, string> itemNamesFromIDs = null;
 
         public static CollectibleManager main { get; private set; } = null;
@@ -69,9 +76,30 @@ namespace Blastula
             BaseOperation childOp = (BaseOperation)childNode;
             if (main.FindChild(name) != null)
             {
+                if (childOp.Name == (main?.bulletCancelSequence?.Name ?? ""))
+                {
+                    GD.PushWarning($"Tried to drop collectible for reserved bullet cancel name ({childOp.Name})");
+                    return;
+                }
                 main.collectibleDisc.GlobalPosition = globalPosition;
                 main.collectibleDisc.Shoot(childOp);
             }
+        }
+
+        public static void Cancel(int bNodeIndex)
+        {
+            if (main == null) { return; }
+            if (main.bulletCancelSequence == null)
+            {
+                GD.PushWarning("Tried to process bullet cancel, but there is no operation.");
+                return;
+            }
+            main.bulletCancelSequence.ProcessStructure(bNodeIndex);
+        }
+
+        public static void Cancel(Blastodisc blastodisc)
+        {
+            Cancel(blastodisc.masterStructure);
         }
 
         public override void _Ready()

@@ -28,9 +28,13 @@ namespace Blastula
         /// </summary>
         public ulong pointItemCount { get; private set; } = 0;
         /// <summary>
-        /// Number of point items collected throughout the session. Mainly for single-player use.
+        /// Number of point items collected in this stage. Mainly for single-player use.
         /// </summary>
         public ulong powerItemCount { get; private set; } = 0;
+        /// <summary>
+        /// Number of cancel items collected in this stage. Mainly for single-player use.
+        /// </summary>
+        public ulong cancelItemCount { get; private set; } = 0;
 
         private string currentPlayerPath = "";
         private string currentStageGroupName = "";
@@ -42,6 +46,7 @@ namespace Blastula
             grazeCount = 0;
             pointItemCount = 0;
             powerItemCount = 0;
+            cancelItemCount = 0;
         }
 
         public void AddGraze(int amount)
@@ -57,6 +62,11 @@ namespace Blastula
         public void AddPowerItem(int amount)
         {
             pointItemCount += (ulong)amount;
+        }
+
+        public void AddCancelItem(int amount)
+        {
+            cancelItemCount += (ulong)amount;
         }
 
         public async Task RetrySinglePlayerSession()

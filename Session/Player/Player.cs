@@ -651,6 +651,12 @@ namespace Blastula
             {
                 AddBombs(bNodePtr->power);
             }
+            else if (collectibleItemName == "CancelItem")
+            {
+                Session.main.AddScore(Session.main?.cancelItemValue ?? 10);
+                if (StageManager.main != null) { StageManager.main.AddCancelItem(1); }
+                if (Session.main != null) { Session.main.AddCancelItem(1); }
+            }
 
             PostExecute.ScheduleDeletion(bNodeIndex, false);
             CommonSFXManager.PlayByName("Player/Vacuum", 1, 1f, GlobalPosition, true);

@@ -84,7 +84,7 @@ namespace Blastula.VirtualVariables
         /// </summary>
         public BigInteger maxPointItemValue { get; private set; } = 999990;
         /// <summary>
-        /// Number of point items collected throughout the session. Mainly for single-player use.
+        /// Number of power items collected throughout the session. Mainly for single-player use.
         /// </summary>
         public ulong powerItemCount { get; private set; } = 0;
         /// <summary>
@@ -99,6 +99,14 @@ namespace Blastula.VirtualVariables
         /// The highest possible full point item value.
         /// </summary>
         public BigInteger maxPowerItemValue { get; private set; } = 100000;
+        /// <summary>
+        /// Number of cancel items collected throughout the session. Mainly for single-player use.
+        /// </summary>
+        public BigInteger cancelItemCount { get; private set; } = 0;
+        /// <summary>
+        /// The full score awarded upon collecting a cancel item.
+        /// </summary>
+        public BigInteger cancelItemValue { get; private set; } = 300;
         /// <summary>
         /// If true, the player can continue ("insert credit") when they lost all lives and try to respawn.
         /// </summary>
@@ -169,6 +177,7 @@ namespace Blastula.VirtualVariables
             pointItemValue = minPointItemValue;
             powerItemCount = 0;
             powerItemValue = minPowerItemValue;
+            cancelItemCount = 0;
             if (StageManager.main != null)
             {
                 StageManager.main.Reset();
@@ -282,6 +291,11 @@ namespace Blastula.VirtualVariables
         {
             maxPointItemValue = newValue;
             if (pointItemValue > maxPointItemValue) { pointItemValue = maxPointItemValue; }
+        }
+
+        public void AddCancelItem(int amount)
+        {
+            cancelItemCount += (ulong)amount;
         }
 
         #endregion

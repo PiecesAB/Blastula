@@ -33,7 +33,8 @@ namespace Blastula.Operations
         public string speed = "100";
         /// <summary>
         /// Puts the BNode in world space instead of local space, which avoids matrix multiplications.
-        /// Useful if you want to squeeze out ridiculous performance, but the BNode will now ignore its parent.
+        /// Useful if you want to squeeze out ridiculous performance or move globally, 
+        /// but the BNode will now ignore its parent.
         /// So this hack works for only simple movement.
         /// </summary>
         [ExportGroup("Advanced")]

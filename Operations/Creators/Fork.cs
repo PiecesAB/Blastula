@@ -59,7 +59,7 @@ namespace Blastula.Operations
                 }
             }
             int subOut = base.ProcessStructure(subIn);
-            if (inStructure >= 0)
+            if (inStructure >= 0 && startMode == StartMode.None)
             {
                 Transform2D w = BulletWorldTransforms.Get(inStructure);
                 masterQueue[subOut].transform = w * masterQueue[subOut].transform;

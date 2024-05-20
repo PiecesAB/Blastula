@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dfglvhf0vgk1k"]
+[gd_scene load_steps=6 format=3 uid="uid://dfglvhf0vgk1k"]
 
 [ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/ExampleEnemy.tscn" id="1_04axi"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/ScheduleReference.cs" id="2_2syau"]
 [ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="3_55vrq"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="4_o0kv5"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/ClearBullets.cs" id="5_4pfq3"]
 
 [node name="BasicEnemy" node_paths=PackedStringArray("movementSchedule") instance=ExtResource("1_04axi")]
 movementSchedule = NodePath("MovementA")
@@ -11,11 +13,20 @@ movementSchedule = NodePath("MovementA")
 script = ExtResource("2_2syau")
 scheduleID = "MovementA"
 
-[node name="ShotDisc" type="Node2D" parent="." index="5" node_paths=PackedStringArray("mainSchedule")]
+[node name="ShotDisc" type="Node2D" parent="." index="5" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("3_55vrq")
 mainSchedule = NodePath("FireA")
-deleteAction = 1
+cleanupSchedule = NodePath("Cleanup")
 
 [node name="FireA" type="Node" parent="ShotDisc" index="0"]
 script = ExtResource("2_2syau")
 scheduleID = "FireA"
+
+[node name="Cleanup" type="Node" parent="ShotDisc" index="1"]
+script = ExtResource("4_o0kv5")
+cycleCount = "1"
+
+[node name="ClearBullets" type="Node" parent="ShotDisc/Cleanup" index="0" node_paths=PackedStringArray("elementDirect")]
+script = ExtResource("5_4pfq3")
+elementDirect = NodePath("../..")
+deletionMode = 2

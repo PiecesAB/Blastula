@@ -15,33 +15,8 @@ namespace Blastula
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/blastodisc.png")]
-    public unsafe partial class Blastodisc : Node2D, IVariableContainer
+    public partial class Blastodisc : Node2D, IVariableContainer
     {
-        /// <summary>
-        /// Used in deleteAction field to determine what happens when this Blastodisc is deleted.
-        /// </summary>
-        /// <remarks>
-        /// We can't take no action, because Blastodiscs have to manage bullet structure deletion.
-        /// If we abandon the bullet structures, they would remain in the master queue forever,
-        /// and we would soon run out of bullets to fire.
-        /// </remarks>
-        public enum DeleteAction
-        {
-            /// <summary>
-            /// The primordial Blastodisc inherits the bullet structures of this Blastodisc,
-            /// so that they may continue executing every frame.
-            /// </summary>
-            BulletsRemain,
-            /// <summary>
-            /// The bullet structures of this Blastodisc are cleared.
-            /// </summary>
-            ClearMyBullets,
-            /// <summary>
-            /// The bullet structures of all Blastodiscs with the same ID as this one are cleared.
-            /// </summary>
-            ClearAllBullets
-        }
-
         /// <summary>
         /// Globally identify this Blastodisc, or give it a category, 
         /// to label what type of bullets it will shoot.
@@ -57,6 +32,14 @@ namespace Blastula
         /// </summary>
         [Export] public BaseSchedule mainSchedule;
         /// <summary>
+        /// This schedule runs when the Blastodisc is about to be deleted. That makes it useful to unset variables or clear bullets.
+        /// </summary>
+        /// <remarks>
+        /// Be careful if the schedule is a child of this Blastodisc and waits, even one frame.
+        /// A deleted schedule won't do anything.
+        /// </remarks>
+        [Export] public BaseSchedule cleanupSchedule;
+        /// <summary>
         /// If false, bullet structures will not be executed every frame.
         /// </summary>
         [Export] public bool bulletsExecutable = true;
@@ -65,23 +48,7 @@ namespace Blastula
         /// This is important to set if bullets use randomness heavily.
         /// </summary>
         [Export] public bool noMultithreading = false;
-        /// <summary>
-        /// This schedule runs when the Blastodisc is about to be deleted. 
-        /// </summary>
-        /// <remarks>
-        /// Be careful if the schedule is a child of this Blastodisc and waits, even one frame.
-        /// A deleted schedule won't do anything.
-        /// </remarks>
         [ExportGroup("Advanced")]
-        [Export] public BaseSchedule cleanupSchedule;
-        /// <summary>
-        /// For more info, see comments on the enum DeleteAction.
-        /// </summary>
-        [Export] public DeleteAction deleteAction = DeleteAction.BulletsRemain;
-        /// <summary>
-        /// Whether cancel items are created as bullets are deleted by DeleteAction.
-        /// </summary>
-        [Export] public bool deleteCancel = true;
         /// <summary>
         /// Multiplier for the time scale at which bullets are executed.
         /// </summary>
@@ -105,7 +72,7 @@ namespace Blastula
         /// <summary>
         /// Children are all structures currently living and shot by this.
         /// </summary>
-        public int masterStructure { get; private set; } = -1;
+        public int masterStructure = -1;
         private int masterNextChildIndex = 0;
         private int masterLowerChildSearch = 0;
 
@@ -142,6 +109,13 @@ namespace Blastula
             if (!allByID.ContainsKey(ID)) { allByID[ID] = new HashSet<Blastodisc>(); }
             allByID[ID].Add(this);
             myCurrentFrame = 0;
+            // We need to move the cleanup schedule outside the Blastodisc
+            // or else it will be removed from tree prematurely and won't run properly!
+            if (primordial != null && cleanupSchedule != null && cleanupSchedule.GetParent() == this)
+            {
+                RemoveChild(cleanupSchedule);
+                primordial.CallDeferred(MethodName.AddChild, cleanupSchedule);
+            }
         }
 
         /// <summary>
@@ -184,7 +158,7 @@ namespace Blastula
         /// There are some operations which can exist independently of any bullet structure, such as playing a sound.
         /// When that happens, we correctly "shoot" it and not inherit anything.
         /// </remarks>
-        public void Shoot(BaseOperation operation)
+        public unsafe void Shoot(BaseOperation operation)
         {
             if (operation == null) { return; }
             //Stopwatch s = Stopwatch.StartNew();
@@ -209,7 +183,7 @@ namespace Blastula
         /// The "master structure" of a Blastodisc is its way of tracking and inheriting bullet structures,
         /// using an overarching bullet structure.
         /// </remarks>
-		public bool Inherit(int bNodeIndex)
+		public unsafe bool Inherit(int bNodeIndex)
         {
             if (masterStructure < 0)
             {
@@ -228,62 +202,30 @@ namespace Blastula
             return true;
         }
 
-        /// <summary>
-        /// Deletes all bullets associated with this Blastodisc.
-        /// </summary>
-        public void ClearBullets(bool deletionEffect = true)
+        private async void ExitRoutine()
         {
-            if (masterStructure >= 0)
-            {
-                if (deleteCancel)
-                {
-                    CollectibleManager.Cancel(masterStructure);
-                }
-                if (deletionEffect)
-                {
-                    BulletRenderer.ConvertToDeletionEffects(masterStructure);
-                    primordial.Inherit(masterStructure);
-                }
-                else
-                {
-                    BNodeFunctions.MasterQueuePushTree(masterStructure);
-                }
-                masterStructure = -1;
+            if (primordial == this) { primordial = null; }
+            if (cleanupSchedule != null) 
+            { 
+                await cleanupSchedule.Execute(this);
+                cleanupSchedule.QueueFree();
             }
-        }
-
-        public override void _ExitTree()
-        {
-            base._ExitTree();
-            if (cleanupSchedule != null) { cleanupSchedule.Execute(this); }
-            switch (deleteAction)
+            if (masterStructure != -1)
             {
-                case DeleteAction.BulletsRemain:
-                default:
-                    if (masterStructure < 0) { break; }
-                    if (primordial == null || primordial == this) { ClearBullets(); break; }
-                    UnsafeArray<int> msc = BNodeFunctions.masterQueue[masterStructure].children;
-                    for (int i = 0; i < msc.count; ++i)
-                    {
-                        if (msc[i] < 0) { continue; }
-                        int childIndex = msc[i];
-                        BNodeFunctions.SetChild(masterStructure, i, -1);
-                        primordial.Inherit(childIndex);
-                    }
-                    BNodeFunctions.MasterQueuePushTree(masterStructure);
-                    break;
-                case DeleteAction.ClearMyBullets:
-                    ClearBullets();
-                    break;
-                case DeleteAction.ClearAllBullets:
-                    ClearBulletsForAll(ID);
-                    break;
+                BNodeFunctions.MasterQueuePushTree(masterStructure);
+                masterStructure = -1;
             }
             all.Remove(this);
             if (allByID.ContainsKey(ID)) { allByID[ID].Remove(this); }
         }
 
-        private void UpdateMasterStructure()
+        public override void _ExitTree()
+        {
+            base._ExitTree();
+            ExitRoutine();
+        }
+
+        private unsafe void UpdateMasterStructure()
         {
             if (masterStructure >= 0)
             {
@@ -313,7 +255,7 @@ namespace Blastula
         }
 
         // Keeps the tail of the masterQueue from staying put
-        private void RefreshMasterStructure()
+        private unsafe void RefreshMasterStructure()
         {
             if (masterStructure < 0) { return; }
             int newMS = BNodeFunctions.MasterQueuePopOne();
@@ -346,18 +288,6 @@ namespace Blastula
             {
                 scheduleBegan = true;
                 mainSchedule.Execute(this);
-            }
-        }
-
-        /// <summary>
-        /// Deletes all bullets associated with Blastodiscs of the same ID.
-        /// </summary>
-        public static void ClearBulletsForAll(string ID)
-        {
-            if (!allByID.ContainsKey(ID)) { return; }
-            foreach (Blastodisc bd in allByID[ID])
-            {
-                bd.ClearBullets();
             }
         }
 

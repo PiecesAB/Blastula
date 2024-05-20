@@ -190,7 +190,7 @@ namespace Blastula.Graphics
         }
 
         public const string DELETION_EFFECT_NAME = "Deletion";
-        public const float DELETION_EFFECT_FRAMES = 40;
+        public const float DELETION_EFFECT_LIFESPAN = 0.7f;
         public const float DELETION_EFFECT_RECT_SIZE = 40;
         private static int cachedDeletionRenderID = -1;
         private static float currentStageTime;
@@ -206,7 +206,7 @@ namespace Blastula.Graphics
             bNodePtr->behaviors.DisposeBehaviorOrder();
             if (depth == 0)
             {
-                Lifespan.Add(bNodeIndex, DELETION_EFFECT_FRAMES, Schedules.Wait.TimeUnits.Frames);
+                Lifespan.Add(bNodeIndex, DELETION_EFFECT_LIFESPAN, Schedules.Wait.TimeUnits.Seconds);
                 if (cachedDeletionRenderID < 0)
                 {
                     cachedDeletionRenderID = BulletRendererManager.GetIDFromName(DELETION_EFFECT_NAME);

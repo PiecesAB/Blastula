@@ -3153,7 +3153,6 @@ ID = "Enemy"
 enabled = false
 mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("Cleanup")
-deleteAction = 1
 
 [node name="Fire Circle Left" type="Node2D" parent="Mind Shaker clone"]
 script = ExtResource("54_dvc7i")
@@ -3390,7 +3389,6 @@ ID = "Enemy"
 enabled = false
 mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
-deleteAction = 1
 
 [node name="Rotate left and leap forth" type="Node" parent="Lightning"]
 script = ExtResource("54_dvc7i")
@@ -3501,7 +3499,6 @@ ID = "Enemy"
 enabled = false
 mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
-deleteAction = 1
 
 [node name="Main Loop" type="Node2D" parent="overlap test"]
 script = ExtResource("69_v6d21")
@@ -3628,7 +3625,6 @@ ID = "Enemy"
 enabled = false
 mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
-deleteAction = 2
 
 [node name="del bound" type="Node2D" parent="misc test"]
 script = ExtResource("79_aaomk")
@@ -4010,7 +4006,6 @@ ID = "Enemy"
 enabled = false
 mainSchedule = NodePath("Main Loop")
 cleanupSchedule = NodePath("../Mind Shaker clone/Cleanup")
-deleteAction = 2
 
 [node name="Main Loop" type="Node2D" parent="alice"]
 script = ExtResource("69_v6d21")

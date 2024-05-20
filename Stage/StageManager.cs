@@ -106,7 +106,11 @@ namespace Blastula
             StageSector.DumpStack();
             foreach (var kvp in Player.playersByControl) { kvp.Value.QueueFree(); }
             Player.playersByControl.Clear();
-            foreach (Blastodisc bd in Blastodisc.all) { bd.ClearBullets(false); }
+            foreach (Blastodisc bd in Blastodisc.all) 
+            {
+                BNodeFunctions.MasterQueuePushTree(bd.masterStructure);
+                bd.masterStructure = -1; 
+            }
             MusicManager.Stop();
             LabelPool.StopAll();
         }

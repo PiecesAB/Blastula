@@ -13,6 +13,8 @@ namespace Blastula.Operations
     /// </summary>
     /// <remarks>
     /// It isn't recommended to use very vigorous shaking, because it can harm precision gameplay.
+    /// Also, when using it in schedule contexts, be sure to keep in mind this will run instantly,
+    /// even though the effect has a duration.
     /// </remarks>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/shakeCamera.png")]

@@ -1,3 +1,4 @@
+using Blastula.Operations;
 using Blastula.VirtualVariables;
 using Godot;
 using System;
@@ -63,7 +64,7 @@ namespace Blastula.Graphics
             if (player == null && GetParent() is Player) { player = (Player)GetParent(); }
             if (player == null) { return; }
 
-            if (!Session.main?.paused ?? false)
+            if ((!Session.main?.paused ?? false) && !GameSpeed.pseudoStopped)
             {
                 // We manually handle time.
                 // If not, the game behavior may differ due to framerate, causing inconsistency in replays.

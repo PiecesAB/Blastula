@@ -779,7 +779,10 @@ namespace Blastula
         public override void _Process(double delta)
         {
             if (Session.IsPaused()) { return; }
-            PerformMovement();
+            if (!GameSpeed.pseudoStopped)
+            {
+                PerformMovement();
+            }
             SetVarsInDiscs();
             CountGrazeGetThisFrame();
             if (IsInItemGetMode()) { attractbox.size = new Vector2(2000, 2000); }

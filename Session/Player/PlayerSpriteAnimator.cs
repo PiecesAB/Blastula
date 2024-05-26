@@ -252,6 +252,7 @@ namespace Blastula.Graphics
         {
             base._Process(delta);
             if (Session.main == null || playerParent == null || Session.main.paused) { return; }
+            if (GameSpeed.pseudoStopped) { return; }
             internalAnimationTime += Engine.TimeScale / Persistent.SIMULATED_FPS;
             internalColorScaleTime += Engine.TimeScale / Persistent.SIMULATED_FPS;
             AnimationState targetAnimState = GetTargetAnimationState();

@@ -14,7 +14,7 @@ namespace Blastula.Operations
     /// Clear bullets in various ways.
     /// </summary>
     [GlobalClass]
-    [Icon(Persistent.NODE_ICON_PATH + "/clearBullets.png")]
+    [Icon(Persistent.NODE_ICON_PATH + "/deletion.png")]
     public partial class ClearBullets : BaseSchedule
 	{
         public enum SelectMode

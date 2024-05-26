@@ -142,6 +142,7 @@ libraries = {
 }
 autoplay = "Start"
 script = ExtResource("1_umg0j")
+reactToPseudoStop = true
 
 [node name="Tilt" type="AnimationPlayer" parent="Camera3D"]
 libraries = {
@@ -149,6 +150,7 @@ libraries = {
 }
 autoplay = "Start"
 script = ExtResource("1_umg0j")
+reactToPseudoStop = true
 
 [node name="Floor" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 8, 0, -0.908, -2)

@@ -60,6 +60,7 @@ namespace Blastula
         /// There may be behaviors which occur regardless of time scale, though no examples exist yet.
         /// </remarks>
         [Export] public float speedMultiplier = 1f;
+        [Export] public bool reactsToPseudoTimeStop = true;
 
         /// <summary>
         /// Implemented for IVariableContainer; holds local variables.
@@ -161,6 +162,7 @@ namespace Blastula
         public unsafe void Shoot(BaseOperation operation)
         {
             if (operation == null) { return; }
+            if (reactsToPseudoTimeStop && GameSpeed.pseudoStopped) { return; }
             //Stopwatch s = Stopwatch.StartNew();
             ExpressionSolver.currentLocalContainer = this;
             int newStructure = MakeStructure(operation);
@@ -306,6 +308,7 @@ namespace Blastula
             {
                 if (!bd.bulletsExecutable) { continue; }
                 if (bd.masterStructure < 0) { continue; }
+                if (bd.reactsToPseudoTimeStop && GameSpeed.pseudoStopped) { continue; }
                 BNodeFunctions.Execute(
                     bd.masterStructure,
                     (float)Engine.TimeScale * bd.speedMultiplier,

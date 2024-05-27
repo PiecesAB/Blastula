@@ -179,7 +179,12 @@ namespace Blastula.Schedules
             while (ShouldBeExecuting())
             {
                 await this.WaitOneFrame();
-                timeRemaining -= Engine.TimeScale / Persistent.SIMULATED_FPS;
+                bool runTimeThisFrame = true;
+                runTimeThisFrame &= !GameSpeed.pseudoStopped;
+                if (runTimeThisFrame)
+                {
+                    timeRemaining -= Engine.TimeScale / Persistent.SIMULATED_FPS;
+                }
                 if (timeRemaining < 0.0001) { timeRemaining = 0; }
             }
         }

@@ -35,7 +35,9 @@ namespace Blastula.Operations
             /// but the boss and enemies will remain normal.
             /// </summary>
             /// <remarks>
-            /// These will overlap correctly, such that the earlier stop will not end the effect.
+            /// These will overlap such that the earlier stop will not end the effect.
+            /// However it's worth noting that for time stops where one is nested within the other,
+            /// the end of the stop occurs at the end of the inner duration.
             /// You can customize enemies or background routines to respond to the EnterPseudoStop / ExitPseudoStop signals.
             /// </remarks>
             PseudoStop

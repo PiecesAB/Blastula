@@ -2709,7 +2709,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2750,7 +2750,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2789,7 +2789,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Retry"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2828,7 +2828,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Settings"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2867,7 +2867,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/End"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -2972,7 +2972,7 @@ animationPlayer = NodePath("AnimationPlayer")
 libraries = {
 "": SubResource("AnimationLibrary_rkflj")
 }
-blend_times = [&"Highlight", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Normal", &"Normal", 0.1]
+blend_times = [&"Normal", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Highlight", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
 material = SubResource("ShaderMaterial_n41s0")

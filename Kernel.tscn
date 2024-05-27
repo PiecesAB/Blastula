@@ -1912,19 +1912,6 @@ script = ExtResource("139_oisx3")
 [node name="BossRefill" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("136_1n5ct")
 
-[node name="LoadBackground2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
-script = ExtResource("146_xag8p")
-mode = 1
-effectDuration = "2"
-
-[node name="LoadBackground4" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
-script = ExtResource("66_doh6d")
-
-[node name="LoadBackground3" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
-script = ExtResource("146_xag8p")
-mode = 1
-effectDuration = "4"
-
 [node name="Bomb" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
 script = ExtResource("63_d8ira")
 role = 6
@@ -1938,6 +1925,23 @@ script = ExtResource("66_doh6d")
 [node name="BossRefill" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
 script = ExtResource("136_1n5ct")
 newMaxHealth = "900"
+
+[node name="LoadBackground5" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
+script = ExtResource("66_doh6d")
+waitTime = "9"
+
+[node name="LoadBackground2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
+script = ExtResource("146_xag8p")
+mode = 1
+effectDuration = "2"
+
+[node name="LoadBackground4" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
+script = ExtResource("66_doh6d")
+
+[node name="LoadBackground3" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
+script = ExtResource("146_xag8p")
+mode = 1
+effectDuration = "2"
 
 [node name="BossPayload1" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
 script = ExtResource("137_u6g8j")

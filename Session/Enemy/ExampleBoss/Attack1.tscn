@@ -1,0 +1,115 @@
+[gd_scene load_steps=14 format=3 uid="uid://yu6t1ck8e2qi"]
+
+[ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="1_p8nfw"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Structure/Split.cs" id="2_nhgs8"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Structure/Cycle.cs" id="3_hfm4m"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Sequence.cs" id="4_8utoc"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="4_beytb"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/ClearBullets.cs" id="5_2aeog"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/CreateSingle.cs" id="5_3p6bo"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="6_8as57"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Forth.cs" id="7_omow6"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Circle.cs" id="8_ixqwx"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Lifespan.cs" id="9_41xl8"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Shift.cs" id="9_qk1ml"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/PlaySound.cs" id="10_6d4if"]
+
+[node name="Attack1" type="Node2D" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
+script = ExtResource("1_p8nfw")
+ID = "Enemy"
+mainSchedule = NodePath("Split")
+cleanupSchedule = NodePath("ClearBullets")
+
+[node name="Split" type="Node" parent="."]
+script = ExtResource("2_nhgs8")
+
+[node name="Cycle" type="Node" parent="Split"]
+script = ExtResource("3_hfm4m")
+
+[node name="Sequence" type="Node" parent="Split/Cycle"]
+script = ExtResource("4_8utoc")
+
+[node name="CreateSingle" type="Node" parent="Split/Cycle/Sequence"]
+script = ExtResource("5_3p6bo")
+renderName = "Orb/Red"
+
+[node name="CreateSingle2" type="Node" parent="Split/Cycle/Sequence"]
+script = ExtResource("6_8as57")
+boundaryID = "Main"
+specialAction = 3
+shrink = -50.0
+
+[node name="Forth" type="Node" parent="Split/Cycle/Sequence"]
+script = ExtResource("7_omow6")
+speed = "300"
+
+[node name="Forth2" type="Node" parent="Split/Cycle/Sequence"]
+script = ExtResource("8_ixqwx")
+radius = "0"
+number = "30"
+
+[node name="Shift" type="Node" parent="Split/Cycle/Sequence"]
+script = ExtResource("9_qk1ml")
+myRotation = "shot_count * 137"
+
+[node name="Forth3" type="Node" parent="Split/Cycle/Sequence"]
+script = ExtResource("9_41xl8")
+duration = "30"
+units = 0
+noChildrenCheck = true
+
+[node name="PlaySound" type="Node" parent="Split/Cycle/Sequence"]
+script = ExtResource("10_6d4if")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Wait" type="Node" parent="Split/Cycle"]
+script = ExtResource("4_beytb")
+waitTime = "18.0/60.0"
+
+[node name="Cycle2" type="Node" parent="Split"]
+script = ExtResource("3_hfm4m")
+
+[node name="Sequence" type="Node" parent="Split/Cycle2"]
+script = ExtResource("4_8utoc")
+
+[node name="CreateSingle" type="Node" parent="Split/Cycle2/Sequence"]
+script = ExtResource("5_3p6bo")
+renderName = "Orb/Blue"
+
+[node name="CreateSingle2" type="Node" parent="Split/Cycle2/Sequence"]
+script = ExtResource("6_8as57")
+boundaryID = "Main"
+specialAction = 3
+shrink = -50.0
+
+[node name="Forth" type="Node" parent="Split/Cycle2/Sequence"]
+script = ExtResource("7_omow6")
+speed = "380"
+
+[node name="Forth2" type="Node" parent="Split/Cycle2/Sequence"]
+script = ExtResource("8_ixqwx")
+radius = "0"
+number = "36"
+
+[node name="Shift2" type="Node" parent="Split/Cycle2/Sequence"]
+script = ExtResource("9_qk1ml")
+myRotation = "shot_count * 41"
+
+[node name="Forth3" type="Node" parent="Split/Cycle2/Sequence"]
+script = ExtResource("9_41xl8")
+duration = "30"
+units = 0
+noChildrenCheck = true
+
+[node name="PlaySound" type="Node" parent="Split/Cycle2/Sequence"]
+script = ExtResource("10_6d4if")
+commonSFXName = "Enemy/Shot2"
+
+[node name="Wait2" type="Node" parent="Split/Cycle2"]
+script = ExtResource("4_beytb")
+waitTime = "30.0/60.0"
+
+[node name="ClearBullets" type="Node" parent="."]
+script = ExtResource("5_2aeog")
+elementID = "Enemy"
+deletionMode = 2

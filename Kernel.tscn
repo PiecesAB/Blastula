@@ -1,4 +1,4 @@
-[gd_scene load_steps=195 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=198 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_w7rds"]
@@ -141,12 +141,15 @@
 [ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/PictusXXIV/PictusXXIV.tscn" id="128_p54iq"]
 [ext_resource type="PackedScene" uid="uid://bhqd5e51x5qy6" path="res://addons/Blastula/Session/Backgrounds/Lab/lab.tscn" id="129_yne45"]
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/SettingsLoader.cs" id="130_wuyde"]
-[ext_resource type="PackedScene" uid="uid://ccm1h8jgbo63m" path="res://addons/Blastula/Session/Enemy/ExampleBoss.tscn" id="135_ekk57"]
+[ext_resource type="PackedScene" uid="uid://ccm1h8jgbo63m" path="res://addons/Blastula/Session/Enemy/ExampleBoss/ExampleBoss.tscn" id="135_ekk57"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossRefill.cs" id="136_1n5ct"]
-[ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="137_u6g8j"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Structure/Cycle.cs" id="137_u6g8j"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/DropCollectible.cs" id="138_ws6lk"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/ShakeCamera.cs" id="139_oisx3"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Emplace.cs" id="145_ow13n"]
+[ext_resource type="PackedScene" uid="uid://yu6t1ck8e2qi" path="res://addons/Blastula/Session/Enemy/ExampleBoss/Attack1.tscn" id="146_6s870"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/GameSpeed.cs" id="146_xag8p"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/PlaySound.cs" id="147_u0p35"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rw26n"]
 shader = ExtResource("1_w7rds")
@@ -1912,6 +1915,22 @@ script = ExtResource("139_oisx3")
 [node name="BossRefill" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("136_1n5ct")
 
+[node name="Emplace" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
+script = ExtResource("145_ow13n")
+placementMode = 1
+item = ExtResource("146_6s870")
+parentId = "Main"
+referenceId = "Attack1"
+
+[node name="Emplace2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
+script = ExtResource("145_ow13n")
+placementMode = 5
+referenceId = "Attack1"
+
+[node name="Emplace3" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
+script = ExtResource("147_u0p35")
+commonSFXName = "Enemy/Shot3"
+
 [node name="Bomb" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
 script = ExtResource("63_d8ira")
 role = 6
@@ -1925,23 +1944,6 @@ script = ExtResource("66_doh6d")
 [node name="BossRefill" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
 script = ExtResource("136_1n5ct")
 newMaxHealth = "900"
-
-[node name="LoadBackground5" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
-script = ExtResource("66_doh6d")
-waitTime = "9"
-
-[node name="LoadBackground2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
-script = ExtResource("146_xag8p")
-mode = 1
-effectDuration = "2"
-
-[node name="LoadBackground4" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
-script = ExtResource("66_doh6d")
-
-[node name="LoadBackground3" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
-script = ExtResource("146_xag8p")
-mode = 1
-effectDuration = "2"
 
 [node name="BossPayload1" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
 script = ExtResource("137_u6g8j")

@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://dfglvhf0vgk1k"]
 
 [ext_resource type="PackedScene" uid="uid://dmjrjy2rrfll2" path="res://addons/Blastula/Session/Enemy/ExampleEnemy.tscn" id="1_04axi"]
-[ext_resource type="Script" path="res://addons/Blastula/Schedules/ScheduleReference.cs" id="2_2syau"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Structure/ScheduleReference.cs" id="2_2syau"]
 [ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="3_55vrq"]
-[ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="4_o0kv5"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Structure/Cycle.cs" id="4_o0kv5"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/ClearBullets.cs" id="5_4pfq3"]
 
 [node name="BasicEnemy" node_paths=PackedStringArray("movementSchedule") instance=ExtResource("1_04axi")]

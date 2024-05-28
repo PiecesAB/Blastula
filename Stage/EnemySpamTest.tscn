@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/EnemyFormation.cs" id="1_yxvkk"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/Spawner.cs" id="2_k213j"]
 [ext_resource type="PackedScene" uid="uid://dfglvhf0vgk1k" path="res://addons/Blastula/Stage/ExampleModifiedEnemy.tscn" id="3_eorw3"]
-[ext_resource type="Script" path="res://addons/Blastula/Schedules/Cycle.cs" id="4_gqhg7"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Structure/Cycle.cs" id="4_gqhg7"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="5_lj0d6"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/Schedules/TriggerSpawner.cs" id="6_vakfe"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/SetContainerPosition.cs" id="7_35ftp"]
@@ -18,11 +18,11 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Lifespan.cs" id="14_duae6"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/PlaySound.cs" id="15_pxyl1"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/WaitUntil.cs" id="16_3cnmg"]
-[ext_resource type="Script" path="res://addons/Blastula/Schedules/CycleWhile.cs" id="17_3i6ib"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Structure/CycleWhile.cs" id="17_3i6ib"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Reference.cs" id="18_4jog4"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/Schedules/SetTargetVelocity.cs" id="19_2w2f0"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/Schedules/SetInterpolationData.cs" id="20_abw3x"]
-[ext_resource type="Script" path="res://addons/Blastula/Schedules/Select.cs" id="22_4ff0d"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Structure/Select.cs" id="22_4ff0d"]
 
 [node name="EnemySpamTest" type="Node2D"]
 script = ExtResource("1_yxvkk")

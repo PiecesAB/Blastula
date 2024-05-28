@@ -80,13 +80,14 @@ namespace Blastula
         /// </summary>
         [Export] public float deathAnimationDuration = 1.5f;
         /// <summary>
-        /// Together with the grace seconds, this is the length of the "Recovering" life state.
-        /// The player can do everything, but is temporarily invulnerable because they just died.
+        /// Together with the grace seconds, this is the length of the "Recovering" life state after death.
+        /// The player can do everything, but is temporarily invulnerable.
         /// </summary>
-        [Export] public float recoveryDuration = 4.5f;
+        [Export] public float deathRecoveryDuration = 4.5f;
         /// <summary>
         /// Extra few seconds during which the "Recovering" life state is used,
         /// but the player is unable to distunguish that they're in the state.
+        /// It is used for bombing as well as death.
         /// This leniency allows reaction to the knowledge that the player is now vulnerable.
         /// </summary>
         [Export] public float recoverDurationGrace = 1.5f;
@@ -140,6 +141,16 @@ namespace Blastula
         /// The number of leniency frames where the player can bomb after getting hit, cheating death.
         /// </summary>
         [Export] public int deathbombFrames = 8;
+        /// <summary>
+        /// Length of the bomb in seconds. 
+        /// After it elapses, the player is able to bomb again.
+        /// </summary>
+        [Export] public float bombDuration = 4.5f;
+        /// <summary>
+        /// Together with the grace seconds, this is the length of the "Recovering" life state after bombing.
+        /// The player can do everything, but is temporarily invulnerable.
+        /// </summary>
+        [Export] public float bombRecoveryDuration = 1.5f;
         [ExportGroup("Graze")]
         [Export] public BlastulaCollider grazebox;
         [Export] public float framesBetweenLaserGraze = 8;
@@ -178,6 +189,7 @@ namespace Blastula
         }
         public LifeState lifeState = LifeState.Normal;
         public bool recoveryGracePeriodActive { get; set; } = false;
+        public bool bombing { get; private set; } = false;
         public static bool settingInvulnerable = false;
         public bool debugInvulnerable = false;
 
@@ -428,19 +440,48 @@ namespace Blastula
             }
         }
 
+        private long recoverAnimIteration = 0;
+        public async Task Recover(float durationSeconds)
+        {
+            long currIter = ++recoverAnimIteration;
+            GD.Print(currIter);
+            lifeState = LifeState.Recovering;
+            recoveryGracePeriodActive = false;
+            await this.WaitSeconds(durationSeconds);
+            if (currIter != recoverAnimIteration) { return; }
+            recoveryGracePeriodActive = true;
+            await this.WaitSeconds(recoverDurationGrace);
+            if (currIter != recoverAnimIteration) { return; }
+            lifeState = LifeState.Normal;
+            recoveryGracePeriodActive = false;
+        }
+
+        public async Task ReleaseBomb()
+        {
+            if (bombs < 1f) { return; }
+            ++recoverAnimIteration;
+            bombs -= 1f;
+            bombing = true;
+            lifeState = LifeState.Invulnerable;
+            await this.WaitSeconds(bombDuration);
+            bombing = false;
+            _ = Recover(bombRecoveryDuration);
+        }
+
         /// <summary>
         /// Try to cause the player to die.
         /// </summary>
         public async Task Die()
         {
             if (debugInvulnerable || settingInvulnerable || lifeState != LifeState.Normal) { return; }
+            ++recoverAnimIteration;
             lifeState = LifeState.Dying;
             recoveryGracePeriodActive = false;
             CommonSFXManager.PlayByName("Player/Struck", 1, 1f, GlobalPosition, true);
             deathbombBuffer.Replenish((ulong)deathbombFrames);
             while (!deathbombBuffer.Elapsed())
             {
-                // TODO: check if the player started a bomb and stop dying
+                if (IsBombTriggered()) { _ = ReleaseBomb(); return; }
                 await this.WaitOneFrame();
             }
             // No turning back now
@@ -481,13 +522,8 @@ namespace Blastula
             {
                 SetInitialBombs();
             }
-            lifeState = LifeState.Recovering;
             GlobalPosition = homePosition;
-            await this.WaitSeconds(recoveryDuration);
-            recoveryGracePeriodActive = true;
-            await this.WaitSeconds(recoverDurationGrace);
-            lifeState = LifeState.Normal;
-            recoveryGracePeriodActive = false;
+            _ = Recover(deathRecoveryDuration);
         }
 
         private unsafe void OnHitHurtIntent(BlastulaCollider collider, int bNodeIndex)
@@ -754,6 +790,13 @@ namespace Blastula
             }
         }
 
+        private bool IsBombTriggered()
+        {
+            if (InputManager.ButtonIsDown(bombName)) { bombStartBuffer.Replenish((ulong)bombStartBufferFrames); }
+            bool isAlive = lifeState != LifeState.Dying || !deathbombBuffer.Elapsed();
+            return bombs >= 1f && !bombStartBuffer.Elapsed() && !bombing;
+        }
+
         private void CountGrazeGetThisFrame()
         {
             if (StageManager.main != null) 
@@ -782,6 +825,7 @@ namespace Blastula
             if (!GameSpeed.pseudoStopped)
             {
                 PerformMovement();
+                if (IsBombTriggered()) { _ = ReleaseBomb(); }
             }
             SetVarsInDiscs();
             CountGrazeGetThisFrame();

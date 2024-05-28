@@ -1803,7 +1803,7 @@ power = "0.05"
 [node name="Follow" type="Node" parent="Game Logic/Collectible Manager/Cancel/ForEach"]
 script = ExtResource("93_evxvp")
 targetName = "Player"
-maxSpeed = "800"
+maxSpeed = "1200"
 
 [node name="Repaint" type="Node" parent="Game Logic/Collectible Manager/Cancel"]
 script = ExtResource("125_wg6m7")

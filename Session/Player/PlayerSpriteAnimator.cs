@@ -39,7 +39,7 @@ namespace Blastula.Graphics
 
         public enum ColorScaleState
         {
-            Normal, Dying, Recovering
+            Normal, Dying, Flashing
         }
 
         /// <summary>
@@ -211,9 +211,9 @@ namespace Blastula.Graphics
             {
                 return ColorScaleState.Dying;
             }
-            else if (playerParent.lifeState == Player.LifeState.Recovering)
+            else if (playerParent.lifeState == Player.LifeState.Recovering || playerParent.lifeState == Player.LifeState.Invulnerable)
             {
-                return ColorScaleState.Recovering;
+                return ColorScaleState.Flashing;
             }
             else
             {
@@ -236,7 +236,7 @@ namespace Blastula.Graphics
                     );
                     targetScale = lumin * Vector2.One;
                     break;
-                case ColorScaleState.Recovering:
+                case ColorScaleState.Flashing:
                     if (!playerParent.recoveryGracePeriodActive)
                     {
                         float altern = (FrameCounter.stageFrame % 10 >= 5) ? 0.5f : 0.75f;

@@ -37,12 +37,14 @@ namespace Blastula
         {
             long slc2 = sceneLoadCounter;
             int currFrames = 0;
+            SceneTree tree = dispatcher.GetTree();
+            int waitMultiplier = 1;
             while (currFrames < frames)
             {
                 if (slc2 != sceneLoadCounter) { return; }
-                if (HasPausedCondition() || ignorePause) { ++currFrames; }
+                if (HasPausedCondition() || ignorePause) { currFrames += waitMultiplier; }
                 if (!dispatcher.IsInsideTree()) { return; }
-                await dispatcher.ToSignal(dispatcher.GetTree(), SceneTree.SignalName.ProcessFrame);
+                await dispatcher.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
             }
         }
 
@@ -53,12 +55,13 @@ namespace Blastula
         {
             long slc2 = sceneLoadCounter;
             float currSeconds = 0;
+            SceneTree tree = dispatcher.GetTree();
             while (currSeconds < seconds - 0.0001f)
             {
                 if (slc2 != sceneLoadCounter) { return; }
                 if (HasPausedCondition() || ignorePause) { currSeconds += (float)Engine.TimeScale / Persistent.SIMULATED_FPS; }
                 if (!dispatcher.IsInsideTree()) { return; }
-                await dispatcher.ToSignal(dispatcher.GetTree(), SceneTree.SignalName.ProcessFrame);
+                await dispatcher.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
             }
         }
 

@@ -5,7 +5,10 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t6hjm"]
 shader = ExtResource("1_ln87b")
+shader_parameter/character_delay = 0.04
 shader_parameter/start_time = 0.0
+shader_parameter/time_extension = 0.0
+shader_parameter/undulation = Vector2(0, 1)
 
 [node name="Sample" type="Label"]
 self_modulate = Color(1, 1, 1, 0.627451)

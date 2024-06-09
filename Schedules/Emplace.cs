@@ -130,7 +130,10 @@ namespace Blastula.Schedules
 			{
 				if (tracked.ContainsKey(referenceId))
 				{
-					foreach (var item in tracked[referenceId]) { GD.Print($"remove {item.Name}"); item.QueueFree(); }
+					foreach (var item in tracked[referenceId]) { 
+						if (!IsInstanceValid(item) || item.IsQueuedForDeletion()) { continue; }
+						item.QueueFree();
+					}
 					tracked.Remove(referenceId);
 				}
 			}

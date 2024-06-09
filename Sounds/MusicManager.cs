@@ -72,10 +72,7 @@ namespace Blastula.Sounds
                 return;
             }
             Music nextMusic = main.musicsByNodeName[nodeName];
-            if (nextMusic != main.currentMusic)
-            {
-                main.EmitSignal(SignalName.OnMusicChange, main.currentMusic, nextMusic);
-            }
+            main.EmitSignal(SignalName.OnMusicChange, main.currentMusic, nextMusic);
             main.currentMusicNodePath = nodeName;
             main.currentMusic = nextMusic;
             main.currentMusic.PitchScale = 1;

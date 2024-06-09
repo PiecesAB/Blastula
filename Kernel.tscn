@@ -1,4 +1,4 @@
-[gd_scene load_steps=198 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=199 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_w7rds"]
@@ -96,6 +96,7 @@
 [ext_resource type="AudioStream" uid="uid://c6lo7107e2mct" path="res://addons/Blastula/Sounds/Music/canisminor.ogg" id="71_x7bal"]
 [ext_resource type="AudioStream" uid="uid://dw6frrbldq4fa" path="res://addons/Blastula/Sounds/Player/vacuum.ogg" id="72_v6inr"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Wind/StandardWindSource.cs" id="77_lsfay"]
+[ext_resource type="AudioStream" uid="uid://b3bpticaa4xf0" path="res://addons/Blastula/Sounds/bombStart.ogg" id="78_188j1"]
 [ext_resource type="AudioStream" uid="uid://btv74hqt1hn0e" path="res://addons/Blastula/Sounds/Player/extend.ogg" id="79_872qk"]
 [ext_resource type="AudioStream" uid="uid://bcxh0e07sdlch" path="res://addons/Blastula/Sounds/Player/extendMini.ogg" id="80_ts14r"]
 [ext_resource type="Script" path="res://addons/Blastula/Stage/CollectibleManager.cs" id="81_hxavd"]
@@ -1318,6 +1319,10 @@ stream = ExtResource("54_gb2so")
 
 [node name="Pop" type="AudioStreamPlayer2D" parent="Sound/Common SFX Manager"]
 stream = ExtResource("54_syovx")
+
+[node name="BombStart" type="AudioStreamPlayer" parent="Sound/Common SFX Manager"]
+stream = ExtResource("78_188j1")
+volume_db = -2.0
 
 [node name="Enemy" type="Node" parent="Sound/Common SFX Manager"]
 

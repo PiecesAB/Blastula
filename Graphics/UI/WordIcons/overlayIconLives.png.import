@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbc8b5kqjwkv7"
-path="res://.godot/imported/overlayIconBombs.png-1390cad43d9394384ff15e17eb6040a3.ctex"
+uid="uid://x1ajkb5rd2vk"
+path="res://.godot/imported/overlayIconLives.png-706f6ccbca98103a04b8e09d032e0bb7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Blastula/Graphics/UI/overlayIconBombs.png"
-dest_files=["res://.godot/imported/overlayIconBombs.png-1390cad43d9394384ff15e17eb6040a3.ctex"]
+source_file="res://addons/Blastula/Graphics/UI/WordIcons/overlayIconLives.png"
+dest_files=["res://.godot/imported/overlayIconLives.png-706f6ccbca98103a04b8e09d032e0bb7.ctex"]
 
 [params]
 

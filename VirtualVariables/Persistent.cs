@@ -85,6 +85,12 @@ namespace Blastula.VirtualVariables
             return null;
         }
 
+        // Gets the holder of UI items that lay over the screen.
+        public static Control GetInGameOverlay()
+        {
+            return (Control)GetMainScene().GetTree().GetFirstNodeInGroup("InGameOverlay");
+        }
+
         public Variant GetSpecial(string varName)
         {
             switch (varName)

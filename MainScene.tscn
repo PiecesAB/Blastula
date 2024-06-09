@@ -1,30 +1,30 @@
-[gd_scene load_steps=147 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=157 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="1_5qpbx"]
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_m6k27"]
-[ext_resource type="Texture2D" uid="uid://cmfditw0p7ben" path="res://addons/Blastula/Graphics/UI/overlayIconRecord.png" id="3_sph87"]
+[ext_resource type="Texture2D" uid="uid://cmfditw0p7ben" path="res://addons/Blastula/Graphics/UI/WordIcons/overlayIconRecord.png" id="3_sph87"]
 [ext_resource type="FontFile" uid="uid://brdkumahfmmgw" path="res://addons/Blastula/Graphics/UI/mainScoreNumbers.png" id="4_f5k6f"]
-[ext_resource type="Texture2D" uid="uid://c7xo60lyrebch" path="res://addons/Blastula/Graphics/UI/overlayIconNextExtend.png" id="5_302jb"]
+[ext_resource type="Texture2D" uid="uid://c7xo60lyrebch" path="res://addons/Blastula/Graphics/UI/WordIcons/overlayIconNextExtend.png" id="5_302jb"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Border/ScoreDisplay.cs" id="6_i7dnn"]
-[ext_resource type="Texture2D" uid="uid://bddg1oxe3uvq8" path="res://addons/Blastula/Graphics/UI/overlayIconScore.png" id="7_i0ymw"]
+[ext_resource type="Texture2D" uid="uid://bddg1oxe3uvq8" path="res://addons/Blastula/Graphics/UI/WordIcons/overlayIconScore.png" id="7_i0ymw"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Border/ResourceIconDisplay.cs" id="8_36cmf"]
-[ext_resource type="Texture2D" uid="uid://x1ajkb5rd2vk" path="res://addons/Blastula/Graphics/UI/overlayIconLives.png" id="9_21a1f"]
+[ext_resource type="Texture2D" uid="uid://x1ajkb5rd2vk" path="res://addons/Blastula/Graphics/UI/WordIcons/overlayIconLives.png" id="9_21a1f"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/PlayerResourceIcon.gdshader" id="10_fbcxs"]
 [ext_resource type="Texture2D" uid="uid://43l8tj7wbl6p" path="res://addons/Blastula/Graphics/UI/playerResourceSymbol.png" id="11_vgkfn"]
-[ext_resource type="Texture2D" uid="uid://bbc8b5kqjwkv7" path="res://addons/Blastula/Graphics/UI/overlayIconBombs.png" id="12_jkksd"]
+[ext_resource type="Texture2D" uid="uid://bbc8b5kqjwkv7" path="res://addons/Blastula/Graphics/UI/WordIcons/overlayIconBombs.png" id="12_jkksd"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Border/PowerDisplay.cs" id="13_s4cy8"]
 [ext_resource type="Texture2D" uid="uid://6ltikvcvgx7a" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar1.png" id="14_p8oam"]
 [ext_resource type="Texture2D" uid="uid://dnicpnwg6nx4b" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar2.png" id="15_sj8j1"]
 [ext_resource type="Texture2D" uid="uid://bw14s4d47f4m7" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar3.png" id="16_5rutb"]
 [ext_resource type="Texture2D" uid="uid://yrv6fpw8xhmj" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar4.png" id="17_jcphf"]
-[ext_resource type="Texture2D" uid="uid://cv2u3ytyfk7v" path="res://addons/Blastula/Graphics/UI/overlayIconPower.png" id="18_r8d73"]
+[ext_resource type="Texture2D" uid="uid://cv2u3ytyfk7v" path="res://addons/Blastula/Graphics/UI/WordIcons/overlayIconPower.png" id="18_r8d73"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/PowerBar.gdshader" id="19_xk1di"]
 [ext_resource type="Texture2D" uid="uid://hbukgsq7dkjo" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBarNoiseSampler.png" id="20_8or6c"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/PowerBarText.gdshader" id="21_t7hk7"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="22_hvkwy"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Border/ResourceNumberDisplay.cs" id="23_bq0l1"]
-[ext_resource type="Texture2D" uid="uid://byw1fbjj2w0ox" path="res://addons/Blastula/Graphics/UI/overlayIconGraze.png" id="24_n6472"]
-[ext_resource type="Texture2D" uid="uid://bc6hl1kax8q2v" path="res://addons/Blastula/Graphics/UI/overlayIconPointItem.png" id="25_5yyqb"]
+[ext_resource type="Texture2D" uid="uid://byw1fbjj2w0ox" path="res://addons/Blastula/Graphics/UI/WordIcons/overlayIconGraze.png" id="24_n6472"]
+[ext_resource type="Texture2D" uid="uid://bc6hl1kax8q2v" path="res://addons/Blastula/Graphics/UI/WordIcons/overlayIconPointItem.png" id="25_5yyqb"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Border/DefaultLogoController.cs" id="26_1ix8h"]
 [ext_resource type="Texture2D" uid="uid://dhaplybn1jabj" path="res://addons/Blastula/Graphics/MiscTextures/logo.png" id="27_7he6w"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Debug/StatsViews.cs" id="28_vi41q"]
@@ -42,10 +42,16 @@
 [ext_resource type="Texture2D" uid="uid://t6nbf3684wvf" path="res://addons/Blastula/Graphics/UI/music.png" id="39_6ff6w"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/PauseMenuManager.cs" id="40_3bmt3"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/PauseMenu.cs" id="41_ebkby"]
+[ext_resource type="Texture2D" uid="uid://qniwurk278sx" path="res://addons/Blastula/Graphics/UI/Bomb/bombBorder.png" id="41_xmbll"]
+[ext_resource type="Texture2D" uid="uid://iguporsvys54" path="res://addons/Blastula/Graphics/Bullets/circle16.png" id="42_3kda7"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Additive.gdshader" id="42_rcii8"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/ListNode.cs" id="43_0alcd"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Holotext.gdshader" id="43_blujs"]
+[ext_resource type="Texture2D" uid="uid://daj2amdu2w2i4" path="res://addons/Blastula/Graphics/UI/WordIcons/overlayIconBonus.png" id="44_72fw3"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/ListMenu.cs" id="44_j3yym"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Debug/DebugConsole.cs" id="45_jhi6l"]
+[ext_resource type="Texture2D" uid="uid://djy0drmhbrctr" path="res://addons/Blastula/Graphics/UI/WordIcons/overlayIconHistory.png" id="45_xlx8g"]
+[ext_resource type="FontFile" uid="uid://csxmhwm67n2d8" path="res://addons/Blastula/Graphics/UI/historyTokens.png" id="46_s1nob"]
 [ext_resource type="FontFile" uid="uid://c0msc3x0utd1o" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Italic.ttf" id="46_yed1c"]
 [ext_resource type="FontFile" uid="uid://cdkr7rv70t74f" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Bold.ttf" id="47_uvs0x"]
 [ext_resource type="FontFile" uid="uid://dwexpt8v22wmh" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-BoldItalic.ttf" id="48_fojb6"]
@@ -321,6 +327,99 @@ shader = ExtResource("38_12h8g")
 shader_parameter/top_color = Vector4(0.8, 1, 1, 1)
 shader_parameter/bottom_color = Vector4(0, 0.3, 0.3, 1)
 shader_parameter/glisten_factor = Vector3(0.2, 4, 0.2)
+
+[sub_resource type="Animation" id="Animation_ljdhk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BombInfo/Label:material:shader_parameter/fade_progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.8]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BombInfo:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(68, 600)]
+}
+
+[sub_resource type="Animation" id="Animation_e8b8j"]
+resource_name = "new_animation"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BombInfo/Label:material:shader_parameter/fade_progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BombInfo:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(-0.2, 0, 1.5, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(68, 600), Vector2(68, 600), Vector2(68, 600), Vector2(68, 6)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ebkgf"]
+_data = {
+"RESET": SubResource("Animation_ljdhk"),
+"new_animation": SubResource("Animation_e8b8j")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5w84i"]
+shader = ExtResource("43_blujs")
+shader_parameter/wobble_intensity = 0.0
+shader_parameter/fade_progress = 0.8
+shader_parameter/wobble_sampler = ExtResource("20_8or6c")
+shader_parameter/fade_sampler = ExtResource("20_8or6c")
+shader_parameter/texture_sampler = ExtResource("20_8or6c")
 
 [sub_resource type="Animation" id="Animation_prnbn"]
 resource_name = "GameOver"
@@ -2400,7 +2499,7 @@ color = Color(0, 0, 0, 1)
 z_index = 1000
 script = ExtResource("32_feufc")
 
-[node name="InGameOverlay" type="Control" parent="Rendering Zone/MainViewHolder"]
+[node name="InGameOverlay" type="Control" parent="Rendering Zone/MainViewHolder" groups=["InGameOverlay"]]
 z_index = 100
 layout_mode = 1
 anchors_preset = 15
@@ -2551,8 +2650,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 1200.0
-offset_bottom = 36.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
@@ -2573,6 +2670,131 @@ theme_override_fonts/font = ExtResource("35_nf306")
 theme_override_font_sizes/font_size = 28
 text = "Insert song name here"
 
+[node name="BossBombOverlay" type="NinePatchRect" parent="Rendering Zone/MainViewHolder/InGameOverlay"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.25098)
+layout_mode = 0
+offset_right = 768.0
+offset_bottom = 896.0
+texture = ExtResource("41_xmbll")
+region_rect = Rect2(0, 0, 128, 128)
+patch_margin_left = 60
+patch_margin_top = 60
+patch_margin_right = 60
+patch_margin_bottom = 60
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay"]
+active = false
+libraries = {
+"": SubResource("AnimationLibrary_ebkgf")
+}
+autoplay = "new_animation"
+
+[node name="BombInfo" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 0
+offset_left = 68.0
+offset_top = 600.0
+offset_right = 768.0
+offset_bottom = 680.0
+
+[node name="Back" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay/BombInfo"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -700.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset = Vector2(700, 0)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay/BombInfo/Back"]
+self_modulate = Color(1, 1, 1, 0.313726)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+texture = ExtResource("42_3kda7")
+
+[node name="Line" type="ColorRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay/BombInfo/Back"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.501961)
+
+[node name="Label" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay/BombInfo"]
+modulate = Color(0.901961, 0.901961, 0.901961, 1)
+material = SubResource("ShaderMaterial_5w84i")
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+offset_left = -16.0
+offset_right = 684.0
+offset_bottom = 80.0
+theme_override_fonts/font = ExtResource("35_nf306")
+theme_override_font_sizes/font_size = 32
+text = "Example - The Computer wore example shoes"
+horizontal_alignment = 2
+text_overrun_behavior = 3
+
+[node name="Counters" type="HBoxContainer" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay/BombInfo"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+
+[node name="HistoryIcon2" type="TextureRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay/BombInfo/Counters"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+texture = ExtResource("44_72fw3")
+expand_mode = 1
+
+[node name="Spacer" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay/BombInfo/Counters"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="HistoryIcon3" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay/BombInfo/Counters"]
+custom_minimum_size = Vector2(106, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_f5k6f")
+theme_override_font_sizes/font_size = 20
+text = "10000000"
+horizontal_alignment = 2
+
+[node name="Line2" type="ColorRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay/BombInfo/Counters"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.501961)
+
+[node name="HistoryIcon" type="TextureRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay/BombInfo/Counters"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+texture = ExtResource("45_xlx8g")
+expand_mode = 1
+
+[node name="Spacer2" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay/BombInfo/Counters"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="HistoryBlocks" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/BossBombOverlay/BombInfo/Counters"]
+custom_minimum_size = Vector2(90, 16)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("46_s1nob")
+text = "ccbbabacaa"
+horizontal_alignment = 2
+
 [node name="PauseMenu" type="ColorRect" parent="Rendering Zone/MainViewHolder" node_paths=PackedStringArray("modeAnimPlayer", "mainMenu")]
 visible = false
 z_index = 500
@@ -2582,7 +2804,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.627451)
+color = Color(0, 0, 0, 0.815686)
 script = ExtResource("40_3bmt3")
 modeAnimPlayer = NodePath("Mode")
 mainMenu = NodePath("MainMenu")
@@ -2913,7 +3135,7 @@ libraries = {
 "": SubResource("AnimationLibrary_1wglm")
 }
 autoplay = "Closed"
-blend_times = [&"Open", &"Open", 0.1, &"Open", &"Closed", 0.1, &"Closed", &"Open", 0.1, &"Closed", &"Closed", 0.1]
+blend_times = [&"Closed", &"Closed", 0.1, &"Closed", &"Open", 0.1, &"Open", &"Closed", 0.1, &"Open", &"Open", 0.1]
 
 [node name="Title" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation"]
 layout_mode = 2

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bddg1oxe3uvq8"
-path="res://.godot/imported/overlayIconScore.png-a02c2b9b83d7bea8bc5e9781a85caea5.ctex"
+uid="uid://dlfsxc2iyta7h"
+path="res://.godot/imported/overlayIconGraze.png-d3d781ccf9576857a29be274851964da.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Blastula/Graphics/UI/overlayIconScore.png"
-dest_files=["res://.godot/imported/overlayIconScore.png-a02c2b9b83d7bea8bc5e9781a85caea5.ctex"]
+source_file="res://addons/Blastula/Graphics/UI/WordIconsOld/overlayIconGraze.png"
+dest_files=["res://.godot/imported/overlayIconGraze.png-d3d781ccf9576857a29be274851964da.ctex"]
 
 [params]
 

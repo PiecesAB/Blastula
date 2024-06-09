@@ -1,0 +1,22 @@
+[remap]
+
+importer="font_data_image"
+type="FontFile"
+uid="uid://csxmhwm67n2d8"
+path="res://.godot/imported/historyTokens.png-3a00b1d8d4c39e8e2c0c035d16c56a9d.fontdata"
+
+[deps]
+
+source_file="res://addons/Blastula/Graphics/UI/historyTokens.png"
+dest_files=["res://.godot/imported/historyTokens.png-3a00b1d8d4c39e8e2c0c035d16c56a9d.fontdata"]
+
+[params]
+
+character_ranges=PackedStringArray("0x2D", "\'a\'-\'c\'")
+columns=4
+rows=1
+image_margin=Rect2i(0, 0, 0, 0)
+character_margin=Rect2i(0, 0, 0, 0)
+fallbacks=[]
+compress=true
+scaling_mode=2

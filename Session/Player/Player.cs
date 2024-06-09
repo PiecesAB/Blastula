@@ -142,6 +142,17 @@ namespace Blastula
         /// </summary>
         [Export] public int deathbombFrames = 8;
         /// <summary>
+        /// One of these Node2Ds is spawned and emplaced into the player when they bomb. 
+        /// This is the main effect of the bomb.
+        /// If the list has length one, it will be used always.
+        /// If the list has length two, the first is used when unfocused; the second is used when focused.
+        /// </summary>
+        /// <remarks>
+        /// Please ensure these items delete themselves. Memory leaks suck.
+        /// </remarks>
+        [Export] public PackedScene[] bombItems;
+
+        /// <summary>
         /// Length of the bomb in seconds. 
         /// After it elapses, the player is able to bomb again.
         /// </summary>
@@ -444,7 +455,6 @@ namespace Blastula
         public async Task Recover(float durationSeconds)
         {
             long currIter = ++recoverAnimIteration;
-            GD.Print(currIter);
             lifeState = LifeState.Recovering;
             recoveryGracePeriodActive = false;
             await this.WaitSeconds(durationSeconds);
@@ -458,11 +468,26 @@ namespace Blastula
 
         public async Task ReleaseBomb()
         {
-            if (bombs < 1f) { return; }
+            if (bombs < 1f || bombing) { return; }
             ++recoverAnimIteration;
             bombs -= 1f;
             bombing = true;
             lifeState = LifeState.Invulnerable;
+            CommonSFXManager.PlayByName("BombStart", 1, 1f, GlobalPosition, true);
+            // Spawn the item
+            PackedScene itemToLoad = null;
+            switch (bombItems?.Length ?? 0)
+            {
+                case 0: GD.PushWarning("There is no bomb item!"); break;
+                case 1: itemToLoad = bombItems[0]; break;
+                default: itemToLoad = IsFocused() ? bombItems[1] : bombItems[0]; break;
+            }
+            if (itemToLoad != null)
+            {
+                Node2D item = itemToLoad.Instantiate<Node2D>();
+                Persistent.GetMainScene().AddChild(item);
+                item.GlobalPosition = GlobalPosition;
+            }
             await this.WaitSeconds(bombDuration);
             bombing = false;
             _ = Recover(bombRecoveryDuration);
@@ -754,7 +779,7 @@ namespace Blastula
 
         public bool IsFocused()
         {
-            if (lifeState == LifeState.Dying) { return false; }
+            if (lifeState == LifeState.Dying && deathbombBuffer.Elapsed()) { return false; }
             return InputManager.ButtonIsDown(focusName);
         }
 
@@ -794,7 +819,7 @@ namespace Blastula
         {
             if (InputManager.ButtonIsDown(bombName)) { bombStartBuffer.Replenish((ulong)bombStartBufferFrames); }
             bool isAlive = lifeState != LifeState.Dying || !deathbombBuffer.Elapsed();
-            return bombs >= 1f && !bombStartBuffer.Elapsed() && !bombing;
+            return isAlive && bombs >= 1f && !bombStartBuffer.Elapsed() && !bombing;
         }
 
         private void CountGrazeGetThisFrame()

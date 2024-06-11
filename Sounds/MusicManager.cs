@@ -19,7 +19,7 @@ namespace Blastula.Sounds
         private string currentMusicNodePath = "";
 
         public Music currentMusic { get; private set; } = null;
-        private Dictionary<string, Music> musicsByNodeName = new Dictionary<string, Music>();
+        public Dictionary<string, Music> musicsByNodeName = new Dictionary<string, Music>();
         /// <summary>
         /// Linear volumes that the AudioStreamPlayer nodes begin with.
         /// </summary>
@@ -63,14 +63,8 @@ namespace Blastula.Sounds
         public static void PlayImmediate(string nodeName)
         {
             if (main == null) { return; }
-            if (main.currentMusic != null) 
-            { 
-                main.currentMusic.Stop(); 
-            }
-            if (!main.musicsByNodeName.ContainsKey(nodeName))
-            {
-                return;
-            }
+            if (main.currentMusic != null) { main.currentMusic.Stop(); }
+            if (!main.musicsByNodeName.ContainsKey(nodeName)) { return; }
             Music nextMusic = main.musicsByNodeName[nodeName];
             main.EmitSignal(SignalName.OnMusicChange, main.currentMusic, nextMusic);
             main.currentMusicNodePath = nodeName;
@@ -169,7 +163,7 @@ namespace Blastula.Sounds
             ProcessPriority = Persistent.Priorities.MUSIC_MANAGER;
         }
 
-        private void HandleDuckMultiplier()
+        public void HandleDuckMultiplier()
         {
             float desiredMultiplier = 1f;
             float timePassed = 1f / Persistent.SIMULATED_FPS; // No scaling
@@ -222,20 +216,17 @@ namespace Blastula.Sounds
             }
         }
 
-        public override void _Process(double delta)
+        public void HandleVolume()
         {
-            base._Process(delta);
-            if (currentMusic == null) { return; }
-
-            HandleDuckMultiplier();
-            HandleFadeMultiplier();
-
             currentMusic.VolumeDb = Mathf.LinearToDb(
                 volumeMultiplier * settingMultiplier
                 * startVolumesByNodeName[currentMusicNodePath]
                 * duckMultiplier * fadeMultiplier
             );
+        }
 
+        public void HandlePause()
+        {
             if (currentMusic.pausesWithGame && Session.main != null)
             {
                 if (Session.main.paused && !currentMusic.StreamPaused)
@@ -248,15 +239,31 @@ namespace Blastula.Sounds
                     currentMusic.StreamPaused = false;
                 }
             }
+        }
 
+        public void HandleLoop()
+        {
             if (currentMusic.loopRegion != Vector2.Zero)
             {
+                // this is not SyncedMusicManager
                 float currPos = currentMusic.GetPlaybackPosition();
                 if (currPos >= currentMusic.loopRegion.Y)
                 {
                     currentMusic.Seek(currPos - (currentMusic.loopRegion.Y - currentMusic.loopRegion.X));
                 }
             }
+        }
+
+        public override void _Process(double delta)
+        {
+            base._Process(delta);
+            if (currentMusic == null) { return; }
+
+            HandleDuckMultiplier();
+            HandleFadeMultiplier();
+            HandleVolume();
+            HandlePause();
+            HandleLoop();
         }
     }
 }

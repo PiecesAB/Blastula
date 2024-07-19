@@ -817,7 +817,7 @@ namespace Blastula
 
         private bool IsBombTriggered()
         {
-            if (InputManager.ButtonIsDown(bombName)) { bombStartBuffer.Replenish((ulong)bombStartBufferFrames); }
+            if (InputManager.ButtonPressedThisFrame(bombName)) { bombStartBuffer.Replenish((ulong)bombStartBufferFrames); }
             bool isAlive = lifeState != LifeState.Dying || !deathbombBuffer.Elapsed();
             return isAlive && bombs >= 1f && !bombStartBuffer.Elapsed() && !bombing;
         }

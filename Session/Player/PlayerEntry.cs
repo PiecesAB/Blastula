@@ -32,7 +32,7 @@ namespace Blastula
         public async Task SpawnPlayer()
         {
             while (PlayerManager.main == null) { await this.WaitOneFrame(); }
-            Node2D newPlayer = (Node2D)playerScene.Instantiate();
+            Player newPlayer = (Player)playerScene.Instantiate();
             Node2D mainScene = Persistent.GetMainScene();
             while (mainScene == null)
             {
@@ -47,6 +47,7 @@ namespace Blastula
             }
             spawn.GetParent().CallDeferred(MethodName.AddChild, newPlayer);
             newPlayer.GlobalPosition = spawn.GlobalPosition;
+            newPlayer.entry = this;
         }
     }
 }

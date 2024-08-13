@@ -46,15 +46,14 @@ speed = "300"
 [node name="Forth2" type="Node" parent="Split/Cycle/Sequence"]
 script = ExtResource("8_ixqwx")
 radius = "0"
-number = "30"
+number = "5"
 
 [node name="Shift" type="Node" parent="Split/Cycle/Sequence"]
 script = ExtResource("9_qk1ml")
-myRotation = "shot_count * 137"
 
 [node name="Forth3" type="Node" parent="Split/Cycle/Sequence"]
 script = ExtResource("9_41xl8")
-duration = "30"
+duration = "10"
 units = 0
 noChildrenCheck = true
 
@@ -64,7 +63,7 @@ commonSFXName = "Enemy/Shot1"
 
 [node name="Wait" type="Node" parent="Split/Cycle"]
 script = ExtResource("4_beytb")
-waitTime = "18.0/60.0"
+waitTime = "8.0/60.0"
 
 [node name="Cycle2" type="Node" parent="Split"]
 script = ExtResource("3_hfm4m")
@@ -84,12 +83,12 @@ shrink = -50.0
 
 [node name="Forth" type="Node" parent="Split/Cycle2/Sequence"]
 script = ExtResource("7_omow6")
-speed = "380"
+speed = "320"
 
 [node name="Forth2" type="Node" parent="Split/Cycle2/Sequence"]
 script = ExtResource("8_ixqwx")
 radius = "0"
-number = "36"
+number = "8"
 
 [node name="Shift2" type="Node" parent="Split/Cycle2/Sequence"]
 script = ExtResource("9_qk1ml")
@@ -97,7 +96,7 @@ myRotation = "shot_count * 41"
 
 [node name="Forth3" type="Node" parent="Split/Cycle2/Sequence"]
 script = ExtResource("9_41xl8")
-duration = "30"
+duration = "10"
 units = 0
 noChildrenCheck = true
 
@@ -107,7 +106,7 @@ commonSFXName = "Enemy/Shot2"
 
 [node name="Wait2" type="Node" parent="Split/Cycle2"]
 script = ExtResource("4_beytb")
-waitTime = "30.0/60.0"
+waitTime = "10.0/60.0"
 
 [node name="ClearBullets" type="Node" parent="."]
 script = ExtResource("5_2aeog")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=199 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=202 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_w7rds"]
@@ -147,10 +147,13 @@
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Structure/Cycle.cs" id="137_u6g8j"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/DropCollectible.cs" id="138_ws6lk"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/ShakeCamera.cs" id="139_oisx3"]
+[ext_resource type="Script" path="res://addons/Blastula/Replay/ReplayStart.cs" id="144_1ct6r"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Emplace.cs" id="145_ow13n"]
 [ext_resource type="PackedScene" uid="uid://yu6t1ck8e2qi" path="res://addons/Blastula/Session/Enemy/ExampleBoss/Attack1.tscn" id="146_6s870"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/GameSpeed.cs" id="146_xag8p"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/PlaySound.cs" id="147_u0p35"]
+[ext_resource type="Script" path="res://addons/Blastula/Replay/ReplayEnd.cs" id="150_5k1a4"]
+[ext_resource type="Script" path="res://addons/Blastula/Replay/ReplayManager.cs" id="152_dv2we"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rw26n"]
 shader = ExtResource("1_w7rds")
@@ -389,6 +392,8 @@ _data = [Vector2(0, 0.0525079), 0.0, 0.155922, 0, 0, Vector2(1, 1), 1.52656, 0.0
 point_count = 2
 
 [node name="Blastula Kernel" type="Node"]
+
+[node name="Coroutine Subqueues" type="Node" parent="."]
 
 [node name="Bullet Graphic Preview" type="Node2D" parent="." node_paths=PackedStringArray("graphicsContainer")]
 material = SubResource("ShaderMaterial_rw26n")
@@ -1829,6 +1834,9 @@ shortName = "Pictus"
 description = "A robot who is a painted dog, not a hyena. They are a pack of one animal. (One of the Blastula example characters.)"
 playerScene = ExtResource("128_p54iq")
 
+[node name="ShakeCamera" type="Node" parent="."]
+script = ExtResource("139_oisx3")
+
 [node name="Stage Manager" type="Node" parent="."]
 script = ExtResource("62_lftpa")
 
@@ -1900,6 +1908,9 @@ script = ExtResource("63_d8ira")
 role = 3
 formation = ExtResource("135_ekk57")
 
+[node name="ReplayStart" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
+script = ExtResource("144_1ct6r")
+
 [node name="Part01" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
 script = ExtResource("63_d8ira")
 role = 4
@@ -1913,9 +1924,6 @@ shouldUseTimer = true
 
 [node name="Wait" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("66_doh6d")
-
-[node name="ShakeCamera" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
-script = ExtResource("139_oisx3")
 
 [node name="BossRefill" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("136_1n5ct")
@@ -1949,6 +1957,9 @@ script = ExtResource("66_doh6d")
 [node name="BossRefill" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Bomb"]
 script = ExtResource("136_1n5ct")
 newMaxHealth = "900"
+
+[node name="ReplayEnd" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
+script = ExtResource("150_5k1a4")
 
 [node name="BossPayload1" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss"]
 script = ExtResource("137_u6g8j")
@@ -2147,3 +2158,6 @@ settings = {
 "start_bomb": "def.t",
 "start_life": "def.t"
 }
+
+[node name="Replay Manager" type="Node" parent="."]
+script = ExtResource("152_dv2we")

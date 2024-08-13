@@ -7,7 +7,7 @@ namespace Blastula.VirtualVariables
     /// <summary>
     /// These variables are meant to persist within game sessions (between going back to the start menu).
     /// </summary>
-	public partial class Session : Node, IVariableContainer
+	public partial class Session : Node, IVariableContainer, IPersistForReplay
     {
         /// <summary>
         /// Whether the game is actually in session. Otherwise, we are in a title menu.
@@ -184,6 +184,44 @@ namespace Blastula.VirtualVariables
             }
             canContinue = true;
             continueCount = 0;
+        }
+
+        public Godot.Collections.Dictionary<string, string> CreateReplaySnapshot()
+        {
+            return new Godot.Collections.Dictionary<string, string>
+            {
+                {PropertyName.timeScale, timeScale.ToString() },
+                {PropertyName.difficulty, difficulty.ToString() },
+                {PropertyName.rank, rank.ToString() },
+                {PropertyName.rankFrozen, rankFrozen.ToString() },
+                {"score", score.ToString() },
+                {PropertyName.grazeCount, grazeCount.ToString() },
+                {PropertyName.pointItemCount, pointItemCount.ToString() },
+                {"pointItemValue", pointItemValue.ToString() },
+                {PropertyName.powerItemCount, powerItemCount.ToString() },
+                {"powerItemValue", powerItemValue.ToString() },
+            };
+        }
+
+        public void LoadReplaySnapshot(Godot.Collections.Dictionary<string, string> snapshot)
+        {
+            try
+            {
+                timeScale = double.Parse(snapshot[PropertyName.timeScale]);
+                difficulty = int.Parse(snapshot[PropertyName.difficulty]);
+                rank = float.Parse(snapshot[PropertyName.rank]);
+                rankFrozen = bool.Parse(snapshot[PropertyName.rankFrozen]);
+                score = BigInteger.Parse(snapshot["score"]);
+                grazeCount = ulong.Parse(snapshot[PropertyName.grazeCount]);
+                pointItemCount = ulong.Parse(snapshot[PropertyName.pointItemCount]);
+                pointItemValue = ulong.Parse(snapshot["pointItemValue"]);
+                powerItemCount = ulong.Parse(snapshot[PropertyName.powerItemCount]);
+                powerItemValue = ulong.Parse(snapshot["powerItemValue"]);
+            } 
+            catch
+            {
+                throw new System.Exception("Session: Unable to load data from replay file.");
+            }
         }
 
         public static bool IsPaused()

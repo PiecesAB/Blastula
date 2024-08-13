@@ -326,8 +326,15 @@ namespace Blastula
             }
         }
 
-        // A clean-up function has been deemed unnecessary.
-        // It would have run at the end of the game, but memory is cleaned by the OS anyway.
+        /// <summary>
+        /// Important to help ensure replays are in sync; forces the queue to have head = tail = 0,
+        /// deleting every BNode instantly.
+        /// </summary>
+        public static void ResetQueue()
+        {
+            while (MasterQueueCount() != 0) MasterQueuePushIndependent(mqHead);
+            mqHead = mqTail = 0;
+        }
 
         public static int CloneOne(int i)
         {

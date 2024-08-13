@@ -44,6 +44,8 @@ namespace Blastula.VirtualVariables
         public static class Priorities
         {
             public const int FRAME_COUNTER_INCREMENT = int.MinValue;
+            public const int REPLAY_MANAGER = -1010000;
+            public const int PLAYER_INPUT_TRANSLATOR = -1000000;
             public const int EXECUTE = 40000;
             public const int POST_EXECUTE = 50000;
             public const int COLLISION = 60000;

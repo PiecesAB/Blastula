@@ -45,6 +45,10 @@ namespace Blastula
         /// </summary>
         [Export] public Role role = Role.SinglePlayer;
         /// <summary>
+        /// The player entry where the player originated from; set by the PlayerEntry. Hopefully this exists.
+        /// </summary>
+        public PlayerEntry entry;
+        /// <summary>
         /// Player's normal speed.
         /// </summary>
         [ExportGroup("Mobility")]
@@ -204,15 +208,6 @@ namespace Blastula
         public static bool settingInvulnerable = false;
         public bool debugInvulnerable = false;
 
-        private string leftName = "Left";
-        private string rightName = "Right";
-        private string upName = "Up";
-        private string downName = "Down";
-        private string shootName = "Shoot";
-        private string focusName = "Focus";
-        private string bombName = "Bomb";
-        private string specialName = "Special";
-
         private MainBoundary mainBoundary = null;
         /// <summary>
         /// The number of grazes before _Process can aggregate them, 
@@ -226,7 +221,12 @@ namespace Blastula
         private Vector2 homePosition;
         private FrameCounter.Buffer bombStartBuffer = new FrameCounter.Buffer(0);
         private FrameCounter.Buffer deathbombBuffer = new FrameCounter.Buffer(0);
-        
+
+        /// <summary>
+        /// This will be produced by the player as soon as they come into existence
+        /// and drive the controls.
+        /// </summary>
+        public PlayerInputTranslator inputTranslator { get; private set; } = null;
 
         /// <summary>
         /// Blastodiscs in this list will recieve important variables such as "shoot" and "focus".
@@ -237,32 +237,9 @@ namespace Blastula
 
         public override void _Ready()
         {
-            switch (role)
-            {
-                case Role.SinglePlayer:
-                default:
-                    break;
-                case Role.LeftPlayer:
-                    leftName = "LP/" + leftName;
-                    rightName = "LP/" + rightName;
-                    upName = "LP/" + upName;
-                    downName = "LP/" + downName;
-                    shootName = "LP/" + shootName;
-                    focusName = "LP/" + focusName;
-                    bombName = "LP/" + bombName;
-                    specialName = "LP/" + specialName;
-                    break;
-                case Role.RightPlayer:
-                    leftName = "RP/" + leftName;
-                    rightName = "RP/" + rightName;
-                    upName = "RP/" + upName;
-                    downName = "RP/" + downName;
-                    shootName = "RP/" + shootName;
-                    focusName = "RP/" + focusName;
-                    bombName = "RP/" + bombName;
-                    specialName = "RP/" + specialName;
-                    break;
-            }
+            inputTranslator = new PlayerInputTranslator();
+            inputTranslator.mode = ReplayManager.Mode.Playback;
+            AddChild(inputTranslator);
             if (!playersByControl.ContainsKey(role)) { playersByControl[role] = this; }
             else { GD.PushWarning("Two or more players exist with the same role. This is not expected."); }
             // Override lives and bombs if necessary
@@ -774,13 +751,13 @@ namespace Blastula
         public bool IsShooting() 
         { 
             if (lifeState == LifeState.Dying) { return false; }
-            return InputManager.ButtonIsDown(shootName); 
+            return inputTranslator.inputItems["Shoot"].currentState; 
         }
 
         public bool IsFocused()
         {
             if (lifeState == LifeState.Dying && deathbombBuffer.Elapsed()) { return false; }
-            return InputManager.ButtonIsDown(focusName);
+            return inputTranslator.inputItems["Focus"].currentState;
         }
 
         private FrameCounter.Cache<Vector2> mvtDirCache = new FrameCounter.Cache<Vector2>();
@@ -792,10 +769,10 @@ namespace Blastula
         {
             if (mvtDirCache.IsValid()) { return mvtDirCache.data; }
             Vector2 v = Vector2.Zero;
-            if (InputManager.ButtonIsDown(leftName)) { v += Vector2.Left; }
-            if (InputManager.ButtonIsDown(rightName)) { v += Vector2.Right; }
-            if (InputManager.ButtonIsDown(upName)) { v += Vector2.Up; }
-            if (InputManager.ButtonIsDown(downName)) { v += Vector2.Down; }
+            if (inputTranslator.inputItems["Left"].currentState) { v += Vector2.Left; }
+            if (inputTranslator.inputItems["Right"].currentState) { v += Vector2.Right; }
+            if (inputTranslator.inputItems["Up"].currentState) { v += Vector2.Up; }
+            if (inputTranslator.inputItems["Down"].currentState) { v += Vector2.Down; }
             Vector2 result = (v != Vector2.Zero) ? v.Normalized() : v;
             mvtDirCache.Update(result);
             return result;
@@ -817,7 +794,7 @@ namespace Blastula
 
         private bool IsBombTriggered()
         {
-            if (InputManager.ButtonPressedThisFrame(bombName)) { bombStartBuffer.Replenish((ulong)bombStartBufferFrames); }
+            if (inputTranslator.inputItems["Bomb"].currentState) { bombStartBuffer.Replenish((ulong)bombStartBufferFrames); }
             bool isAlive = lifeState != LifeState.Dying || !deathbombBuffer.Elapsed();
             return isAlive && bombs >= 1f && !bombStartBuffer.Elapsed() && !bombing;
         }

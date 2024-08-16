@@ -1,4 +1,6 @@
+using Blastula.Coroutine;
 using Godot;
+using System.Collections;
 
 namespace Blastula.Graphics
 {
@@ -12,35 +14,46 @@ namespace Blastula.Graphics
         [Export] public Control debugNotification;
 
         private long animIteration = 0;
-        private async void DebugAnimation()
+        private IEnumerator DebugAnimation()
         {
             long currAnimIter = ++animIteration;
-            debugNotification.Modulate = new Color(1, 1, 1, 1);
-            mainLogo.Modulate = new Color(1, 1, 1, 0);
-            await this.WaitFrames(420);
-            if (animIteration != currAnimIter) { return; }
-            for (float prog = 0; prog < 1; prog += 0.04f)
+            yield return new SetCancel((_) =>
             {
                 if (animIteration != currAnimIter) { return; }
+                debugNotification.Modulate = new Color(1, 1, 1, 0);
+                mainLogo.Modulate = new Color(1, 1, 1, 1);
+            });
+            debugNotification.Modulate = new Color(1, 1, 1, 1);
+            mainLogo.Modulate = new Color(1, 1, 1, 0);
+            yield return new WaitFrames(420);
+            if (animIteration != currAnimIter) { yield break; }
+            for (float prog = 0; prog < 1; prog += 0.04f)
+            {
+                if (animIteration != currAnimIter) { yield break; }
                 debugNotification.Modulate = new Color(1, 1, 1, 1 - prog);
                 mainLogo.Modulate = new Color(1, 1, 1, prog);
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
             }
-            if (animIteration != currAnimIter) { return; }
+            if (animIteration != currAnimIter) { yield break; }
             debugNotification.Modulate = new Color(1, 1, 1, 0);
             mainLogo.Modulate = new Color(1, 1, 1, 1);
+        }
+
+        public void DebugAnimationWrapper()
+        {
+            this.StartCoroutine(DebugAnimation());
         }
 
         public override void _Ready()
         {
             if (OS.IsDebugBuild())
             {
-                DebugAnimation();
+                this.StartCoroutine(DebugAnimation());
                 if (StageManager.main != null)
                 {
                     StageManager.main.Connect(
                         StageManager.SignalName.SessionBeginning,
-                        new Callable(this, MethodName.DebugAnimation)
+                        new Callable(this, MethodName.DebugAnimationWrapper)
                     );
                 }
             }

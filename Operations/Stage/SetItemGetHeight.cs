@@ -1,3 +1,4 @@
+using Blastula.Coroutine;
 using Blastula.Graphics;
 using Blastula.Sounds;
 using Blastula.VirtualVariables;
@@ -49,8 +50,8 @@ namespace Blastula.Operations
             }
             if (display == null) { return; }
 
-            if (showLine) { _ = display.DisplayLine(); }
-            else { _ = display.SetWithoutLineDisplay(); }
+            if (showLine) { this.StartCoroutine(display.DisplayLine()); }
+            else { this.StartCoroutine(display.SetWithoutLineDisplay()); }
         }
     }
 }

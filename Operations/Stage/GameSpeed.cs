@@ -1,6 +1,8 @@
+using Blastula.Coroutine;
 using Blastula.Schedules;
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -74,36 +76,44 @@ namespace Blastula.Operations
             if (main == null) { main = this; }
         }
 
-        private async Task WaitSub(float t)
+        private IEnumerator WaitSub(float t)
         {
             if (effectDurationUnits == Wait.TimeUnits.Seconds)
             {
-                await this.WaitSeconds(t);
+                yield return new WaitTime(t);
             }
             else if (effectDurationUnits == Wait.TimeUnits.Frames)
             {
-                await this.WaitFrames(Mathf.RoundToInt(t));
+                yield return new WaitFrames(Mathf.RoundToInt(t));
             }
         }
 
-        private async Task AlterTime()
+        private IEnumerator AlterTime()
         {
+            yield return new SetCancel((_) => Session.main.SetTimeScale(Session.main.timeScale / speedMultiplier));
             Session.main.SetTimeScale(Session.main.timeScale * speedMultiplier);
             float solvedDuration = Solve(PropertyName.effectDuration).AsSingle();
-            await WaitSub(Solve(PropertyName.effectDuration).AsSingle());
+            yield return WaitSub(Solve(PropertyName.effectDuration).AsSingle());
             Session.main.SetTimeScale(Session.main.timeScale / speedMultiplier);
         }
 
         private static long pseudoStopIteration = 0;
-        private async Task PseudoStop()
+        private IEnumerator PseudoStop()
         {
             long currIter = ++pseudoStopIteration;
+            yield return new SetCancel((_) => {
+                if (pseudoStopped && currIter == pseudoStopIteration)
+                {
+                    pseudoStopped = false;
+                    main.EmitSignal(SignalName.ExitPseudoStop);
+                }
+            });
             if (!pseudoStopped)
             {
                 pseudoStopped = true;
                 main.EmitSignal(SignalName.EnterPseudoStop);
             }
-            await WaitSub(Solve(PropertyName.effectDuration).AsSingle());
+            yield return WaitSub(Solve(PropertyName.effectDuration).AsSingle());
             if (pseudoStopped && currIter == pseudoStopIteration)
             {
                 pseudoStopped = false;
@@ -115,8 +125,8 @@ namespace Blastula.Operations
         {
             switch (mode)
             {
-                case Mode.Alter: _ = AlterTime(); break;
-                case Mode.PseudoStop: _ = PseudoStop(); break;
+                case Mode.Alter: this.StartCoroutine(AlterTime()); break;
+                case Mode.PseudoStop: this.StartCoroutine(PseudoStop()); break;
             }
         }
     }

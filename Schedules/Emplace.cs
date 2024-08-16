@@ -1,6 +1,7 @@
 using Blastula.VirtualVariables;
 using Godot;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -122,9 +123,9 @@ namespace Blastula.Schedules
 			newItem.Position = Vector2.Zero;
 		}
 
-        public override Task Execute(IVariableContainer source)
+        public override IEnumerator Execute(IVariableContainer source)
         {
-			if (base.Execute(source) == null) { return null; }
+			if (!CanExecute()) { yield break; }
 
 			if (placementMode == PlacementMode.Delete)
 			{
@@ -137,7 +138,7 @@ namespace Blastula.Schedules
 					tracked.Remove(referenceId);
 				}
 			}
-			else if (item == null) { return Task.CompletedTask; }
+			else if (item == null) { yield break; }
             else if (multi && CanUseMulti())
 			{
 				foreach (var parent in FindTargetParents())
@@ -150,8 +151,6 @@ namespace Blastula.Schedules
 				var parent = FindTargetParent(source);
 				PlaceInParent(parent);
 			}
-
-			return Task.CompletedTask;
         }
     }
 }

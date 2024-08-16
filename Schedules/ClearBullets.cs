@@ -4,6 +4,7 @@ using Blastula.LowLevel;
 using Blastula.Schedules;
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static Blastula.BNodeFunctions;
@@ -103,7 +104,7 @@ namespace Blastula.Operations
             return newParent;
         }
 
-        public unsafe override Task Execute(IVariableContainer source)
+        private unsafe void InternalExecute()
         {
             switch (selectMode)
             {
@@ -173,8 +174,12 @@ namespace Blastula.Operations
                     }
                     break;
             }
+        }
 
-            return Task.CompletedTask;
+        public override IEnumerator Execute(IVariableContainer source)
+        {
+            InternalExecute();
+            yield break;
         }
     }
 }

@@ -1,9 +1,11 @@
+using Blastula.Coroutine;
 using Blastula.Graphics;
 using Blastula.Schedules;
 using Blastula.Sounds;
 using Blastula.VirtualVariables;
 using Godot;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -70,11 +72,11 @@ namespace Blastula
             cancelItemCount += (ulong)amount;
         }
 
-        public async Task RetrySinglePlayerSession()
+        public IEnumerator RetrySinglePlayerSession()
         {
             EndSinglePlayerSession();
-            await this.WaitOneFrame();
-            await InitializeSinglePlayerSession(currentPlayerPath, currentStageGroupName);
+            yield return new WaitOneFrame();
+            yield return InitializeSinglePlayerSession(currentPlayerPath, currentStageGroupName);
         }
 
         public uint ReseedRNG(uint? givenSeed = null)
@@ -97,14 +99,14 @@ namespace Blastula
         /// <summary>
         /// Begins a single player game.
         /// </summary>
-        public async Task InitializeSinglePlayerSession(string playerPath, string stageGroupName)
+        public IEnumerator InitializeSinglePlayerSession(string playerPath, string stageGroupName)
         {
-            while (Session.main == null || PlayerManager.main == null) { await this.WaitOneFrame(); }
+            while (Session.main == null || PlayerManager.main == null) { yield return new WaitOneFrame(); }
             BNodeFunctions.ResetQueue();
             Session.main.Reset();
             currentPlayerPath = playerPath; 
             currentStageGroupName = stageGroupName;
-            await PlayerManager.main.SpawnPlayer(playerPath);
+            yield return PlayerManager.main.SpawnPlayer(playerPath);
             if (Session.main != null) { Session.main.StartInSession(); }
             if (FrameCounter.main != null) { FrameCounter.main.ResetSessionFrame(); }
             // The RNG is reseeded unreproducibly here;
@@ -112,16 +114,21 @@ namespace Blastula
             ReseedRNG();
             StageSector s = (StageSector)FindChild(stageGroupName);
             s.Preload();
-            _ = s.Execute();
+            CoroutineUtility.StartCoroutine(new CoroutineUtility.Coroutine
+            {
+                func = s.Execute(),
+                boundNode = this,
+                cancel = s.GetCancelMethod()
+            });
             EmitSignal(SignalName.SessionBeginning);
         }
 
         public void EndSinglePlayerSession()
         {
             EmitSignal(SignalName.SessionEnding);
+            CoroutineUtility.StopAll();
             if (Session.main != null) { Session.main.EndInSession(); }
-            _ = BackgroundHolder.FadeAway(0);
-            Waiters.IncrementSceneLoadCounter();
+            this.StartCoroutine(BackgroundHolder.FadeAway(0));
             StageSector.DumpStack();
             foreach (var kvp in Player.playersByControl) { kvp.Value.QueueFree(); }
             Player.playersByControl.Clear();

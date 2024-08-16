@@ -1,3 +1,4 @@
+using Blastula.Coroutine;
 using Blastula.Operations;
 using Blastula.Schedules;
 using Blastula.VirtualVariables;
@@ -118,9 +119,11 @@ namespace Blastula
             }
             if (spawnSchedule != null)
             {
-                spawnSchedule.Execute(this);
+                this.StartCoroutine(spawnSchedule.Execute(this));
             }
-            Waiters.DelayedQueueFree(this, selfLifespan, selfLifespanUnits);
+            this.StartCoroutine(
+                CoroutineUtility.DelayedQueueFree(this, selfLifespan, selfLifespanUnits)
+            );
         }
 
         public override void _ExitTree()

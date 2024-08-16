@@ -1,6 +1,9 @@
+using Blastula.Coroutine;
 using Blastula.Operations;
 using Blastula.VirtualVariables;
 using Godot;
+using System;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Blastula.Schedules
@@ -12,12 +15,22 @@ namespace Blastula.Schedules
     [Icon(Persistent.NODE_ICON_PATH + "/scheduleStageDefault.png")]
     public abstract partial class StageSchedule : BaseSchedule
     {
-        public abstract Task Execute();
+        public abstract IEnumerator Execute();
 
-        public sealed override Task Execute(IVariableContainer _)
+        public virtual Action<CoroutineUtility.Coroutine> GetCancelMethod()
         {
-            if (base.Execute(_) == null) { return null; }
-            return Execute();
+            return null;
+        }
+
+        public sealed override IEnumerator Execute(IVariableContainer _)
+        {
+            if (!CanExecute()) { yield break; }
+            yield return new CoroutineUtility.Coroutine
+            {
+                func = Execute(),
+                boundNode = this,
+                cancel = GetCancelMethod()
+            };
         }
     }
 }

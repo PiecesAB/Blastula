@@ -1,5 +1,6 @@
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Blastula.Schedules
@@ -20,11 +21,11 @@ namespace Blastula.Schedules
     {
         [Export] public string selection = "0";
 
-        public override async Task Execute(IVariableContainer source)
+        public override IEnumerator Execute(IVariableContainer source)
         {
-            if (base.Execute(source) == null) { return; }
-            if (GetChildCount() == 0) { return; }
-            if (source != null && source is Node && !((Node)source).IsInsideTree()) { return; }
+            if (!CanExecute()) { yield break; }
+            if (GetChildCount() == 0) { yield break; }
+            if (source != null && source is Node && !((Node)source).IsInsideTree()) { yield break; }
             if (source != null) { ExpressionSolver.currentLocalContainer = source; }
             Variant selectionV = Solve("selection");
             int selectionI = 0;
@@ -32,7 +33,7 @@ namespace Blastula.Schedules
             else { selectionI = selectionV.AsInt32(); }
             selectionI = MoreMath.RDMod(selectionI, GetChildCount());
             Node selectedNode = GetChild(selectionI);
-            await ExecuteOrShoot(source, selectedNode);
+            yield return ExecuteOrShoot(source, selectedNode);
         }
     }
 }

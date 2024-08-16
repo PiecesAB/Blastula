@@ -1,8 +1,10 @@
+using Blastula.Coroutine;
 using Blastula.Input;
 using Blastula.Schedules;
 using Blastula.Sounds;
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Blastula
@@ -29,7 +31,7 @@ namespace Blastula
 
         private int scaleTimer = 0;
 
-        private async Task Countdown()
+        private IEnumerator Countdown()
         {
             nextWarnSoundTime = 5;
             ulong currIteration = animationIteration;
@@ -91,27 +93,27 @@ namespace Blastula
                     Modulate = new Color(Modulate.R, Modulate.G, Modulate.B, newA);
                 }
 
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
             }
-            if (currIteration == animationIteration) { _ = FadeOut(); }
+            if (currIteration == animationIteration) { this.StartCoroutine(FadeOut()); }
         }
 
-        private async Task FadeInAndCountdown()
+        private IEnumerator FadeInAndCountdown()
         {
             ulong currIteration = ++animationIteration;
             fadedInCompletely = false;
-            _ = Countdown();
+            this.StartCoroutine(Countdown());
             SetScale(1f);
             if (Modulate.A == 1) 
             { 
                 fadedInCompletely = true; 
-                return; 
+                yield break; 
             }
             for (int i = 1; i <= 20; ++i)
             {
                 if (currIteration != animationIteration) { break; }
                 Modulate = new Color(1, 1, 1, i / 20f);
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
             }
             if (currIteration == animationIteration)
             {
@@ -119,18 +121,18 @@ namespace Blastula
             }
         }
 
-        private async Task FadeOut()
+        private IEnumerator FadeOut()
         {
             integerPart.Text = "00";
             fractionalPart.Text = "00";
             ulong currIteration = ++animationIteration;
             SetScale(1f);
-            if (Modulate.A == 0) { return; }
+            if (Modulate.A == 0) { yield break; }
             for (int i = 19; i >= 0; --i)
             {
                 if (currIteration != animationIteration) { break; }
                 Modulate = new Color(Modulate.R, Modulate.G, Modulate.B, i / 20f);
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
             }
         }
 
@@ -138,11 +140,11 @@ namespace Blastula
         {
             if (StageSector.GetTimeRemaining() > 0)
             {
-                _ = FadeInAndCountdown();
+                this.StartCoroutine(FadeInAndCountdown());
             }
             else
             {
-                _ = FadeOut();
+                this.StartCoroutine(FadeOut());
             }
         }
 
@@ -154,7 +156,7 @@ namespace Blastula
             Modulate = new Color(1, 1, 1, 0);
             if (StageSector.GetCurrentSector() != null && StageSector.GetCurrentSector().shouldUseTimer)
             {
-                _ = FadeInAndCountdown();
+                this.StartCoroutine(FadeInAndCountdown());
             }
             StageManager.main.Connect(
                 StageManager.SignalName.StageSectorChanged, 

@@ -1,6 +1,8 @@
+using Blastula.Coroutine;
 using Blastula.Schedules;
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -66,7 +68,7 @@ namespace Blastula
         /// <summary>
         /// Used to possibly refill the boss health to a new amount and/or become vulnerable.
         /// </summary>
-        public async Task RefillAndBecomeVulnerable(StageSector sector, 
+        public IEnumerator RefillAndBecomeVulnerable(StageSector sector, 
             float newMaxHealth, float newDefense,
             float refillTime = 1f, float delayVulnerable = 0f)
         {
@@ -90,12 +92,12 @@ namespace Blastula
                 startFill = health / maxHealth;
             }
             float refillProgress = 0;
-            if (refillTime < 0) { return; }
+            if (refillTime < 0) { yield break; }
             // Actually filling it up every frame.
             while (newMaxHealth > 0 && refillTime > 0 && refillAnimIteration == currAnimIteration && refillProgress < 1)
             {
                 health = maxHealth * Mathf.Lerp(startFill, 1f, refillProgress);
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
                 refillProgress += 1f / (refillTime * Persistent.SIMULATED_FPS);
             }
             // The filling is complete.
@@ -107,8 +109,8 @@ namespace Blastula
                 {
                     health = maxHealth;
                 }
-                if (delayVulnerable < 0f) { return; }
-                if (delayVulnerable > 0f) { await this.WaitSeconds(delayVulnerable); }
+                if (delayVulnerable < 0f) { yield break; }
+                if (delayVulnerable > 0f) { yield return new WaitTime(delayVulnerable); }
             }
             // Become vulnerable, and end the refilling.
             if (refillAnimIteration == currAnimIteration)

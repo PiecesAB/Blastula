@@ -1,5 +1,6 @@
-[gd_scene load_steps=202 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=203 format=3 uid="uid://cm2d45utvjkxn"]
 
+[ext_resource type="Script" path="res://addons/Blastula/LowLevel/Coroutine/CoroutineQueueHolder.cs" id="1_cfaxb"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_w7rds"]
 [ext_resource type="Texture2D" uid="uid://bcduxmudehm6q" path="res://addons/Blastula/Graphics/MiscTextures/mansionTile.png" id="2_g131m"]
@@ -394,6 +395,7 @@ point_count = 2
 [node name="Blastula Kernel" type="Node"]
 
 [node name="Coroutine Subqueues" type="Node" parent="."]
+script = ExtResource("1_cfaxb")
 
 [node name="Bullet Graphic Preview" type="Node2D" parent="." node_paths=PackedStringArray("graphicsContainer")]
 material = SubResource("ShaderMaterial_rw26n")
@@ -1834,9 +1836,6 @@ shortName = "Pictus"
 description = "A robot who is a painted dog, not a hyena. They are a pack of one animal. (One of the Blastula example characters.)"
 playerScene = ExtResource("128_p54iq")
 
-[node name="ShakeCamera" type="Node" parent="."]
-script = ExtResource("139_oisx3")
-
 [node name="Stage Manager" type="Node" parent="."]
 script = ExtResource("62_lftpa")
 
@@ -1924,6 +1923,9 @@ shouldUseTimer = true
 
 [node name="Wait" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("66_doh6d")
+
+[node name="ShakeCamera" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
+script = ExtResource("139_oisx3")
 
 [node name="BossRefill" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("136_1n5ct")

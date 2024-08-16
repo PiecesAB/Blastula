@@ -1,8 +1,11 @@
+using Blastula.Coroutine;
 using Blastula.Schedules;
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Blastula.Operations
@@ -64,19 +67,18 @@ namespace Blastula.Operations
             if (testIntensity > shakeCurrentIntensity)
             {
                 shakeCurrentIntensity = testIntensity;
-                shakeValue = new Vector2(
-                    (float)GD.RandRange(-testIntensity, testIntensity),
-                    (float)GD.RandRange(-testIntensity, testIntensity)
-                );
+                var r1 = (float)GD.RandRange(-testIntensity, testIntensity);
+                var r2 = (float)GD.RandRange(-testIntensity, testIntensity);
+                shakeValue = new Vector2(r1, r2);
             }
         }
 
         private long processIteration = 0;
-        private async Task FakeProcess(float intensity, float dur)
+        private IEnumerator FakeProcess(float intensity, float dur)
         {
-            if (dur <= 0) { return; }
+            if (dur <= 0) { yield break; }
             Camera2D camNode = (Camera2D)Persistent.GetMainScene()?.GetNode($"%{uniqueCameraName}");
-            if (camNode == null) { return; }
+            if (camNode == null) { yield break; }
             long currProcessIter = ++processIteration;
             float t = 0;
             while (t < dur - 0.0001f && currProcessIter == processIteration)
@@ -87,23 +89,30 @@ namespace Blastula.Operations
                 float currentMultiplier = Mathf.Pow(1f - progress, easing);
                 TryToIncreaseShake(currentMultiplier * intensity);
                 camNode.Offset += shakeValue - oldShakeValue;
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
                 t += (float)Engine.TimeScale / Persistent.SIMULATED_FPS;
             }
 
-            {
-                Vector2 oldShakeValue = shakeValue;
-                TryToResetShake();
-                camNode.Offset += shakeValue - oldShakeValue;
-            }
+            Cancel(null);
+        }
+
+        public void Cancel(CoroutineUtility.Coroutine _)
+        {
+            Camera2D camNode = (Camera2D)Persistent.GetMainScene()?.GetNode($"%{uniqueCameraName}");
+            if (camNode == null) { return; }
+            Vector2 oldShakeValue = shakeValue;
+            TryToResetShake();
+            camNode.Offset += shakeValue - oldShakeValue;
         }
 
         public override void Run()
         {
-            _ = FakeProcess(
+            shakeUpdateStageFrame = 0;
+            var coroutine = this.StartCoroutine(FakeProcess(
                 Solve(PropertyName.intensity).AsSingle(), 
                 GetSecondsDuration()
-            );
+            ));
+            coroutine.cancel = Cancel;
         }
     }
 }

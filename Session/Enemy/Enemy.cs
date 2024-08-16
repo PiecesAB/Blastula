@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Blastula.Sounds;
 using System.Diagnostics;
 using Blastula.LowLevel;
+using Blastula.Coroutine;
 
 namespace Blastula
 {
@@ -224,7 +225,7 @@ namespace Blastula
             defeated = true;
             if (defeatSchedule != null)
             {
-                defeatSchedule.Execute(this);
+                this.StartCoroutine(defeatSchedule.Execute(this));
             }
             if (onScreen)
             {
@@ -254,7 +255,9 @@ namespace Blastula
             }
             else
             {
-                Waiters.DelayedQueueFree(this, lifespanLeft, lifespanUnits);
+                this.StartCoroutine(
+                    CoroutineUtility.DelayedQueueFree(this, lifespanLeft, lifespanUnits)
+                );
             }
         }
 
@@ -301,7 +304,7 @@ namespace Blastula
 
             if (movementSchedule != null)
             {
-                _ = movementSchedule.Execute(this);
+                this.StartCoroutine(movementSchedule.Execute(this));
             }
 
             formation = StageSector.GetCurrentEnemyFormation();
@@ -340,7 +343,7 @@ namespace Blastula
                 if (player == null) { continue; }
                 if ((player.GlobalPosition - GlobalPosition).Length() < playerCollisionRadius)
                 {
-                    _ = player.Die();
+                    this.StartCoroutine(player.Die());
                 }
             }
 

@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,11 +20,11 @@ namespace Blastula
         /// For example, a PlayerEntry item which is a direct child of this node is referred to simply by its name.
         /// PlayerEntry child "B" of child "Person" of this node would be referred to as "Person/B".
         /// </summary>
-        public async Task SpawnPlayer(string path)
+        public IEnumerator SpawnPlayer(string path)
         {
-            if (!playerEntriesByPath.ContainsKey(path)) { return; }
+            if (!playerEntriesByPath.ContainsKey(path)) { yield break; }
             PlayerEntry entry = playerEntriesByPath[path];
-            await entry.SpawnPlayer();
+            yield return entry.SpawnPlayer();
         }
 
         public override void _Ready()

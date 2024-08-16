@@ -1,3 +1,4 @@
+using Blastula.Coroutine;
 using Blastula.Sounds;
 using Blastula.VirtualVariables;
 using Godot;
@@ -31,7 +32,7 @@ namespace Blastula.Menus
             MusicManager.Stop();
             if (StageManager.main != null)
             {
-                _ = StageManager.main.InitializeSinglePlayerSession("PictusXXIV", "MainSequence");
+                this.StartCoroutine(StageManager.main.InitializeSinglePlayerSession("PictusXXIV", "MainSequence"));
             }
             Close();
             root.QueueFree();

@@ -1,5 +1,7 @@
+using Blastula.Coroutine;
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Blastula.Schedules
@@ -19,19 +21,19 @@ namespace Blastula.Schedules
         [Export] public string waitTime = "1";
         [Export] public TimeUnits units = TimeUnits.Seconds;
 
-        public override async Task Execute(IVariableContainer source)
+        public override IEnumerator Execute(IVariableContainer source)
         {
-            if (base.Execute(source) == null) { return; }
+            if (!CanExecute()) { yield break; }
             if (source != null) { ExpressionSolver.currentLocalContainer = source; }
             float waitTime = Solve("waitTime").AsSingle();
             switch (units)
             {
                 case TimeUnits.Seconds:
                 default:
-                    await this.WaitSeconds(waitTime);
+                    yield return new WaitTime(waitTime);
                     break;
                 case TimeUnits.Frames:
-                    await this.WaitFrames(Mathf.RoundToInt(waitTime));
+                    yield return new WaitFrames(Mathf.RoundToInt(waitTime));
                     break;
             }
         }

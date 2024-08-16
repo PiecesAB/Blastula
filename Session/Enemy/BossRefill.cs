@@ -1,6 +1,8 @@
+using Blastula.Coroutine;
 using Blastula.Operations;
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -51,7 +53,7 @@ namespace Blastula.Schedules
         /// </summary>
         [Export] public string delayVulnerable = "";
 
-        public override Task Execute()
+        public override IEnumerator Execute()
         {
             StageSector container = null;
             Node parent;
@@ -60,14 +62,14 @@ namespace Blastula.Schedules
             if (container == null)
             {
                 GD.PushWarning("BossRefill should be child of a StageSector; halting.");
-                return Task.CompletedTask;
+                yield break;
             }
 
             List<BossEnemy> bossList = BossEnemy.GetBosses(bossID);
             if (bossList.Count == 0) 
             {
                 GD.PushWarning("BossRefill tried to refill nonexistent boss(es).");
-                return Task.CompletedTask;
+                yield break;
             }
             foreach (BossEnemy b in bossList)
             {
@@ -92,9 +94,8 @@ namespace Blastula.Schedules
                     dv = Solve(PropertyName.delayVulnerable).AsSingle();
                 }
 
-                _ = b.RefillAndBecomeVulnerable(container, nmh, ndf, dur, dv);
+                this.StartCoroutine(b.RefillAndBecomeVulnerable(container, nmh, ndf, dur, dv));
             }
-            return Task.CompletedTask;
         }
     }
 }

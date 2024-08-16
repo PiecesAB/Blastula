@@ -1,5 +1,7 @@
+using Blastula.Coroutine;
 using Godot;
 using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
 
 namespace Blastula
@@ -36,9 +38,9 @@ namespace Blastula
             }
         }
 
-		public static async void ShowLine(Vector2 start, Vector2 end)
+		public static IEnumerator ShowLine(Vector2 start, Vector2 end)
 		{
-			if (main == null) { return; }
+			if (main == null) { yield break; }
 			int currIndex = main.nextLine;
 			main.nextLine = (main.nextLine + 1) % main.maxLineCount;
 			ulong currIteration = ++main.iterations[currIndex];
@@ -48,7 +50,7 @@ namespace Blastula
 				if (currIteration != main.iterations[currIndex]) { break; }
 				main.lines[currIndex].DefaultColor = new Color(1, 1, 1, i / 4f);
 				if (i == 0) { main.lines[currIndex].Points = main.defaultPoints; }
-				await main.WaitOneFrame();
+				yield return new WaitOneFrame();
 			}
 		}
     }

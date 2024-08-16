@@ -1,3 +1,4 @@
+using Blastula.Coroutine;
 using Blastula.VirtualVariables;
 using Godot;
 
@@ -36,7 +37,7 @@ namespace Blastula.Menus
             Close();
             if (StageManager.main != null)
             {
-                _ = StageManager.main.RetrySinglePlayerSession();
+                this.StartCoroutine(StageManager.main.RetrySinglePlayerSession());
             }
         }
 

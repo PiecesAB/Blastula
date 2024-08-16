@@ -1,6 +1,7 @@
 using Blastula.VirtualVariables;
 using Godot;
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Blastula.Schedules
@@ -21,11 +22,11 @@ namespace Blastula.Schedules
         [Export] public bool useGlobalPosition = true;
         [Export] public string setOldPositionVariable = "";
 
-        public override Task Execute(IVariableContainer source)
+        public override IEnumerator Execute(IVariableContainer source)
         {
-            if (base.Execute(source) == null) { return null; }
-            if (source == null) { return Task.CompletedTask; }
-            if (source is not Node2D) { return Task.CompletedTask; }
+            if (!CanExecute()) { yield break; }
+            if (source == null) { yield break; }
+            if (source is not Node2D) { yield break; }
             Node2D source2D = (Node2D)source;
             ExpressionSolver.currentLocalContainer = source;
             if (setOldPositionVariable != null && setOldPositionVariable != "")
@@ -49,7 +50,7 @@ namespace Blastula.Schedules
                 if (usePosition) { source2D.Position = newPosition; }
                 if (useRotation) { source2D.Rotation = newRotation; }
             }
-            return Task.CompletedTask;
+            yield break;
         }
     }
 }

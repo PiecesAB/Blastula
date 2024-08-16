@@ -1,6 +1,7 @@
 using Blastula.Operations;
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace Blastula.Schedules
     [Icon(Persistent.NODE_ICON_PATH + "/replayEnd.png")]
     public partial class ReplayEnd : StageSchedule
     {
-        public override Task Execute()
+        public override IEnumerator Execute()
         {
             ReplayManager.main.EndSinglePlayerReplay();
             /*Error e = ReplayManager.main.Save("test");
@@ -21,7 +22,7 @@ namespace Blastula.Schedules
             {
                 GD.PushError("Error trying to save the replay.");
             }*/
-            return Task.CompletedTask;
+            yield break;
         }
     }
 }

@@ -81,7 +81,7 @@ public partial class PlayerInputTranslator : Node
         }
     }
 
-    public void OnReplayStartsSoon()
+    public void OnReplayStartsSoon(float _)
     {
         inputForbidden = ForbidInputType.ForbidNonMovement;
     }

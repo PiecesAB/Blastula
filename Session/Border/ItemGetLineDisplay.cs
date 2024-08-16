@@ -1,6 +1,8 @@
+using Blastula.Coroutine;
 using Blastula.VirtualVariables;
 using Godot;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -38,16 +40,21 @@ namespace Blastula.Graphics
             {
                 StageManager.main.Connect(
                     StageManager.SignalName.SessionBeginning,
-                    new Callable(this, MethodName.OnSessionBeginning)
+                    new Callable(this, MethodName.SessionBeginningWrapper)
                 );
             }
-            _ = SetWithoutLineDisplay();
+            this.StartCoroutine(SetWithoutLineDisplay());
         }
 
-        public async void OnSessionBeginning()
+        public void SessionBeginningWrapper()
         {
-            await SetWithoutLineDisplay();
-            await DisplayLine();
+            this.StartCoroutine(OnSessionBeginning());
+        }
+
+        public IEnumerator OnSessionBeginning()
+        {
+            yield return SetWithoutLineDisplay();
+            yield return DisplayLine();
         }
 
         private float GetOpacityPulse()
@@ -67,57 +74,62 @@ namespace Blastula.Graphics
             }
         }
 
-        public async Task SetWithoutLineDisplay()
+        public IEnumerator SetWithoutLineDisplay()
         {
             SetPlayerIfNeeded();
             if (player == null || !IsInstanceValid(player))
             {
                 // Try again to get the player next frame; give up if they still don't exist.
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
                 SetPlayerIfNeeded();
-                if (player == null || !IsInstanceValid(player)) { return; }
+                if (player == null || !IsInstanceValid(player)) { yield break; }
             }
             Position = new Vector2(Position.X, player.itemGetHeight);
         }
 
         private long displayLineIteration = 0;
-        public async Task DisplayLine()
+        public IEnumerator DisplayLine()
         {
             SetPlayerIfNeeded();
             if (player == null) {
                 // Try again to get the player next frame; give up if they still don't exist.
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
                 SetPlayerIfNeeded();
-                if (player == null) { return; }
+                if (player == null) { yield break; }
             }
             long currentIteration = ++displayLineIteration;
             float targetY = player.itemGetHeight;
             float currentMovementTick = movementSpeed / Persistent.SIMULATED_FPS;
             line.Modulate = new Color(1, 1, 1, 0);
+            yield return new SetCancel((_) =>
+            {
+                if (currentIteration != displayLineIteration) { return; }
+                line.Modulate = new Color(1, 1, 1, 0);
+            });
             for (int i = 0; i < displayFadeDurationFrames; ++i)
             {
                 if (currentIteration != displayLineIteration) { break; }
                 Position = new Vector2(Position.X, Mathf.MoveToward(Position.Y, targetY, currentMovementTick));
                 line.Modulate = new Color(1, 1, 1, Mathf.MoveToward(line.Modulate.A, GetOpacityPulse(), 1f / displayFadeDurationFrames));
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
             }
-            if (currentIteration != displayLineIteration) { return; }
+            if (currentIteration != displayLineIteration) { yield break; }
             for (int i = 0; i < displayDurationFrames; ++i)
             {
                 if (currentIteration != displayLineIteration) { break; }
                 Position = new Vector2(Position.X, Mathf.MoveToward(Position.Y, targetY, currentMovementTick));
                 line.Modulate = new Color(1, 1, 1, GetOpacityPulse());
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
             }
-            if (currentIteration != displayLineIteration) { return; }
+            if (currentIteration != displayLineIteration) { yield break; }
             for (int i = 0; i < displayFadeDurationFrames; ++i)
             {
                 if (currentIteration != displayLineIteration) { break; }
                 Position = new Vector2(Position.X, Mathf.MoveToward(Position.Y, targetY, currentMovementTick));
                 line.Modulate = new Color(1, 1, 1, Mathf.MoveToward(line.Modulate.A, 0, 1f / displayFadeDurationFrames));
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
             }
-            if (currentIteration != displayLineIteration) { return; }
+            if (currentIteration != displayLineIteration) { yield break; }
             line.Modulate = new Color(1, 1, 1, 0);
         }
     }

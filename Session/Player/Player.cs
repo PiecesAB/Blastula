@@ -1,4 +1,5 @@
 using Blastula.Collision;
+using Blastula.Coroutine;
 using Blastula.Graphics;
 using Blastula.Input;
 using Blastula.LowLevel;
@@ -8,6 +9,7 @@ using Blastula.VirtualVariables;
 using Godot;
 using Godot.Collections;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -429,23 +431,23 @@ namespace Blastula
         }
 
         private long recoverAnimIteration = 0;
-        public async Task Recover(float durationSeconds)
+        public IEnumerator Recover(float durationSeconds)
         {
             long currIter = ++recoverAnimIteration;
             lifeState = LifeState.Recovering;
             recoveryGracePeriodActive = false;
-            await this.WaitSeconds(durationSeconds);
-            if (currIter != recoverAnimIteration) { return; }
+            yield return new WaitTime(durationSeconds);
+            if (currIter != recoverAnimIteration) { yield break; }
             recoveryGracePeriodActive = true;
-            await this.WaitSeconds(recoverDurationGrace);
-            if (currIter != recoverAnimIteration) { return; }
+            yield return new WaitTime(recoverDurationGrace);
+            if (currIter != recoverAnimIteration) { yield break; }
             lifeState = LifeState.Normal;
             recoveryGracePeriodActive = false;
         }
 
-        public async Task ReleaseBomb()
+        public IEnumerator ReleaseBomb()
         {
-            if (bombs < 1f || bombing) { return; }
+            if (bombs < 1f || bombing) { yield break; }
             ++recoverAnimIteration;
             bombs -= 1f;
             bombing = true;
@@ -465,17 +467,17 @@ namespace Blastula
                 Persistent.GetMainScene().AddChild(item);
                 item.GlobalPosition = GlobalPosition;
             }
-            await this.WaitSeconds(bombDuration);
+            yield return new WaitTime(bombDuration);
             bombing = false;
-            _ = Recover(bombRecoveryDuration);
+            this.StartCoroutine(Recover(bombRecoveryDuration));
         }
 
         /// <summary>
         /// Try to cause the player to die.
         /// </summary>
-        public async Task Die()
+        public IEnumerator Die()
         {
-            if (debugInvulnerable || settingInvulnerable || lifeState != LifeState.Normal) { return; }
+            if (debugInvulnerable || settingInvulnerable || lifeState != LifeState.Normal) { yield break; }
             ++recoverAnimIteration;
             lifeState = LifeState.Dying;
             recoveryGracePeriodActive = false;
@@ -483,8 +485,8 @@ namespace Blastula
             deathbombBuffer.Replenish((ulong)deathbombFrames);
             while (!deathbombBuffer.Elapsed())
             {
-                if (IsBombTriggered()) { _ = ReleaseBomb(); return; }
-                await this.WaitOneFrame();
+                if (IsBombTriggered()) { this.StartCoroutine(ReleaseBomb()); yield break; }
+                yield return new WaitOneFrame();
             }
             // No turning back now
             CommonSFXManager.PlayByName("Player/Explode", 1, 1f, GlobalPosition, true);
@@ -508,7 +510,7 @@ namespace Blastula
                 GetTree().Root.AddChild(daInstance);
                 ((Node2D)daInstance).GlobalPosition = GlobalPosition;
             }
-            await this.WaitSeconds(deathAnimationDuration);
+            yield return new WaitTime(deathAnimationDuration);
             // The life is finally decremented after the explosion effect plays out.
             lives -= 1f;
             // Avoid float imprecision causing a game over.
@@ -525,7 +527,7 @@ namespace Blastula
                 SetInitialBombs();
             }
             GlobalPosition = homePosition;
-            _ = Recover(deathRecoveryDuration);
+            this.StartCoroutine(Recover(deathRecoveryDuration));
         }
 
         private unsafe void OnHitHurtIntent(BlastulaCollider collider, int bNodeIndex)
@@ -560,7 +562,7 @@ namespace Blastula
             }
 
             // At this point the hurting actually occurs
-            _ = Die();
+            this.StartCoroutine(Die());
         }
 
         private unsafe void OnHitGrazeIntent(BlastulaCollider collider, int bNodeIndex)
@@ -827,7 +829,7 @@ namespace Blastula
             if (!GameSpeed.pseudoStopped)
             {
                 PerformMovement();
-                if (IsBombTriggered()) { _ = ReleaseBomb(); }
+                if (IsBombTriggered()) { this.StartCoroutine(ReleaseBomb()); }
             }
             SetVarsInDiscs();
             CountGrazeGetThisFrame();

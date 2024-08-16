@@ -1,6 +1,7 @@
 using Blastula.VirtualVariables;
 using Godot;
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Blastula.Schedules.EnemySchedules
@@ -12,11 +13,11 @@ namespace Blastula.Schedules.EnemySchedules
     [Icon(Persistent.NODE_ICON_PATH + "/yellowCross.png")]
     public partial class TriggerSpawner : EnemySchedule
     {
-        public override Task Execute(IVariableContainer source)
+        public override IEnumerator Execute(IVariableContainer source)
         {
-            if (source is not Spawner) { return Task.CompletedTask; }
+            if (source is not Spawner) { yield break; }
             ((Spawner)source).Spawn();
-            return Task.CompletedTask;
+            yield break;
         }
     }
 }

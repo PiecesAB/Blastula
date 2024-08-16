@@ -1,6 +1,7 @@
 using Blastula.VirtualVariables;
 using Godot;
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Blastula.Schedules.EnemySchedules
@@ -23,9 +24,9 @@ namespace Blastula.Schedules.EnemySchedules
         /// </summary>
         [Export] public string Y = "100";
 
-        public override Task Execute(IVariableContainer source)
+        public override IEnumerator Execute(IVariableContainer source)
         {
-            if (source is not Enemy) { return Task.CompletedTask; }
+            if (source is not Enemy) { yield break; }
             ExpressionSolver.currentLocalContainer = source;
             EnemyMover mover = ((Enemy)source).AddOrGetEnemyMover(moverID);
             Vector2 newVelocity = new Vector2(Solve("X").AsSingle(), Solve("Y").AsSingle());
@@ -34,7 +35,7 @@ namespace Blastula.Schedules.EnemySchedules
                 newVelocity = new Vector2(newVelocity.X, Mathf.DegToRad(newVelocity.Y));
             }
             mover.SetTargetVelocity(newVelocity);
-            return Task.CompletedTask;
+            yield break;
         }
     }
 }

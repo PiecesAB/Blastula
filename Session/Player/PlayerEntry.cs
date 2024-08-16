@@ -1,6 +1,8 @@
+using Blastula.Coroutine;
 using Blastula.VirtualVariables;
 using Godot;
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Blastula
@@ -29,20 +31,20 @@ namespace Blastula
         /// </summary>
         [Export] public PackedScene playerScene;
 
-        public async Task SpawnPlayer()
+        public IEnumerator SpawnPlayer()
         {
-            while (PlayerManager.main == null) { await this.WaitOneFrame(); }
+            while (PlayerManager.main == null) { yield return new WaitOneFrame(); }
             Player newPlayer = (Player)playerScene.Instantiate();
             Node2D mainScene = Persistent.GetMainScene();
             while (mainScene == null)
             {
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
                 mainScene = Persistent.GetMainScene();
             }
             Node2D spawn = (Node2D)mainScene.GetNode("%PlayerHome");
             while (spawn == null)
             {
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
                 spawn = (Node2D)mainScene.GetNode("%PlayerHome");
             }
             spawn.GetParent().CallDeferred(MethodName.AddChild, newPlayer);

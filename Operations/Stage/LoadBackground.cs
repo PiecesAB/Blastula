@@ -1,3 +1,4 @@
+using Blastula.Coroutine;
 using Blastula.Sounds;
 using Blastula.VirtualVariables;
 using Godot;
@@ -18,11 +19,11 @@ namespace Blastula.Operations
         {
             if (backgroundScene == null)
             {
-                _ = BackgroundHolder.FadeAway(fadeDuration);
+                this.StartCoroutine(BackgroundHolder.FadeAway(fadeDuration));
             }
             else
             {
-                _ = BackgroundHolder.SetBackground(backgroundScene, fadeDuration);
+                this.StartCoroutine(BackgroundHolder.SetBackground(backgroundScene, fadeDuration));
             }
         }
     }

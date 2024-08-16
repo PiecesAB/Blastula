@@ -1,6 +1,7 @@
+using Blastula.Coroutine;
 using Blastula.VirtualVariables;
 using Godot;
-using System.Threading.Tasks;
+using System.Collections;
 
 namespace Blastula.Schedules
 {
@@ -11,14 +12,14 @@ namespace Blastula.Schedules
     [Icon(Persistent.NODE_ICON_PATH + "/scheduleSplit.png")]
     public partial class Split : BaseSchedule
     {
-        public override Task Execute(IVariableContainer source)
+        public override IEnumerator Execute(IVariableContainer source)
         {
-            if (base.Execute(source) == null) { return null; }
+            if (!CanExecute()) { yield break; }
             foreach (var child in GetChildren())
             {
-                _ = ExecuteOrShoot(source, child);
+                this.StartCoroutine(ExecuteOrShoot(source, child));
             }
-            return Task.CompletedTask;
+            yield break;
         }
     }
 }

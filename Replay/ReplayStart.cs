@@ -1,6 +1,8 @@
+using Blastula.Coroutine;
 using Blastula.Operations;
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -27,16 +29,16 @@ namespace Blastula.Schedules
             replayHasStarted = true;
         }
 
-        private async void What()
+        private IEnumerator What()
         {
             for (int i = 0; i < 10; ++i)
             {
-                await this.WaitSeconds(0.4f);
-                GD.Print("A random number is ", GD.Randf());
+                yield return new WaitTime(0.4f);
+                GD.Print(FrameCounter.stageFrame, "A random number is ", GD.Randf());
             }
         }
 
-        public override async Task Execute()
+        public override IEnumerator Execute()
         {
             replayHasStarted = false;
             current = this;
@@ -47,15 +49,15 @@ namespace Blastula.Schedules
             );
             ReplayManager.main.ScheduleReplayStart();
             // Need to wait until the replay has actually started
-            await this.WaitUntil(() => replayHasStarted);
+            yield return new WaitCondition(() => replayHasStarted);
             ReplayManager.main.Disconnect(
                 ReplayManager.SignalName.ReplayStartsNow, 
                 replayStartListener
             );
             replayStartListener = default;
             current = null;
-            What();
-            await this.WaitOneFrame();
+            this.StartCoroutine(What());
+            yield return new WaitOneFrame();
         }
     }
 }

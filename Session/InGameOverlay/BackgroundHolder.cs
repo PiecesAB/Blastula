@@ -1,4 +1,6 @@
+using Blastula.Coroutine;
 using Godot;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -27,9 +29,9 @@ namespace Blastula
         private long animCounter = 0;
         private double animStartTime = 0;
 
-        public static async Task SetBackground(PackedScene newBackground, float fadeInDuration = 1.5f)
+        public static IEnumerator SetBackground(PackedScene newBackground, float fadeInDuration = 1.5f)
         {
-            if (main == null) { return; }
+            if (main == null) { yield break; }
             if (main.currentBackground != null) 
             {
                 main.currentBackground.QueueFree();
@@ -42,6 +44,13 @@ namespace Blastula
                 main.currentBackground = newBGNode;
             }
             long currAnimCounter = ++main.animCounter;
+            yield return new SetCancel((_) =>
+            {
+                if (currAnimCounter == main.animCounter)
+                {
+                    main.fadeOverlay.Modulate = new Color(1f, 1f, 1f, 0f);
+                }
+            });
             main.animStartTime = FrameCounter.stageTime;
             while (fadeInDuration > 0f && FrameCounter.stageTime - main.animStartTime < fadeInDuration)
             {
@@ -52,7 +61,7 @@ namespace Blastula
                     main.fadeOverlay.Modulate = new Color(1f, 1f, 1f, overlayOpacity);
                 }
                 else { break; }
-                await main.WaitOneFrame();
+                yield return new WaitOneFrame();
             }
             if (currAnimCounter == main.animCounter)
             {
@@ -63,10 +72,22 @@ namespace Blastula
         /// <summary>
         /// This fades in the "blank" overlay panel (appears to remove the true background).
         /// </summary>
-        public static async Task FadeAway(float duration = 1.5f)
+        public static IEnumerator FadeAway(float duration = 1.5f)
         {
-            if (main == null) { return; }
+            if (main == null) { yield break; }
             long currAnimCounter = ++main.animCounter;
+            yield return new SetCancel((_) =>
+            {
+                if (currAnimCounter == main.animCounter)
+                {
+                    main.fadeOverlay.Modulate = new Color(1f, 1f, 1f, 1f);
+                    if (main.currentBackground != null)
+                    {
+                        main.currentBackground.QueueFree();
+                        main.currentBackground = null;
+                    }
+                }
+            });
             main.animStartTime = FrameCounter.stageTime;
             while (duration > 0f && FrameCounter.stageTime - main.animStartTime < duration)
             {
@@ -77,7 +98,7 @@ namespace Blastula
                     main.fadeOverlay.Modulate = new Color(1f, 1f, 1f, overlayOpacity);
                 }
                 else { break; }
-                await main.WaitOneFrame();
+                yield return new WaitOneFrame();
             }
             if (currAnimCounter == main.animCounter)
             {

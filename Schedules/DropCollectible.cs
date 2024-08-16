@@ -1,5 +1,6 @@
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Blastula.Schedules
@@ -44,14 +45,14 @@ namespace Blastula.Schedules
         /// For more information, see the Blastula.CollectibleManager class.
         [Export] public string collectibleAmount;
 
-        public override Task Execute(IVariableContainer source)
+        public override IEnumerator Execute(IVariableContainer source)
         {
             Vector2 solvedPosition = Vector2.Zero;
             switch (positioningMode)
             {
                 case PositioningMode.Source:
                     {
-                        if (source is not Node2D) { GD.PushError("Source is not a Node2D"); return null; }
+                        if (source is not Node2D) { GD.PushError("Source is not a Node2D"); yield break; }
                         solvedPosition = ((Node2D)source).GlobalPosition;
                     }
                     break;
@@ -68,7 +69,7 @@ namespace Blastula.Schedules
                 case PositioningMode.Boss:
                     {
                         var bossList = BossEnemy.GetBosses(position);
-                        if (bossList.Count == 0) { GD.PushError("No boss with that name"); return null; }
+                        if (bossList.Count == 0) { GD.PushError("No boss with that name"); yield break; }
                         solvedPosition = bossList[0].GlobalPosition;
                     }
                     break;
@@ -76,7 +77,7 @@ namespace Blastula.Schedules
             }
             int solvedAmount = Solve(PropertyName.collectibleAmount).AsInt32();
             CollectibleManager.SpawnItems(collectibleName, solvedPosition, solvedAmount);
-            return Task.CompletedTask;
+            yield break;
         }
     }
 }

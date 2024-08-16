@@ -1,5 +1,7 @@
+using Blastula.Coroutine;
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Blastula.Schedules
@@ -17,26 +19,26 @@ namespace Blastula.Schedules
         [Export] public BaseSchedule other;
         [Export] public bool waitForIDExistence = true;
 
-        public override async Task Execute(IVariableContainer source)
+        public override IEnumerator Execute(IVariableContainer source)
         {
-            if (base.Execute(source) == null) { return; }
+            if (!CanExecute()) { yield break; }
             if (scheduleID != null && scheduleID != "")
             {
                 if (waitForIDExistence)
                 {
-                    await this.WaitUntil(() => referencesByID.ContainsKey(scheduleID));
+                    yield return new WaitCondition(() => referencesByID.ContainsKey(scheduleID));
                 }
                 if (!referencesByID.ContainsKey(scheduleID)) 
                 {
-                    if (other != null) { await other.Execute(source); }
-                    else { return; }
+                    if (other != null) { yield return other.Execute(source); }
+                    else { yield break; }
                 }
-                await referencesByID[scheduleID].Execute(source);
+                yield return referencesByID[scheduleID].Execute(source);
             }
             else
             {
-                if (other != null) { await other.Execute(source); }
-                else { return; }
+                if (other != null) { yield return other.Execute(source); }
+                else { yield break; }
             }
         }
     }

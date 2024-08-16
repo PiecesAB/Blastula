@@ -1,9 +1,11 @@
+using Blastula.Coroutine;
 using Blastula.Graphics;
 using Blastula.LowLevel;
 using Blastula.Operations;
 using Blastula.Schedules;
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -204,12 +206,12 @@ namespace Blastula
             return true;
         }
 
-        private async void ExitRoutine()
+        private IEnumerator ExitRoutine()
         {
             if (primordial == this) { primordial = null; }
             if (cleanupSchedule != null) 
             { 
-                await cleanupSchedule.Execute(this);
+                yield return cleanupSchedule.Execute(this);
                 cleanupSchedule.QueueFree();
             }
             if (masterStructure != -1)
@@ -224,7 +226,7 @@ namespace Blastula
         public override void _ExitTree()
         {
             base._ExitTree();
-            ExitRoutine();
+            this.StartCoroutine(ExitRoutine());
         }
 
         private unsafe void UpdateMasterStructure()
@@ -289,7 +291,7 @@ namespace Blastula
             if (!scheduleBegan && enabled && mainSchedule != null)
             {
                 scheduleBegan = true;
-                mainSchedule.Execute(this);
+                this.StartCoroutine(mainSchedule.Execute(this));
             }
         }
 

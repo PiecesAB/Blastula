@@ -1,6 +1,7 @@
+using Blastula.Coroutine;
 using Blastula.VirtualVariables;
 using Godot;
-using System.Threading.Tasks;
+using System.Collections;
 
 namespace Blastula.Schedules
 {
@@ -13,15 +14,15 @@ namespace Blastula.Schedules
     {
         [Export] public string condition = "true";
 
-        public override async Task Execute(IVariableContainer source)
+        public override IEnumerator Execute(IVariableContainer source)
         {
-            if (base.Execute(source) == null) { return; }
+            if (!CanExecute()) { yield break; }
             while (GetTree() != null)
             {
                 if (source != null) { ExpressionSolver.currentLocalContainer = source; }
                 bool condition = Solve("condition").AsBool();
-                if (condition) { return; }
-                await this.WaitOneFrame();
+                if (condition) { yield break; }
+                yield return new WaitOneFrame();
             }
         }
     }

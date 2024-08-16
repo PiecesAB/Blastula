@@ -1,5 +1,7 @@
+using Blastula.Coroutine;
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Blastula.Schedules
@@ -24,10 +26,20 @@ namespace Blastula.Schedules
         [ExportGroup("Advanced")]
         [Export] public string completedCyclesVariableName = "";
 
-        public override async Task Execute(IVariableContainer source)
+        public override IEnumerator Execute(IVariableContainer source)
         {
-            if (base.Execute(source) == null) { return; }
+            if (!CanExecute()) { yield break; }
             int completedCycles = 0;
+            yield return new SetCancel((_) =>
+            {
+                if (completedCyclesVariableName != null && completedCyclesVariableName != "")
+                {
+                    if (source != null)
+                    {
+                        source.ClearVar(completedCyclesVariableName);
+                    }
+                }
+            });
             while (IsInsideTree() && (Session.main?.inSession ?? false))
             {
                 if (source != null && source is Node && !((Node)source).IsInsideTree()) { break; }
@@ -43,7 +55,7 @@ namespace Blastula.Schedules
                 }
                 foreach (Node child in GetChildren())
                 {
-                    await ExecuteOrShoot(source, child);
+                    yield return ExecuteOrShoot(source, child);
                 }
                 completedCycles++;
             }

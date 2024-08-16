@@ -1,6 +1,7 @@
 using Blastula.Operations;
 using Blastula.VirtualVariables;
 using Godot;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,16 +22,16 @@ namespace Blastula.Schedules
 
         private System.Collections.Generic.Dictionary<string, Variant> constants = new System.Collections.Generic.Dictionary<string, Variant>();
 
-        protected async Task ExecuteOrShoot(IVariableContainer source, Node node)
+        protected IEnumerator ExecuteOrShoot(IVariableContainer source, Node node)
         {
-            if (Session.main == null || !Session.main.inSession) { return; }
+            if (Session.main == null || !Session.main.inSession) { yield break; }
             if (source != null && source is Blastodisc)
             {
                 Blastodisc sd = (Blastodisc)source;
-                if (!sd.enabled || !sd.IsInsideTree()) { return; }
+                if (!sd.enabled || !sd.IsInsideTree()) { yield break; }
                 if (node is BaseSchedule)
                 {
-                    await (node as BaseSchedule).Execute(source);
+                    yield return (node as BaseSchedule).Execute(source);
                 }
                 else if (node is BaseOperation)
                 {
@@ -41,7 +42,7 @@ namespace Blastula.Schedules
             {
                 if (node is BaseSchedule)
                 {
-                    await (node as BaseSchedule).Execute(source);
+                    yield return (node as BaseSchedule).Execute(source);
                 }
                 else if (node is BaseOperation)
                 {
@@ -56,13 +57,14 @@ namespace Blastula.Schedules
             }
         }
 
-        public virtual Task Execute(IVariableContainer source)
+        public bool CanExecute()
         {
-            if (Session.main == null || !Session.main.inSession)
-            {
-                return null;
-            }
-            return Task.CompletedTask;
+            return !(Session.main == null || !Session.main.inSession);
+        }
+
+        public virtual IEnumerator Execute(IVariableContainer source)
+        {
+            yield break;
         }
 
         public Variant Solve(string varName)

@@ -1,6 +1,7 @@
 using Blastula.VirtualVariables;
 using Godot;
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace Blastula.Schedules.EnemySchedules
@@ -28,9 +29,9 @@ namespace Blastula.Schedules.EnemySchedules
         /// <example>You can produce circular arcs of motion.</example>
         [Export] public bool radialVelocityInterpolation = false;
 
-        public override Task Execute(IVariableContainer source)
+        public override IEnumerator Execute(IVariableContainer source)
         {
-            if (source is not Enemy) { return Task.CompletedTask; }
+            if (source is not Enemy) { yield break; }
             ExpressionSolver.currentLocalContainer = source;
             EnemyMover mover = ((Enemy)source).AddOrGetEnemyMover(moverID);
             mover.easingTransition = easingTransition;
@@ -40,7 +41,6 @@ namespace Blastula.Schedules.EnemySchedules
                 mover.tweenDuration = Solve("tweenDuration").AsSingle();
             }
             mover.radialVelocityInterpolation = radialVelocityInterpolation;
-            return Task.CompletedTask;
         }
     }
 }

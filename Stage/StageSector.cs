@@ -1,6 +1,9 @@
+using Blastula.Coroutine;
 using Blastula.Operations;
 using Blastula.VirtualVariables;
 using Godot;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -174,11 +177,11 @@ namespace Blastula.Schedules
             return sectorStack.Contains(this) && timeRemaining >= 0.0001;
         }
 
-        public async Task RunTime()
+        public IEnumerator RunTime()
         {
             while (ShouldBeExecuting())
             {
-                await this.WaitOneFrame();
+                yield return new WaitOneFrame();
                 bool runTimeThisFrame = true;
                 runTimeThisFrame &= !GameSpeed.pseudoStopped;
                 if (runTimeThisFrame)
@@ -203,20 +206,45 @@ namespace Blastula.Schedules
         }
 
         private bool finishedExecuteChildren;
-        private async void ExecuteChildren()
+        private IEnumerator ExecuteChildren()
         {
             finishedExecuteChildren = false;
             foreach (Node child in GetChildren())
             {
                 if (!ShouldBeExecuting()) { break; }
-                await ExecuteOrShoot(null, child);
+                yield return ExecuteOrShoot(null, child);
             }
             finishedExecuteChildren = true;
         }
 
-        public override async Task Execute()
+        public override Action<CoroutineUtility.Coroutine> GetCancelMethod()
         {
-            if (state == State.Active) { return; }
+            return (_) =>
+            {
+                timeRemaining = 0;
+                if (formationInstance != null && formationDeletionDelay != null && formationDeletionDelay != "")
+                {
+                    float fdd = Solve(PropertyName.formationDeletionDelay).AsSingle();
+                    if (Session.main == null || !Session.main.inSession)
+                    {
+                        formationInstance.QueueFree();
+                    }
+                    else
+                    {
+                        this.StartCoroutine(
+                            CoroutineUtility.DelayedQueueFree(formationInstance, fdd, Wait.TimeUnits.Seconds)
+                        );
+                    }
+                }
+                formationInstance = null;
+                while (sectorStack.Contains(this)) { sectorStack.Pop(); }
+                state = State.Inactive;
+            };
+        }
+
+        public override IEnumerator Execute()
+        {
+            if (state == State.Active) { yield break; }
             state = State.Active;
             timeRemainingCache.Invalidate();
             sectorStack.Push(this);
@@ -228,7 +256,7 @@ namespace Blastula.Schedules
             {
                 formationInstance = formation.Instantiate();
             }
-            while (Persistent.GetMainScene() == null) { await this.WaitOneFrame(); }
+            while (Persistent.GetMainScene() == null) { yield return new WaitOneFrame(); }
             if (formationInstance != null)
             {
                 Persistent.GetMainScene().AddChild(formationInstance);
@@ -237,7 +265,7 @@ namespace Blastula.Schedules
             if (duration != null && duration != "")
             {
                 timeRemaining = Solve(PropertyName.duration).AsSingle();
-                _ = RunTime();
+                this.StartCoroutine(RunTime());
             }
             //GD.Print(Name, " sector has began");
             if (sectorStack.Count == 1)
@@ -245,27 +273,12 @@ namespace Blastula.Schedules
                 StageManager.main.EmitSignal(StageManager.SignalName.StageChanged, this);
             }
             StageManager.main.EmitSignal(StageManager.SignalName.StageSectorChanged, this);
-            ExecuteChildren();
-            await this.WaitUntil(() => !ShouldBeExecuting() || finishedExecuteChildren);
-            if (!endWhenChildrenComplete) { 
-                await this.WaitUntil(() => !ShouldBeExecuting()); 
+            this.StartCoroutine(ExecuteChildren());
+            yield return new WaitCondition(() => !ShouldBeExecuting() || finishedExecuteChildren);
+            if (!endWhenChildrenComplete) {
+                yield return new WaitCondition(() => !ShouldBeExecuting()); 
             }
-            timeRemaining = 0;
-            if (formationInstance != null && formationDeletionDelay != null && formationDeletionDelay != "")
-            {
-                float fdd = Solve(PropertyName.formationDeletionDelay).AsSingle();
-                if (Session.main == null || !Session.main.inSession)
-                {
-                    formationInstance.QueueFree();
-                }
-                else
-                {
-                    Waiters.DelayedQueueFree(formationInstance, fdd, Wait.TimeUnits.Seconds);
-                }
-            }
-            formationInstance = null;
-            while (sectorStack.Contains(this)) { sectorStack.Pop(); }
-            state = State.Inactive;
+            GetCancelMethod()(null);
             //GD.Print(Name, " sector has ended");
         }
 

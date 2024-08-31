@@ -120,6 +120,7 @@ namespace Blastula
                 boundNode = this,
                 cancel = s.GetCancelMethod()
             });
+            ReplayManager.main?.SetSessionStart();
             EmitSignal(SignalName.SessionBeginning);
         }
 
@@ -127,6 +128,8 @@ namespace Blastula
         {
             EmitSignal(SignalName.SessionEnding);
             CoroutineUtility.StopAll();
+            if (ReplayManager.main?.playState == ReplayManager.PlayState.Playing) ReplayManager.main?.EndSinglePlayerReplaySection();
+            ReplayManager.main?.SetSessionEnd();
             if (Session.main != null) { Session.main.EndInSession(); }
             this.StartCoroutine(BackgroundHolder.FadeAway(0));
             StageSector.DumpStack();

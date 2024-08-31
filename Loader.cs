@@ -83,6 +83,15 @@ namespace Blastula
             dispatcher.GetTree().Root.AddChild(n);
         }
 
+        /// <summary>
+        /// Load a PackedScene from another script.
+        /// </summary>
+        public static void LoadExternal(Node dispatcher, PackedScene directScene)
+        {
+            Node n = directScene.Instantiate();
+            dispatcher.GetTree().Root.AddChild(n);
+        }
+
         private async Task CompileShaders()
         {
             SceneTree st = GetTree();

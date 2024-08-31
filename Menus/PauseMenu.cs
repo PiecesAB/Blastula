@@ -15,6 +15,7 @@ namespace Blastula.Menus
         [Export] public BaseMenu confirmMenu;
         [Export] public Vector2 confirmRetryMenuPosition = Vector2.Zero;
         [Export] public Vector2 confirmQuitMenuPosition = Vector2.Zero;
+        [Export] public PackedScene menuToLoadOnQuit;
         private enum ConfirmType { Retry, Quit }
         private ConfirmType confirmType;
 
@@ -80,11 +81,8 @@ namespace Blastula.Menus
                 case ConfirmType.Quit:
                     {
                         Close();
-                        if (StageManager.main != null)
-                        {
-                            StageManager.main.EndSinglePlayerSession();
-                            Loader.LoadExternal(this, Persistent.TITLE_MENU_PATH);
-                        }
+                        StageManager.main.EndSinglePlayerSession();
+                        Loader.LoadExternal(this, menuToLoadOnQuit);
                     }
                     break;
             }

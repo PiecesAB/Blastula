@@ -1,17 +1,19 @@
 using Blastula.Schedules;
 using Blastula.VirtualVariables;
 using Godot;
+using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace Blastula;
 
 public partial class ReplayManager : Node
 {
     public enum Mode { Record, Playback }
+    public enum PlayState { NotPlaying, GettingReadyToPlay, Playing }
 
     public static ReplayManager main;
-    public Mode mode = Mode.Playback;
+    public Mode mode = Mode.Record;
+    public PlayState playState = PlayState.NotPlaying;
 
     public const string SAVE_DIR = "user://replays/";
 
@@ -32,11 +34,113 @@ public partial class ReplayManager : Node
         public List<byte> playerMovement;
     }
 
+    /// <summary>
+    /// Store information about the final state of the session for record purposes; 
+    /// it is certainly not full replay, and it may not correspond to any one replay section.
+    /// </summary>
+    public class FinalResultsStore
+    {
+        public string playerEntry;
+        public Godot.Collections.Dictionary<string, string> sessionSnapshot;
+    }
+
     public ReplayStore playbackStore = null;
 
-    public Error Load(string fileNameNoExtension)
+    /// <summary>
+    /// The grouping directory to store replay segments and final state info for this game session.
+    /// </summary>
+    public string sessionDirectoryName = "";
+    public string currentSectionFileName = "";
+
+    public Error SetSessionStart(string givenDirectory = "")
     {
-        string path = $"{SAVE_DIR}{fileNameNoExtension}.rpy";
+        if (mode == Mode.Record)
+        {
+            sessionDirectoryName = Guid.NewGuid().ToString() + "/";
+            while (DirAccess.DirExistsAbsolute($"{SAVE_DIR}sections/{sessionDirectoryName}"))
+            {
+                sessionDirectoryName = Guid.NewGuid().ToString() + "/";
+            }
+            Error e;
+            if (!DirAccess.DirExistsAbsolute(SAVE_DIR))
+            {
+                e = DirAccess.MakeDirAbsolute(SAVE_DIR);
+                if (e != Error.Ok) return e;
+            }
+            if (!DirAccess.DirExistsAbsolute($"{SAVE_DIR}sections/"))
+            {
+                e = DirAccess.MakeDirAbsolute($"{SAVE_DIR}sections/");
+                if (e != Error.Ok) return e;
+            }
+            if (!DirAccess.DirExistsAbsolute($"{SAVE_DIR}sections/{sessionDirectoryName}"))
+            {
+                e = DirAccess.MakeDirAbsolute($"{SAVE_DIR}sections/{sessionDirectoryName}");
+                if (e != Error.Ok) return e;
+            }
+        }
+        else
+        {
+            if (givenDirectory is null or "")
+            {
+                GD.PushError("You are in playback mode while starting the replay session, but no directory is given. I can't play anything like this.");
+                return Error.FileBadPath;
+            }
+            sessionDirectoryName = givenDirectory;
+        }
+        return Error.Ok;
+    }
+
+    public Error SetSessionEnd()
+    {
+        if (mode == Mode.Record && sessionDirectoryName != "")
+        {
+            // We shall now save the final session info.
+            string path = $"{SAVE_DIR}sections/{sessionDirectoryName}results.res";
+            FileAccess resultsFile = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+            if (resultsFile == null) { return FileAccess.GetOpenError(); }
+
+            FinalResultsStore finalStore = new();
+            finalStore.playerEntry = playbackStore.playerEntry;
+            finalStore.sessionSnapshot = Session.main.CreateReplaySnapshot();
+
+            resultsFile.StorePascalString("Blastula Final Results Data\n");
+            resultsFile.StorePascalString("\nplayerEntry\n");
+            resultsFile.StorePascalString(finalStore.playerEntry);
+            resultsFile.StorePascalString("\nsessionSnapshot\n");
+            resultsFile.StorePascalString(Json.Stringify(finalStore.sessionSnapshot));
+            resultsFile.Close();
+
+            // Don't clear the session directory name here; we may want to erase the folder in the menu.
+        }
+        return Error.Ok;
+    }
+
+    public Error EraseRecordedSessionFolder()
+    {
+        if (mode == Mode.Record && sessionDirectoryName != "")
+        {
+            string path = $"{SAVE_DIR}sections/{sessionDirectoryName}";
+            // Assume there are no subdirectories in this session directory.
+            Error e;
+            foreach (string file in DirAccess.GetFilesAt(path)) {
+                e = DirAccess.RemoveAbsolute(path + file);
+                if (e != Error.Ok) { GD.Print("delete error " + path + file + "  " + e); return e; }
+            }
+            e = DirAccess.RemoveAbsolute(path);
+            if (e != Error.Ok) { GD.Print("delete error " + e); return e; }
+            sessionDirectoryName = "";
+        }
+        return Error.Ok;
+    }
+
+    public Error LoadSection()
+    {
+        if (sessionDirectoryName == "" || currentSectionFileName == "") 
+        { 
+            GD.PushError("Can't load replay section without a grouping folder and file name.");
+            return Error.FileNotFound;
+        }
+        string path = $"{SAVE_DIR}sections/{sessionDirectoryName}{currentSectionFileName}.sec";
         FileAccess settingsFile = FileAccess.Open(path, FileAccess.ModeFlags.Read);
         if (settingsFile == null) { return FileAccess.GetOpenError(); }
         playbackStore = new ReplayStore();
@@ -59,15 +163,15 @@ public partial class ReplayManager : Node
         return Error.Ok;
     }
 
-    public Error Save(string fileNameNoExtension)
+    public Error SaveSection()
     {
-        if (playbackStore == null) return Error.InvalidData;
-        if (!DirAccess.DirExistsAbsolute(SAVE_DIR))
+        if (sessionDirectoryName == "")
         {
-            Error e = DirAccess.MakeDirAbsolute(SAVE_DIR);
-            if (e != Error.Ok) return e;
+            GD.PushError("Can't save replay section without a grouping folder.");
+            return Error.FileNotFound;
         }
-        string path = $"{SAVE_DIR}{fileNameNoExtension}.rpy";
+        if (playbackStore == null) return Error.InvalidData;
+        string path = $"{SAVE_DIR}sections/{sessionDirectoryName}{currentSectionFileName}.sec";
         FileAccess settingsFile = FileAccess.Open(path, FileAccess.ModeFlags.Write);
         if (settingsFile == null) { return FileAccess.GetOpenError(); }
         settingsFile.StorePascalString("Blastula Replay Data\n");
@@ -91,18 +195,29 @@ public partial class ReplayManager : Node
 
     private float internalTimeUntilReplay = 0f;
 
-    public void ScheduleReplayStart()
+    public void ScheduleReplayStart(string newSectionFileName)
     {
+        if (playState == PlayState.Playing)
+        {
+            EndSinglePlayerReplaySection();
+        }
         EmitSignal(SignalName.ReplayStartsSoon, 0.25f);
         internalTimeUntilReplay = 0.25f;
+        playState = PlayState.GettingReadyToPlay;
+        currentSectionFileName = newSectionFileName;
     }
 
-    public void StartSinglePlayerReplay()
+    public void StartSinglePlayerReplaySection()
     {
+        if (playState != PlayState.GettingReadyToPlay)
+        {
+            GD.PushWarning("Starting the replay, but just to let you know, I wasn't ready for it. Probably symptomatic of a deeper problem.");
+        }
+        playState = PlayState.Playing;
         // Any bullets or homologous items? Too bad. You're getting deleted.
         BNodeFunctions.ResetQueue();
         // Now we need to place or create a snapshot of the game state.
-        Player player = Player.playersByControl[Player.Role.SinglePlayer];
+        Player.playersByControl.TryGetValue(Player.Role.SinglePlayer, out Player player);
         if (player == null) throw new System.Exception("Can't start replay: no player.");
         if (player.inputTranslator == null) throw new System.Exception("Can't start replay: Player has no input translator.");
         player.inputTranslator.Reset();
@@ -138,12 +253,25 @@ public partial class ReplayManager : Node
         }
     }
 
-    public void EndSinglePlayerReplay()
+    public void EndSinglePlayerReplaySection()
     {
-        Player player = Player.playersByControl[Player.Role.SinglePlayer];
+        if (playState == PlayState.NotPlaying)
+        {
+            GD.PushWarning("I don't think there is a replay going on; not ending it.");
+            return;
+        }
+        if (playState == PlayState.GettingReadyToPlay)
+        {
+            GD.PushWarning("You shouldn't be trying to end the replay before it even started. Try waiting a bit.");
+            return;
+        }
+        Player.playersByControl.TryGetValue(Player.Role.SinglePlayer, out Player player);
         if (player == null) throw new System.Exception("Can't end replay: no player.");
         if (player.inputTranslator == null) throw new System.Exception("Can't end replay: Player has no input translator.");
         player.inputTranslator.End();
+        SaveSection();
+        currentSectionFileName = "";
+        playState = PlayState.NotPlaying;
     }
 
     public override void _Ready()
@@ -164,7 +292,7 @@ public partial class ReplayManager : Node
                 internalTimeUntilReplay = 0;
                 // The player should have responded to the signal.
                 EmitSignal(SignalName.ReplayStartsNow);
-                StartSinglePlayerReplay();
+                StartSinglePlayerReplaySection();
             }
         }
     }

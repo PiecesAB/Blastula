@@ -1,0 +1,318 @@
+[gd_scene load_steps=16 format=3 uid="uid://ckjrlvofh8rm2"]
+
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_cblvl"]
+[ext_resource type="Texture2D" uid="uid://ckrxpe026jxya" path="res://addons/Blastula/Graphics/UI/sampleBackground.png" id="2_8syod"]
+[ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="3_gqk5f"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/StatsSaveReplayMenu.cs" id="4_31ykp"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/ListNode.cs" id="6_gddmg"]
+[ext_resource type="Texture2D" uid="uid://bxrtp2k7avokd" path="res://addons/Blastula/Graphics/UI/Settings/unit.png" id="6_u12dj"]
+[ext_resource type="FontFile" uid="uid://bo12s148yllcg" path="res://addons/Blastula/Graphics/UI/scoreCharacters.png" id="7_m105k"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/KeyboardMenu.cs" id="7_sq5eh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2drar"]
+shader = ExtResource("1_cblvl")
+shader_parameter/top_color = Vector4(0.2, 0.2, 0.2, 1)
+shader_parameter/bottom_color = Vector4(-5, 0.5, 0.5, 1)
+shader_parameter/glisten_factor = Vector3(0.1, -3, 0.005)
+
+[sub_resource type="Theme" id="Theme_kwmux"]
+
+[sub_resource type="Animation" id="Animation_p7cgo"]
+resource_name = "Highlight"
+loop_mode = 1
+step = 0.02
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.637, 1.204, 1.1, 1), Color(0.529, 1, 0.914, 1), Color(0.637, 1.204, 1.1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.02),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Switch"],
+"method": &"PlayCommonSFXOnce"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ytimw"]
+resource_name = "Normal"
+length = 0.5
+step = 0.02
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.690196, 0.690196, 0.690196, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_v78v1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.690196, 0.690196, 0.690196, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hrn7k"]
+resource_name = "Select"
+length = 0.3
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.15, 0.225, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.637, 1.204, 1.1, 1), Color(0.529, 1, 0.914, 1), Color(0.637, 1.204, 1.1, 1), Color(0.529, 1, 0.914, 1), Color(0.637, 1.204, 1.1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.02),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Select"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c1l31"]
+_data = {
+"Highlight": SubResource("Animation_p7cgo"),
+"Normal": SubResource("Animation_ytimw"),
+"RESET": SubResource("Animation_v78v1"),
+"Select": SubResource("Animation_hrn7k")
+}
+
+[node name="StatsAndSaveReplayMenu" type="Node2D"]
+z_index = 4000
+
+[node name="Rendering Zone" type="Camera2D" parent="."]
+position = Vector2(-10000, 0)
+
+[node name="Control2" type="Control" parent="Rendering Zone"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Main" type="Control" parent="Rendering Zone"]
+z_index = 4000
+layout_mode = 3
+anchors_preset = 0
+offset_left = -853.0
+offset_top = -480.0
+offset_right = 853.0
+offset_bottom = 480.0
+
+[node name="BG" type="TextureRect" parent="Rendering Zone/Main"]
+material = SubResource("ShaderMaterial_2drar")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_8syod")
+expand_mode = 1
+
+[node name="Landing" type="Control" parent="Rendering Zone/Main"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ReplayMessage" type="Label" parent="Rendering Zone/Main/Landing"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 220.0
+offset_right = -6.0
+offset_bottom = 276.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 48
+text = "Save score and replay?"
+horizontal_alignment = 1
+
+[node name="OpeningMenu" type="HBoxContainer" parent="Rendering Zone/Main/Landing" node_paths=PackedStringArray("root")]
+layout_mode = 0
+offset_left = 653.0
+offset_top = 792.0
+offset_right = 1053.0
+offset_bottom = 842.0
+theme_override_constants/separation = 120
+script = ExtResource("4_31ykp")
+root = NodePath("../../../..")
+music = "CanisMinor"
+direction = 1
+cancelable = false
+
+[node name="Yes" type="NinePatchRect" parent="Rendering Zone/Main/Landing/OpeningMenu" node_paths=PackedStringArray("animationPlayer")]
+self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
+custom_minimum_size = Vector2(140, 50)
+layout_mode = 2
+theme = SubResource("Theme_kwmux")
+texture = ExtResource("6_u12dj")
+region_rect = Rect2(12, 12, 488, 104)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+script = ExtResource("6_gddmg")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Main/Landing/OpeningMenu/Yes"]
+libraries = {
+"": SubResource("AnimationLibrary_c1l31")
+}
+autoplay = "Normal"
+blend_times = [&"Highlight", &"Normal", 0.05, &"Normal", &"Highlight", 0.05]
+
+[node name="Text" type="Label" parent="Rendering Zone/Main/Landing/OpeningMenu/Yes"]
+layout_mode = 2
+offset_left = 10.0
+offset_right = 130.0
+offset_bottom = 50.0
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 42
+text = "Yes"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="No" type="NinePatchRect" parent="Rendering Zone/Main/Landing/OpeningMenu" node_paths=PackedStringArray("animationPlayer")]
+self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
+custom_minimum_size = Vector2(140, 50)
+layout_mode = 2
+theme = SubResource("Theme_kwmux")
+texture = ExtResource("6_u12dj")
+region_rect = Rect2(12, 12, 488, 104)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+script = ExtResource("6_gddmg")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Main/Landing/OpeningMenu/No"]
+libraries = {
+"": SubResource("AnimationLibrary_c1l31")
+}
+autoplay = "Normal"
+blend_times = [&"Highlight", &"Normal", 0.05, &"Normal", &"Highlight", 0.05]
+
+[node name="Text" type="Label" parent="Rendering Zone/Main/Landing/OpeningMenu/No"]
+layout_mode = 2
+offset_left = 10.0
+offset_right = 130.0
+offset_bottom = 50.0
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 42
+text = "No"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Entry" type="Control" parent="Rendering Zone/Main"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Keyboard" type="ColorRect" parent="Rendering Zone/Main/Entry" node_paths=PackedStringArray("sample", "crosshair")]
+layout_mode = 0
+offset_left = 298.0
+offset_top = 593.0
+offset_right = 1400.0
+offset_bottom = 913.0
+color = Color(0, 0, 0, 0)
+script = ExtResource("7_sq5eh")
+sample = NodePath("A")
+gridItemSize = Vector2(41, 80)
+columnCount = 26
+keyLetters = PackedStringArray("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "?", "_", "+", "=", "/", "\\", "left", "right", "del", "clr", "submit")
+keyColSpans = PackedInt32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 6)
+crosshair = NodePath("Crosshair")
+
+[node name="Crosshair" type="Panel" parent="Rendering Zone/Main/Entry/Keyboard"]
+layout_mode = 0
+offset_right = 41.0
+offset_bottom = 80.0
+
+[node name="A" type="ColorRect" parent="Rendering Zone/Main/Entry/Keyboard"]
+custom_minimum_size = Vector2(37, 80)
+layout_mode = 2
+offset_left = 19.0
+offset_right = 56.0
+offset_bottom = 80.0
+color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/Keyboard/A"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.5
+offset_right = 1.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_m105k")
+theme_override_font_sizes/font_size = 41
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SafeZone" type="ReferenceRect" parent="Rendering Zone"]
+z_index = 4001
+offset_left = -640.0
+offset_top = -480.0
+offset_right = 640.0
+offset_bottom = 480.0
+border_width = 4.0
+
+[connection signal="SelectAction" from="Rendering Zone/Main/Landing/OpeningMenu/Yes" to="Rendering Zone/Main/Landing/OpeningMenu" method="YesSave"]
+[connection signal="SelectAction" from="Rendering Zone/Main/Landing/OpeningMenu/No" to="Rendering Zone/Main/Landing/OpeningMenu" method="NoSave"]

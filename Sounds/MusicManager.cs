@@ -60,10 +60,15 @@ namespace Blastula.Sounds
         /// Play a piece of music as referenced by its name (or possibly path) in the Godot hierarchy.
         /// This ends the current music immediately.
         /// </summary>
-        public static void PlayImmediate(string nodeName)
+        /// <param name="continueSameMusic">If true, the music won't reset if the same track is already playing.</param>
+        public static void PlayImmediate(string nodeName, bool continueSameMusic = true)
         {
             if (main == null) { return; }
-            if (main.currentMusic != null) { main.currentMusic.Stop(); }
+            if (main.currentMusic != null) 
+            {
+                if (continueSameMusic && main.currentMusic.Name == nodeName) { return; }
+                else { main.currentMusic.Stop(); }
+            }
             if (!main.musicsByNodeName.ContainsKey(nodeName)) { return; }
             Music nextMusic = main.musicsByNodeName[nodeName];
             main.EmitSignal(SignalName.OnMusicChange, main.currentMusic, nextMusic);

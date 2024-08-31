@@ -40,7 +40,7 @@ namespace Blastula.Schedules
                     }
                 }
             });
-            while (IsInsideTree() && (Session.main?.inSession ?? false))
+            while (IsInstanceValid(this) && IsInsideTree() && (Session.main?.inSession ?? false))
             {
                 if (source != null && source is Node && !((Node)source).IsInsideTree()) { break; }
                 if (source != null) { ExpressionSolver.currentLocalContainer = source; }

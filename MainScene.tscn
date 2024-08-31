@@ -1,4 +1,4 @@
-[gd_scene load_steps=157 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=158 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="1_5qpbx"]
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_m6k27"]
@@ -55,6 +55,7 @@
 [ext_resource type="FontFile" uid="uid://c0msc3x0utd1o" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Italic.ttf" id="46_yed1c"]
 [ext_resource type="FontFile" uid="uid://cdkr7rv70t74f" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Bold.ttf" id="47_uvs0x"]
 [ext_resource type="FontFile" uid="uid://dwexpt8v22wmh" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-BoldItalic.ttf" id="48_fojb6"]
+[ext_resource type="PackedScene" uid="uid://ckjrlvofh8rm2" path="res://addons/Blastula/StatsSaveReplayMenu.tscn" id="49_g3jat"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/ScreenSetup.cs" id="49_pv7gi"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/MainBoundary.cs" id="50_4fyhh"]
 [ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="51_suwsw"]
@@ -2673,7 +2674,6 @@ theme_override_font_sizes/font_size = 28
 text = "Insert song name here"
 
 [node name="BossBombOverlay" type="NinePatchRect" parent="Rendering Zone/MainViewHolder/InGameOverlay"]
-visible = false
 self_modulate = Color(1, 1, 1, 0.25098)
 layout_mode = 0
 offset_right = 768.0
@@ -2828,6 +2828,7 @@ script = ExtResource("41_ebkby")
 confirmMenu = NodePath("../Confirmation")
 confirmRetryMenuPosition = Vector2(480, 340)
 confirmQuitMenuPosition = Vector2(480, 660)
+menuToLoadOnQuit = ExtResource("49_g3jat")
 
 [node name="PauseTitle" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu"]
 layout_mode = 2
@@ -3137,7 +3138,7 @@ libraries = {
 "": SubResource("AnimationLibrary_1wglm")
 }
 autoplay = "Closed"
-blend_times = [&"Open", &"Open", 0.1, &"Open", &"Closed", 0.1, &"Closed", &"Open", 0.1, &"Closed", &"Closed", 0.1]
+blend_times = [&"Closed", &"Closed", 0.1, &"Closed", &"Open", 0.1, &"Open", &"Closed", 0.1, &"Open", &"Open", 0.1]
 
 [node name="Title" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation"]
 layout_mode = 2

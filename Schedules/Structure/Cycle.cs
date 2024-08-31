@@ -51,7 +51,7 @@ namespace Blastula.Schedules
                     }
                 }
             });
-            while (cyclesRemaining != 0 && IsInsideTree() && (Session.main?.inSession ?? false))
+            while (cyclesRemaining != 0 && IsInstanceValid(this) && IsInsideTree() && (Session.main?.inSession ?? false))
             {
                 if (source != null && source is Node && !((Node)source).IsInsideTree()) { break; }
                 if (useCompletedCyclesVar)

@@ -50,6 +50,7 @@ number = "5"
 
 [node name="Shift" type="Node" parent="Split/Cycle/Sequence"]
 script = ExtResource("9_qk1ml")
+myRotation = "randf_range(0.0, 360.0)"
 
 [node name="Forth3" type="Node" parent="Split/Cycle/Sequence"]
 script = ExtResource("9_41xl8")

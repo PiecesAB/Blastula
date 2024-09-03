@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://c81krd7jn13vh"]
+[gd_scene load_steps=38 format=3 uid="uid://c81krd7jn13vh"]
 
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="1_3e6oa"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_3r5cj"]
@@ -27,6 +27,9 @@
 [ext_resource type="Shader" path="res://addons/Blastula/PictusXXIV/GrazeboxSpin.gdshader" id="19_i8dr7"]
 [ext_resource type="Shader" path="res://addons/Blastula/PictusXXIV/HitboxFlash.gdshader" id="20_wv1pm"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Enemy/BossSequenceTokens.gdshader" id="21_yxh4m"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Menu/ScoreEntryPortal.gdshader" id="22_lnsje"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Menu/ScoreEntryLine.gdshader" id="23_m3yba"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Menu/ScoreEntryLetter.gdshader" id="24_uc5a6"]
 [ext_resource type="Texture2D" uid="uid://6ltikvcvgx7a" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar1.png" id="28_d1vhe"]
 [ext_resource type="Texture2D" uid="uid://dnicpnwg6nx4b" path="res://addons/Blastula/Graphics/UI/PowerBar/powerBar2.png" id="29_o1g07"]
 
@@ -95,7 +98,7 @@ z_index = 4000
 script = ExtResource("1_7j1j1")
 exitAnimator = NodePath("ExitAnimation")
 shaderLoader = NodePath("Rendering Zone/Control/ShaderLoader")
-shaderCompileList = Array[Shader]([ExtResource("2_ny0r2"), ExtResource("3_1qd8s"), ExtResource("4_gpest"), ExtResource("5_dp5l3"), ExtResource("6_bl57f"), ExtResource("7_4n856"), ExtResource("8_ioibh"), ExtResource("9_x6hp5"), ExtResource("10_6bnq5"), ExtResource("11_5skfb"), ExtResource("12_8ek74"), ExtResource("1_3r5cj"), ExtResource("14_l7s60"), ExtResource("15_a81oq"), ExtResource("16_m628x"), ExtResource("17_v5dl6"), ExtResource("18_ln006"), ExtResource("19_i8dr7"), ExtResource("20_wv1pm"), ExtResource("21_yxh4m")])
+shaderCompileList = Array[Shader]([ExtResource("2_ny0r2"), ExtResource("3_1qd8s"), ExtResource("4_gpest"), ExtResource("5_dp5l3"), ExtResource("6_bl57f"), ExtResource("7_4n856"), ExtResource("8_ioibh"), ExtResource("9_x6hp5"), ExtResource("10_6bnq5"), ExtResource("11_5skfb"), ExtResource("12_8ek74"), ExtResource("1_3r5cj"), ExtResource("14_l7s60"), ExtResource("15_a81oq"), ExtResource("16_m628x"), ExtResource("17_v5dl6"), ExtResource("18_ln006"), ExtResource("19_i8dr7"), ExtResource("20_wv1pm"), ExtResource("21_yxh4m"), ExtResource("22_lnsje"), ExtResource("23_m3yba"), ExtResource("24_uc5a6")])
 fatalErrorSound = NodePath("FatalError")
 successSound = NodePath("Success")
 errorText = NodePath("Rendering Zone/Control/Fatal")

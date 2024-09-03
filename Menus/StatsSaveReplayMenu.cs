@@ -19,6 +19,8 @@ namespace Blastula.Menus
         /// This can be the same as the title menu's music for continuation.
         /// </summary>
         [Export] public string music;
+        [Export] public AnimationPlayer menuSelector;
+        [Export] public BaseMenu replayMenu;
 
         public override void _Ready()
         {
@@ -37,12 +39,14 @@ namespace Blastula.Menus
 
         public void YesSave()
         {
-
+            menuSelector.Play("Entry");
+            replayMenu.Open();
         }
 
-        public void QuitGame()
+        public override void ReturnControl()
         {
-            GetTree().Quit();
+            base.ReturnControl();
+            menuSelector.Play("Landing");
         }
     }
 }

@@ -17,16 +17,18 @@ namespace Blastula.Menus
     {
         /// <summary>
         /// Sample's text within a first child Label will become the key's letter.
+        /// The second child is an animator,
         /// </summary>
         [Export] Control sample;
         [Export] public Vector2 gridItemSize;
         [Export] public int columnCount;
         [Export] public string[] keyLetters;
         [Export] public int[] keyColSpans;
-        [Export] Control crosshair;
         [Export] public Vector2I crosshairGridPos = Vector2I.Zero;
+        [Export] public string backSFXName = "Menu/Back";
         [Export] public string keyChangeSFXName = "Menu/TickRight";
         [Export] public string keyPressSFXName = "Menu/Type";
+        [Export] public bool cancelable = true;
 
         [Signal] public delegate void OnTypeSymbolEventHandler(string symbol);
 
@@ -73,26 +75,36 @@ namespace Blastula.Menus
             int xMax = columnMaxY.Keys.Max();
             columnMaxY[xMax + 1] = columnMaxY[xMax]; columnMaxY[-1] = columnMaxY[0];
             sample.Visible = false;
-            UpdateCrosshair();
         }
 
-        public void UpdateCrosshair()
+        public Vector2 GetCurrentSelectPosition()
         {
-            Control selected = gridPosToControl[crosshairGridPos];
-            crosshair.Position = selected.Position;
-            crosshair.Size = selected.Size;
+            if (!gridPosToControl.ContainsKey(crosshairGridPos)) return Vector2.Zero; // This shouldn't happen
+            return gridPosToControl[crosshairGridPos].GlobalPosition + gridPosToControl[crosshairGridPos].Size * 0.5f;
         }
 
         private bool RegisterPress(string buttonName)
             => InputManager.ButtonPressedThisFrame(buttonName)
-            || (InputManager.GetButtonHeldFrames(buttonName) >= 24 && FrameCounter.realGameFrame % 8 == 0)
-            || (InputManager.GetButtonHeldFrames(buttonName) >= 54 && FrameCounter.realGameFrame % 4 == 0);
+            || (InputManager.GetButtonHeldFrames(buttonName) >= 16 && FrameCounter.realGameFrame % 8 == 0)
+            || (InputManager.GetButtonHeldFrames(buttonName) >= 32 && FrameCounter.realGameFrame % 4 == 0);
+
+        private bool RegisterPressSubmit(string buttonName)
+            => InputManager.ButtonPressedThisFrame(buttonName)
+            || (gridPosToSymbol[crosshairGridPos].Length > 1 && InputManager.GetButtonHeldFrames(buttonName) >= 16 && FrameCounter.realGameFrame % 8 == 0)
+            || (gridPosToSymbol[crosshairGridPos].Length > 1 && InputManager.GetButtonHeldFrames(buttonName) >= 32 && FrameCounter.realGameFrame % 4 == 0);
 
         public override void _Process(double _)
         {
-            base._Process(_);
+            if (!IsActive()) { return; }
 
-            if (InputManager.ButtonPressedThisFrame("Menu/Select") && gridPosToSymbol.ContainsKey(crosshairGridPos))
+            if (cancelable && InputManager.ButtonPressedThisFrame("Menu/Back"))
+            {
+                CommonSFXManager.PlayByName(backSFXName, 1, 0.5f);
+                Close();
+                return;
+            }
+
+            if (gridPosToSymbol.ContainsKey(crosshairGridPos) && RegisterPressSubmit("Menu/Select"))
             {
                 string symbol = gridPosToSymbol[crosshairGridPos];
                 CommonSFXManager.PlayByName(keyPressSFXName);
@@ -117,7 +129,6 @@ namespace Blastula.Menus
                 }
                 crosshairGridPos = gridPosToHead[crosshairGridPos];
                 CommonSFXManager.PlayByName(keyChangeSFXName, 1, 0.5f);
-                UpdateCrosshair();
             }
         }
     }

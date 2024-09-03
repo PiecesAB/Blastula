@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://ckjrlvofh8rm2"]
+[gd_scene load_steps=40 format=3 uid="uid://ckjrlvofh8rm2"]
 
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_cblvl"]
 [ext_resource type="Texture2D" uid="uid://ckrxpe026jxya" path="res://addons/Blastula/Graphics/UI/sampleBackground.png" id="2_8syod"]
@@ -6,14 +6,682 @@
 [ext_resource type="Script" path="res://addons/Blastula/Menus/StatsSaveReplayMenu.cs" id="4_31ykp"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/ListNode.cs" id="6_gddmg"]
 [ext_resource type="Texture2D" uid="uid://bxrtp2k7avokd" path="res://addons/Blastula/Graphics/UI/Settings/unit.png" id="6_u12dj"]
-[ext_resource type="FontFile" uid="uid://bo12s148yllcg" path="res://addons/Blastula/Graphics/UI/scoreCharacters.png" id="7_m105k"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/ScoreboardEntryHandler.cs" id="7_fu6ms"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/KeyboardMenu.cs" id="7_sq5eh"]
+[ext_resource type="FontFile" uid="uid://ixpj4gxreaka" path="res://addons/Blastula/Graphics/UI/scoreAlphanums.png" id="8_25okp"]
+[ext_resource type="FontFile" uid="uid://brdkumahfmmgw" path="res://addons/Blastula/Graphics/UI/mainScoreNumbers.png" id="8_ayg1o"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Menu/ScoreEntryPortal.gdshader" id="9_f27fr"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Menu/ScoreEntryLine.gdshader" id="9_seguf"]
+[ext_resource type="Texture2D" uid="uid://iguporsvys54" path="res://addons/Blastula/Graphics/Bullets/circle16.png" id="10_8nwym"]
+[ext_resource type="Texture2D" uid="uid://bhg26ni3owulw" path="res://addons/Blastula/Graphics/UI/scoreEntryPortalLine.png" id="10_225yf"]
+[ext_resource type="Texture2D" uid="uid://ned7y8ai4kuy" path="res://addons/Blastula/Graphics/UI/scoreEntryPortalNoise.png" id="10_eo7xv"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Menu/SlightVerticalGradient.gdshader" id="10_ixt35"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Menu/ScoreEntryLetter.gdshader" id="18_h263y"]
+
+[sub_resource type="Animation" id="Animation_c2v6h"]
+resource_name = "Entry"
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Landing/Bottom:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.01),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 1000)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Landing/Top:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.01),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -1000)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Entry:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.01),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Landing:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Entry/HighScores:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.01),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(303, 40)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Entry/HighScores/Sample1:custom_minimum_size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.01, 0.3, 0.42),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 44)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Entry/HighScores/Sample2:custom_minimum_size")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.01, 0.33, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 44)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Entry/HighScores/Sample3:custom_minimum_size")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.01, 0.36, 0.48),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 44)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Entry/HighScores/Sample4:custom_minimum_size")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.01, 0.39, 0.51),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 44)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Entry/HighScores/Sample5:custom_minimum_size")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0.01, 0.42, 0.54),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 44)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Entry/HighScores/Sample6:custom_minimum_size")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0.01, 0.45, 0.57),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 44)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Entry/HighScores/Sample7:custom_minimum_size")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0.01, 0.48, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 44)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Entry/HighScores/Sample8:custom_minimum_size")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0.01, 0.51, 0.63),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 44)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Entry/HighScores/Sample9:custom_minimum_size")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0.01, 0.54, 0.66),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 44)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Entry/HighScores/Sample10:custom_minimum_size")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0.01, 0.57, 0.69),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 44)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Entry/Keyboard/A/Label:material:shader_parameter/outer_multiplier")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0.01, 0.89),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2, 0), Vector2(-1, 0)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Entry/ConnectionLine:modulate")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0.01, 0.5, 0.89),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Entry/Keyboard:cancelable")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0.01, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_mshwm"]
+resource_name = "Landing"
+length = 0.5
+step = 0.02
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Landing/Bottom:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.02),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Landing/Top:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.02),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Entry:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.22),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Entry/HighScores:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.02),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(303, -960)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Landing:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.02),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Entry/HighScores/Sample1:custom_minimum_size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Entry/HighScores/Sample2:custom_minimum_size")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Entry/HighScores/Sample3:custom_minimum_size")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Entry/HighScores/Sample4:custom_minimum_size")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Entry/HighScores/Sample5:custom_minimum_size")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Entry/HighScores/Sample6:custom_minimum_size")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Entry/HighScores/Sample7:custom_minimum_size")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Entry/HighScores/Sample8:custom_minimum_size")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Entry/HighScores/Sample9:custom_minimum_size")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Entry/HighScores/Sample10:custom_minimum_size")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Entry/Keyboard/A/Label:material:shader_parameter/outer_multiplier")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 0)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Entry/ConnectionLine:modulate")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_57uh2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Landing/Bottom:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Landing/Top:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Entry:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Entry/HighScores:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(303, -960)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Landing:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Entry/HighScores/Sample1:custom_minimum_size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Entry/HighScores/Sample2:custom_minimum_size")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Entry/HighScores/Sample3:custom_minimum_size")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Entry/HighScores/Sample4:custom_minimum_size")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Entry/HighScores/Sample5:custom_minimum_size")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Entry/HighScores/Sample6:custom_minimum_size")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Entry/HighScores/Sample7:custom_minimum_size")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Entry/HighScores/Sample8:custom_minimum_size")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Entry/HighScores/Sample9:custom_minimum_size")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Entry/HighScores/Sample10:custom_minimum_size")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Entry/Keyboard/A/Label:material:shader_parameter/outer_multiplier")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 0)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Entry/ConnectionLine:modulate")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Entry/Keyboard:cancelable")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kk8ri"]
+_data = {
+"Entry": SubResource("Animation_c2v6h"),
+"Landing": SubResource("Animation_mshwm"),
+"RESET": SubResource("Animation_57uh2")
+}
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2drar"]
 shader = ExtResource("1_cblvl")
 shader_parameter/top_color = Vector4(0.2, 0.2, 0.2, 1)
 shader_parameter/bottom_color = Vector4(-5, 0.5, 0.5, 1)
 shader_parameter/glisten_factor = Vector3(0.1, -3, 0.005)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4y80y"]
+shader = ExtResource("10_ixt35")
+shader_parameter/power = 0.35
 
 [sub_resource type="Theme" id="Theme_kwmux"]
 
@@ -119,17 +787,202 @@ _data = {
 "Select": SubResource("Animation_hrn7k")
 }
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j7jvm"]
+shader = ExtResource("9_seguf")
+shader_parameter/color_multiplier = Vector4(0.5, 1, 1, 1)
+shader_parameter/main_tex = ExtResource("10_225yf")
+
+[sub_resource type="Animation" id="Animation_s40kd"]
+resource_name = "Rest"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ConnectionLine/StartPortal:material:shader_parameter/color_multiplier")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector4(1, 2, 2, 2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ConnectionLine/EndPortal:material:shader_parameter/color_multiplier")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector4(1, 2, 2, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ConnectionLine:material:shader_parameter/color_multiplier")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector4(0, 0.5, 0.5, 0.4)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ConnectionLine:width")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [6.0]
+}
+
+[sub_resource type="Animation" id="Animation_qm7fc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ConnectionLine/StartPortal:material:shader_parameter/color_multiplier")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector4(1, 2, 2, 2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ConnectionLine/EndPortal:material:shader_parameter/color_multiplier")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector4(1, 2, 2, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ConnectionLine:material:shader_parameter/color_multiplier")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector4(0.5, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ConnectionLine:width")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [6.0]
+}
+
+[sub_resource type="Animation" id="Animation_lfjat"]
+resource_name = "Jolt"
+length = 0.2
+step = 0.03
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ConnectionLine:width")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.18),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [32.0, 6.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ConnectionLine:material:shader_parameter/color_multiplier")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.18),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector4(0.5, 1, 1, 1), Vector4(0, 0.5, 0.5, 0.4)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ConnectionLine/StartPortal:material:shader_parameter/color_multiplier")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.18),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector4(2, 4, 4, 2), Vector4(1, 2, 2, 2)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ConnectionLine/EndPortal:material:shader_parameter/color_multiplier")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.18),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector4(2, 4, 4, 1), Vector4(1, 2, 2, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fw2qm"]
+_data = {
+"Jolt": SubResource("Animation_lfjat"),
+"RESET": SubResource("Animation_qm7fc"),
+"Rest": SubResource("Animation_s40kd")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4yeoj"]
+shader = ExtResource("9_f27fr")
+shader_parameter/color_multiplier = Vector4(1, 2, 2, 2)
+shader_parameter/main_tex = ExtResource("10_eo7xv")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hp6ek"]
+shader = ExtResource("9_f27fr")
+shader_parameter/color_multiplier = Vector4(1, 2, 2, 1)
+shader_parameter/main_tex = ExtResource("10_eo7xv")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e5efs"]
+shader = ExtResource("10_ixt35")
+shader_parameter/power = 0.35
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t0alb"]
+shader = ExtResource("10_ixt35")
+shader_parameter/power = 0.35
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b8dot"]
+shader = ExtResource("18_h263y")
+shader_parameter/offset_outer = Vector2(-2000, -2000)
+shader_parameter/outer_multiplier = Vector2(1, 0)
+shader_parameter/offset_inner = Vector2(10000, 0)
+
 [node name="StatsAndSaveReplayMenu" type="Node2D"]
 z_index = 4000
 
 [node name="Rendering Zone" type="Camera2D" parent="."]
 position = Vector2(-10000, 0)
-
-[node name="Control2" type="Control" parent="Rendering Zone"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="Main" type="Control" parent="Rendering Zone"]
 z_index = 4000
@@ -140,7 +993,15 @@ offset_top = -480.0
 offset_right = 853.0
 offset_bottom = 480.0
 
+[node name="MenuSelector" type="AnimationPlayer" parent="Rendering Zone/Main"]
+libraries = {
+"": SubResource("AnimationLibrary_kk8ri")
+}
+autoplay = "Landing"
+blend_times = [&"Landing", &"Entry", 0.2, &"Entry", &"Landing", 0.2]
+
 [node name="BG" type="TextureRect" parent="Rendering Zone/Main"]
+z_index = -1000
 material = SubResource("ShaderMaterial_2drar")
 layout_mode = 1
 anchors_preset = 15
@@ -152,7 +1013,6 @@ texture = ExtResource("2_8syod")
 expand_mode = 1
 
 [node name="Landing" type="Control" parent="Rendering Zone/Main"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -160,17 +1020,429 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ReplayMessage" type="Label" parent="Rendering Zone/Main/Landing"]
+[node name="Top" type="Control" parent="Rendering Zone/Main/Landing"]
+anchors_preset = 0
+offset_right = 1706.0
+offset_bottom = 960.0
+
+[node name="HighScores2" type="VBoxContainer" parent="Rendering Zone/Main/Landing/Top"]
+layout_mode = 0
+offset_left = 303.0
+offset_top = 40.0
+offset_right = 1403.0
+offset_bottom = 560.0
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2"]
+z_index = 200
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 40
+text = "Session Statistics"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerAndDifficulty" type="HBoxContainer" parent="Rendering Zone/Main/Landing/Top/HighScores2"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="DifName" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/PlayerAndDifficulty"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+color = Color(0.815686, 0.815686, 0.815686, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/PlayerAndDifficulty/DifName"]
+z_index = 200
 layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
+anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = 220.0
-offset_right = -6.0
-offset_bottom = 276.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 30
+text = "Difficulty"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Dif" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/PlayerAndDifficulty"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+color = Color(0.690196, 0.690196, 0.690196, 1)
+
+[node name="Label2" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/PlayerAndDifficulty/Dif"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 36
+text = "Severe"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="PlayerName" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/PlayerAndDifficulty"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+color = Color(0.815686, 0.815686, 0.815686, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/PlayerAndDifficulty/PlayerName"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 30
+text = "Player"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Player" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/PlayerAndDifficulty"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+color = Color(0.690196, 0.690196, 0.690196, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/PlayerAndDifficulty/Player"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 36
+text = "Pictus XXIV"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="FinalScore" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2"]
+clip_children = 1
+z_index = -100
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Landing/Top/HighScores2/FinalScore"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/FinalScore/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/FinalScore/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 36
+text = "Final Score"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Value" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/FinalScore/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/FinalScore/Holder/Value"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "123456789"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Continue" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2"]
+clip_children = 1
+z_index = -100
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Landing/Top/HighScores2/Continue"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/Continue/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/Continue/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 36
+text = "Continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Value" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/Continue/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/Continue/Holder/Value"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "0"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Miss" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2"]
+clip_children = 1
+z_index = -100
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Landing/Top/HighScores2/Miss"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/Miss/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/Miss/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 36
+text = "Miss"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Value" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/Miss/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/Miss/Holder/Value"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "0"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Bomb" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2"]
+clip_children = 1
+z_index = -100
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Landing/Top/HighScores2/Bomb"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/Bomb/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/Bomb/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 36
+text = "Bomb"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Value" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/Bomb/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/Bomb/Holder/Value"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "0"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Progress" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2"]
+clip_children = 1
+z_index = -100
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Landing/Top/HighScores2/Progress"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/Progress/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/Progress/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 36
+text = "Progress %"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Value" type="ColorRect" parent="Rendering Zone/Main/Landing/Top/HighScores2/Progress/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Landing/Top/HighScores2/Progress/Holder/Value"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "67.89"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Bottom" type="Control" parent="Rendering Zone/Main/Landing"]
+anchors_preset = 0
+offset_right = 1706.0
+offset_bottom = 960.0
+
+[node name="ReplayMessage" type="Label" parent="Rendering Zone/Main/Landing/Bottom"]
+layout_mode = 0
+offset_top = 700.0
+offset_right = 1706.0
+offset_bottom = 755.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("3_gqk5f")
@@ -178,7 +1450,7 @@ theme_override_font_sizes/font_size = 48
 text = "Save score and replay?"
 horizontal_alignment = 1
 
-[node name="OpeningMenu" type="HBoxContainer" parent="Rendering Zone/Main/Landing" node_paths=PackedStringArray("root")]
+[node name="OpeningMenu" type="HBoxContainer" parent="Rendering Zone/Main/Landing/Bottom" node_paths=PackedStringArray("root", "menuSelector", "replayMenu")]
 layout_mode = 0
 offset_left = 653.0
 offset_top = 792.0
@@ -186,12 +1458,14 @@ offset_right = 1053.0
 offset_bottom = 842.0
 theme_override_constants/separation = 120
 script = ExtResource("4_31ykp")
-root = NodePath("../../../..")
+root = NodePath("../../../../..")
 music = "CanisMinor"
+menuSelector = NodePath("../../../MenuSelector")
+replayMenu = NodePath("../../../Entry/Keyboard")
 direction = 1
 cancelable = false
 
-[node name="Yes" type="NinePatchRect" parent="Rendering Zone/Main/Landing/OpeningMenu" node_paths=PackedStringArray("animationPlayer")]
+[node name="Yes" type="NinePatchRect" parent="Rendering Zone/Main/Landing/Bottom/OpeningMenu" node_paths=PackedStringArray("animationPlayer")]
 self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
 custom_minimum_size = Vector2(140, 50)
 layout_mode = 2
@@ -205,14 +1479,14 @@ patch_margin_bottom = 16
 script = ExtResource("6_gddmg")
 animationPlayer = NodePath("AnimationPlayer")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Main/Landing/OpeningMenu/Yes"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Main/Landing/Bottom/OpeningMenu/Yes"]
 libraries = {
 "": SubResource("AnimationLibrary_c1l31")
 }
 autoplay = "Normal"
 blend_times = [&"Highlight", &"Normal", 0.05, &"Normal", &"Highlight", 0.05]
 
-[node name="Text" type="Label" parent="Rendering Zone/Main/Landing/OpeningMenu/Yes"]
+[node name="Text" type="Label" parent="Rendering Zone/Main/Landing/Bottom/OpeningMenu/Yes"]
 layout_mode = 2
 offset_left = 10.0
 offset_right = 130.0
@@ -223,7 +1497,7 @@ text = "Yes"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="No" type="NinePatchRect" parent="Rendering Zone/Main/Landing/OpeningMenu" node_paths=PackedStringArray("animationPlayer")]
+[node name="No" type="NinePatchRect" parent="Rendering Zone/Main/Landing/Bottom/OpeningMenu" node_paths=PackedStringArray("animationPlayer")]
 self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
 custom_minimum_size = Vector2(140, 50)
 layout_mode = 2
@@ -237,14 +1511,14 @@ patch_margin_bottom = 16
 script = ExtResource("6_gddmg")
 animationPlayer = NodePath("AnimationPlayer")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Main/Landing/OpeningMenu/No"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rendering Zone/Main/Landing/Bottom/OpeningMenu/No"]
 libraries = {
 "": SubResource("AnimationLibrary_c1l31")
 }
 autoplay = "Normal"
 blend_times = [&"Highlight", &"Normal", 0.05, &"Normal", &"Highlight", 0.05]
 
-[node name="Text" type="Label" parent="Rendering Zone/Main/Landing/OpeningMenu/No"]
+[node name="Text" type="Label" parent="Rendering Zone/Main/Landing/Bottom/OpeningMenu/No"]
 layout_mode = 2
 offset_left = 10.0
 offset_right = 130.0
@@ -255,15 +1529,1652 @@ text = "No"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Entry" type="Control" parent="Rendering Zone/Main"]
+[node name="Entry" type="Control" parent="Rendering Zone/Main" node_paths=PackedStringArray("keyboard", "currentNameLabel", "connectionLine", "connectionStart", "connectionEnd", "joltAnimator")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("7_fu6ms")
+keyboard = NodePath("Keyboard")
+nameLabelFont = ExtResource("8_25okp")
+nameLabelFontSizeMultiplier = 1.876
+nameLabelFontSizeAdvancement = 12.0
+currentNameLabel = NodePath("HighScores/Sample1/Holder/Name/Label")
+connectionLine = NodePath("ConnectionLine")
+connectionStart = NodePath("ConnectionLine/StartPortal")
+connectionEnd = NodePath("ConnectionLine/EndPortal")
+joltAnimator = NodePath("ConnectionLine/Anim")
 
-[node name="Keyboard" type="ColorRect" parent="Rendering Zone/Main/Entry" node_paths=PackedStringArray("sample", "crosshair")]
+[node name="ConnectionLine" type="Line2D" parent="Rendering Zone/Main/Entry"]
+modulate = Color(1, 1, 1, 0)
+material = SubResource("ShaderMaterial_j7jvm")
+position = Vector2(10853, 480)
+points = PackedVector2Array(0, 0, 0, 128)
+width = 6.0
+texture = ExtResource("10_8nwym")
+texture_mode = 2
+
+[node name="Anim" type="AnimationPlayer" parent="Rendering Zone/Main/Entry/ConnectionLine"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_fw2qm")
+}
+autoplay = "Rest"
+next/Jolt = &"Rest"
+
+[node name="StartPortal" type="Sprite2D" parent="Rendering Zone/Main/Entry/ConnectionLine"]
+material = SubResource("ShaderMaterial_4yeoj")
+position = Vector2(0, 128)
+scale = Vector2(4, 4)
+texture = ExtResource("10_8nwym")
+
+[node name="EndPortal" type="Sprite2D" parent="Rendering Zone/Main/Entry/ConnectionLine"]
+material = SubResource("ShaderMaterial_hp6ek")
+scale = Vector2(5, 5)
+texture = ExtResource("10_8nwym")
+
+[node name="HighScores" type="VBoxContainer" parent="Rendering Zone/Main/Entry"]
+layout_mode = 0
+offset_left = 303.0
+offset_top = -960.0
+offset_right = 1403.0
+offset_bottom = -440.0
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores"]
+z_index = 200
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 40
+text = "Score Records: Pictus XXIV"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Header" type="HBoxContainer" parent="Rendering Zone/Main/Entry/HighScores"]
+z_index = -100
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="#" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Header"]
+material = SubResource("ShaderMaterial_e5efs")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.815686, 0.815686, 0.815686, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Header/#"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 20
+text = "#"
+vertical_alignment = 1
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Header"]
+material = SubResource("ShaderMaterial_t0alb")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.690196, 0.690196, 0.690196, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Header/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 20
+text = "Name"
+vertical_alignment = 1
+
+[node name="Score" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Header"]
+material = SubResource("ShaderMaterial_t0alb")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.815686, 0.815686, 0.815686, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Header/Score"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 20
+text = "Final Score"
+vertical_alignment = 1
+
+[node name="EndStage" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Header"]
+material = SubResource("ShaderMaterial_t0alb")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.690196, 0.690196, 0.690196, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Header/EndStage"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 20
+text = "Stage"
+vertical_alignment = 1
+
+[node name="Miss" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Header"]
+material = SubResource("ShaderMaterial_t0alb")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.815686, 0.815686, 0.815686, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Header/Miss"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 20
+text = "Miss"
+vertical_alignment = 1
+
+[node name="Bomb" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Header"]
+material = SubResource("ShaderMaterial_t0alb")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.690196, 0.690196, 0.690196, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Header/Bomb"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_gqk5f")
+theme_override_font_sizes/font_size = 20
+text = "Bomb"
+vertical_alignment = 1
+
+[node name="Sample1" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores"]
+clip_children = 1
+z_index = -100
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Entry/HighScores/Sample1"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="#" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample1/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample1/Holder/#"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "1"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample1/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample1/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_25okp")
+theme_override_font_sizes/font_size = 30
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Score" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample1/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample1/Holder/Score"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "100000"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="EndStage" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample1/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample1/Holder/EndStage"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "A"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Miss" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample1/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample1/Holder/Miss"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "3"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Bomb" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample1/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample1/Holder/Bomb"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "1"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Sample2" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores"]
+clip_children = 1
+z_index = -100
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Entry/HighScores/Sample2"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="#" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample2/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample2/Holder/#"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "2"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample2/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample2/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_25okp")
+theme_override_font_sizes/font_size = 30
+text = "Nanaki_"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Score" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample2/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample2/Holder/Score"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "100000"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="EndStage" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample2/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample2/Holder/EndStage"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "6"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Miss" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample2/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample2/Holder/Miss"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "3"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Bomb" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample2/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample2/Holder/Bomb"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "1"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Sample3" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores"]
+clip_children = 1
+z_index = -100
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Entry/HighScores/Sample3"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="#" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample3/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample3/Holder/#"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "3"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample3/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample3/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_25okp")
+theme_override_font_sizes/font_size = 30
+text = "Nanaki_"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Score" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample3/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample3/Holder/Score"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "100000"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="EndStage" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample3/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample3/Holder/EndStage"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "6"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Miss" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample3/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample3/Holder/Miss"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "3"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Bomb" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample3/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample3/Holder/Bomb"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "1"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Sample4" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores"]
+clip_children = 1
+z_index = -100
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Entry/HighScores/Sample4"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="#" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample4/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample4/Holder/#"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "4"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample4/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample4/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_25okp")
+theme_override_font_sizes/font_size = 30
+text = "Nanaki_"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Score" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample4/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample4/Holder/Score"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "100000"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="EndStage" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample4/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample4/Holder/EndStage"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "6"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Miss" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample4/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample4/Holder/Miss"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "3"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Bomb" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample4/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample4/Holder/Bomb"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "1"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Sample5" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores"]
+clip_children = 1
+z_index = -100
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Entry/HighScores/Sample5"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="#" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample5/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample5/Holder/#"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "5"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample5/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample5/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_25okp")
+theme_override_font_sizes/font_size = 30
+text = "Nanaki_"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Score" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample5/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample5/Holder/Score"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "100000"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="EndStage" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample5/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample5/Holder/EndStage"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "6"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Miss" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample5/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample5/Holder/Miss"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "3"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Bomb" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample5/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample5/Holder/Bomb"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "1"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Sample6" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores"]
+clip_children = 1
+z_index = -100
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Entry/HighScores/Sample6"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="#" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample6/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample6/Holder/#"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "6"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample6/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample6/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_25okp")
+theme_override_font_sizes/font_size = 30
+text = "Nanaki_"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Score" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample6/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample6/Holder/Score"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "100000"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="EndStage" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample6/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample6/Holder/EndStage"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "6"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Miss" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample6/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample6/Holder/Miss"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "3"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Bomb" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample6/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample6/Holder/Bomb"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "1"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Sample7" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores"]
+clip_children = 1
+z_index = -100
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Entry/HighScores/Sample7"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="#" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample7/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample7/Holder/#"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "7"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample7/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample7/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_25okp")
+theme_override_font_sizes/font_size = 30
+text = "Nanaki_"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Score" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample7/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample7/Holder/Score"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "100000"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="EndStage" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample7/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample7/Holder/EndStage"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "6"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Miss" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample7/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample7/Holder/Miss"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "3"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Bomb" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample7/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample7/Holder/Bomb"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "1"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Sample8" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores"]
+clip_children = 1
+z_index = -100
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Entry/HighScores/Sample8"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="#" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample8/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample8/Holder/#"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "8"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample8/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample8/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_25okp")
+theme_override_font_sizes/font_size = 30
+text = "Nanaki_"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Score" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample8/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample8/Holder/Score"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "100000"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="EndStage" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample8/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample8/Holder/EndStage"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "6"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Miss" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample8/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample8/Holder/Miss"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "3"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Bomb" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample8/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample8/Holder/Bomb"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "1"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Sample9" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores"]
+clip_children = 1
+z_index = -100
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Entry/HighScores/Sample9"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="#" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample9/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample9/Holder/#"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "9"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample9/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample9/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_25okp")
+theme_override_font_sizes/font_size = 30
+text = "Nanaki_"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Score" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample9/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample9/Holder/Score"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "100000"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="EndStage" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample9/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample9/Holder/EndStage"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "6"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Miss" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample9/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample9/Holder/Miss"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "3"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Bomb" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample9/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample9/Holder/Bomb"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "1"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Sample10" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores"]
+clip_children = 1
+z_index = -100
+layout_mode = 2
+
+[node name="Holder" type="HBoxContainer" parent="Rendering Zone/Main/Entry/HighScores/Sample10"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1100.0
+offset_bottom = 44.0
+theme_override_constants/separation = 0
+
+[node name="#" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample10/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample10/Holder/#"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "10"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Name" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample10/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample10/Holder/Name"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_25okp")
+theme_override_font_sizes/font_size = 30
+text = "Nanaki_"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Score" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample10/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample10/Holder/Score"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "100000"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="EndStage" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample10/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample10/Holder/EndStage"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "6"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Miss" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample10/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample10/Holder/Miss"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "3"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Bomb" type="ColorRect" parent="Rendering Zone/Main/Entry/HighScores/Sample10/Holder"]
+material = SubResource("ShaderMaterial_4y80y")
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+color = Color(0.156863, 0.156863, 0, 1)
+
+[node name="Label" type="Label" parent="Rendering Zone/Main/Entry/HighScores/Sample10/Holder/Bomb"]
+z_index = 200
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_ayg1o")
+theme_override_font_sizes/font_size = 30
+text = "1"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="Keyboard" type="ColorRect" parent="Rendering Zone/Main/Entry" node_paths=PackedStringArray("sample")]
+z_index = -100
 layout_mode = 0
 offset_left = 298.0
 offset_top = 593.0
@@ -276,12 +3187,7 @@ gridItemSize = Vector2(41, 80)
 columnCount = 26
 keyLetters = PackedStringArray("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "?", "_", "+", "=", "/", "\\", "left", "right", "del", "clr", "submit")
 keyColSpans = PackedInt32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 6)
-crosshair = NodePath("Crosshair")
-
-[node name="Crosshair" type="Panel" parent="Rendering Zone/Main/Entry/Keyboard"]
-layout_mode = 0
-offset_right = 41.0
-offset_bottom = 80.0
+cancelable = false
 
 [node name="A" type="ColorRect" parent="Rendering Zone/Main/Entry/Keyboard"]
 custom_minimum_size = Vector2(37, 80)
@@ -292,6 +3198,8 @@ offset_bottom = 80.0
 color = Color(1, 1, 1, 0)
 
 [node name="Label" type="Label" parent="Rendering Zone/Main/Entry/Keyboard/A"]
+z_index = 200
+material = SubResource("ShaderMaterial_b8dot")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -300,7 +3208,7 @@ offset_left = -2.5
 offset_right = 1.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("7_m105k")
+theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 41
 text = "A"
 horizontal_alignment = 1
@@ -314,5 +3222,6 @@ offset_right = 640.0
 offset_bottom = 480.0
 border_width = 4.0
 
-[connection signal="SelectAction" from="Rendering Zone/Main/Landing/OpeningMenu/Yes" to="Rendering Zone/Main/Landing/OpeningMenu" method="YesSave"]
-[connection signal="SelectAction" from="Rendering Zone/Main/Landing/OpeningMenu/No" to="Rendering Zone/Main/Landing/OpeningMenu" method="NoSave"]
+[connection signal="SelectAction" from="Rendering Zone/Main/Landing/Bottom/OpeningMenu/Yes" to="Rendering Zone/Main/Landing/Bottom/OpeningMenu" method="YesSave"]
+[connection signal="SelectAction" from="Rendering Zone/Main/Landing/Bottom/OpeningMenu/No" to="Rendering Zone/Main/Landing/Bottom/OpeningMenu" method="NoSave"]
+[connection signal="OnTypeSymbol" from="Rendering Zone/Main/Entry/Keyboard" to="Rendering Zone/Main/Entry" method="OnTypeSymbol"]

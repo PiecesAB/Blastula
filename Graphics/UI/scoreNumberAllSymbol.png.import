@@ -1,0 +1,22 @@
+[remap]
+
+importer="font_data_image"
+type="FontFile"
+uid="uid://csur30wphdp8q"
+path="res://.godot/imported/scoreNumberAllSymbol.png-68778cd5a371172eaf8d9997c7d85e01.fontdata"
+
+[deps]
+
+source_file="res://addons/Blastula/Graphics/UI/scoreNumberAllSymbol.png"
+dest_files=["res://.godot/imported/scoreNumberAllSymbol.png-68778cd5a371172eaf8d9997c7d85e01.fontdata"]
+
+[params]
+
+character_ranges=PackedStringArray("\'A\'")
+columns=1
+rows=1
+image_margin=Rect2i(0, 0, 0, 0)
+character_margin=Rect2i(0, 0, 0, 0)
+fallbacks=[]
+compress=true
+scaling_mode=2

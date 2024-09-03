@@ -1,0 +1,22 @@
+[remap]
+
+importer="font_data_image"
+type="FontFile"
+uid="uid://ixpj4gxreaka"
+path="res://.godot/imported/scoreAlphanums.png-37d11279b1e1897fb7cbf317b6a0f12d.fontdata"
+
+[deps]
+
+source_file="res://addons/Blastula/Graphics/UI/scoreAlphanums.png"
+dest_files=["res://.godot/imported/scoreAlphanums.png-37d11279b1e1897fb7cbf317b6a0f12d.fontdata"]
+
+[params]
+
+character_ranges=PackedStringArray("\'A\'-\'Z\'", "\'a\'-\'z\'", "\'0\'-\'9\'")
+columns=26
+rows=3
+image_margin=Rect2i(0, 0, 0, 0)
+character_margin=Rect2i(10, 0, 10, 0)
+fallbacks=[Resource("res://addons/Blastula/Graphics/UI/scoreSymbols.png")]
+compress=true
+scaling_mode=2

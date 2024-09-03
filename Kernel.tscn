@@ -1313,7 +1313,6 @@ loopRegion = Vector2(16.696, 150.261)
 
 [node name="CanisMinor" type="AudioStreamPlayer" parent="Sound/Music Manager"]
 stream = ExtResource("71_x7bal")
-volume_db = 2.0
 script = ExtResource("70_abo3h")
 fullName = "My New Body From Canis Minor"
 description = "Stereotypical sci-fi music!!! The melody is often in a different key as if to represent that ones' soul has been placed in a new body. Time to learn how to use it."

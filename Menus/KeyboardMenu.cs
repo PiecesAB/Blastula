@@ -29,6 +29,7 @@ namespace Blastula.Menus
         [Export] public string keyChangeSFXName = "Menu/TickRight";
         [Export] public string keyPressSFXName = "Menu/Type";
         [Export] public bool cancelable = true;
+        [Export] public bool inputEnabled = true;
 
         [Signal] public delegate void OnTypeSymbolEventHandler(string symbol);
 
@@ -84,20 +85,20 @@ namespace Blastula.Menus
         }
 
         private bool RegisterPress(string buttonName)
-            => InputManager.ButtonPressedThisFrame(buttonName)
+            => inputEnabled && (InputManager.ButtonPressedThisFrame(buttonName)
             || (InputManager.GetButtonHeldFrames(buttonName) >= 16 && FrameCounter.realGameFrame % 8 == 0)
-            || (InputManager.GetButtonHeldFrames(buttonName) >= 32 && FrameCounter.realGameFrame % 4 == 0);
+            || (InputManager.GetButtonHeldFrames(buttonName) >= 32 && FrameCounter.realGameFrame % 4 == 0));
 
         private bool RegisterPressSubmit(string buttonName)
-            => InputManager.ButtonPressedThisFrame(buttonName)
+            => inputEnabled && (InputManager.ButtonPressedThisFrame(buttonName)
             || (gridPosToSymbol[crosshairGridPos].Length > 1 && InputManager.GetButtonHeldFrames(buttonName) >= 16 && FrameCounter.realGameFrame % 8 == 0)
-            || (gridPosToSymbol[crosshairGridPos].Length > 1 && InputManager.GetButtonHeldFrames(buttonName) >= 32 && FrameCounter.realGameFrame % 4 == 0);
+            || (gridPosToSymbol[crosshairGridPos].Length > 1 && InputManager.GetButtonHeldFrames(buttonName) >= 32 && FrameCounter.realGameFrame % 4 == 0));
 
         public override void _Process(double _)
         {
             if (!IsActive()) { return; }
 
-            if (cancelable && InputManager.ButtonPressedThisFrame("Menu/Back"))
+            if (cancelable && inputEnabled && InputManager.ButtonPressedThisFrame("Menu/Back"))
             {
                 CommonSFXManager.PlayByName(backSFXName, 1, 0.5f);
                 Close();

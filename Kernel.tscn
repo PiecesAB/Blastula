@@ -1,4 +1,4 @@
-[gd_scene load_steps=206 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=207 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/Coroutine/CoroutineQueueHolder.cs" id="1_cfaxb"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
@@ -158,6 +158,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/EndSession.cs" id="154_a4512"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Comment.cs" id="154_wu8bk"]
 [ext_resource type="PackedScene" uid="uid://ckjrlvofh8rm2" path="res://addons/Blastula/StatsSaveReplayMenu.tscn" id="155_cf8ta"]
+[ext_resource type="Script" path="res://addons/Blastula/LowLevel/ScoresLoader.cs" id="158_8d708"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rw26n"]
 shader = ExtResource("1_w7rds")
@@ -2172,6 +2173,9 @@ settings = {
 "start_bomb": "def.t",
 "start_life": "def.t"
 }
+
+[node name="Scores Loader" type="Node" parent="."]
+script = ExtResource("158_8d708")
 
 [node name="Replay Manager" type="Node" parent="."]
 script = ExtResource("152_dv2we")

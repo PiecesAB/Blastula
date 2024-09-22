@@ -792,108 +792,6 @@ shader = ExtResource("9_seguf")
 shader_parameter/color_multiplier = Vector4(0.5, 1, 1, 1)
 shader_parameter/main_tex = ExtResource("10_225yf")
 
-[sub_resource type="Animation" id="Animation_s40kd"]
-resource_name = "Rest"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ConnectionLine/StartPortal:material:shader_parameter/color_multiplier")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector4(1, 2, 2, 2)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ConnectionLine/EndPortal:material:shader_parameter/color_multiplier")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector4(1, 2, 2, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ConnectionLine:material:shader_parameter/color_multiplier")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector4(0, 0.5, 0.5, 0.4)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("ConnectionLine:width")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [6.0]
-}
-
-[sub_resource type="Animation" id="Animation_qm7fc"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ConnectionLine/StartPortal:material:shader_parameter/color_multiplier")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector4(1, 2, 2, 2)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ConnectionLine/EndPortal:material:shader_parameter/color_multiplier")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector4(1, 2, 2, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ConnectionLine:material:shader_parameter/color_multiplier")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector4(0.5, 1, 1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("ConnectionLine:width")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [6.0]
-}
-
 [sub_resource type="Animation" id="Animation_lfjat"]
 resource_name = "Jolt"
 length = 0.2
@@ -947,6 +845,108 @@ tracks/3/keys = {
 "values": [Vector4(2, 4, 4, 1), Vector4(1, 2, 2, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_qm7fc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ConnectionLine/StartPortal:material:shader_parameter/color_multiplier")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector4(1, 2, 2, 2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ConnectionLine/EndPortal:material:shader_parameter/color_multiplier")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector4(1, 2, 2, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ConnectionLine:material:shader_parameter/color_multiplier")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector4(0.5, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ConnectionLine:width")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [6.0]
+}
+
+[sub_resource type="Animation" id="Animation_s40kd"]
+resource_name = "Rest"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ConnectionLine/StartPortal:material:shader_parameter/color_multiplier")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector4(1, 2, 2, 2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ConnectionLine/EndPortal:material:shader_parameter/color_multiplier")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector4(1, 2, 2, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ConnectionLine:material:shader_parameter/color_multiplier")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector4(0, 0.5, 0.5, 0.4)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ConnectionLine:width")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [6.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fw2qm"]
 _data = {
 "Jolt": SubResource("Animation_lfjat"),
@@ -998,7 +998,7 @@ libraries = {
 "": SubResource("AnimationLibrary_kk8ri")
 }
 autoplay = "Landing"
-blend_times = [&"Landing", &"Entry", 0.2, &"Entry", &"Landing", 0.2]
+blend_times = [&"Entry", &"Landing", 0.2, &"Landing", &"Entry", 0.2]
 
 [node name="BG" type="TextureRect" parent="Rendering Zone/Main"]
 z_index = -1000
@@ -1484,7 +1484,7 @@ libraries = {
 "": SubResource("AnimationLibrary_c1l31")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.05, &"Normal", &"Highlight", 0.05]
+blend_times = [&"Normal", &"Highlight", 0.05, &"Highlight", &"Normal", 0.05]
 
 [node name="Text" type="Label" parent="Rendering Zone/Main/Landing/Bottom/OpeningMenu/Yes"]
 layout_mode = 2
@@ -1516,7 +1516,7 @@ libraries = {
 "": SubResource("AnimationLibrary_c1l31")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.05, &"Normal", &"Highlight", 0.05]
+blend_times = [&"Normal", &"Highlight", 0.05, &"Highlight", &"Normal", 0.05]
 
 [node name="Text" type="Label" parent="Rendering Zone/Main/Landing/Bottom/OpeningMenu/No"]
 layout_mode = 2
@@ -1529,7 +1529,7 @@ text = "No"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Entry" type="Control" parent="Rendering Zone/Main" node_paths=PackedStringArray("keyboard", "currentNameLabel", "connectionLine", "connectionStart", "connectionEnd", "joltAnimator")]
+[node name="Entry" type="Control" parent="Rendering Zone/Main" node_paths=PackedStringArray("mainMenu", "keyboard", "leaderboardRowControls", "connectionLine", "connectionStart", "connectionEnd", "joltAnimator")]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -1538,15 +1538,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("7_fu6ms")
+mainMenu = NodePath("../Landing/Bottom/OpeningMenu")
 keyboard = NodePath("Keyboard")
 nameLabelFont = ExtResource("8_25okp")
 nameLabelFontSizeMultiplier = 1.876
 nameLabelFontSizeAdvancement = 12.0
-currentNameLabel = NodePath("HighScores/Sample1/Holder/Name/Label")
+leaderboardRowControls = [NodePath("HighScores/Sample1"), NodePath("HighScores/Sample2"), NodePath("HighScores/Sample3"), NodePath("HighScores/Sample4"), NodePath("HighScores/Sample5"), NodePath("HighScores/Sample6"), NodePath("HighScores/Sample7"), NodePath("HighScores/Sample8"), NodePath("HighScores/Sample9"), NodePath("HighScores/Sample10")]
 connectionLine = NodePath("ConnectionLine")
 connectionStart = NodePath("ConnectionLine/StartPortal")
 connectionEnd = NodePath("ConnectionLine/EndPortal")
 joltAnimator = NodePath("ConnectionLine/Anim")
+submitSound = "Menu/Select"
 
 [node name="ConnectionLine" type="Line2D" parent="Rendering Zone/Main/Entry"]
 modulate = Color(1, 1, 1, 0)
@@ -1764,7 +1766,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "1"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -1807,7 +1808,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "100000"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -1829,7 +1829,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "A"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -1851,7 +1850,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "3"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -1873,7 +1871,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "1"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -1907,7 +1904,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "2"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -1929,7 +1925,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
-text = "Nanaki_"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -1951,7 +1946,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "100000"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -1973,7 +1967,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "6"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -1995,7 +1988,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "3"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2017,7 +2009,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "1"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2051,7 +2042,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "3"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2073,7 +2063,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
-text = "Nanaki_"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2095,7 +2084,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "100000"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2117,7 +2105,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "6"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2139,7 +2126,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "3"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2161,7 +2147,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "1"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2195,7 +2180,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "4"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2217,7 +2201,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
-text = "Nanaki_"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2239,7 +2222,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "100000"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2261,7 +2243,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "6"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2283,7 +2264,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "3"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2305,7 +2285,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "1"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2339,7 +2318,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "5"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2361,7 +2339,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
-text = "Nanaki_"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2383,7 +2360,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "100000"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2405,7 +2381,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "6"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2427,7 +2402,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "3"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2449,7 +2423,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "1"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2483,7 +2456,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "6"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2505,7 +2477,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
-text = "Nanaki_"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2527,7 +2498,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "100000"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2549,7 +2519,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "6"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2571,7 +2540,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "3"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2593,7 +2561,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "1"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2627,7 +2594,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "7"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2649,7 +2615,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
-text = "Nanaki_"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2671,7 +2636,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "100000"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2693,7 +2657,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "6"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2715,7 +2678,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "3"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2737,7 +2699,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "1"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2771,7 +2732,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "8"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2793,7 +2753,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
-text = "Nanaki_"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2815,7 +2774,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "100000"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2837,7 +2795,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "6"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2859,7 +2816,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "3"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2881,7 +2837,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "1"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2915,7 +2870,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "9"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2937,7 +2891,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
-text = "Nanaki_"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2959,7 +2912,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "100000"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2981,7 +2933,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "6"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -3003,7 +2954,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "3"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -3025,7 +2975,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "1"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -3059,7 +3008,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "10"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -3081,7 +3029,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
-text = "Nanaki_"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -3103,7 +3050,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "100000"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -3125,7 +3071,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "6"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -3147,7 +3092,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "3"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -3169,7 +3113,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_ayg1o")
 theme_override_font_sizes/font_size = 30
-text = "1"
 vertical_alignment = 1
 text_overrun_behavior = 1
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=207 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=209 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/Coroutine/CoroutineQueueHolder.cs" id="1_cfaxb"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
@@ -144,6 +144,7 @@
 [ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/PictusXXIV/PictusXXIV.tscn" id="128_p54iq"]
 [ext_resource type="PackedScene" uid="uid://bhqd5e51x5qy6" path="res://addons/Blastula/Session/Backgrounds/Lab/lab.tscn" id="129_yne45"]
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/SettingsLoader.cs" id="130_wuyde"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossStandardBonusHandler.cs" id="133_wq7oa"]
 [ext_resource type="PackedScene" uid="uid://ccm1h8jgbo63m" path="res://addons/Blastula/Session/Enemy/ExampleBoss/ExampleBoss.tscn" id="135_ekk57"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossRefill.cs" id="136_1n5ct"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Structure/Cycle.cs" id="137_u6g8j"]
@@ -154,6 +155,7 @@
 [ext_resource type="PackedScene" uid="uid://yu6t1ck8e2qi" path="res://addons/Blastula/Session/Enemy/ExampleBoss/Attack1.tscn" id="146_6s870"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/GameSpeed.cs" id="146_xag8p"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/PlaySound.cs" id="147_u0p35"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/SetupBossBomb.cs" id="151_7y7qe"]
 [ext_resource type="Script" path="res://addons/Blastula/Replay/ReplayManager.cs" id="152_dv2we"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/EndSession.cs" id="154_a4512"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Comment.cs" id="154_wu8bk"]
@@ -1833,6 +1835,9 @@ script = ExtResource("146_xag8p")
 mode = 1
 effectDuration = "2"
 
+[node name="Boss Standard Bonus Handler" type="Node" parent="Game Logic"]
+script = ExtResource("133_wq7oa")
+
 [node name="Player Manager" type="Node" parent="."]
 script = ExtResource("126_daosb")
 
@@ -1932,6 +1937,11 @@ shouldUseTimer = true
 
 [node name="Wait" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("66_doh6d")
+waitTime = "3"
+
+[node name="Setup" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
+script = ExtResource("151_7y7qe")
+displayedBombName = "Sample Name A"
 
 [node name="ShakeCamera" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("139_oisx3")

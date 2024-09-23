@@ -1,17 +1,13 @@
 using Blastula.Collision;
 using Blastula.Coroutine;
 using Blastula.Graphics;
-using Blastula.Input;
 using Blastula.LowLevel;
 using Blastula.Operations;
 using Blastula.Sounds;
 using Blastula.VirtualVariables;
 using Godot;
-using Godot.Collections;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Blastula
 {
@@ -199,9 +195,9 @@ namespace Blastula
 
 		public enum LifeState
 		{
-			Normal, 
-			Dying, 
-			Recovering, 
+			Normal,
+			Dying,
+			Recovering,
 			Invulnerable
 		}
 		public LifeState lifeState = LifeState.Normal;
@@ -236,6 +232,9 @@ namespace Blastula
 		/// </summary>
 		public List<Blastodisc> varDiscs = new List<Blastodisc>();
 		public static System.Collections.Generic.Dictionary<Role, Player> playersByControl = new System.Collections.Generic.Dictionary<Role, Player>();
+
+		[Signal] public delegate void OnBombBeganEventHandler();
+		[Signal] public delegate void OnStruckEventHandler();
 
 		public override void _Ready()
 		{
@@ -467,6 +466,7 @@ namespace Blastula
 				Persistent.GetMainScene().AddChild(item);
 				item.GlobalPosition = GlobalPosition;
 			}
+			EmitSignal(SignalName.OnBombBegan);
 			yield return new WaitTime(bombDuration);
 			bombing = false;
 			this.StartCoroutine(Recover(bombRecoveryDuration));
@@ -482,6 +482,7 @@ namespace Blastula
 			lifeState = LifeState.Dying;
 			recoveryGracePeriodActive = false;
 			CommonSFXManager.PlayByName("Player/Struck", 1, 1f, GlobalPosition, true);
+			EmitSignal(SignalName.OnStruck);
 			deathbombBuffer.Replenish((ulong)deathbombFrames);
 			while (!deathbombBuffer.Elapsed())
 			{

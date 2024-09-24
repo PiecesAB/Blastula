@@ -1,4 +1,4 @@
-[gd_scene load_steps=160 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=165 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="1_5qpbx"]
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_m6k27"]
@@ -48,6 +48,9 @@
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Additive.gdshader" id="42_rcii8"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/ListNode.cs" id="43_0alcd"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Holotext.gdshader" id="43_blujs"]
+[ext_resource type="ArrayMesh" uid="uid://cjwtvg6y6fswd" path="res://addons/Blastula/Graphics/UI/Bomb/BossBackgroundCurve.obj" id="43_c53nf"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/BossBombBackgroundScroll.gdshader" id="43_l2vxo"]
+[ext_resource type="Texture2D" uid="uid://boinqee0mkurv" path="res://addons/Blastula/Graphics/UI/Bomb/bombSpecialText.png" id="44_60tut"]
 [ext_resource type="Texture2D" uid="uid://daj2amdu2w2i4" path="res://addons/Blastula/Graphics/UI/WordIcons/overlayIconBonus.png" id="44_72fw3"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/ListMenu.cs" id="44_j3yym"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Debug/DebugConsole.cs" id="45_jhi6l"]
@@ -55,6 +58,7 @@
 [ext_resource type="FontFile" uid="uid://csxmhwm67n2d8" path="res://addons/Blastula/Graphics/UI/historyTokens.png" id="46_s1nob"]
 [ext_resource type="FontFile" uid="uid://c0msc3x0utd1o" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Italic.ttf" id="46_yed1c"]
 [ext_resource type="FontFile" uid="uid://cdkr7rv70t74f" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Bold.ttf" id="47_uvs0x"]
+[ext_resource type="Texture2D" uid="uid://iguporsvys54" path="res://addons/Blastula/Graphics/Bullets/circle16.png" id="48_5wg3q"]
 [ext_resource type="FontFile" uid="uid://dwexpt8v22wmh" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-BoldItalic.ttf" id="48_fojb6"]
 [ext_resource type="PackedScene" uid="uid://ckjrlvofh8rm2" path="res://addons/Blastula/StatsSaveReplayMenu.tscn" id="49_g3jat"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/ScreenSetup.cs" id="49_pv7gi"]
@@ -333,6 +337,7 @@ shader_parameter/glisten_factor = Vector3(0.2, 4, 0.2)
 [sub_resource type="Animation" id="Animation_e8b8j"]
 resource_name = "Activate"
 length = 5.0
+step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -364,10 +369,10 @@ tracks/2/path = NodePath("BombInfo:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(-0.2, 0, 1.5, 2.5),
+"times": PackedFloat32Array(-0.2, 0, 2.2, 3.2),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(68, 600), Vector2(68, 600), Vector2(68, 600), Vector2(68, 6)]
+"values": [Vector2(68, 600), Vector2(68, 600), Vector2(68, 600), Vector2(68, 0)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -376,10 +381,60 @@ tracks/3/path = NodePath("../../Timer:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 2.5),
+"times": PackedFloat32Array(2.2, 3.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(324, 0), Vector2(324, 60)]
+"values": [Vector2(324, 0), Vector2(324, 54)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BossTextureContainer/BossTexture2:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("BossTextureContainer/BossTexture2:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5, 2.2, 3.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(791, 197), Vector2(146, 58), Vector2(40, 20), Vector2(-781, -285)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("BossTextureContainer/Back:material:shader_parameter/main_color")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.6, 2.2, 3.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector4(1, 1, 1, 0), Vector4(1, 1, 1, 0.3), Vector4(1, 1, 1, 0.3), Vector4(1, 1, 1, 0)]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("..")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.01),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["BombStart"],
+"method": &"PlayCommonSFX"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_k0pex"]
@@ -432,6 +487,18 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(324, 0)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BossTextureContainer/BossTexture2:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, false]
+}
 
 [sub_resource type="Animation" id="Animation_ljdhk"]
 length = 0.001
@@ -483,6 +550,42 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(324, 0)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BossTextureContainer/BossTexture2:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("BossTextureContainer/BossTexture2:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(22, -50)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("BossTextureContainer/Back:material:shader_parameter/main_color")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector4(1, 1, 1, 0.5)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ebkgf"]
 _data = {
@@ -490,6 +593,12 @@ _data = {
 "Inactive": SubResource("Animation_k0pex"),
 "RESET": SubResource("Animation_ljdhk")
 }
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lrr4w"]
+shader = ExtResource("43_l2vxo")
+shader_parameter/main_color = Vector4(1, 1, 1, 0.5)
+shader_parameter/grid_dimensions = Vector2(20, 16)
+shader_parameter/main_tex = ExtResource("44_60tut")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5w84i"]
 shader = ExtResource("43_blujs")
@@ -2748,13 +2857,14 @@ theme_override_fonts/font = ExtResource("35_nf306")
 theme_override_font_sizes/font_size = 28
 text = "Insert song name here"
 
-[node name="BombOverlays" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay" node_paths=PackedStringArray("bossOverlayAnimator", "bossDisplayLabel", "bossBonusScoreLabel")]
+[node name="BombOverlays" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay" node_paths=PackedStringArray("bossOverlayAnimator", "bossDisplayLabel", "bossTextureRect", "bossBonusScoreLabel")]
 anchors_preset = 0
 offset_right = 768.0
 offset_bottom = 896.0
 script = ExtResource("41_gijc8")
 bossOverlayAnimator = NodePath("BossBombOverlay/AnimationPlayer")
 bossDisplayLabel = NodePath("BossBombOverlay/BombInfo/Label")
+bossTextureRect = NodePath("BossBombOverlay/BossTextureContainer/BossTexture2")
 bossBonusScoreLabel = NodePath("BossBombOverlay/BombInfo/Counters/BonusScore")
 
 [node name="BossBombOverlay" type="NinePatchRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/BombOverlays"]
@@ -2776,13 +2886,49 @@ libraries = {
 autoplay = "Inactive"
 blend_times = [&"Activate", &"Inactive", 0.1]
 
+[node name="BossTextureContainer" type="ColorRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/BombOverlays/BossBombOverlay"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -0.00012207
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Back" type="MeshInstance2D" parent="Rendering Zone/MainViewHolder/InGameOverlay/BombOverlays/BossBombOverlay/BossTextureContainer"]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_lrr4w")
+position = Vector2(-1037, -959)
+rotation = -0.20944
+scale = Vector2(2000, 2000)
+mesh = ExtResource("43_c53nf")
+texture = ExtResource("48_5wg3q")
+
+[node name="Back2" type="MeshInstance2D" parent="Rendering Zone/MainViewHolder/InGameOverlay/BombOverlays/BossBombOverlay/BossTextureContainer"]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_lrr4w")
+position = Vector2(-500, 558)
+rotation = -0.20944
+scale = Vector2(2000, 2000)
+mesh = ExtResource("43_c53nf")
+texture = ExtResource("48_5wg3q")
+
+[node name="BossTexture2" type="TextureRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/BombOverlays/BossBombOverlay/BossTextureContainer"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = -50.0
+offset_right = 742.0
+offset_bottom = 670.0
+texture = ExtResource("48_5wg3q")
+
 [node name="BombInfo" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay/BombOverlays/BossBombOverlay"]
 self_modulate = Color(1, 1, 1, 0)
 anchors_preset = 0
 offset_left = 68.0
 offset_top = 600.0
 offset_right = 768.0
-offset_bottom = 680.0
+offset_bottom = 679.999
 
 [node name="Back" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay/BombOverlays/BossBombOverlay/BombInfo"]
 layout_mode = 1
@@ -2823,7 +2969,9 @@ layout_mode = 2
 offset_left = -16.0
 offset_right = 684.0
 offset_bottom = 80.0
-theme_override_fonts/font = ExtResource("35_nf306")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("22_hvkwy")
 theme_override_font_sizes/font_size = 32
 text = "..."
 horizontal_alignment = 2
@@ -3018,7 +3166,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3059,7 +3207,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3098,7 +3246,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Retry"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3137,7 +3285,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Settings"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3176,7 +3324,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
+blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/End"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3281,7 +3429,7 @@ animationPlayer = NodePath("AnimationPlayer")
 libraries = {
 "": SubResource("AnimationLibrary_rkflj")
 }
-blend_times = [&"Highlight", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Normal", &"Normal", 0.1]
+blend_times = [&"Normal", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Highlight", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
 material = SubResource("ShaderMaterial_n41s0")

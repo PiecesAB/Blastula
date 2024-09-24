@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cjwtvg6y6fswd"
+path="res://.godot/imported/BossBackgroundCurve.obj-c94796fd4a069fc15b93590bca57b72c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/BossBackgroundCurve.obj-c94796fd4a069fc15b93590bca57b72c.mesh"]
+
+source_file="res://addons/Blastula/Graphics/UI/Bomb/BossBackgroundCurve.obj"
+dest_files=["res://.godot/imported/BossBackgroundCurve.obj-c94796fd4a069fc15b93590bca57b72c.mesh", "res://.godot/imported/BossBackgroundCurve.obj-c94796fd4a069fc15b93590bca57b72c.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

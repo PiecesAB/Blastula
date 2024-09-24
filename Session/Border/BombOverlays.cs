@@ -2,6 +2,7 @@ using Blastula.Schedules;
 using Blastula.Coroutine;
 using Godot;
 using System.Collections;
+using Blastula.Sounds;
 
 namespace Blastula.Graphics
 {
@@ -12,17 +13,23 @@ namespace Blastula.Graphics
 	{
 		[Export] public AnimationPlayer bossOverlayAnimator;
 		[Export] public Label bossDisplayLabel;
+		[Export] public TextureRect bossTextureRect;
 		[Export] public Label bossBonusScoreLabel;
 		[Export] public Label playerDisplayLabel;
 		[Export] public AnimationPlayer playerOverlayAnimator;
 
 		public static BombOverlays main;
 
-		[Signal] public delegate void OnBossBombOverlayEventHandler(string displayName);
+		[Signal] public delegate void OnBossBombOverlayEventHandler(string displayName, Texture2D texture);
 		[Signal] public delegate void OnPlayerBombOverlayEventHandler(string displayName);
 
 		private StageSector currentBossOverlaySector;
 		private StageSector currentPlayerOverlaySector;
+
+		public void PlayCommonSFX(string name)
+		{
+			CommonSFXManager.PlayByName(name);
+		}
 
 		public IEnumerator WaitForEndBossBombSector()
 		{
@@ -44,9 +51,10 @@ namespace Blastula.Graphics
 			playerOverlayAnimator.Play("Inactive");
 		}
 
-		public void StartBossBombOverlay(string displayName)
+		public void StartBossBombOverlay(string displayName, Texture2D texture)
 		{
 			if (bossDisplayLabel != null) bossDisplayLabel.Text = displayName;
+			if (bossTextureRect != null) bossTextureRect.Texture = texture;
 			StageSector stageSector = StageSector.GetCurrentSector();
 			currentBossOverlaySector = stageSector;
 			bossOverlayAnimator.Play("Activate");

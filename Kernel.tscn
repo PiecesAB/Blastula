@@ -1935,13 +1935,17 @@ duration = "30"
 endWhenChildrenComplete = false
 shouldUseTimer = true
 
-[node name="Wait" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
+[node name="Wait2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("66_doh6d")
-waitTime = "3"
 
 [node name="Setup" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("151_7y7qe")
 displayedBombName = "Sample Name A"
+bossTexture = ExtResource("19_8tg4g")
+
+[node name="Wait" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
+script = ExtResource("66_doh6d")
+waitTime = "4"
 
 [node name="ShakeCamera" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("139_oisx3")

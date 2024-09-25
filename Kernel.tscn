@@ -1,4 +1,4 @@
-[gd_scene load_steps=209 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=210 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/Coroutine/CoroutineQueueHolder.cs" id="1_cfaxb"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
@@ -144,9 +144,10 @@
 [ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/PictusXXIV/PictusXXIV.tscn" id="128_p54iq"]
 [ext_resource type="PackedScene" uid="uid://bhqd5e51x5qy6" path="res://addons/Blastula/Session/Backgrounds/Lab/lab.tscn" id="129_yne45"]
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/SettingsLoader.cs" id="130_wuyde"]
-[ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossStandardBonusHandler.cs" id="133_wq7oa"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Boss/BossStandardBonusHandler.cs" id="133_wq7oa"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Boss/HistoryHandler.cs" id="134_ehml8"]
 [ext_resource type="PackedScene" uid="uid://ccm1h8jgbo63m" path="res://addons/Blastula/Session/Enemy/ExampleBoss/ExampleBoss.tscn" id="135_ekk57"]
-[ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossRefill.cs" id="136_1n5ct"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Boss/BossRefill.cs" id="136_1n5ct"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Structure/Cycle.cs" id="137_u6g8j"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/DropCollectible.cs" id="138_ws6lk"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/ShakeCamera.cs" id="139_oisx3"]
@@ -1837,6 +1838,10 @@ effectDuration = "2"
 
 [node name="Boss Standard Bonus Handler" type="Node" parent="Game Logic"]
 script = ExtResource("133_wq7oa")
+
+[node name="History Handler" type="Node" parent="Game Logic"]
+script = ExtResource("134_ehml8")
+valueMode = 0
 
 [node name="Player Manager" type="Node" parent="."]
 script = ExtResource("126_daosb")

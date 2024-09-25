@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
+using static Blastula.ScoresLoader;
 
 namespace Blastula
 {
@@ -162,27 +163,62 @@ namespace Blastula
 
 		public List<Row> LoadRows(RowSorter sorter = null)
 		{
-			FileAccess existingFile = OpenFile(FileAccess.ModeFlags.Read);
-			var rows = Row.ReadAllFromFile(existingFile);
-			existingFile.Close();
+			FileAccess existingFile = null;
+			List<Row> rows = new();
+			try
+			{
+				existingFile = OpenFile(FileAccess.ModeFlags.Read);
+				rows = Row.ReadAllFromFile(existingFile);
+			}
+			catch (Exception e)
+			{
+				GD.PushError($"Problem loading scores: {e.Message}");
+			}
+			finally
+			{
+				if (existingFile != null) existingFile.Close();
+			}
+			
 			if (sorter != null) { rows.Sort(sorter); }
 			return rows;
 		}
 
 		public void SaveRow(Row row)
 		{
-			FileAccess existingFile = OpenFile(FileAccess.ModeFlags.ReadWrite);
-			existingFile.SeekEnd();
-			row.WriteToFile(existingFile);
-			existingFile.Close();
+			FileAccess existingFile = null;
+			try
+			{
+				existingFile = OpenFile(FileAccess.ModeFlags.ReadWrite);
+				existingFile.SeekEnd();
+				row.WriteToFile(existingFile);
+			}
+			catch (Exception e)
+			{
+				GD.PushError($"Problem saving scores: {e.Message}");
+			}
+			finally
+			{
+				if (existingFile != null) existingFile.Close();
+			}
 		}
 
 		public void SaveRows(List<Row> rows)
 		{
-			FileAccess existingFile = OpenFile(FileAccess.ModeFlags.ReadWrite);
-			existingFile.SeekEnd();
-			Row.WriteAllToFile(rows, existingFile);
-			existingFile.Close();
+			FileAccess existingFile = null;
+			try
+			{
+				existingFile = OpenFile(FileAccess.ModeFlags.ReadWrite);
+				existingFile.SeekEnd();
+				Row.WriteAllToFile(rows, existingFile);
+			}
+			catch (Exception e)
+			{
+				GD.PushError($"Problem saving scores: {e.Message}");
+			}
+			finally
+			{
+				if (existingFile != null) existingFile.Close();
+			}
 		}
 	}
 }

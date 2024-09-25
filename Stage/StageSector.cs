@@ -177,6 +177,15 @@ namespace Blastula.Schedules
 			return stageSector.timeRemaining;
 		}
 
+		/// <summary>
+		/// Get a unique ID; may be different than the kernel path in the future (assuming StageSector is in kernel).
+		/// </summary>
+		/// <returns></returns>
+		public string GetUniqueId()
+		{
+			return "Path@" + GetPath();
+		}
+
 		public bool ShouldBeExecuting()
 		{
 			return sectorStack.Contains(this) && timeRemaining >= 0.0001;

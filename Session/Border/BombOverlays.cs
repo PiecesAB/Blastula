@@ -7,14 +7,21 @@ using Blastula.Sounds;
 namespace Blastula.Graphics
 {
 	/// <summary>
-	/// Idiosyncratic; manages the overlays which appear 
+	/// Idiosyncratic; manages the overlays which appear as the boss declares a special attack.
 	/// </summary>
 	public partial class BombOverlays : Node
 	{
+		[ExportGroup("Boss")]
 		[Export] public AnimationPlayer bossOverlayAnimator;
 		[Export] public Label bossDisplayLabel;
 		[Export] public TextureRect bossTextureRect;
 		[Export] public Label bossBonusScoreLabel;
+		[ExportSubgroup("History")]
+		[Export] public Label bossHistoryCodedBlocksLabel;
+		[Export] public Control bossHistoryClassicVisibility;
+		[Export] public Label bossHistoryClassicLabel;
+
+		[ExportGroup("Player")]
 		[Export] public Label playerDisplayLabel;
 		[Export] public AnimationPlayer playerOverlayAnimator;
 
@@ -55,6 +62,27 @@ namespace Blastula.Graphics
 		{
 			if (bossDisplayLabel != null) bossDisplayLabel.Text = displayName;
 			if (bossTextureRect != null) bossTextureRect.Texture = texture;
+			if (bossHistoryClassicLabel != null && bossHistoryClassicVisibility != null && bossHistoryCodedBlocksLabel != null)
+			{
+				var mode = HistoryHandler.main?.valueMode ?? HistoryHandler.ValueMode.Classic;
+				var newText = HistoryHandler.main?.GetCurrentHistoryString() ?? "-";
+				if (mode == HistoryHandler.ValueMode.Classic)
+				{
+					bossHistoryCodedBlocksLabel.Visible = false;
+					bossHistoryClassicVisibility.Visible = true;
+					bossHistoryClassicLabel.Text = newText;
+				} 
+				else if (mode == HistoryHandler.ValueMode.CodedBlocks)
+				{
+					bossHistoryCodedBlocksLabel.Visible = true;
+					bossHistoryCodedBlocksLabel.Text = newText;
+					bossHistoryClassicVisibility.Visible = false;
+				} 
+				else
+				{
+					throw new System.InvalidOperationException("???");
+				}
+			}
 			StageSector stageSector = StageSector.GetCurrentSector();
 			currentBossOverlaySector = stageSector;
 			bossOverlayAnimator.Play("Activate");

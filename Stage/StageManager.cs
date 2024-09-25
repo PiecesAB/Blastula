@@ -143,6 +143,7 @@ namespace Blastula
             BNodeFunctions.ResetQueue();
             MusicManager.Stop();
             LabelPool.StopAll();
+            if (HistoryHandler.main != null) HistoryHandler.Save();
         }
 
         public Godot.Collections.Dictionary<string, string> CreateReplaySnapshot()

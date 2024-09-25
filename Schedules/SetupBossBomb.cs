@@ -35,11 +35,6 @@ namespace Blastula.Operations
 			} 
 			else
 			{
-				BombOverlays.main.EmitSignal(
-					BombOverlays.SignalName.OnBossBombOverlay, 
-					displayedBombName,
-					bossTexture
-				);
 				if (BossStandardBonusHandler.main?.IsEnabled() == true)
 				{
 					BossStandardBonusHandler.main.StartCalculation(
@@ -47,6 +42,12 @@ namespace Blastula.Operations
 						bonusPerExtraSecond is null or "" ? 0 : Solve(PropertyName.bonusPerExtraSecond).AsDouble()
 					);
 				}
+				HistoryHandler.main?.StartCalculation();
+				BombOverlays.main.EmitSignal(
+					BombOverlays.SignalName.OnBossBombOverlay,
+					displayedBombName,
+					bossTexture
+				);
 			}
 			yield break;
 		}

@@ -1,10 +1,10 @@
 [gd_scene load_steps=18 format=3 uid="uid://ccm1h8jgbo63m"]
 
-[ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossEnemy.cs" id="1_gx5k0"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Boss/BossEnemy.cs" id="1_gx5k0"]
 [ext_resource type="Texture2D" uid="uid://cgg752h3ys7w2" path="res://addons/Blastula/Graphics/NodeIcons/enemy.png" id="2_j32u0"]
 [ext_resource type="Script" path="res://addons/Blastula/Collision/BlastulaCollider.cs" id="3_5o3tc"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Target.cs" id="4_ry036"]
-[ext_resource type="Script" path="res://addons/Blastula/Session/Enemy/BossHealthIndicator.cs" id="5_lruy6"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Boss/BossHealthIndicator.cs" id="5_lruy6"]
 [ext_resource type="Texture2D" uid="uid://bbe4o5c2h56o2" path="res://addons/Blastula/Graphics/Enemy/bossBarBack.png" id="6_yjvux"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Additive.gdshader" id="7_tw2gj"]
 [ext_resource type="Texture2D" uid="uid://b7wh00s8sgoi7" path="res://addons/Blastula/Graphics/Enemy/bossBar2.png" id="8_b0mw3"]

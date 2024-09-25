@@ -17,14 +17,15 @@ namespace Blastula
 
 		private Callable mainPlayerBombConnection;
 		private Callable mainPlayerStruckConnection;
-
-		private StageSector bonusSector;
+		
 		private double baseBonus;
 		private double bonusPerExtraSecond;
 		private Player mainPlayer;
+		private StageSector bonusSector;
 		private bool withinAttack = false;
-		private BigInteger currentBonus = 0;
 		private bool bonusFailed = false;
+		private BigInteger currentBonus = 0;
+		
 
 		public BigInteger GetCurrentBonus()
 		{

@@ -2700,8 +2700,8 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -60.0
-offset_right = 60.0
+offset_left = 324.0
+offset_right = 444.0
 offset_bottom = 52.0003
 grow_horizontal = 2
 scale = Vector2(0.8, 0.8)
@@ -2837,6 +2837,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 1200.0
+offset_bottom = 36.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
@@ -2857,7 +2859,7 @@ theme_override_fonts/font = ExtResource("35_nf306")
 theme_override_font_sizes/font_size = 28
 text = "Insert song name here"
 
-[node name="BombOverlays" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay" node_paths=PackedStringArray("bossOverlayAnimator", "bossDisplayLabel", "bossTextureRect", "bossBonusScoreLabel")]
+[node name="BombOverlays" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay" node_paths=PackedStringArray("bossOverlayAnimator", "bossDisplayLabel", "bossTextureRect", "bossBonusScoreLabel", "bossHistoryCodedBlocksLabel", "bossHistoryClassicVisibility", "bossHistoryClassicLabel")]
 anchors_preset = 0
 offset_right = 768.0
 offset_bottom = 896.0
@@ -2866,6 +2868,9 @@ bossOverlayAnimator = NodePath("BossBombOverlay/AnimationPlayer")
 bossDisplayLabel = NodePath("BossBombOverlay/BombInfo/Label")
 bossTextureRect = NodePath("BossBombOverlay/BossTextureContainer/BossTexture2")
 bossBonusScoreLabel = NodePath("BossBombOverlay/BombInfo/Counters/BonusScore")
+bossHistoryCodedBlocksLabel = NodePath("BossBombOverlay/BombInfo/Counters/HistoryBlocks")
+bossHistoryClassicVisibility = NodePath("BossBombOverlay/BombInfo/Counters/HistoryClassic")
+bossHistoryClassicLabel = NodePath("BossBombOverlay/BombInfo/Counters/HistoryClassic/HistoryClassicText")
 
 [node name="BossBombOverlay" type="NinePatchRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/BombOverlays"]
 self_modulate = Color(1, 1, 1, 0.12549)
@@ -3023,11 +3028,31 @@ custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
 [node name="HistoryBlocks" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/BombOverlays/BossBombOverlay/BombInfo/Counters"]
+texture_filter = 1
 custom_minimum_size = Vector2(90, 16)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("46_s1nob")
-text = "ccbbabacaa"
+text = "----------"
 horizontal_alignment = 2
+
+[node name="HistoryClassic" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay/BombOverlays/BossBombOverlay/BombInfo/Counters"]
+visible = false
+custom_minimum_size = Vector2(90, 16)
+layout_mode = 2
+
+[node name="HistoryClassicText" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/BombOverlays/BossBombOverlay/BombInfo/Counters/HistoryClassic"]
+custom_minimum_size = Vector2(180, 32)
+layout_mode = 2
+offset_top = -3.0
+offset_right = 90.0
+offset_bottom = 25.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("22_hvkwy")
+theme_override_font_sizes/font_size = 48
+text = "master"
+horizontal_alignment = 1
 
 [node name="PauseMenu" type="ColorRect" parent="Rendering Zone/MainViewHolder" node_paths=PackedStringArray("modeAnimPlayer", "mainMenu")]
 visible = false
@@ -3166,7 +3191,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3207,7 +3232,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3246,7 +3271,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Retry"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3285,7 +3310,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Settings"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3324,7 +3349,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/End"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3429,7 +3454,7 @@ animationPlayer = NodePath("AnimationPlayer")
 libraries = {
 "": SubResource("AnimationLibrary_rkflj")
 }
-blend_times = [&"Normal", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Highlight", &"Highlight", 0.1]
+blend_times = [&"Highlight", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Normal", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
 material = SubResource("ShaderMaterial_n41s0")

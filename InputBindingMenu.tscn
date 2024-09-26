@@ -1,0 +1,104 @@
+[gd_scene load_steps=7 format=3 uid="uid://cprdpdrut88ml"]
+
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_ehf76"]
+[ext_resource type="Texture2D" uid="uid://ckrxpe026jxya" path="res://addons/Blastula/Graphics/UI/sampleBackground.png" id="2_66732"]
+[ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="3_n7qyc"]
+[ext_resource type="FontFile" uid="uid://dtwct8imbtrpq" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RI.otf" id="12_f4wbf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j4ecv"]
+shader = ExtResource("1_ehf76")
+shader_parameter/top_color = Vector4(0, 0, 0, 1)
+shader_parameter/bottom_color = Vector4(0.3, 0.3, 0.3, 1)
+shader_parameter/glisten_factor = Vector3(0.1, -3, 0.005)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_744cj"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="InputBindingMenu" type="Node2D"]
+z_index = 4000
+
+[node name="Rendering Zone" type="Camera2D" parent="."]
+position = Vector2(-10000, 0)
+
+[node name="Control" type="Control" parent="Rendering Zone"]
+z_index = 4000
+layout_mode = 3
+anchors_preset = 0
+offset_left = -853.0
+offset_top = -480.0
+offset_right = 853.0
+offset_bottom = 480.0
+
+[node name="BG" type="TextureRect" parent="Rendering Zone/Control"]
+material = SubResource("ShaderMaterial_j4ecv")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_66732")
+expand_mode = 1
+
+[node name="Title" type="Label" parent="Rendering Zone/Control"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -480.0
+offset_bottom = -384.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_n7qyc")
+theme_override_font_sizes/font_size = 72
+text = "Input Bindings"
+horizontal_alignment = 1
+
+[node name="Holder" type="ColorRect" parent="Rendering Zone/Control"]
+clip_children = 2
+layout_mode = 0
+offset_left = 453.0
+offset_top = 90.0
+offset_right = 1263.0
+offset_bottom = 910.0
+color = Color(0, 0, 0, 1)
+
+[node name="VScrollBar" type="VScrollBar" parent="Rendering Zone/Control/Holder"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/scroll = SubResource("StyleBoxFlat_744cj")
+max_value = 5.0
+page = 1.0
+value = 1.0
+
+[node name="Save Explanation" type="Label" parent="Rendering Zone/Control"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 438.0
+offset_bottom = 482.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("12_f4wbf")
+theme_override_font_sizes/font_size = 28
+text = "Bindings are saved immediately and automatically."
+horizontal_alignment = 1
+
+[node name="SafeZone" type="ReferenceRect" parent="Rendering Zone"]
+z_index = 4001
+offset_left = -640.0
+offset_top = -480.0
+offset_right = 640.0
+offset_bottom = 480.0
+border_width = 4.0

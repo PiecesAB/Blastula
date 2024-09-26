@@ -144,21 +144,10 @@ namespace Blastula
 
 		private FileAccess OpenFile(FileAccess.ModeFlags mode)
 		{
-			FileAccess existingFile = FileAccess.Open(SAVE_PATH, mode);
-			if (existingFile == null)
+			return Persistent.OpenOrCreateFile(SAVE_PATH, mode, (newFile) =>
 			{
-				Error fileLoadError = FileAccess.GetOpenError();
-				if (fileLoadError == Error.FileNotFound)
-				{
-					FileAccess newFile = FileAccess.Open(SAVE_PATH, FileAccess.ModeFlags.Write);
-					if (newFile == null) throw new Exception($"Couldn't create records file: {FileAccess.GetOpenError()}");
-					Row.WriteAllToFile(GenerateDefaultRows(), newFile);
-					newFile.Close();
-					return OpenFile(mode); // No we can't just return the newFile, it was in a possibly wrong mode.
-				}
-				else throw new Exception($"Couldn't load records file: {fileLoadError}");
-			}
-			return existingFile;
+				Row.WriteAllToFile(GenerateDefaultRows(), newFile);
+			});
 		}
 
 		public List<Row> LoadRows(RowSorter sorter = null)

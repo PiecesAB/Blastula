@@ -5,6 +5,7 @@ using Blastula.Coroutine;
 using Blastula.Schedules;
 using System.Collections;
 using static Blastula.HistoryHandler;
+using Blastula.VirtualVariables;
 
 namespace Blastula
 {
@@ -142,24 +143,6 @@ namespace Blastula
 		private Callable mainPlayerBombConnection;
 		private Callable mainPlayerStruckConnection;
 
-		private FileAccess OpenFile(FileAccess.ModeFlags mode)
-		{
-			FileAccess existingFile = FileAccess.Open(SAVE_PATH, mode);
-			if (existingFile == null)
-			{
-				Error fileLoadError = FileAccess.GetOpenError();
-				if (fileLoadError == Error.FileNotFound)
-				{
-					FileAccess newFile = FileAccess.Open(SAVE_PATH, FileAccess.ModeFlags.Write);
-					if (newFile == null) throw new Exception($"Couldn't create history file: {FileAccess.GetOpenError()}");
-					newFile.Close();
-					return OpenFile(mode); // No we can't just return the newFile, it was in a possibly wrong mode.
-				}
-				else throw new Exception($"Couldn't load history file: {fileLoadError}");
-			}
-			return existingFile;
-		}
-
 		public override void _Ready()
 		{
 			base._Ready();
@@ -169,7 +152,7 @@ namespace Blastula
 			try
 			{
 				// This node should be in the kernel. Therefore, it will load the history file into memory before any session starts.
-				file = OpenFile(FileAccess.ModeFlags.Read);
+				file = Persistent.OpenOrCreateFile(SAVE_PATH, FileAccess.ModeFlags.Read);
 				loadedValues = HistoryValue.ReadAllFromFile(file, valueMode);
 			} 
 			catch (Exception e)
@@ -315,14 +298,14 @@ namespace Blastula
 		{
 			if (main == null)
 			{
-				GD.PushWarning("There is no HistoryHandler. You cannot save history.");
+				GD.Print("There is no HistoryHandler. Not saving history");
 				return;
 			}
 
 			FileAccess file = null;
 			try
 			{
-				file = main.OpenFile(FileAccess.ModeFlags.Write);
+				file = Persistent.OpenOrCreateFile(SAVE_PATH, FileAccess.ModeFlags.Write);
 				HistoryValue.WriteAllToFile(file, main.loadedValues);
 			}
 			catch (Exception e)

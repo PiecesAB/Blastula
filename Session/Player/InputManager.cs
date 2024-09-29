@@ -10,7 +10,7 @@ namespace Blastula.Input
 {
 	/// <summary>
 	/// This node is meant to be a singleton in the kernel. It handles all game input in a centralized and abstracted way.
-	/// It also gathers ButtonInfos to set up the names of inputs and their keybinds from file.
+	/// It also handles a general input rebinding by pressing the series of buttons.
 	/// </summary>
 	public partial class InputManager : Node
 	{
@@ -265,7 +265,8 @@ namespace Blastula.Input
 			loadedInputNames = loadedInputInfos.Keys.ToList();
 			foreach (var inputInfo in loadedInputInfos.Values)
 			{
-				InputMap.AddAction(inputInfo.name);
+				// Why is the deadzone low?
+				InputMap.AddAction(inputInfo.name, 0.45f);
 			}
 			bool swapSucc = SwapControlToInputSet(currentSet);
 			if (!swapSucc) SwapControlToInputSet(CurrentSet.Default);
@@ -295,8 +296,8 @@ namespace Blastula.Input
 		private List<string> rebindList = new List<string>();
 		private int rebindCurrentIndex = 0;
 		private int rebindFramesCooldown = 0;
+		private List<InputEventJoypadMotion> joypadMotionsDuringRebind = new();
 		private const int rebindTimeoutFrames = 600;
-		private InputEvent previousRebindInput = null; 
 
 		public string GetRebindProgressString() => $"{rebindCurrentIndex + 1}/{rebindList.Count}";
 		public float GetProgressBeforeTimeout() => Mathf.Min(rebindTimeoutFrames, rebindTimeoutFrames + rebindFramesCooldown) / (float)rebindTimeoutFrames;
@@ -318,7 +319,7 @@ namespace Blastula.Input
 			rebindList = nonDebugLoadedInputInfos.Keys.ToList();
 			rebindCurrentIndex = 0;
 			rebindFramesCooldown = 6;
-			previousRebindInput = null;
+			joypadMotionsDuringRebind = new();
 			afterRebindInputCallback = afterInputCallback;
 			onRebindCancelCallback = onCancelCallback;
 			onRebindCompleteCallback = onCompleteCallback;
@@ -392,26 +393,36 @@ namespace Blastula.Input
 			return true;
 		}
 
+		
+
 		public override void _Input(InputEvent input)
 		{
 			base._Input(input);
+			if (input is InputEventMouse or InputEventMouseButton) return;
+			// TODO: treat joypad axis as a button; avoid retrigger on intensity change.
 			if (isRebinding)
 			{
+				if (input is InputEventJoypadMotion inputScreeningJoypadMotion)
+				{
+					foreach (var otherMotion in joypadMotionsDuringRebind)
+					{
+						if (otherMotion.Device == inputScreeningJoypadMotion.Device 
+							&& otherMotion.Axis == inputScreeningJoypadMotion.Axis
+							&& Mathf.Sign(otherMotion.AxisValue) == Mathf.Sign(inputScreeningJoypadMotion.AxisValue))
+							if (input.IsReleased()) { joypadMotionsDuringRebind.Remove(otherMotion); return; }
+							else { return; }
+					}
+					if (input.IsPressed()) { joypadMotionsDuringRebind.Add(inputScreeningJoypadMotion); }
+				}
 				if (input.IsEcho()) return;
 				if (rebindFramesCooldown > 0) return;
 				if (!input.IsPressed() || input.IsReleased()) return;
-				if (previousRebindInput is InputEventJoypadMotion pjm && input is InputEventJoypadMotion cjm
-					&& pjm.Device == cjm.Device && pjm.Axis == cjm.Axis && Mathf.Sign(pjm.AxisValue) == Mathf.Sign(cjm.AxisValue))
-				{
-					return;
-				}
 				string serialized = InputInfo.BindToSerializedString(input);
 				if (serialized == null) return;
 				rebindNewInputColumn[GetNextRebindInputName()] = input;
 				rebindCurrentIndex++;
 				afterRebindInputCallback(input, GetNextRebindInputName());
 				rebindFramesCooldown = 6;
-				previousRebindInput = input;
 				if (rebindCurrentIndex >= rebindList.Count)
 				{
 					ApplyAndCompleteRebinding();
@@ -428,13 +439,13 @@ namespace Blastula.Input
 					{
 						if (input.IsActionPressed(inputName))
 						{
-							startedInputState |= code;
+							if ((currentInputState & code) == 0) startedInputState |= code;
 							currentInputState |= code;
 							lastChangedInputFrame[code] = FrameCounter.realSessionFrame;
 						}
 						else if (input.IsActionReleased(inputName))
 						{
-							endedInputState |= code;
+							if ((currentInputState & code) != 0) endedInputState |= code;
 							currentInputState &= ~code;
 							lastChangedInputFrame[code] = FrameCounter.realSessionFrame;
 						}
@@ -448,7 +459,7 @@ namespace Blastula.Input
 			if (isRebinding)
 			{
 				rebindFramesCooldown--;
-				if (rebindFramesCooldown < -rebindTimeoutFrames) { CancelRebinding(RebindCancelReason.TimeOut); return; } // 12 seconds: timeout
+				if (rebindFramesCooldown < -rebindTimeoutFrames) { CancelRebinding(RebindCancelReason.TimeOut); return; }
 			}
 			else
 			{

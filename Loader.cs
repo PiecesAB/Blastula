@@ -141,12 +141,13 @@ namespace Blastula
 			}
 		}
 
-		public override void _Input(InputEvent @event)
+		public override void _Input(InputEvent input)
 		{
-			base._Input(@event);
-			if (@event.IsPressed())
+			base._Input(input);
+			if (input is InputEventMouse or InputEventMouseButton) return;
+			if (input.IsPressed())
 			{
-				if (@event is InputEventKey { Keycode: Key.Escape })
+				if (input is InputEventKey { Keycode: Key.Escape })
 				{
 					GD.Print("Setting input bindings to default");
 					InputManager.main?.SwapControlToInputSet(InputManager.CurrentSet.Default);

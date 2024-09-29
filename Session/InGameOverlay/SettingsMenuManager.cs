@@ -59,6 +59,7 @@ namespace Blastula.Menus
 			if (!mainMenu.IsInStack())
 			{
 				SettingsLoader.Save();
+				InputManager.main?.SaveFile();
 				sceneRoot.QueueFree();
 			}
 		}

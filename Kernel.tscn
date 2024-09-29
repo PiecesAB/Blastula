@@ -1162,6 +1162,7 @@ defaultKey = 4194325
 [node name="Debug" type="Node" parent="Input Manager/One Player Buttons"]
 script = ExtResource("18_b0g1x")
 defaultKey = 96
+debugOnly = true
 
 [node name="Menu" type="Node" parent="Input Manager/One Player Buttons"]
 

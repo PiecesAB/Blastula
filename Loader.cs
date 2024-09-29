@@ -1,4 +1,5 @@
 using Blastula.Graphics;
+using Blastula.Input;
 using Blastula.VirtualVariables;
 using Godot;
 using System;
@@ -143,8 +144,15 @@ namespace Blastula
 		public override void _Input(InputEvent @event)
 		{
 			base._Input(@event);
-			if (@event is InputEventKey && ((InputEventKey)@event).IsPressed())
+			if (@event.IsPressed())
 			{
+				if (@event is InputEventKey { Keycode: Key.Escape })
+				{
+					GD.Print("Setting input bindings to default");
+					InputManager.main?.SwapControlToInputSet(InputManager.CurrentSet.Default);
+					InputManager.main?.SaveFile();
+				}
+
 				if (loadError != Error.Ok)
 				{
 					GetTree().Quit(1);

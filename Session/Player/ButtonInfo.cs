@@ -14,7 +14,7 @@ namespace Blastula.Input
 		/// </summary>
 		[Export] public Key defaultKey = Key.None;
 		/// <summary>
-		/// If true, the input will only work in a debug context.
+		/// If true, the input will only work in a debug context. It will also not be rebindable, forced to the default.
 		/// </summary>
 		[Export] public bool debugOnly = false;
 	}

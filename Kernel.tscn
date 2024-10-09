@@ -1,4 +1,4 @@
-[gd_scene load_steps=210 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=215 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/Coroutine/CoroutineQueueHolder.cs" id="1_cfaxb"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
@@ -156,12 +156,17 @@
 [ext_resource type="PackedScene" uid="uid://yu6t1ck8e2qi" path="res://addons/Blastula/Session/Enemy/ExampleBoss/Attack1.tscn" id="146_6s870"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/GameSpeed.cs" id="146_xag8p"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/PlaySound.cs" id="147_u0p35"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Dialog/DialogSeries.cs" id="148_204fe"]
+[ext_resource type="Script" path="res://addons/Blastula/Schedules/Dialog/DialogTrigger.cs" id="149_w8xtp"]
+[ext_resource type="PackedScene" uid="uid://dngufm4ljtasr" path="res://addons/Blastula/Portraits/SamplePortrait1.tscn" id="150_kn4yk"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/SetupBossBomb.cs" id="151_7y7qe"]
 [ext_resource type="Script" path="res://addons/Blastula/Replay/ReplayManager.cs" id="152_dv2we"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/EndSession.cs" id="154_a4512"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Comment.cs" id="154_wu8bk"]
 [ext_resource type="PackedScene" uid="uid://ckjrlvofh8rm2" path="res://addons/Blastula/StatsSaveReplayMenu.tscn" id="155_cf8ta"]
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/ScoresLoader.cs" id="158_8d708"]
+[ext_resource type="Script" path="res://addons/Blastula/Portraits/PortraitManager.cs" id="163_y05ht"]
+[ext_resource type="Script" path="res://addons/Blastula/Portraits/PortraitEntry.cs" id="164_ybxkn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rw26n"]
 shader = ExtResource("1_w7rds")
@@ -1925,6 +1930,19 @@ replaySectionName = "Test"
 script = ExtResource("128_bar8m")
 backgroundScene = ExtResource("129_yne45")
 
+[node name="DialogA" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
+script = ExtResource("148_204fe")
+
+[node name="DialogTrigger" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogA"]
+script = ExtResource("149_w8xtp")
+portraitEntryNodeName = "Sample1"
+speech = "Gameing"
+
+[node name="DialogTrigger2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogA"]
+script = ExtResource("149_w8xtp")
+portraitEntryNodeName = "Sample1"
+speech = "Text text text ab! ab! ab! ab! ab! ab! ab! ab!"
+
 [node name="TestBoss" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
 script = ExtResource("63_d8ira")
 role = 3
@@ -1947,7 +1965,7 @@ script = ExtResource("66_doh6d")
 [node name="Setup" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("151_7y7qe")
 displayedBombName = "Sample Name A"
-bossTexture = ExtResource("19_8tg4g")
+bossPortraitName = "Sample1"
 
 [node name="Wait" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/Life"]
 script = ExtResource("66_doh6d")
@@ -2183,7 +2201,9 @@ delayVulnerable = "1"
 script = ExtResource("154_a4512")
 nextMenu = ExtResource("155_cf8ta")
 
-[node name="Settings Loader" type="Node" parent="."]
+[node name="Persistent Data Logic" type="Node" parent="."]
+
+[node name="Settings Loader" type="Node" parent="Persistent Data Logic"]
 script = ExtResource("130_wuyde")
 settings = {
 "immortality": "off",
@@ -2194,8 +2214,15 @@ settings = {
 "start_life": "def.t"
 }
 
-[node name="Scores Loader" type="Node" parent="."]
+[node name="Scores Loader" type="Node" parent="Persistent Data Logic"]
 script = ExtResource("158_8d708")
 
-[node name="Replay Manager" type="Node" parent="."]
+[node name="Replay Manager" type="Node" parent="Persistent Data Logic"]
 script = ExtResource("152_dv2we")
+
+[node name="Portrait Manager" type="Node" parent="."]
+script = ExtResource("163_y05ht")
+
+[node name="Sample1" type="Node" parent="Portrait Manager"]
+script = ExtResource("164_ybxkn")
+portraitScene = ExtResource("150_kn4yk")

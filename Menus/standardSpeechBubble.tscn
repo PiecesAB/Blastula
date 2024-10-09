@@ -1,0 +1,311 @@
+[gd_scene load_steps=21 format=3 uid="uid://clpyls1cwcjw2"]
+
+[ext_resource type="Texture2D" uid="uid://xfodr2fdje4t" path="res://addons/Blastula/Graphics/Dialog/speechBubbleNormal.png" id="1_0cmo8"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/SpeechBubble.cs" id="2_3scac"]
+[ext_resource type="Texture2D" uid="uid://cdj55ipxcx5d8" path="res://addons/Blastula/Graphics/Dialog/speechBubbleArrowFront.png" id="3_cqguc"]
+[ext_resource type="Texture2D" uid="uid://dlocpmo34m4dx" path="res://addons/Blastula/Graphics/Dialog/speechBubbleArrowBack.png" id="4_pajq8"]
+[ext_resource type="Texture2D" uid="uid://4sufy7nxcmh3" path="res://addons/Blastula/Graphics/Dialog/speechBubbleSpike.png" id="5_k2oj6"]
+[ext_resource type="Texture2D" uid="uid://dmfsoohs5iu6g" path="res://addons/Blastula/Graphics/Dialog/speechBubbleArrowThoughtFront.png" id="6_irtth"]
+[ext_resource type="Texture2D" uid="uid://dewxkm0iwb3jc" path="res://addons/Blastula/Graphics/Dialog/speechBubbleArrowThoughtBack.png" id="7_such7"]
+[ext_resource type="Texture2D" uid="uid://bb7klt5m502ac" path="res://addons/Blastula/Graphics/Dialog/speechBubbleCloud.png" id="8_n1jfk"]
+[ext_resource type="FontFile" uid="uid://ggirehmyeo2f" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_R.otf" id="9_flibt"]
+[ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="10_ihjxx"]
+[ext_resource type="FontFile" uid="uid://dtwct8imbtrpq" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RI.otf" id="11_isyoi"]
+
+[sub_resource type="Animation" id="Animation_fi3ot"]
+resource_name = "Main"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(6, 6, 6, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_6vmlh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(6, 6, 6, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5j4pw"]
+_data = {
+"Main": SubResource("Animation_fi3ot"),
+"RESET": SubResource("Animation_6vmlh")
+}
+
+[sub_resource type="Animation" id="Animation_ya7ip"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arrow/ArrowFront:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_cqguc")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Arrow/ArrowBack:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_pajq8")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_0cmo8")]
+}
+
+[sub_resource type="Animation" id="Animation_aleyv"]
+resource_name = "Smooth"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arrow/ArrowFront:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_cqguc")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Arrow/ArrowBack:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_pajq8")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_0cmo8")]
+}
+
+[sub_resource type="Animation" id="Animation_k3r8q"]
+resource_name = "Spiked"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arrow/ArrowFront:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_cqguc")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Arrow/ArrowBack:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_pajq8")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_k2oj6")]
+}
+
+[sub_resource type="Animation" id="Animation_5n6l8"]
+resource_name = "Thought"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arrow/ArrowFront:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("6_irtth")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Arrow/ArrowBack:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("7_such7")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("8_n1jfk")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h2f6s"]
+_data = {
+"RESET": SubResource("Animation_ya7ip"),
+"Smooth": SubResource("Animation_aleyv"),
+"Spiked": SubResource("Animation_k3r8q"),
+"Thought": SubResource("Animation_5n6l8")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2fgtb"]
+
+[node name="SpeechBubble" type="NinePatchRect" node_paths=PackedStringArray("arrow", "textLabel", "textLabelVContainer", "bubbleFormAnimator")]
+modulate = Color(6, 6, 6, 1)
+self_modulate = Color(1, 1, 0.929412, 1)
+z_index = 80
+offset_left = 187.0
+offset_top = 188.0
+offset_right = 379.0
+offset_bottom = 284.0
+texture = ExtResource("1_0cmo8")
+patch_margin_left = 32
+patch_margin_top = 32
+patch_margin_right = 32
+patch_margin_bottom = 32
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+script = ExtResource("2_3scac")
+originPoint = Vector2(384, 448)
+arrow = NodePath("Arrow")
+textLabel = NodePath("VBoxContainer/Label")
+textLabelVContainer = NodePath("VBoxContainer")
+textMargin = Vector2(16, 16)
+arrowOuterMargin = 48.0
+arrowInnerMargin = 48.0
+bubbleFormAnimator = NodePath("Form")
+
+[node name="OnCreate" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5j4pw")
+}
+autoplay = "Main"
+
+[node name="Form" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_h2f6s")
+}
+autoplay = "Smooth"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(160, 64)
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 176.0
+offset_bottom = 80.0
+alignment = 1
+
+[node name="Label" type="RichTextLabel" parent="VBoxContainer"]
+z_index = 2
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+theme_override_fonts/normal_font = ExtResource("9_flibt")
+theme_override_fonts/bold_font = ExtResource("10_ihjxx")
+theme_override_fonts/italics_font = ExtResource("11_isyoi")
+theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/bold_font_size = 32
+theme_override_font_sizes/italics_font_size = 32
+bbcode_enabled = true
+text = "[center]ab! ab!"
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
+metadata/_edit_lock_ = true
+
+[node name="Arrow" type="Control" parent="."]
+modulate = Color(1, 1, 0.929412, 1)
+anchors_preset = 0
+offset_left = 197.0
+offset_top = 144.0
+offset_right = 197.0
+offset_bottom = 144.0
+rotation = -0.504441
+
+[node name="ArrowFront" type="TextureRect" parent="Arrow"]
+z_index = 1
+material = SubResource("ShaderMaterial_2fgtb")
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 0
+offset_left = -64.0
+offset_top = -128.0
+offset_right = 64.0
+texture = ExtResource("3_cqguc")
+expand_mode = 1
+
+[node name="ArrowBack" type="TextureRect" parent="Arrow"]
+z_index = -1
+material = SubResource("ShaderMaterial_2fgtb")
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 0
+offset_left = -64.0
+offset_top = -128.0
+offset_right = 64.0
+texture = ExtResource("4_pajq8")
+expand_mode = 1

@@ -24,6 +24,24 @@ public partial class PlayerInputTranslator : Node
     public enum ForbidInputType { ForbidNone, ForbidNonMovement, ForbidAll }
     private ForbidInputType inputForbidden = ForbidInputType.ForbidNone;
 
+    public void AllowAllInput()
+    {
+        inputForbidden = ForbidInputType.ForbidNone;
+    }
+
+    public void ForbidNonMovementInput()
+    {
+        inputForbidden = ForbidInputType.ForbidNonMovement;
+        // release non-movement inputs
+        foreach (var inputItem in inputItems.Values)
+        {
+            if (!inputItem.movement)
+            {
+                inputItem.currentState = false;
+            }
+        }
+    }
+
     public class InputItem
     {
         public string name;

@@ -20,6 +20,15 @@ public static class CoroutineUtility
         public int priority;
         public bool finished = false;
         public Node boundNode;
+
+        /// <summary>
+        /// This just removes the boundNode, stopping the next iteration when the coroutine subqueue comes to it. 
+        /// Maybe there will be a better manual cancel solution later.
+        /// </summary>
+        public void ManualCancel()
+        {
+            boundNode = null;
+        }
     }
 
     /// <summary>

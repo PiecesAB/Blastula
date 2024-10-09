@@ -8,8 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://bxrtp2k7avokd" path="res://addons/Blastula/Graphics/UI/Settings/unit.png" id="6_u12dj"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/ScoreboardEntryHandler.cs" id="7_fu6ms"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/KeyboardMenu.cs" id="7_sq5eh"]
-[ext_resource type="FontFile" uid="uid://ixpj4gxreaka" path="res://addons/Blastula/Graphics/UI/scoreAlphanums.png" id="8_25okp"]
-[ext_resource type="FontFile" uid="uid://brdkumahfmmgw" path="res://addons/Blastula/Graphics/UI/mainScoreNumbers.png" id="8_ayg1o"]
+[ext_resource type="FontFile" uid="uid://cvu05bscjidrm" path="res://addons/Blastula/Graphics/UI/scoreAlphanums.png" id="8_25okp"]
+[ext_resource type="FontFile" uid="uid://cqlq7e1fk55yw" path="res://addons/Blastula/Graphics/UI/mainScoreNumbers.png" id="8_ayg1o"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Menu/ScoreEntryPortal.gdshader" id="9_f27fr"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Menu/ScoreEntryLine.gdshader" id="9_seguf"]
 [ext_resource type="Texture2D" uid="uid://iguporsvys54" path="res://addons/Blastula/Graphics/Bullets/circle16.png" id="10_8nwym"]
@@ -998,7 +998,7 @@ libraries = {
 "": SubResource("AnimationLibrary_kk8ri")
 }
 autoplay = "Landing"
-blend_times = [&"Entry", &"Landing", 0.2, &"Landing", &"Entry", 0.2]
+blend_times = [&"Landing", &"Entry", 0.2, &"Entry", &"Landing", 0.2]
 
 [node name="BG" type="TextureRect" parent="Rendering Zone/Main"]
 z_index = -1000
@@ -1484,7 +1484,7 @@ libraries = {
 "": SubResource("AnimationLibrary_c1l31")
 }
 autoplay = "Normal"
-blend_times = [&"Normal", &"Highlight", 0.05, &"Highlight", &"Normal", 0.05]
+blend_times = [&"Highlight", &"Normal", 0.05, &"Normal", &"Highlight", 0.05]
 
 [node name="Text" type="Label" parent="Rendering Zone/Main/Landing/Bottom/OpeningMenu/Yes"]
 layout_mode = 2
@@ -1516,7 +1516,7 @@ libraries = {
 "": SubResource("AnimationLibrary_c1l31")
 }
 autoplay = "Normal"
-blend_times = [&"Normal", &"Highlight", 0.05, &"Highlight", &"Normal", 0.05]
+blend_times = [&"Highlight", &"Normal", 0.05, &"Normal", &"Highlight", 0.05]
 
 [node name="Text" type="Label" parent="Rendering Zone/Main/Landing/Bottom/OpeningMenu/No"]
 layout_mode = 2
@@ -1787,6 +1787,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
+text = "Sample_!"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -1925,6 +1926,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
+text = "Sample_!"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2063,6 +2065,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
+text = "Sample_!"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2201,6 +2204,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
+text = "Sample_!"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2339,6 +2343,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
+text = "Sample_!"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2477,6 +2482,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
+text = "Sample_!"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2615,6 +2621,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
+text = "Sample_!"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2753,6 +2760,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
+text = "Sample_!"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -2891,6 +2899,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
+text = "Sample_!"
 vertical_alignment = 1
 text_overrun_behavior = 1
 
@@ -3029,6 +3038,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_25okp")
 theme_override_font_sizes/font_size = 30
+text = "Sample_!"
 vertical_alignment = 1
 text_overrun_behavior = 1
 

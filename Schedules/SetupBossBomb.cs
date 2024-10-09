@@ -11,7 +11,14 @@ namespace Blastula.Operations
 	public partial class SetupBossBomb : BaseSchedule
 	{
 		[Export] public string displayedBombName;
-		[Export] public Texture2D bossTexture;
+		/// <summary>
+		/// Use a portrait as tracked by the Portrait Manager.
+		/// </summary>
+		[Export] public string bossPortraitName;
+		/// <summary>
+		/// Emotion played by the portrait when it's created.
+		/// </summary>
+		[Export] public string bossPortraitEmotion;
 		/// <summary>
 		/// Standard Touhou-like behavior for extra points when the player doesn't expend lives or bombs. Base score rewarded when 0 seconds remain at the attack's end.
 		/// <br/>
@@ -46,7 +53,8 @@ namespace Blastula.Operations
 				BombOverlays.main.EmitSignal(
 					BombOverlays.SignalName.OnBossBombOverlay,
 					displayedBombName,
-					bossTexture
+					bossPortraitName,
+					bossPortraitEmotion
 				);
 			}
 			yield break;

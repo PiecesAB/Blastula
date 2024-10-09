@@ -705,7 +705,7 @@ libraries = {
 "": SubResource("AnimationLibrary_c1l31")
 }
 autoplay = "Normal"
-blend_times = [&"Normal", &"Highlight", 0.05, &"Highlight", &"Normal", 0.05]
+blend_times = [&"Highlight", &"Normal", 0.05, &"Normal", &"Highlight", 0.05]
 
 [node name="Text" type="Label" parent="Rendering Zone/Control/Holder/MainMenu/Music"]
 layout_mode = 2

@@ -3,18 +3,21 @@ using Blastula.Coroutine;
 using Godot;
 using System.Collections;
 using Blastula.Sounds;
+using Blastula.Portraits;
+using Blastula.VirtualVariables;
 
 namespace Blastula.Graphics
 {
 	/// <summary>
 	/// Idiosyncratic; manages the overlays which appear as the boss declares a special attack.
 	/// </summary>
+	[Icon(Persistent.NODE_ICON_PATH + "/bomb.png")]
 	public partial class BombOverlays : Node
 	{
 		[ExportGroup("Boss")]
 		[Export] public AnimationPlayer bossOverlayAnimator;
 		[Export] public Label bossDisplayLabel;
-		[Export] public TextureRect bossTextureRect;
+		[Export] public Control bossPortraitHolder;
 		[Export] public Label bossBonusScoreLabel;
 		[ExportSubgroup("History")]
 		[Export] public Label bossHistoryCodedBlocksLabel;
@@ -58,10 +61,25 @@ namespace Blastula.Graphics
 			playerOverlayAnimator.Play("Inactive");
 		}
 
-		public void StartBossBombOverlay(string displayName, Texture2D texture)
+		public const string PORTRAIT_REFERENCE_ID = "BossBombPortrait";
+
+		public void SetPortraitLifespan(float lifespan)
+		{
+			if (PortraitController.FindByUsageId(PORTRAIT_REFERENCE_ID) is PortraitController pc) {
+				pc.SetLifespan(lifespan);
+			}
+		}
+
+		public void StartBossBombOverlay(string displayName, string portraitName, string portraitEmotion)
 		{
 			if (bossDisplayLabel != null) bossDisplayLabel.Text = displayName;
-			if (bossTextureRect != null) bossTextureRect.Texture = texture;
+			if (bossPortraitHolder != null)
+			{
+				PortraitController newPortraitInstance = PortraitManager.main.GetPortraitClone(portraitName);
+				newPortraitInstance.SetReferenceId(PORTRAIT_REFERENCE_ID);
+				bossPortraitHolder.AddChild(newPortraitInstance);
+				if (portraitEmotion is not (null or "")) newPortraitInstance.PlayEmotion(portraitEmotion);
+			}
 			if (bossHistoryClassicLabel != null && bossHistoryClassicVisibility != null && bossHistoryCodedBlocksLabel != null)
 			{
 				var mode = HistoryHandler.main?.valueMode ?? HistoryHandler.ValueMode.Classic;

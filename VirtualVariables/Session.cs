@@ -424,7 +424,7 @@ namespace Blastula.VirtualVariables
 
 		public HashSet<string> specialNames { get; set; } = new HashSet<string>()
 		{
-			"can_pause", "paused", "time_scale", "difficulty", "dif", "rank"
+			"can_pause", "paused", "time_scale", "difficulty", "dif", "rank", "score64"
 		};
 
 		public override void _Ready()
@@ -442,6 +442,7 @@ namespace Blastula.VirtualVariables
 				case "time_scale": return timeScale;
 				case "rank": return rank;
 				case "difficulty": case "dif": return difficulty;
+				case "score64": return (long)score;
 			}
 			return default;
 		}

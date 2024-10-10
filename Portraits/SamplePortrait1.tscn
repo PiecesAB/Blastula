@@ -1,9 +1,61 @@
-[gd_scene load_steps=5 format=3 uid="uid://dngufm4ljtasr"]
+[gd_scene load_steps=9 format=3 uid="uid://dngufm4ljtasr"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Portraits/PortraitController.cs" id="1_8mfyr"]
 [ext_resource type="PackedScene" uid="uid://clpyls1cwcjw2" path="res://addons/Blastula/Menus/standardSpeechBubble.tscn" id="2_wxn3b"]
 [ext_resource type="Texture2D" uid="uid://iguporsvys54" path="res://addons/Blastula/Graphics/Bullets/circle16.png" id="3_4bhxm"]
 [ext_resource type="Script" path="res://addons/Blastula/Portraits/PortraitSpeechOrigin.cs" id="3_t4m33"]
+
+[sub_resource type="Animation" id="Animation_vk7jd"]
+resource_name = "Default"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect4:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_s31d1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect4:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_lkvsk"]
+resource_name = "Mad"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect4:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fl2gk"]
+_data = {
+"Default": SubResource("Animation_vk7jd"),
+"Mad": SubResource("Animation_lkvsk"),
+"RESET": SubResource("Animation_s31d1")
+}
 
 [node name="SamplePortrait1" type="Control" node_paths=PackedStringArray("emotionAnimator")]
 layout_mode = 3
@@ -15,6 +67,10 @@ emotionAnimator = NodePath("EmotionAnimator")
 speechBubbleSample = ExtResource("2_wxn3b")
 
 [node name="EmotionAnimator" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_fl2gk")
+}
+autoplay = "Default"
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
@@ -65,4 +121,10 @@ border_width = 5.0
 process_mode = 3
 position = Vector2(671, 52)
 script = ExtResource("3_t4m33")
-direction = Vector2(-1, 1)
+direction = Vector2(0, 1)
+
+[node name="SpeechOrigin2" type="Node2D" parent="."]
+process_mode = 3
+position = Vector2(132, 584)
+script = ExtResource("3_t4m33")
+referenceId = "Alt"

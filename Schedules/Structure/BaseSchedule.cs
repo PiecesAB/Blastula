@@ -67,12 +67,27 @@ namespace Blastula.Schedules
             yield break;
         }
 
+        /// <summary>
+        /// Solves the string-valued expression stored at a variable in this node.
+        /// </summary>
+        /// <param name="varName">The name of the node's variable.</param>
         public Variant Solve(string varName)
         {
             if (constants.TryGetValue(varName, out Variant cachedResult)) { return cachedResult; }
             Variant result = ExpressionSolver.Solve(this, varName, Get(varName).AsString(), out ExpressionSolver.SolveStatus solveStatus);
             if (solveStatus == ExpressionSolver.SolveStatus.SolvedConstant) { constants[varName] = result; }
             return result;
+        }
+
+        /// <summary>
+        /// Solves an expression string directly.
+        /// </summary>
+        /// <remarks>
+        /// There is no caching expression values here, so overuse can hurt performance.
+        /// </remarks>
+        public Variant SolveDirect(string directExpression)
+        {
+            return ExpressionSolver.Solve(this, null, directExpression, out ExpressionSolver.SolveStatus solveStatus);
         }
 
         public override void _EnterTree()

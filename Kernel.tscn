@@ -1922,14 +1922,6 @@ role = 8
 script = ExtResource("63_d8ira")
 role = 1
 
-[node name="ReplayStart" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
-script = ExtResource("144_1ct6r")
-replaySectionName = "Test"
-
-[node name="LoadBackground" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
-script = ExtResource("128_bar8m")
-backgroundScene = ExtResource("129_yne45")
-
 [node name="DialogA" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
 script = ExtResource("148_204fe")
 
@@ -1937,11 +1929,35 @@ script = ExtResource("148_204fe")
 script = ExtResource("149_w8xtp")
 portraitEntryNodeName = "Sample1"
 speech = "Gameing"
+speechBubbleOriginId = "Main"
 
 [node name="DialogTrigger2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogA"]
 script = ExtResource("149_w8xtp")
 portraitEntryNodeName = "Sample1"
 speech = "Text text text ab! ab! ab! ab! ab! ab! ab! ab!"
+speechBubbleOriginId = "Alt"
+
+[node name="DialogTrigger3" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogA"]
+script = ExtResource("149_w8xtp")
+portraitEntryNodeName = "Sample1"
+portraitEmotion = "Mad"
+speech = "[shake rate=20.0 level=3]Godot has [font_size=48][b]built-in support[/b][/font_size] for rich [color=#ff8080]text effects[/color][/shake][font_size=18][p][center](but why not ruby text?)[/center][/p][/font_size]"
+speechBubbleForm = "Spiked"
+speechBubbleOriginId = "Main"
+
+[node name="DialogTrigger4" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogA"]
+script = ExtResource("149_w8xtp")
+portraitEntryNodeName = "Sample1"
+speech = "Twice the current score is [b]{2 * score64}[/b]. Escaped curly braces: {{2 * score64}} is the expression (score converted to 64-bit int because it is a BigInteger and Godot expressions only like Variant types)"
+speechBubbleOriginId = "Main"
+
+[node name="ReplayStart" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
+script = ExtResource("144_1ct6r")
+replaySectionName = "Test"
+
+[node name="LoadBackground" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
+script = ExtResource("128_bar8m")
+backgroundScene = ExtResource("129_yne45")
 
 [node name="TestBoss" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
 script = ExtResource("63_d8ira")

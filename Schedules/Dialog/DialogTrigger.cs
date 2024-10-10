@@ -5,6 +5,7 @@ using Blastula.VirtualVariables;
 using Godot;
 using System;
 using System.Collections;
+using System.Text;
 
 namespace Blastula.Schedules;
 
@@ -16,10 +17,70 @@ public partial class DialogTrigger : BaseSchedule
     [Export] public bool changePortrait = true;
     [Export] public string portraitEntryNodeName;
     [Export] public string portraitEmotion = null;
-    [Export(PropertyHint.MultilineText)] public string speech; // TODO: regex for funny variables.
+    [Export(PropertyHint.MultilineText)] public string speech;
     [ExportGroup("Advanced")]
     [Export] public string speechBubbleForm;
     [Export] public string speechBubbleOriginId;
+
+    /// <summary>
+    /// Use curly braces {varName} to inject a Godot expression value (with Blastula variables allowed) between the braces. Use {{ and }} to escape the curly braces, preventing misinterpretation of text as a variable.
+    /// </summary>
+    private string InjectExpressions(string preInjectedSpeech)
+    {
+        bool isInVariableRegion = false;
+        StringBuilder varBuild = new StringBuilder();
+        StringBuilder mainBuild = new StringBuilder();
+        for (int i = 0; i < preInjectedSpeech.Length; i++)
+        {
+            char curr = preInjectedSpeech[i];
+            char? next = i + 1 < preInjectedSpeech.Length ? preInjectedSpeech[i + 1] : null;
+            switch (curr)
+            {
+                case '{':
+                    if (next == '{') {
+                        if (isInVariableRegion) { varBuild.Append('{'); }
+                        else { mainBuild.Append('{'); }
+                        i++;
+                    } else if (isInVariableRegion) {
+                        // Invalid string!! (expression shouldn't contain bare {)
+                        return preInjectedSpeech;
+                    } else {
+                        isInVariableRegion = true;
+                        varBuild.Clear();
+                    }
+                    break;
+                case '}':
+                    if (next == '}') {
+                        if (isInVariableRegion) { varBuild.Append('}'); }
+                        else { mainBuild.Append('}'); }
+                        i++;
+                    } else if (!isInVariableRegion) {
+                        // Invalid string!! (Ended expression but it wasn't started)
+                        return preInjectedSpeech;
+                    } else {
+                        isInVariableRegion = false;
+                        string varName = varBuild.ToString();
+                        Variant varValue = SolveDirect(varName);
+                        mainBuild.Append(varValue.ToDisplayString());
+                    }
+                    break;
+                default:
+                    if (isInVariableRegion) {
+                        varBuild.Append(curr);
+                    } else {
+                        mainBuild.Append(curr);
+                    }
+                    break;
+            }
+        }
+
+        if (isInVariableRegion)
+        {
+            // You forgot to end the expression (skull emoji)
+            return preInjectedSpeech;
+        }
+        return mainBuild.ToString();
+    }
 
     public override IEnumerator Execute(IVariableContainer source)
     {
@@ -43,7 +104,8 @@ public partial class DialogTrigger : BaseSchedule
         PortraitController currPortrait = DialogOverlay.main.GetPortrait(portraitPosition);
         if (currPortrait != null)
         {
-            currPortrait.Speak(speech, speechBubbleOriginId, speechBubbleForm);
+            string injectedSpeech = InjectExpressions(speech);
+            currPortrait.Speak(injectedSpeech, speechBubbleOriginId, speechBubbleForm);
             if (portraitEmotion is not (null or "")) currPortrait.PlayEmotion(portraitEmotion);
         }
 

@@ -46,7 +46,6 @@ public partial class DialogOverlay : Node
     {
         SetPortrait(PortraitPosition.Left, null);
         SetPortrait(PortraitPosition.Right, null);
-        GD.Print("cleared portraits");
     }
 
     public void SetPortrait(PortraitPosition position, string portraitEntryNodeName)

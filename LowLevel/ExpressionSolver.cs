@@ -96,6 +96,52 @@ namespace Blastula
             return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_' || (c >= '0' && c <= '9');
         }
 
+        public static string ToDisplayString(this Variant variant)
+        {
+            switch (variant.VariantType)
+            {
+                case Variant.Type.Aabb: return variant.AsAabb().ToString();
+                case Variant.Type.Array: return variant.AsGodotArray().ToString();
+                case Variant.Type.Basis: return variant.AsBasis().ToString();
+                case Variant.Type.Bool: return variant.AsBool().ToString();
+                case Variant.Type.Callable: return variant.AsCallable().ToString();
+                case Variant.Type.Color: return variant.AsColor().ToString();
+                case Variant.Type.Dictionary: return variant.AsGodotDictionary().ToString();
+                case Variant.Type.Float: return variant.AsDouble().ToString();
+                case Variant.Type.Int: return variant.AsInt64().ToString();
+                case Variant.Type.Nil: return "null";
+                case Variant.Type.NodePath: return variant.AsNodePath().ToString();
+                case Variant.Type.Object: return variant.Obj.ToString();
+                case Variant.Type.PackedByteArray: return variant.AsByteArray().ToString();
+                case Variant.Type.PackedColorArray: return variant.AsColorArray().ToString();
+                case Variant.Type.PackedFloat32Array: return variant.AsFloat32Array().ToString();
+                case Variant.Type.PackedFloat64Array: return variant.AsFloat64Array().ToString();
+                case Variant.Type.PackedInt32Array: return variant.AsInt32Array().ToString();
+                case Variant.Type.PackedInt64Array: return variant.AsInt64Array().ToString();
+                case Variant.Type.PackedStringArray: return variant.AsStringArray().ToString();
+                case Variant.Type.PackedVector2Array: return variant.AsVector2Array().ToString();
+                case Variant.Type.PackedVector3Array: return variant.AsVector3Array().ToString();
+                case Variant.Type.Plane: return variant.AsPlane().ToString();
+                case Variant.Type.Projection: return variant.AsProjection().ToString();
+                case Variant.Type.Quaternion: return variant.AsQuaternion().ToString();
+                case Variant.Type.Rect2: return variant.AsRect2().ToString();
+                case Variant.Type.Rect2I: return variant.AsRect2I().ToString();
+                case Variant.Type.Rid: return variant.AsRid().ToString();
+                case Variant.Type.Signal: return variant.AsSignal().ToString();
+                case Variant.Type.String: return variant.AsString();
+                case Variant.Type.StringName: return variant.AsStringName();
+                case Variant.Type.Transform2D: return variant.AsTransform2D().ToString();
+                case Variant.Type.Transform3D: return variant.AsTransform3D().ToString();
+                case Variant.Type.Vector2: return variant.AsVector2().ToString();
+                case Variant.Type.Vector2I: return variant.AsVector2I().ToString();
+                case Variant.Type.Vector3: return variant.AsVector3().ToString();
+                case Variant.Type.Vector3I: return variant.AsVector3I().ToString();
+                case Variant.Type.Vector4: return variant.AsVector4().ToString();
+                case Variant.Type.Vector4I: return variant.AsVector4I().ToString();
+                default: return "???";
+            }
+        }
+
         public static void PopulateNames(List<string> vars, string s)
         {
             vars.Clear();
@@ -161,7 +207,7 @@ namespace Blastula
             NodeInfo nodeInfo = nodeToVars[nodeID];
 
             VarInfo varInfo;
-            if (nodeInfo.exprs.ContainsKey(varName))
+            if (varName is not (null or "") && nodeInfo.exprs.ContainsKey(varName))
             {
                 varInfo = nodeInfo.exprs[varName];
             }
@@ -173,7 +219,10 @@ namespace Blastula
                 if (parseError == Error.Ok)
                 {
                     varInfo.parseSuccess = true;
-                    nodeInfo.exprs[varName] = varInfo;
+                    if (varName is not (null or ""))
+                    {
+                        nodeInfo.exprs[varName] = varInfo;
+                    }
                 }
             }
 

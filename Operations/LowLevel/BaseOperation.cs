@@ -54,6 +54,17 @@ namespace Blastula.Operations
         }
 
         /// <summary>
+        /// Solves an expression string directly.
+        /// </summary>
+        /// <remarks>
+        /// There is no caching expression values here, so overuse can hurt performance.
+        /// </remarks>
+        public Variant SolveDirect(string directExpression)
+        {
+            return ExpressionSolver.Solve(this, null, directExpression, out ExpressionSolver.SolveStatus solveStatus);
+        }
+
+        /// <summary>
         /// Force recalculation of the expression at varName; for example, when it's changed.
         /// </summary>
         public void Unsolve(string varName)

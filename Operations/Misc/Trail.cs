@@ -8,7 +8,7 @@ using static Blastula.BNodeFunctions;
 namespace Blastula.Operations
 {
     /// <summary>
-    /// Add a trail of bullets that mimic the head bullet exactly. Also creates lasers.
+    /// Add a trail of bullets that mimic the head bullet exactly. So, this can create a "loose" or "curvy" laser.
     /// </summary>
     [GlobalClass]
     [Icon(Persistent.NODE_ICON_PATH + "/trail.png")]

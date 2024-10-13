@@ -12,6 +12,10 @@ namespace Blastula.Collision
     {
         [Export] public Node objectLayersHolder;
         [Export] public Node bulletLayersHolder;
+        /// <summary>
+        /// Rays (a.k.a. straight lasers) will split into bullets that attempt to have this much space between them.
+        /// </summary>
+        [Export] public float raySplitSpacing = 40;
 
         public static Dictionary<string, int> bulletLayerIDFromName = new Dictionary<string, int>();
         public static Dictionary<string, int> objectLayerIDFromName = new Dictionary<string, int>();
@@ -22,6 +26,8 @@ namespace Blastula.Collision
 
         public static Stopwatch debugTimer;
 
+        public const int NONE_BULLET_LAYER = 0;
+
         public static int GetObjectLayerIDFromName(string name)
         {
             if (!objectLayerIDFromName.ContainsKey(name)) { return 0; }
@@ -30,7 +36,7 @@ namespace Blastula.Collision
 
         public static int GetBulletLayerIDFromName(string name)
         {
-            if (!bulletLayerIDFromName.ContainsKey(name)) { return 0; }
+            if (!bulletLayerIDFromName.ContainsKey(name)) { return NONE_BULLET_LAYER; }
             return bulletLayerIDFromName[name];
         }
 

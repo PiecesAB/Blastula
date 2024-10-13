@@ -1,4 +1,4 @@
-[gd_scene load_steps=215 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=219 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/Coroutine/CoroutineQueueHolder.cs" id="1_cfaxb"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
@@ -142,7 +142,9 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/Player/PlayerEntry.cs" id="127_ecdrd"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/LoadBackground.cs" id="128_bar8m"]
 [ext_resource type="PackedScene" uid="uid://ctimhu6oe4q4o" path="res://addons/Blastula/PictusXXIV/PictusXXIV.tscn" id="128_p54iq"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/LowLevel/Cascade.cs" id="129_wn6po"]
 [ext_resource type="PackedScene" uid="uid://bhqd5e51x5qy6" path="res://addons/Blastula/Session/Backgrounds/Lab/lab.tscn" id="129_yne45"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/RaySplit.cs" id="130_vihrp"]
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/SettingsLoader.cs" id="130_wuyde"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Boss/BossStandardBonusHandler.cs" id="133_wq7oa"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Boss/HistoryHandler.cs" id="134_ehml8"]
@@ -316,9 +318,20 @@ shader_parameter/tint = Vector4(1, 0, 0, 1)
 shader = ExtResource("13_fjrpc")
 shader_parameter/tint = Vector4(1, 0, 0, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sne4d"]
+shader = ExtResource("1_w7rds")
+shader_parameter/top_color = Vector4(1, 1, 1, 1)
+shader_parameter/bottom_color = Vector4(0.5, 0.5, 0.5, 1)
+shader_parameter/glisten_factor = Vector3(0.4, 30, 0.01)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bu80g"]
 shader = ExtResource("35_b8d48")
 shader_parameter/tint = Vector4(0.5, 0.5, 0.5, 1)
+shader_parameter/speed = 1130.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5vl7h"]
+shader = ExtResource("35_b8d48")
+shader_parameter/tint = Vector4(1, 1, 1, 1)
 shader_parameter/speed = 1130.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dlug3"]
@@ -740,7 +753,7 @@ material = SubResource("ShaderMaterial_l76aq")
 autoRainbow = NodePath("../../../../Rainbows/Standard")
 collisionSize = Vector2(5, 0)
 
-[node name="LaserBit" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+[node name="BasicLaserBit" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
 script = ExtResource("10_gun14")
 texture = ExtResource("19_qbq2r")
 size = Vector2(24, 24)
@@ -748,6 +761,25 @@ material = SubResource("ShaderMaterial_fag2n")
 zIndex = 100
 autoRainbow = NodePath("../../../../Rainbows/Standard")
 collisionSize = Vector2(7, 0)
+
+[node name="BasicLaser" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy" node_paths=PackedStringArray("autoRainbow")]
+script = ExtResource("10_gun14")
+texture = ExtResource("19_qbq2r")
+size = Vector2(24, 24)
+material = SubResource("ShaderMaterial_fag2n")
+zIndex = 100
+autoRainbow = NodePath("../../../../Rainbows/Standard")
+collisionShape = 2
+collisionSize = Vector2(24, 8)
+
+[node name="LaserWarning" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy"]
+script = ExtResource("10_gun14")
+texture = ExtResource("19_qbq2r")
+modulate = Color(1, 1, 1, 0.752941)
+size = Vector2(24, 4)
+material = SubResource("ShaderMaterial_sne4d")
+zIndex = 101
+collisionShape = 0
 
 [node name="Mist" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy"]
 script = ExtResource("10_gun14")
@@ -781,6 +813,15 @@ script = ExtResource("10_gun14")
 texture = ExtResource("35_7frid")
 size = Vector2(24, 24)
 material = SubResource("ShaderMaterial_bu80g")
+zIndex = 200
+collisionShape = 0
+collisionSize = Vector2(0, 0)
+
+[node name="Opaque" type="Node" parent="Rendering/Bullet Renderer Manager/Graphics Root/# Enemy/Mist"]
+script = ExtResource("10_gun14")
+texture = ExtResource("35_7frid")
+size = Vector2(48, 48)
+material = SubResource("ShaderMaterial_5vl7h")
 zIndex = 200
 collisionShape = 0
 collisionSize = Vector2(0, 0)
@@ -1799,6 +1840,14 @@ script = ExtResource("87_x6vmf")
 duration = "5"
 units = 0
 
+[node name="RaySplitAll" type="Node" parent="Game Logic/Collectible Manager/Cancel" node_paths=PackedStringArray("subOperation")]
+script = ExtResource("129_wn6po")
+subOperation = NodePath("RaySplit")
+mode = 0
+
+[node name="RaySplit" type="Node" parent="Game Logic/Collectible Manager/Cancel/RaySplitAll"]
+script = ExtResource("130_vihrp")
+
 [node name="Flatten" type="Node" parent="Game Logic/Collectible Manager/Cancel"]
 script = ExtResource("124_isq44")
 keepParents = true
@@ -1922,22 +1971,25 @@ role = 8
 script = ExtResource("63_d8ira")
 role = 1
 
-[node name="DialogA" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
+[node name="DialogTest" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
+script = ExtResource("154_wu8bk")
+
+[node name="DialogA2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogTest"]
 script = ExtResource("148_204fe")
 
-[node name="DialogTrigger" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogA"]
+[node name="DialogTrigger" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogTest/DialogA2"]
 script = ExtResource("149_w8xtp")
 portraitEntryNodeName = "Sample1"
 speech = "Gameing"
 speechBubbleOriginId = "Main"
 
-[node name="DialogTrigger2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogA"]
+[node name="DialogTrigger2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogTest/DialogA2"]
 script = ExtResource("149_w8xtp")
 portraitEntryNodeName = "Sample1"
 speech = "Text text text ab! ab! ab! ab! ab! ab! ab! ab!"
 speechBubbleOriginId = "Alt"
 
-[node name="DialogTrigger3" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogA"]
+[node name="DialogTrigger3" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogTest/DialogA2"]
 script = ExtResource("149_w8xtp")
 portraitEntryNodeName = "Sample1"
 portraitEmotion = "Mad"
@@ -1945,10 +1997,25 @@ speech = "[shake rate=20.0 level=3]Godot has [font_size=48][b]built-in support[/
 speechBubbleForm = "Spiked"
 speechBubbleOriginId = "Main"
 
-[node name="DialogTrigger4" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogA"]
+[node name="DialogTrigger4" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogTest/DialogA2"]
 script = ExtResource("149_w8xtp")
 portraitEntryNodeName = "Sample1"
 speech = "Twice the current score is [b]{2 * score64}[/b]. Escaped curly braces: {{2 * score64}} is the expression (score converted to 64-bit int because it is a BigInteger and Godot expressions only like Variant types)"
+speechBubbleOriginId = "Main"
+
+[node name="DialogA" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
+script = ExtResource("148_204fe")
+
+[node name="DialogTrigger" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogA"]
+script = ExtResource("149_w8xtp")
+portraitEntryNodeName = "Sample1"
+speech = "Solid lasers have been added (they are just streched-out bullets)"
+speechBubbleOriginId = "Main"
+
+[node name="DialogTrigger2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogA"]
+script = ExtResource("149_w8xtp")
+portraitEntryNodeName = "Sample1"
+speech = "Die"
 speechBubbleOriginId = "Main"
 
 [node name="ReplayStart" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
@@ -2008,6 +2075,18 @@ referenceId = "Attack1"
 [node name="Emplace3" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
 script = ExtResource("147_u0p35")
 commonSFXName = "Enemy/Shot3"
+
+[node name="DialogA2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
+script = ExtResource("66_doh6d")
+
+[node name="DialogA3" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
+script = ExtResource("148_204fe")
+
+[node name="DialogTrigger" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01/DialogA3"]
+script = ExtResource("149_w8xtp")
+portraitEntryNodeName = "Sample1"
+speech = "Oh ya, they also split into cancel and deletion effects correctly"
+speechBubbleOriginId = "Main"
 
 [node name="Bomb" type="Node" parent="Stage Manager/MainSequence/BossStageTest/TestBoss/Part01"]
 script = ExtResource("63_d8ira")

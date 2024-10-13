@@ -551,6 +551,10 @@ namespace Blastula
 				bNodePtr->health = 0;
 				if (bNodePtr->laserRenderID < 0)
 				{
+					if (bNodePtr->rayHint)
+					{
+						_ = RaySplit.ModifyStructureExternal(bNodeIndex, 2f * BulletRendererManager.main.defaultRaySegmentLength);
+					}
 					bNodePtr->transform = BulletWorldTransforms.Get(bNodeIndex);
 					bNodePtr->worldTransformMode = true;
 					PostExecute.ScheduleDeletion(bNodeIndex, true);

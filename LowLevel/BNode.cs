@@ -28,6 +28,12 @@ namespace Blastula
         public bool worldTransformMode;
 
         /// <summary>
+        /// If true, this is the main part of a ray (a.k.a. straight laser); 
+        /// the framework will split it on deletion or cancel.
+        /// </summary>
+        public bool rayHint;
+
+        /// <summary>
         /// This variable is used to keep track of a BNode's phase/state, which is incidental to shot patterns.
         /// </summary>
         /// <example>
@@ -309,6 +315,7 @@ namespace Blastula
                 {
                     initialized = true,
                     worldTransformMode = false,
+                    rayHint = false,
                     phase = 0,
                     bulletRenderID = -1,
                     laserRenderID = -1,

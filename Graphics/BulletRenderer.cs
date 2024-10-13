@@ -217,7 +217,7 @@ namespace Blastula.Graphics
             int bulletRenderID = bNodePtr->bulletRenderID;
             if (bulletRenderID != cachedDeletionRenderID)
             {
-                if (IsBulletOnScreen(bNodeIndex))
+                if (IsBulletOnScreen(bNodeIndex) && !bNodePtr->rayHint)
                 {
                     float averageRectSize = 0f;
                     if (bulletRenderID >= 0)

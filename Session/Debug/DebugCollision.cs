@@ -2,6 +2,7 @@ using Blastula.Graphics;
 using Blastula.LowLevel;
 using Blastula.VirtualVariables;
 using Godot;
+using System;
 using static Blastula.BNodeFunctions;
 
 namespace Blastula.Debug
@@ -70,13 +71,44 @@ namespace Blastula.Debug
                 case Collision.Shape.None:
                     break;
                 case Collision.Shape.Circle:
-                    Vector2 scale = BulletWorldTransforms.Get(bNodeIndex).Scale;
-                    BulletWorldTransforms.Invalidate(bNodeIndex);
-                    canvas.DrawCircle(
-                        Vector2.Zero, 
-                        Mathf.Max(0, graphicInfo.collisionSize.X), 
-                        collisionShapesColor
-                    );
+                    {
+                        //Vector2 scale = BulletWorldTransforms.Get(bNodeIndex).Scale;
+                        //BulletWorldTransforms.Invalidate(bNodeIndex);
+                        canvas.DrawCircle(
+                            Vector2.Zero,
+                            Mathf.Max(0, graphicInfo.collisionSize.X),
+                            collisionShapesColor
+                        );
+                    }
+                    break;
+                case Collision.Shape.SolidLaserBody:
+                    {
+                        Vector2 correctedScale = worldTransform.Rotated(-worldTransform.Rotation).Scale;
+                        float unscaledHalfLength = 0.5f * graphicInfo.collisionSize.X * correctedScale.X;
+                        float halfWidth = graphicInfo.collisionSize.Y * correctedScale.Y;
+                        float insertedLength = unscaledHalfLength - halfWidth;
+                        if (insertedLength > 0)
+                        {
+                            canvas.DrawLine(
+                                insertedLength * Vector2.Left,
+                                insertedLength * Vector2.Right,
+                                collisionShapesColor,
+                                halfWidth * 2f
+                            );
+
+                            canvas.DrawCircle(
+                                insertedLength * Vector2.Left,
+                                halfWidth,
+                                collisionShapesColor
+                            );
+
+                            canvas.DrawCircle(
+                                insertedLength * Vector2.Right,
+                                halfWidth,
+                                collisionShapesColor
+                            );
+                        }
+                    }
                     break;
                 default:
                     GD.PushWarning("I can't draw this collision shape. Unsupported?");

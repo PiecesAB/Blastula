@@ -3609,7 +3609,7 @@ libraries = {
 "": SubResource("AnimationLibrary_1wglm")
 }
 autoplay = "Closed"
-blend_times = [&"Open", &"Open", 0.1, &"Open", &"Closed", 0.1, &"Closed", &"Open", 0.1, &"Closed", &"Closed", 0.1]
+blend_times = [&"Closed", &"Closed", 0.1, &"Closed", &"Open", 0.1, &"Open", &"Closed", 0.1, &"Open", &"Open", 0.1]
 
 [node name="Title" type="Label" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation"]
 layout_mode = 2

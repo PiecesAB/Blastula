@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://yu6t1ck8e2qi"]
+[gd_scene load_steps=23 format=3 uid="uid://yu6t1ck8e2qi"]
 
 [ext_resource type="Script" path="res://addons/Blastula/Blastodisc.cs" id="1_p8nfw"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Structure/Split.cs" id="2_nhgs8"]
@@ -7,12 +7,21 @@
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Wait.cs" id="4_beytb"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/ClearBullets.cs" id="5_2aeog"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/CreateSingle.cs" id="5_3p6bo"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Misc/Ray.cs" id="6_1h4qe"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/ActOnBoundary.cs" id="6_8as57"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Creators/Fork.cs" id="7_okeww"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Forth.cs" id="7_omow6"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Spin.cs" id="8_g7r5p"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/Circle.cs" id="8_ixqwx"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Lifespan.cs" id="9_41xl8"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Shapers/CloneInPlace.cs" id="9_gqkkq"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/Shift.cs" id="9_qk1ml"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/PlaySound.cs" id="10_6d4if"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Aim.cs" id="15_jtu73"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/AdaptPattern.cs" id="16_cpp8u"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Variables/SetVar.cs" id="18_6i4tg"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Behaviors/Morph.cs" id="18_m6r40"]
+[ext_resource type="Script" path="res://addons/Blastula/Operations/Modifiers/SetZIndex.cs" id="18_vev74"]
 
 [node name="Attack1" type="Node2D" node_paths=PackedStringArray("mainSchedule", "cleanupSchedule")]
 script = ExtResource("1_p8nfw")
@@ -31,83 +40,197 @@ script = ExtResource("4_8utoc")
 
 [node name="CreateSingle" type="Node" parent="Split/Cycle/Sequence"]
 script = ExtResource("5_3p6bo")
-renderName = "Orb/Red"
+renderName = "Orb/Big/Red"
 
-[node name="CreateSingle2" type="Node" parent="Split/Cycle/Sequence"]
+[node name="CreateSingle4" type="Node" parent="Split/Cycle/Sequence" node_paths=PackedStringArray("blastodisc")]
+script = ExtResource("16_cpp8u")
+wait = "0.125"
+waitUnits = 0
+startOffset = "0.2"
+blastodisc = NodePath("../../../..")
+
+[node name="LaserFork" type="Node" parent="Split/Cycle/Sequence/CreateSingle4" node_paths=PackedStringArray("blastodisc")]
+script = ExtResource("7_okeww")
+blastodisc = NodePath("../../../../..")
+
+[node name="CreateSingle" type="Node" parent="Split/Cycle/Sequence/CreateSingle4/LaserFork"]
+script = ExtResource("5_3p6bo")
+renderName = "Mist/Opaque"
+
+[node name="Shift" type="Node" parent="Split/Cycle/Sequence/CreateSingle4/LaserFork"]
+script = ExtResource("6_1h4qe")
+rayLength = "160.0 + 60.0 * sin(4.0 * t)"
+makeEndpoint = true
+sustainAppearance = "BasicLaser/Red"
+warningSeconds = "1"
+sustainSeconds = "1.7"
+
+[node name="Forth3" type="Node" parent="Split/Cycle/Sequence/CreateSingle4/LaserFork"]
+script = ExtResource("9_41xl8")
+duration = "3.3"
+units = 0
+
+[node name="CreateSingle3" type="Node" parent="Split/Cycle/Sequence"]
 script = ExtResource("6_8as57")
 boundaryID = "Main"
 specialAction = 3
 shrink = -50.0
 
-[node name="Forth" type="Node" parent="Split/Cycle/Sequence"]
+[node name="Forth5" type="Node" parent="Split/Cycle/Sequence"]
+script = ExtResource("8_g7r5p")
+speed = "180.0 + 90.0 * sin(3.0 * t)"
+
+[node name="Forth6" type="Node" parent="Split/Cycle/Sequence"]
+script = ExtResource("9_gqkkq")
+number = "1"
+
+[node name="Forth4" type="Node" parent="Split/Cycle/Sequence"]
 script = ExtResource("7_omow6")
 speed = "300"
 
 [node name="Forth2" type="Node" parent="Split/Cycle/Sequence"]
 script = ExtResource("8_ixqwx")
 radius = "0"
-number = "5"
+number = "7"
 
-[node name="Shift" type="Node" parent="Split/Cycle/Sequence"]
-script = ExtResource("9_qk1ml")
-myRotation = "randf_range(0.0, 360.0)"
+[node name="Aim" type="Node" parent="Split/Cycle/Sequence"]
+script = ExtResource("15_jtu73")
 
 [node name="Forth3" type="Node" parent="Split/Cycle/Sequence"]
 script = ExtResource("9_41xl8")
-duration = "10"
+duration = "6"
 units = 0
-noChildrenCheck = true
 
 [node name="PlaySound" type="Node" parent="Split/Cycle/Sequence"]
 script = ExtResource("10_6d4if")
 commonSFXName = "Enemy/Shot1"
 
-[node name="Wait" type="Node" parent="Split/Cycle"]
-script = ExtResource("4_beytb")
-waitTime = "8.0/60.0"
-
-[node name="Cycle2" type="Node" parent="Split"]
-script = ExtResource("3_hfm4m")
-
-[node name="Sequence" type="Node" parent="Split/Cycle2"]
+[node name="Sequence2" type="Node" parent="Split/Cycle"]
 script = ExtResource("4_8utoc")
 
-[node name="CreateSingle" type="Node" parent="Split/Cycle2/Sequence"]
+[node name="CreateSingle" type="Node" parent="Split/Cycle/Sequence2"]
 script = ExtResource("5_3p6bo")
-renderName = "Orb/Blue"
+renderName = "Orb/Big/Blue"
 
-[node name="CreateSingle2" type="Node" parent="Split/Cycle2/Sequence"]
+[node name="CreateSingle4" type="Node" parent="Split/Cycle/Sequence2" node_paths=PackedStringArray("blastodisc")]
+script = ExtResource("16_cpp8u")
+wait = "0.125"
+waitUnits = 0
+startOffset = "0.2"
+blastodisc = NodePath("../../../..")
+
+[node name="LaserFork" type="Node" parent="Split/Cycle/Sequence2/CreateSingle4" node_paths=PackedStringArray("blastodisc")]
+script = ExtResource("7_okeww")
+blastodisc = NodePath("../../../../..")
+
+[node name="CreateSingle" type="Node" parent="Split/Cycle/Sequence2/CreateSingle4/LaserFork"]
+script = ExtResource("5_3p6bo")
+renderName = "Mist/Opaque"
+
+[node name="Shift" type="Node" parent="Split/Cycle/Sequence2/CreateSingle4/LaserFork"]
+script = ExtResource("6_1h4qe")
+rayLength = "160.0 + 60.0 * sin(4.0 * t)"
+makeEndpoint = true
+warningSeconds = "1"
+sustainSeconds = "1.7"
+
+[node name="Forth3" type="Node" parent="Split/Cycle/Sequence2/CreateSingle4/LaserFork"]
+script = ExtResource("9_41xl8")
+duration = "3.3"
+units = 0
+
+[node name="CreateSingle3" type="Node" parent="Split/Cycle/Sequence2"]
 script = ExtResource("6_8as57")
 boundaryID = "Main"
 specialAction = 3
 shrink = -50.0
 
-[node name="Forth" type="Node" parent="Split/Cycle2/Sequence"]
-script = ExtResource("7_omow6")
-speed = "320"
+[node name="Forth5" type="Node" parent="Split/Cycle/Sequence2"]
+script = ExtResource("8_g7r5p")
+speed = "-180.0 - 90.0 * sin(3.0 * t)"
 
-[node name="Forth2" type="Node" parent="Split/Cycle2/Sequence"]
+[node name="Forth6" type="Node" parent="Split/Cycle/Sequence2"]
+script = ExtResource("9_gqkkq")
+number = "1"
+
+[node name="Forth4" type="Node" parent="Split/Cycle/Sequence2"]
+script = ExtResource("7_omow6")
+speed = "300"
+
+[node name="Forth2" type="Node" parent="Split/Cycle/Sequence2"]
 script = ExtResource("8_ixqwx")
 radius = "0"
-number = "8"
+number = "7"
 
-[node name="Shift2" type="Node" parent="Split/Cycle2/Sequence"]
-script = ExtResource("9_qk1ml")
-myRotation = "shot_count * 41"
+[node name="Aim" type="Node" parent="Split/Cycle/Sequence2"]
+script = ExtResource("15_jtu73")
 
-[node name="Forth3" type="Node" parent="Split/Cycle2/Sequence"]
+[node name="Forth3" type="Node" parent="Split/Cycle/Sequence2"]
 script = ExtResource("9_41xl8")
-duration = "10"
+duration = "6"
+units = 0
+
+[node name="PlaySound" type="Node" parent="Split/Cycle/Sequence2"]
+script = ExtResource("10_6d4if")
+commonSFXName = "Enemy/Shot1"
+
+[node name="Wait" type="Node" parent="Split/Cycle"]
+script = ExtResource("4_beytb")
+waitTime = "1.8"
+
+[node name="Wait3" type="Node" parent="Split/Cycle"]
+script = ExtResource("3_hfm4m")
+cycleCount = "4"
+
+[node name="Sequence" type="Node" parent="Split/Cycle/Wait3"]
+script = ExtResource("4_8utoc")
+
+[node name="CreateSingle" type="Node" parent="Split/Cycle/Wait3/Sequence"]
+script = ExtResource("5_3p6bo")
+renderName = "Pellet/Gray"
+
+[node name="CreateSingle5" type="Node" parent="Split/Cycle/Wait3/Sequence"]
+script = ExtResource("18_vev74")
+graphicName = "Pellet/Gray"
+newZIndex = "300"
+
+[node name="CreateSingle4" type="Node" parent="Split/Cycle/Wait3/Sequence"]
+script = ExtResource("18_m6r40")
+appearance = "Mist/Small"
+duration = "0.07"
+durationUnits = 0
+
+[node name="CreateSingle2" type="Node" parent="Split/Cycle/Wait3/Sequence"]
+script = ExtResource("7_omow6")
+speed = "200"
+
+[node name="Circle" type="Node" parent="Split/Cycle/Wait3/Sequence"]
+script = ExtResource("8_ixqwx")
+radius = "64"
+number = "40"
+
+[node name="Circle2" type="Node" parent="Split/Cycle/Wait3/Sequence"]
+script = ExtResource("9_qk1ml")
+myRotation = "randf_range(0.0, 360.0)"
+
+[node name="CreateSingle3" type="Node" parent="Split/Cycle/Wait3/Sequence"]
+script = ExtResource("9_41xl8")
+duration = "12"
 units = 0
 noChildrenCheck = true
 
-[node name="PlaySound" type="Node" parent="Split/Cycle2/Sequence"]
-script = ExtResource("10_6d4if")
-commonSFXName = "Enemy/Shot2"
-
-[node name="Wait2" type="Node" parent="Split/Cycle2"]
+[node name="Wait" type="Node" parent="Split/Cycle/Wait3"]
 script = ExtResource("4_beytb")
-waitTime = "10.0/60.0"
+waitTime = "0.3"
+
+[node name="Cycle" type="Node" parent="."]
+script = ExtResource("3_hfm4m")
+cycleCount = "1"
+
+[node name="SetVar2" type="Node" parent="Cycle"]
+script = ExtResource("18_6i4tg")
+varName = "laser_len"
+newValue = "100.0 + fmod(200.0 * t, 100.0)"
 
 [node name="ClearBullets" type="Node" parent="."]
 script = ExtResource("5_2aeog")

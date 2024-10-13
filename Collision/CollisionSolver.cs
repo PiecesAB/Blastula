@@ -16,9 +16,17 @@ namespace Blastula.Collision
 	{
 		None,
 		/// <summary>
-		/// collisionSize.X determines the radius of the collider. collisionSize.Y doesn't matter!
+		/// collisionSize.X determines the radius of the collider.<br/>
+		/// collisionSize.Y doesn't matter!
 		/// </summary>
-		Circle
+		Circle,
+		/// <summary>
+		/// Used for straight/solid lasers. It is essentially a capsule collider with shrunk ends.
+		/// collisionSize.X determines an <b>unscaled</b> full (not half!) length of the collider, and so it should generally match the graphic width.<br/>
+		/// collisionSize.Y determines the radius/half-thickness of the collider.<br/>
+		/// (Direction comes from the bullet's rotation).
+		/// </summary>
+		SolidLaserBody,
 	}
 
 	/// <summary>
@@ -182,27 +190,52 @@ namespace Blastula.Collision
 					{
 						float dist = (oColInfo.transform.Origin - bTrs.Origin).Length();
 						// We can safely calculate cached position, because the Execute stage of this frame is over.
-						Vector2 bScale = BulletWorldTransforms.Get(bNodeIndex).Scale;
+						Vector2 bScale = bTrs.Scale;
 						float bulletSize = bColInfo.size.X * (0.5f * (bScale.X + bScale.Y));
 						Vector2 oScale = oColInfo.transform.Scale;
 						float objectSize = oColInfo.size.X * (0.5f * (oScale.X + oScale.Y));
 						sep = dist - bulletSize - objectSize;
 						if (sep < minSep) { minSep = sep; }
-						if (sep < 0)
-						{
-							lock (collisionListLocks[oColInfo.colliderID % collisionListLocks.Length])
-							{
-								((LowLevel.LinkedList<Collision>*)oColInfo.collisionListPtr)->AddTail(
-									new Collision
-									{
-										bNodeIndex = bNodeIndex,
-									}
-								);
-							}
-						}
+						
 					}
-					// TODO: support more collision shapes.
-					rItr = rItr->next;
+
+					if (bColInfo.shape == Shape.SolidLaserBody && oColInfo.shape == Shape.Circle)
+					{
+						// Find the closest laser point, then perform the circle check between laser and object
+						// This is effectively a capsule collider for the laser.
+						Vector2 correctedScale = bTrs.Rotated(-bTrs.Rotation).Scale;
+                        float unscaledHalfLength = 0.5f * bColInfo.size.X * correctedScale.X;
+                        float halfWidth = bColInfo.size.Y * correctedScale.Y;
+                        float insertedLength = unscaledHalfLength - halfWidth;
+						if (insertedLength > 0)
+						{
+							Vector2 laserNorm = Vector2.Right.Rotated(bTrs.Rotation);
+							Vector2 relativeObjectPosition = oColInfo.transform.Origin - bTrs.Origin;
+							float projectedPosition = relativeObjectPosition.Dot(laserNorm);
+							Vector2 closestPointOnLaser = bTrs.Origin + Mathf.Clamp(projectedPosition, -insertedLength, insertedLength) * laserNorm;
+                            Vector2 oScale = oColInfo.transform.Scale;
+                            float objectSize = oColInfo.size.X * (0.5f * (oScale.X + oScale.Y));
+                            float dist = (oColInfo.transform.Origin - closestPointOnLaser).Length();
+                            sep = dist - halfWidth - objectSize;
+                            if (sep < minSep) { minSep = sep; }
+                        }
+                    }
+
+                    if (sep < 0)
+                    {
+                        lock (collisionListLocks[oColInfo.colliderID % collisionListLocks.Length])
+                        {
+                            ((LowLevel.LinkedList<Collision>*)oColInfo.collisionListPtr)->AddTail(
+                                new Collision
+                                {
+                                    bNodeIndex = bNodeIndex,
+                                }
+                            );
+                        }
+                    }
+
+                    // Support more collision shapes in the future?
+                    rItr = rItr->next;
 				}
 			}
 			if (bNodePtr->collisionSleepStatus.canSleep && minSep >= Persistent.LAZY_SAFE_DISTANCE)
@@ -226,7 +259,7 @@ namespace Blastula.Collision
 					BNode* bNodePtr = BNodeFunctions.masterQueue + bNodeIndex;
 					if (!bNodePtr->initialized) { return; }
 					if (bNodePtr->bulletRenderID < 0 && bNodePtr->laserRenderID < 0) { return; }
-					if (bNodePtr->collisionLayer == 0) { return; }
+					if (bNodePtr->collisionLayer == CollisionManager.NONE_BULLET_LAYER) { return; }
 					ExecuteCollision(bNodeIndex);
 				});
 			}
@@ -238,7 +271,7 @@ namespace Blastula.Collision
 					BNode* bNodePtr = BNodeFunctions.masterQueue + bNodeIndex;
 					if (!bNodePtr->initialized) { continue; }
 					if (bNodePtr->bulletRenderID < 0 && bNodePtr->laserRenderID < 0) { continue; }
-					if (bNodePtr->collisionLayer == 0) { continue; }
+					if (bNodePtr->collisionLayer == CollisionManager.NONE_BULLET_LAYER) { continue; }
 					ExecuteCollision(bNodeIndex);
 				}
 			}

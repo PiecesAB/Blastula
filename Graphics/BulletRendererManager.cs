@@ -19,6 +19,7 @@ namespace Blastula.Graphics
         [Export] public Node bulletGraphicsRoot;
         [Export] public MultimeshBullet selectorSample;
         [Export] public MultiMesh multiMeshSample;
+        [Export] public float defaultRaySegmentLength = 40;
 
         /// <summary>
         /// The single instance of BulletRendererManager.

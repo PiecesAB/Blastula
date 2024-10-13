@@ -2,53 +2,17 @@
 
 [ext_resource type="Script" path="res://addons/Blastula/Portraits/PortraitController.cs" id="1_8mfyr"]
 [ext_resource type="PackedScene" uid="uid://clpyls1cwcjw2" path="res://addons/Blastula/Menus/standardSpeechBubble.tscn" id="2_wxn3b"]
-[ext_resource type="Texture2D" uid="uid://iguporsvys54" path="res://addons/Blastula/Graphics/Bullets/circle16.png" id="3_4bhxm"]
+[ext_resource type="Texture2D" uid="uid://dlv0ekdonj14i" path="res://addons/Blastula/Graphics/xd.png" id="3_hnk7h"]
 [ext_resource type="Script" path="res://addons/Blastula/Portraits/PortraitSpeechOrigin.cs" id="3_t4m33"]
 
 [sub_resource type="Animation" id="Animation_vk7jd"]
 resource_name = "Default"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TextureRect4:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_s31d1"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TextureRect4:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_lkvsk"]
 resource_name = "Mad"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TextureRect4:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 0, 0, 1)]
-}
+
+[sub_resource type="Animation" id="Animation_s31d1"]
+length = 0.001
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fl2gk"]
 _data = {
@@ -74,39 +38,11 @@ autoplay = "Default"
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 11.0
-offset_top = 13.0
-offset_right = 75.0
-offset_bottom = 77.0
-texture = ExtResource("3_4bhxm")
-expand_mode = 1
-
-[node name="TextureRect2" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 638.0
-offset_right = 84.0
-offset_bottom = 702.0
-texture = ExtResource("3_4bhxm")
-expand_mode = 1
-
-[node name="TextureRect3" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 638.0
-offset_top = 644.0
-offset_right = 702.0
-offset_bottom = 708.0
-texture = ExtResource("3_4bhxm")
-expand_mode = 1
-
-[node name="TextureRect4" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 636.0
-offset_top = 19.0
-offset_right = 700.0
-offset_bottom = 83.0
-texture = ExtResource("3_4bhxm")
-expand_mode = 1
+offset_left = 98.0
+offset_top = 229.0
+offset_right = 610.0
+offset_bottom = 485.0
+texture = ExtResource("3_hnk7h")
 
 [node name="BoundaryGuide" type="ReferenceRect" parent="."]
 layout_mode = 1
@@ -116,12 +52,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 border_width = 5.0
+metadata/_edit_lock_ = true
 
 [node name="SpeechOrigin" type="Node2D" parent="."]
 process_mode = 3
-position = Vector2(671, 52)
+position = Vector2(550, 199)
 script = ExtResource("3_t4m33")
-direction = Vector2(0, 1)
 
 [node name="SpeechOrigin2" type="Node2D" parent="."]
 process_mode = 3

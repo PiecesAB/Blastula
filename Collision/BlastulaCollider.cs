@@ -1,4 +1,6 @@
+using Blastula.Graphics;
 using Blastula.LowLevel;
+using Blastula.Operations;
 using Blastula.VirtualVariables;
 using Godot;
 using System;
@@ -156,6 +158,10 @@ namespace Blastula.Collision
                                 EmitSignal(SignalName.Collision, this, c.bNodeIndex);
                                 break;
                             case ActMode.DeleteWithEffect:
+                                if (BNodeFunctions.masterQueue[c.bNodeIndex].rayHint)
+                                {
+                                    _ = RaySplit.ModifyStructureExternal(c.bNodeIndex, 2 * BulletRendererManager.main.defaultRaySegmentLength);
+                                }
                                 PostExecute.ScheduleDeletion(c.bNodeIndex, true);
                                 break;
                         }

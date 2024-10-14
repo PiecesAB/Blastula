@@ -1,6 +1,7 @@
 using Blastula.Coroutine;
 using Blastula.Input;
 using Blastula.Portraits;
+using Blastula.Sounds;
 using Blastula.VirtualVariables;
 using Godot;
 using System;
@@ -18,7 +19,11 @@ public partial class DialogTrigger : BaseSchedule
     [Export] public string portraitEntryNodeName;
     [Export] public string portraitEmotion = null;
     [Export(PropertyHint.MultilineText)] public string speech;
+    /// <summary>
+    /// Sound 
+    /// </summary>
     [ExportGroup("Advanced")]
+    [Export] public string openSound = "Menu/TickRight";
     [Export] public string speechBubbleForm;
     [Export] public string speechBubbleOriginId;
 
@@ -96,6 +101,8 @@ public partial class DialogTrigger : BaseSchedule
             yield break;
         }
 
+        CommonSFXManager.PlayByName(openSound);
+
         if (changePortrait)
         {
             DialogOverlay.main.SetPortrait(portraitPosition, portraitEntryNodeName);
@@ -112,7 +119,9 @@ public partial class DialogTrigger : BaseSchedule
         while (true)
         {
             yield return new WaitOneFrame();
-            if (InputManager.ButtonPressedThisFrame("Menu/Select")) break;
+            bool selectPressed = InputManager.ButtonPressedThisFrame("Menu/Select");
+            bool pauseHeldSkip = InputManager.ButtonIsDown("Menu/Pause") && FrameCounter.stageFrame % 4 == 0;
+            if (selectPressed || pauseHeldSkip) break;
         }
 
         yield break;

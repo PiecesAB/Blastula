@@ -1,4 +1,5 @@
 using Blastula.Coroutine;
+using Blastula.Graphics;
 using Blastula.VirtualVariables;
 using Godot;
 using System;
@@ -14,6 +15,34 @@ namespace Blastula.Schedules;
 public partial class DialogSeries : BaseSchedule
 {
     private static DialogSeries current = null;
+
+    private SpeechBubble singleSpeechBubble;
+
+    public static void SetSingleSpeechBubble(SpeechBubble newSpeechBubble)
+    {
+        if (current == null)
+        {
+            GD.PushWarning("Tried to set the single speech bubble outside of a DialogSeries; something is wrong here.");
+            return;
+        }
+        ClearSingleSpeechBubble();
+        if (newSpeechBubble == null) return;
+        current.singleSpeechBubble = newSpeechBubble;
+    }
+
+    public static void ClearSingleSpeechBubble()
+    {
+        if (current == null)
+        {
+            GD.PushWarning("Tried to clear the single speech bubble outside of a DialogSeries; something is wrong here.");
+            return;
+        }
+        if (current.singleSpeechBubble != null)
+        {
+            current.singleSpeechBubble.RemoveSelf();
+            current.singleSpeechBubble = null;
+        }
+    }
 
     public static DialogSeries GetSeries(DialogTrigger trigger)
     {
@@ -35,6 +64,13 @@ public partial class DialogSeries : BaseSchedule
             GD.Print("The time scale is being set to 1 as dialog begins (it wasn't already 1).");
             Session.main.SetTimeScale(1.0);
         }
+
+        if (!Session.main.canPause)
+        {
+            GD.PushWarning("Was unable to pause already, so the state will be maintained; but the player will become able to pause at the end of the dialog region.");
+        }
+
+        Session.main.SetCanPause(false);
 
         current = this;
 
@@ -70,6 +106,8 @@ public partial class DialogSeries : BaseSchedule
             if (!Player.playersByControl.TryGetValue(plrRole, out Player plr)) continue;
             plr.inputTranslator?.AllowAllInput();
         }
+
+        Session.main.SetCanPause(true);
 
         current = null;
     }

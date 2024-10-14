@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections;
 using Blastula.VirtualVariables;
 using Blastula.Graphics;
+using Blastula.Schedules;
 
 namespace Blastula.Portraits;
 
@@ -29,8 +30,6 @@ public partial class PortraitController : Control
 
 	private Dictionary<string, PortraitSpeechOrigin> speechOrigins = new();
 	private PortraitSpeechOrigin defaultSpeechOrigin = null;
-
-	private SpeechBubble currentSpeechBubble = null;
 
 	public override void _Ready()
 	{
@@ -62,10 +61,11 @@ public partial class PortraitController : Control
 
 	public void Speak(string text, string positionReferenceId = null, string bubbleForm = null)
 	{
-		if (currentSpeechBubble != null) currentSpeechBubble.RemoveSelf();
-		currentSpeechBubble = speechBubbleSample?.Instantiate<SpeechBubble>();
-		if (currentSpeechBubble == null) return;
-		AddChild(currentSpeechBubble);
+		var newSpeechBubble = speechBubbleSample?.Instantiate<SpeechBubble>();
+		DialogSeries.SetSingleSpeechBubble(newSpeechBubble);
+		if (newSpeechBubble == null) return;
+
+		AddChild(newSpeechBubble);
 
 		Vector2 targetOriginPosition = defaultSpeechOrigin.Position;
 		Vector2 direction = defaultSpeechOrigin.direction;
@@ -74,12 +74,7 @@ public partial class PortraitController : Control
 			targetOriginPosition = chosenOrigin.Position;
 			direction = chosenOrigin.direction;
 		}
-		currentSpeechBubble.SetUpFromPortrait(targetOriginPosition, direction, text, bubbleForm);
-	}
-
-	public void RemoveSpeechBubble()
-	{
-		if (currentSpeechBubble != null) currentSpeechBubble.RemoveSelf();
+		newSpeechBubble.SetUpFromPortrait(targetOriginPosition, direction, text, bubbleForm);
 	}
 
 	public string GetReferenceId()

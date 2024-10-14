@@ -57,7 +57,7 @@ public partial class CoroutineSubQueue : Node
                     return;
                 case IEnumerator subroutine:
                     {
-                        CoroutineUtility.Coroutine subCoroutine = this.StartCoroutine(subroutine);
+                        CoroutineUtility.Coroutine subCoroutine = c.boundNode.StartCoroutine(subroutine);
                         if (subCoroutine.finished) TickCoroutine(c);
                         else subCoroutine.onFinishCallback = (_) => TickCoroutine(c);
                     }

@@ -109,6 +109,8 @@ namespace Blastula
             yield return PlayerManager.main.SpawnPlayer(playerPath);
             if (Session.main != null) { Session.main.StartInSession(); }
             if (FrameCounter.main != null) { FrameCounter.main.ResetSessionFrame(); }
+            Session.main.SetRecordScore(ScoresLoader.main.GetRecordScore());
+            SetScoreExtends.Reset();
             // The RNG is reseeded unreproducibly here;
             // but if a replay is begun, it will be reseeded consistently as it starts.
             ReseedRNG();

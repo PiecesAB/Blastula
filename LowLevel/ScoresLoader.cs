@@ -24,6 +24,12 @@ namespace Blastula
 		/// </summary>
 		[Export] public long[] defaultScores = new long[10] { 100000, 90000, 80000, 70000, 60000, 50000, 40000, 30000, 20000, 10000 };
 
+		/// <summary>
+		/// Pre-loaded rows after loading from file the first time.
+		/// </summary>
+		private List<Row> loadedRows = null;
+		private bool loadedRowsSortedByScore = false;
+
 		public const string SAVE_PATH = "user://records.csv";
 
 		public class Row
@@ -124,7 +130,7 @@ namespace Blastula
 			main = this;
 		}
 
-		public List<Row> GenerateDefaultRows()
+		private List<Row> GenerateDefaultRows()
 		{
 			List<Row> rows = new();
 			foreach (long score in defaultScores)
@@ -150,8 +156,25 @@ namespace Blastula
 			});
 		}
 
+		public BigInteger GetRecordScore()
+		{
+			if (loadedRows == null)
+			{
+				LoadRows(new RowSorter { sortingMode = RowSorter.SortingMode.Score });
+			}
+			if (!loadedRowsSortedByScore)
+			{
+				loadedRows.Sort(new RowSorter { sortingMode = RowSorter.SortingMode.Score });
+				loadedRowsSortedByScore = true;
+            }
+			if (loadedRows.Count == 0) return 0;
+			return loadedRows[0].finalScore;
+		}
+
 		public List<Row> LoadRows(RowSorter sorter = null)
 		{
+			if (loadedRows != null) return loadedRows;
+
 			FileAccess existingFile = null;
 			List<Row> rows = new();
 			try
@@ -167,9 +190,18 @@ namespace Blastula
 			{
 				if (existingFile != null) existingFile.Close();
 			}
-			
-			if (sorter != null) { rows.Sort(sorter); }
-			return rows;
+
+            loadedRowsSortedByScore = false;
+            if (sorter != null) 
+			{
+				if (sorter.sortingMode == RowSorter.SortingMode.Score) 
+				{ 
+					loadedRowsSortedByScore = true; 
+				}
+				rows.Sort(sorter); 
+			}
+
+			return loadedRows = new List<Row>(rows);
 		}
 
 		public void SaveRow(Row row)
@@ -189,6 +221,12 @@ namespace Blastula
 			{
 				if (existingFile != null) existingFile.Close();
 			}
+
+			if (loadedRows != null) 
+			{
+                loadedRows.Add(row);
+                loadedRowsSortedByScore = false;
+			}
 		}
 
 		public void SaveRows(List<Row> rows)
@@ -207,6 +245,12 @@ namespace Blastula
 			finally
 			{
 				if (existingFile != null) existingFile.Close();
+			}
+
+			if (loadedRows != null) 
+			{
+				loadedRows.AddRange(rows);
+				loadedRowsSortedByScore = false;
 			}
 		}
 	}

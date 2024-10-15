@@ -1,3 +1,4 @@
+using Blastula.Schedules;
 using Godot;
 using System.Collections.Generic;
 using System.Numerics;
@@ -171,7 +172,7 @@ namespace Blastula.VirtualVariables
 			rank = 0.5f;
 			rankFrozen = false;
 			score = 0;
-			recordScore = BigInteger.Zero;
+			recordScore = 0;
 			grazeCount = 0;
 			pointItemCount = 0;
 			pointItemValue = minPointItemValue;
@@ -184,6 +185,11 @@ namespace Blastula.VirtualVariables
 			}
 			canContinue = true;
 			continueCount = 0;
+		}
+
+		public void SetRecordScore(BigInteger recordToSet)
+		{
+			recordScore = recordToSet;
 		}
 
 		public Godot.Collections.Dictionary<string, string> CreateReplaySnapshot()
@@ -251,15 +257,24 @@ namespace Blastula.VirtualVariables
 			if (score > maxScore) { score = maxScore; }
 		}
 
+		// Sorry this isn't a signal. BigInteger is not a variant.
+		private void OnScoreChange(BigInteger oldScore, BigInteger newScore)
+		{
+			if (oldScore == newScore) return;
+			SetScoreExtends.Check(oldScore, newScore);
+		}
+
 		/// <summary>Rounds up to the tens place, and adds to the score.</summary>
 		/// <returns>The actual value added.</returns>
 		public BigInteger AddScore(int amount)
 		{
 			int remainder = amount % 10;
 			if (remainder != 0) { amount += 10 - remainder; }
+			BigInteger oldScore = score;
 			score += amount;
 			ClampScore();
-			return amount;
+            OnScoreChange(oldScore, score);
+            return amount;
 		}
 
 		/// <summary>Rounds up to the tens place, and adds to the score.</summary>
@@ -269,8 +284,10 @@ namespace Blastula.VirtualVariables
 			amount = System.Math.Ceiling(amount / 10) * 10;
 			amount = Mathf.Max(10, amount);
 			BigInteger bi = new BigInteger(amount);
-			score += bi;
+            BigInteger oldScore = score;
+            score += bi;
 			ClampScore();
+			OnScoreChange(oldScore, score);
 			return bi;
 		}
 
@@ -280,16 +297,20 @@ namespace Blastula.VirtualVariables
 		{
 			int remainder = (int)(amount % 10);
 			if (remainder != 0) { amount += 10 - remainder; }
-			score += amount;
+            BigInteger oldScore = score;
+            score += amount;
 			ClampScore();
-			return amount;
+            OnScoreChange(oldScore, score);
+            return amount;
 		}
 
 		public void SetScore(BigInteger amount)
 		{
+			BigInteger oldScore = score;
 			score = amount;
 			ClampScore();
-		}
+            OnScoreChange(oldScore, score);
+        }
 
 		#endregion
 

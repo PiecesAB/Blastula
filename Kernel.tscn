@@ -1,4 +1,4 @@
-[gd_scene load_steps=219 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=220 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/Coroutine/CoroutineQueueHolder.cs" id="1_cfaxb"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
@@ -159,6 +159,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/GameSpeed.cs" id="146_xag8p"]
 [ext_resource type="Script" path="res://addons/Blastula/Operations/Stage/PlaySound.cs" id="147_u0p35"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Dialog/DialogSeries.cs" id="148_204fe"]
+[ext_resource type="Script" path="res://addons/Blastula/Session/Boss/SetScoreExtends.cs" id="149_6qahk"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/Dialog/DialogTrigger.cs" id="149_w8xtp"]
 [ext_resource type="PackedScene" uid="uid://dngufm4ljtasr" path="res://addons/Blastula/Portraits/SamplePortrait1.tscn" id="150_kn4yk"]
 [ext_resource type="Script" path="res://addons/Blastula/Schedules/SetupBossBomb.cs" id="151_7y7qe"]
@@ -1967,29 +1968,33 @@ mode = 1
 script = ExtResource("63_d8ira")
 role = 8
 
+[node name="SetScoreExtends" type="Node" parent="Stage Manager/MainSequence"]
+script = ExtResource("149_6qahk")
+extendScores = PackedFloat64Array(100, 700, 1500)
+
 [node name="BossStageTest" type="Node" parent="Stage Manager/MainSequence"]
 script = ExtResource("63_d8ira")
 role = 1
 
-[node name="DialogTest" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
+[node name="Case" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
 script = ExtResource("154_wu8bk")
 
-[node name="DialogA2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogTest"]
+[node name="DialogA2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/Case"]
 script = ExtResource("148_204fe")
 
-[node name="DialogTrigger" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogTest/DialogA2"]
+[node name="DialogTrigger" type="Node" parent="Stage Manager/MainSequence/BossStageTest/Case/DialogA2"]
 script = ExtResource("149_w8xtp")
 portraitEntryNodeName = "Sample1"
 speech = "Gameing"
 speechBubbleOriginId = "Main"
 
-[node name="DialogTrigger2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogTest/DialogA2"]
+[node name="DialogTrigger2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/Case/DialogA2"]
 script = ExtResource("149_w8xtp")
 portraitEntryNodeName = "Sample1"
 speech = "Text text text ab! ab! ab! ab! ab! ab! ab! ab!"
 speechBubbleOriginId = "Alt"
 
-[node name="DialogTrigger3" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogTest/DialogA2"]
+[node name="DialogTrigger3" type="Node" parent="Stage Manager/MainSequence/BossStageTest/Case/DialogA2"]
 script = ExtResource("149_w8xtp")
 portraitEntryNodeName = "Sample1"
 portraitEmotion = "Mad"
@@ -1997,7 +2002,7 @@ speech = "[shake rate=20.0 level=3]Godot has [font_size=48][b]built-in support[/
 speechBubbleForm = "Spiked"
 speechBubbleOriginId = "Main"
 
-[node name="DialogTrigger4" type="Node" parent="Stage Manager/MainSequence/BossStageTest/DialogTest/DialogA2"]
+[node name="DialogTrigger4" type="Node" parent="Stage Manager/MainSequence/BossStageTest/Case/DialogA2"]
 script = ExtResource("149_w8xtp")
 portraitEntryNodeName = "Sample1"
 speech = "Twice the current score is [b]{2 * score64}[/b]. Escaped curly braces: {{2 * score64}} is the expression (score converted to 64-bit int because it is a BigInteger and Godot expressions only like Variant types)"

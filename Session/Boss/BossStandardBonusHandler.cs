@@ -84,7 +84,8 @@ namespace Blastula
 			else
 			{
 				Session.main.AddScore(currentBonus);
-			}
+                SpecialGameEventNotifier.Trigger(SpecialGameEventNotifier.EventType.CaptureBonus);
+            }
 
 			mainPlayer.Disconnect(Player.SignalName.OnBombBegan, mainPlayerBombConnection);
 			mainPlayer.Disconnect(Player.SignalName.OnStruck, mainPlayerStruckConnection);

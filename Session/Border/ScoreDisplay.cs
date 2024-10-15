@@ -1,3 +1,4 @@
+using Blastula.Schedules;
 using Blastula.VirtualVariables;
 using Godot;
 using System.Numerics;
@@ -11,6 +12,7 @@ namespace Blastula.Graphics
     {
         [Export] public Label currentScore;
         [Export] public Label recordScore;
+        [Export] public Label nextExtendScore;
 
         private BigInteger displayedScore = 0;
 
@@ -35,8 +37,13 @@ namespace Blastula.Graphics
         {
             base._Ready();
             RecalculateRecordScore();
+            StageManager.main.Connect(
+                StageManager.SignalName.SessionBeginning, 
+                new Callable(this, MethodName.RecalculateRecordScore));
             _Process(0);
         }
+
+        private BigInteger? previousScore = null;
 
         public override void _Process(double delta)
         {
@@ -59,7 +66,26 @@ namespace Blastula.Graphics
             if (displayedScore >= Session.main.recordScore)
             {
                 recordScore.Text = currentScore.Text;
+                if (previousScore < Session.main.recordScore && Session.main.score > 0)
+                {
+                    SpecialGameEventNotifier.Trigger(SpecialGameEventNotifier.EventType.HighScore);
+                }
             }
+
+            if (nextExtendScore != null)
+            {
+                BigInteger? maybeNext = SetScoreExtends.GetNextExtendScore();
+                if (maybeNext.HasValue)
+                {
+                    nextExtendScore.Text = maybeNext.Value.ToString();
+                } 
+                else
+                {
+                    nextExtendScore.Text = "---";
+                }
+            }
+
+            previousScore = Session.main.score;
         }
     }
 }

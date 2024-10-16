@@ -16,7 +16,7 @@ namespace Blastula.Graphics
 
         private BigInteger displayedScore = 0;
 
-        private static string GetScoreString(BigInteger bigInteger)
+        public static string GetScoreString(BigInteger bigInteger)
         {
             string raw = bigInteger.ToString();
             if (raw.Length <= 10) { return raw; }

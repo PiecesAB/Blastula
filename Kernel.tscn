@@ -1484,7 +1484,7 @@ script = ExtResource("62_deiuq")
 
 [node name="Line" type="Line2D" parent="Game Logic/Graze Lines"]
 z_index = 20
-points = PackedVector2Array(-8000, 0, -8000, 0)
+points = PackedVector2Array(0, 0, 0, 0)
 width = 4.0
 default_color = Color(1, 1, 1, 0)
 
@@ -1968,16 +1968,16 @@ mode = 1
 script = ExtResource("63_d8ira")
 role = 8
 
-[node name="SetScoreExtends" type="Node" parent="Stage Manager/MainSequence"]
-script = ExtResource("149_6qahk")
-extendScores = PackedFloat64Array(100, 700, 1500)
-
 [node name="BossStageTest" type="Node" parent="Stage Manager/MainSequence"]
 script = ExtResource("63_d8ira")
 role = 1
 
 [node name="Case" type="Node" parent="Stage Manager/MainSequence/BossStageTest"]
 script = ExtResource("154_wu8bk")
+
+[node name="SetScoreExtends" type="Node" parent="Stage Manager/MainSequence/BossStageTest/Case"]
+script = ExtResource("149_6qahk")
+extendScores = PackedFloat64Array(100, 700, 1500)
 
 [node name="DialogA2" type="Node" parent="Stage Manager/MainSequence/BossStageTest/Case"]
 script = ExtResource("148_204fe")

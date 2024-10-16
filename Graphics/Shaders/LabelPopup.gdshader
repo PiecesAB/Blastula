@@ -14,7 +14,8 @@ void vertex() {
 	curr_time = curr_time - max(0, min(curr_time - 0.5, time_extension));
 	VERTEX.x += undulation.x * cos((digit_start_time + TIME) * undulation.y);
 	VERTEX.y += undulation.x * sin((digit_start_time + TIME) * undulation.y);
-	VERTEX.y += clamp(-3.0 * pow(4.0 * curr_time - 2.0, 5.0), -1000.0, 1000.0);
+	float a = 4.0 * curr_time - 2.0;
+	VERTEX.y += clamp(-3.0 * sign(a) *pow(abs(a), 5.0), -1000.0, 1000.0);
 }
 
 void fragment() {

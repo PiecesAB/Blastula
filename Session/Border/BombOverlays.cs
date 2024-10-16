@@ -46,7 +46,7 @@ namespace Blastula.Graphics
 			StageSector refSector = currentBossOverlaySector;
 			while (currentBossOverlaySector == refSector && refSector.ShouldBeExecuting())
 			{
-				bossBonusScoreLabel.Text = BossStandardBonusHandler.main?.GetCurrentBonus().ToString() ?? "0";
+				bossBonusScoreLabel.Text = ScoreDisplay.GetScoreString(BossStandardBonusHandler.main?.GetCurrentBonus() ?? 0);
 				yield return new WaitOneFrame();
 			}
 			if (currentBossOverlaySector == refSector) currentBossOverlaySector = null;

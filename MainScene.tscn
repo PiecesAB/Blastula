@@ -1,4 +1,4 @@
-[gd_scene load_steps=183 format=3 uid="uid://wx1rs8ldtkla"]
+[gd_scene load_steps=186 format=3 uid="uid://wx1rs8ldtkla"]
 
 [ext_resource type="Texture2D" uid="uid://cg10eplw862s5" path="res://addons/Blastula/Graphics/UI/placeholderBorder.png" id="1_5qpbx"]
 [ext_resource type="Texture2D" uid="uid://dfftno1b8i2si" path="res://addons/Blastula/Graphics/UI/overlayHorizontalRule.png" id="2_m6k27"]
@@ -45,6 +45,8 @@
 [ext_resource type="Script" path="res://addons/Blastula/Session/InGameOverlay/PauseMenuManager.cs" id="40_3bmt3"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/PauseMenu.cs" id="41_ebkby"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Border/BombOverlays.cs" id="41_gijc8"]
+[ext_resource type="FontFile" uid="uid://bbkmtp35u4q3h" path="res://addons/Blastula/Graphics/UI/popupScoreNumbers.png" id="41_nxerj"]
+[ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/LabelPopup.gdshader" id="41_tq36e"]
 [ext_resource type="Texture2D" uid="uid://qniwurk278sx" path="res://addons/Blastula/Graphics/UI/Bomb/bombBorder.png" id="41_xmbll"]
 [ext_resource type="Texture2D" uid="uid://cu84wctmfd42f" path="res://addons/Blastula/Graphics/UI/Bomb/bombTextBarA.png" id="42_80n8q"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Bullet/Additive.gdshader" id="42_rcii8"]
@@ -264,6 +266,96 @@ font_size = 28
 shadow_color = Color(0.415686, 0.415686, 0.415686, 1)
 shadow_offset = Vector2(2, 2)
 
+[sub_resource type="Animation" id="Animation_s152b"]
+resource_name = "CaptureBonus"
+length = 3.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Extend:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CaptureBonus:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HighScore:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5, 3, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CaptureBonus:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(184, 0), Vector2(184, 0), Vector2(184, -20)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["start_time"],
+"method": &"SetBonusShaderTime"
+}]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("CaptureBonus/BonusAmount:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(0, 10000), Vector2(0, 86)]
+}
+
 [sub_resource type="Animation" id="Animation_wiccy"]
 resource_name = "Extend"
 length = 3.5
@@ -314,6 +406,123 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_h48n8"]
+resource_name = "HighScore"
+length = 3.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Extend:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CaptureBonus:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HighScore:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5, 3, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Select/Big"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_vutft"]
+resource_name = "Idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Extend:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CaptureBonus:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HighScore:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_ottja"]
@@ -378,172 +587,17 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(184, 0)]
 }
-
-[sub_resource type="Animation" id="Animation_s152b"]
-resource_name = "CaptureBonus"
-length = 3.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Extend:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CaptureBonus:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("HighScore:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.5, 3, 3.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("CaptureBonus:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.7, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(184, 0), Vector2(184, 0), Vector2(184, -20)]
-}
-
-[sub_resource type="Animation" id="Animation_h48n8"]
-resource_name = "HighScore"
-length = 3.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Extend:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CaptureBonus:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("HighScore:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.5, 3, 3.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_vutft"]
-resource_name = "Idle"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Extend:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CaptureBonus:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("HighScore:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CaptureBonus/BonusAmount:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0)]
+"values": [Vector2(0, 86)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bjn2i"]
@@ -566,6 +620,13 @@ shader = ExtResource("38_12h8g")
 shader_parameter/top_color = Vector4(0.8, 1, 1.15, 1)
 shader_parameter/bottom_color = Vector4(0, 0, 0, 1)
 shader_parameter/glisten_factor = Vector3(0.2, -8, 0.2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_81g4a"]
+shader = ExtResource("41_tq36e")
+shader_parameter/character_delay = 0.04
+shader_parameter/start_time = -9999.0
+shader_parameter/time_extension = 20.0
+shader_parameter/undulation = Vector2(0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yh6hw"]
 shader = ExtResource("38_12h8g")
@@ -3249,7 +3310,7 @@ offset_bottom = 12.0
 texture = ExtResource("36_r6wi6")
 expand_mode = 1
 
-[node name="SpecialGameEventNotifier" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay" node_paths=PackedStringArray("animationPlayer")]
+[node name="SpecialGameEventNotifier" type="Control" parent="Rendering Zone/MainViewHolder/InGameOverlay" node_paths=PackedStringArray("animationPlayer", "bonusScoreLabel")]
 modulate = Color(1, 1, 1, 0)
 z_index = 60
 anchors_preset = 0
@@ -3258,14 +3319,15 @@ offset_right = 768.0
 offset_bottom = 260.0
 script = ExtResource("38_2c5n3")
 animationPlayer = NodePath("MainAnimator")
+bonusScoreLabel = NodePath("CaptureBonus/BonusAmount")
 
 [node name="MainAnimator" type="AnimationPlayer" parent="Rendering Zone/MainViewHolder/InGameOverlay/SpecialGameEventNotifier"]
 libraries = {
 "": SubResource("AnimationLibrary_bjn2i")
 }
 autoplay = "Idle"
-next/Extend = &"Idle"
 next/CaptureBonus = &"Idle"
+next/Extend = &"Idle"
 next/HighScore = &"Idle"
 
 [node name="BG" type="TextureRect" parent="Rendering Zone/MainViewHolder/InGameOverlay/SpecialGameEventNotifier"]
@@ -3320,6 +3382,18 @@ theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("30_f14at")
 theme_override_font_sizes/font_size = 28
 text = "Capture Bonus Get!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BonusAmount" type="Label" parent="Rendering Zone/MainViewHolder/InGameOverlay/SpecialGameEventNotifier/CaptureBonus"]
+material = SubResource("ShaderMaterial_81g4a")
+layout_mode = 0
+offset_top = 86.0
+offset_right = 400.0
+offset_bottom = 136.0
+theme_override_fonts/font = ExtResource("41_nxerj")
+theme_override_font_sizes/font_size = 28
+text = "1.34567e12"
 horizontal_alignment = 1
 vertical_alignment = 1
 

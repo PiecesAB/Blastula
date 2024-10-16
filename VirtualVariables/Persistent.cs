@@ -20,6 +20,7 @@ namespace Blastula.VirtualVariables
 		public const string TITLE_MENU_PATH = BLASTULA_ROOT_PATH + "/TitleMenu.tscn";
 		public const string SETTINGS_MENU_PATH = BLASTULA_ROOT_PATH + "/SettingsMenu.tscn";
 		public const string INPUT_BINDING_MENU_PATH = BLASTULA_ROOT_PATH + "/InputBindingMenu.tscn";
+		public const string MUSIC_ROOM_PATH = BLASTULA_ROOT_PATH + "/MusicRoomMenu.tscn";
 		/// <summary>
 		/// This determines the timestep of behaviors. The actual framerate may be lower.
 		/// </summary>

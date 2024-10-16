@@ -579,6 +579,7 @@ namespace Blastula
 
 				if (bNodePtr->bulletRenderID >= 0)
 				{
+					if (bNodePtr->rayHint && bNodePtr->graze >= framesBetweenLaserGraze) { bNodePtr->graze = 0; }
 					if (bNodePtr->graze == 0) { grazeGet = true; }
 					if (bNodePtr->graze >= 0) { bNodePtr->graze += (float)Engine.TimeScale; }
 				}
@@ -607,7 +608,27 @@ namespace Blastula
 					if (grazeGetThisFrame < 5)
 					{
 						CommonSFXManager.PlayByName("Player/Graze", 1, 1f, GlobalPosition, true);
-						GrazeLines.ShowLine(GlobalPosition, BulletWorldTransforms.Get(bNodeIndex).Origin);
+						Vector2 endPos = GlobalPosition; 
+						if (bNodePtr->rayHint)
+						{
+							GraphicInfo graphicInfo = BulletRendererManager.GetGraphicInfoFromID(bNodePtr->bulletRenderID);
+							if (graphicInfo != null)
+							{
+								Transform2D bTrs = BulletWorldTransforms.Get(bNodeIndex);
+								Vector2 correctedScale = bTrs.Rotated(-bTrs.Rotation).Scale;
+								float unscaledHalfLength = 0.5f * graphicInfo.size.X * correctedScale.X;
+								Vector2 origin = bTrs.Origin;
+								Vector2 norm = Vector2.Right.Rotated(bTrs.Rotation);
+								float proj = (GlobalPosition - origin).Dot(norm);
+								proj = Mathf.Clamp(proj, -unscaledHalfLength, unscaledHalfLength);
+								endPos = origin + proj * norm;
+							}
+						}
+						else
+						{
+							endPos = BulletWorldTransforms.Get(bNodeIndex).Origin;
+						}
+						this.StartCoroutine(GrazeLines.ShowLine(GlobalPosition, endPos));
 						// Without this the bullet wiggles because we tried to calculate the position before the movement.
 						// We don't want that to happen, so force recalculate when the time is right.
 						BulletWorldTransforms.Invalidate(bNodeIndex);

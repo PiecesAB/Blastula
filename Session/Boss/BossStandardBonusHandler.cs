@@ -25,7 +25,6 @@ namespace Blastula
 		private bool withinAttack = false;
 		private bool bonusFailed = false;
 		private BigInteger currentBonus = 0;
-		
 
 		public BigInteger GetCurrentBonus()
 		{
@@ -84,6 +83,7 @@ namespace Blastula
 			else
 			{
 				Session.main.AddScore(currentBonus);
+				SpecialGameEventNotifier.SetBonusScore(currentBonus);
                 SpecialGameEventNotifier.Trigger(SpecialGameEventNotifier.EventType.CaptureBonus);
             }
 

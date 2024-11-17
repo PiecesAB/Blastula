@@ -1,0 +1,360 @@
+[gd_scene load_steps=14 format=3 uid="uid://01knfpxln8td"]
+
+[ext_resource type="Script" path="res://addons/Blastula/Menus/MusicRoom/MusicSelectionListNode.cs" id="1_4a7ux"]
+[ext_resource type="Texture2D" uid="uid://bxrtp2k7avokd" path="res://addons/Blastula/Graphics/UI/Settings/unit.png" id="2_6m7nu"]
+[ext_resource type="FontFile" uid="uid://ggirehmyeo2f" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_R.otf" id="3_a723q"]
+[ext_resource type="FontFile" uid="uid://dtwct8imbtrpq" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RI.otf" id="4_lvnpo"]
+
+[sub_resource type="Animation" id="Animation_2v3ga"]
+resource_name = "FullHeight"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:custom_minimum_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainText:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HighlightHolder/HighlightText:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ph26d"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:custom_minimum_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainText:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HighlightHolder/HighlightText:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_1rkao"]
+resource_name = "Squashed"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:custom_minimum_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HighlightHolder/HighlightText:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1e-05)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MainText:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1e-05)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_phxkt"]
+_data = {
+"FullHeight": SubResource("Animation_2v3ga"),
+"RESET": SubResource("Animation_ph26d"),
+"Squashed": SubResource("Animation_1rkao")
+}
+
+[sub_resource type="Animation" id="Animation_bty88"]
+resource_name = "Highlight"
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HighlightHolder:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(960, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HighlightHolder/HighlightText:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1.5, 1.5, 2, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.03),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Switch"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_g1x11"]
+resource_name = "Normal"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HighlightHolder:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HighlightHolder/HighlightText:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1.5, 1.5, 2, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_v6q81"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HighlightHolder:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HighlightHolder/HighlightText:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1.5, 1.5, 2, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_o61nj"]
+resource_name = "Select"
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HighlightHolder:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(960, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HighlightHolder/HighlightText:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1.5, 1.5, 2, 1), Color(1.2, 1.2, 1.6, 1), Color(1.5, 1.5, 2, 1), Color(1.2, 1.2, 1.6, 1), Color(1.5, 1.5, 2, 1), Color(1.2, 1.2, 1.6, 1), Color(1.5, 1.5, 2, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.04),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Select"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1s5n4"]
+_data = {
+"Highlight": SubResource("Animation_bty88"),
+"Normal": SubResource("Animation_g1x11"),
+"RESET": SubResource("Animation_v6q81"),
+"Select": SubResource("Animation_o61nj")
+}
+
+[node name="SampleAvailable" type="Control" node_paths=PackedStringArray("squashAnimator", "mainLabel", "highlightLabel", "animationPlayer")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_4a7ux")
+squashAnimator = NodePath("Squasher")
+mainLabel = NodePath("MainText/MainLabel")
+highlightLabel = NodePath("HighlightHolder/HighlightText/HighlightLabel")
+animationPlayer = NodePath("MainAnimationPlayer")
+selectable = false
+
+[node name="Squasher" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_phxkt")
+}
+autoplay = "Squashed"
+blend_times = [&"FullHeight", &"FullHeight", 0.1, &"FullHeight", &"Squashed", 0.1, &"Squashed", &"FullHeight", 0.1, &"Squashed", &"Squashed", 0.1]
+
+[node name="MainAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_1s5n4")
+}
+autoplay = "Normal"
+blend_times = [&"Highlight", &"Highlight", 0.15, &"Highlight", &"Normal", 0.15, &"Normal", &"Highlight", 0.15, &"Normal", &"Normal", 0.15]
+
+[node name="MainText" type="NinePatchRect" parent="."]
+self_modulate = Color(0.337255, 0.337255, 0.337255, 0.878431)
+layout_mode = 2
+offset_right = 960.0
+offset_bottom = 60.0
+texture = ExtResource("2_6m7nu")
+region_rect = Rect2(8, 8, 496, 112)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="MainLabel" type="RichTextLabel" parent="MainText"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 5.0
+offset_right = 4016.0
+offset_bottom = 65.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("3_a723q")
+theme_override_fonts/italics_font = ExtResource("4_lvnpo")
+theme_override_font_sizes/normal_font_size = 36
+theme_override_font_sizes/italics_font_size = 36
+bbcode_enabled = true
+text = "[i][font_size=24]1a.[/font_size][/i] Song Title AB"
+autowrap_mode = 0
+
+[node name="HighlightHolder" type="ColorRect" parent="."]
+clip_children = 1
+layout_mode = 0
+offset_bottom = 60.0
+
+[node name="HighlightText" type="NinePatchRect" parent="HighlightHolder"]
+self_modulate = Color(1.5, 1.5, 2, 1)
+layout_mode = 2
+offset_right = 960.0
+offset_bottom = 60.0
+texture = ExtResource("2_6m7nu")
+region_rect = Rect2(8, 8, 496, 112)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="HighlightLabel" type="RichTextLabel" parent="HighlightHolder/HighlightText"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 16.0
+offset_top = 5.0
+offset_right = 4016.0
+offset_bottom = 65.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("3_a723q")
+theme_override_fonts/italics_font = ExtResource("4_lvnpo")
+theme_override_font_sizes/normal_font_size = 36
+theme_override_font_sizes/italics_font_size = 36
+bbcode_enabled = true
+text = "[i][font_size=24]1a.[/font_size][/i] Song Title AB"
+autowrap_mode = 0

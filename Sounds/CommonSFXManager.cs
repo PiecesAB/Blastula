@@ -96,6 +96,28 @@ namespace Blastula.Sounds
             Play(soundPlayerFromID[id], pitch, startVolume * volume, position, move);
         }
 
+        /// <summary>
+        /// Stop a sound if it's current playing, given a direct reference to the AudioStreamPlayer.
+        /// </summary>
+        public static void Stop(Node n)
+        {
+            // Dreams of multiple inheritance...
+            if (n is AudioStreamPlayer n0) n0.Stop();
+            else if (n is AudioStreamPlayer2D n2) n2.Stop();
+            else if (n is AudioStreamPlayer3D n3) n3.Stop();
+        }
+
+        /// <summary>
+        /// Stop a sound by ID if it's currently playing.
+        /// </summary>
+        public static void StopByName(string name)
+        {
+            if (!IDFromName.ContainsKey(name)) { return; }
+            int id = IDFromName[name];
+            if (!soundPlayerFromID.ContainsKey(id)) { return; }
+            Stop(soundPlayerFromID[id]);
+        }
+
         private bool IsSoundPlayer(Node n)
         {
             return n is AudioStreamPlayer || n is AudioStreamPlayer2D || n is AudioStreamPlayer3D;

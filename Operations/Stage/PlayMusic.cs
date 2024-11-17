@@ -1,3 +1,4 @@
+using Blastula.Menus;
 using Blastula.Sounds;
 using Blastula.VirtualVariables;
 using Godot;
@@ -29,9 +30,12 @@ namespace Blastula.Operations
             }
             MusicManager.PlayImmediate(nodeName);
             MusicManager.SetPitch(pitchSolved);
-            if (MusicManager.main != null)
+            MusicManager.SetVolumeMultiplier(volSolved);
+            if (MusicManager.main.currentMusic != null)
             {
-                MusicManager.SetVolumeMultiplier(volSolved);
+                // Then this new music has successfully played; mark it as encountered
+                MusicMenuOrchestrator.SetMusicEncountered(MusicManager.main.currentMusic);
+                // It will be saved when the session ends.
             }
         }
     }

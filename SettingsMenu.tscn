@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://ckrxpe026jxya" path="res://addons/Blastula/Graphics/UI/sampleBackground.png" id="2_ged45"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="3_od36t"]
 [ext_resource type="Texture2D" uid="uid://bxrtp2k7avokd" path="res://addons/Blastula/Graphics/UI/Settings/unit.png" id="4_rqc3r"]
-[ext_resource type="Script" path="res://addons/Blastula/Menus/SettingSlider.cs" id="5_8dx16"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/Settings/SettingSlider.cs" id="5_8dx16"]
 [ext_resource type="Script" path="res://addons/Blastula/Menus/ListMenu.cs" id="5_nfjwb"]
 [ext_resource type="FontFile" uid="uid://ggirehmyeo2f" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_R.otf" id="6_u3c0d"]
 [ext_resource type="Texture2D" uid="uid://dxafby8ws3ltt" path="res://addons/Blastula/Graphics/UI/Settings/widgetShift.png" id="7_wov4k"]
@@ -669,6 +669,8 @@ layout_mode = 0
 offset_right = 800.0
 offset_bottom = 1000.0
 script = ExtResource("5_nfjwb")
+autoscrollBeginFrames = 24
+autoscrollInterval = 9
 
 [node name="Sound" type="Label" parent="Rendering Zone/Control/Holder/MainMenu"]
 custom_minimum_size = Vector2(0, 32)

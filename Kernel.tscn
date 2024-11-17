@@ -1,4 +1,4 @@
-[gd_scene load_steps=220 format=3 uid="uid://cm2d45utvjkxn"]
+[gd_scene load_steps=221 format=3 uid="uid://cm2d45utvjkxn"]
 
 [ext_resource type="Script" path="res://addons/Blastula/LowLevel/Coroutine/CoroutineQueueHolder.cs" id="1_cfaxb"]
 [ext_resource type="Script" path="res://addons/Blastula/Graphics/BulletGraphicPreview.cs" id="1_crnkb"]
@@ -96,6 +96,7 @@
 [ext_resource type="Script" path="res://addons/Blastula/Sounds/Music.cs" id="70_abo3h"]
 [ext_resource type="AudioStream" uid="uid://c6lo7107e2mct" path="res://addons/Blastula/Sounds/Music/canisminor.ogg" id="71_x7bal"]
 [ext_resource type="AudioStream" uid="uid://dw6frrbldq4fa" path="res://addons/Blastula/Sounds/Player/vacuum.ogg" id="72_v6inr"]
+[ext_resource type="AudioStream" uid="uid://b3q5q51w4upxl" path="res://addons/Blastula/Sounds/Music/kakugata.ogg" id="76_bx5mm"]
 [ext_resource type="Script" path="res://addons/Blastula/Session/Wind/StandardWindSource.cs" id="77_lsfay"]
 [ext_resource type="AudioStream" uid="uid://b3bpticaa4xf0" path="res://addons/Blastula/Sounds/bombStart.ogg" id="78_188j1"]
 [ext_resource type="AudioStream" uid="uid://btv74hqt1hn0e" path="res://addons/Blastula/Sounds/Player/extend.ogg" id="79_872qk"]
@@ -1356,21 +1357,133 @@ current = true
 [node name="Music Manager" type="Node" parent="Sound"]
 script = ExtResource("52_l68ss")
 
-[node name="Reconception" type="AudioStreamPlayer" parent="Sound/Music Manager"]
-stream = ExtResource("69_5wumw")
-script = ExtResource("70_abo3h")
-fullName = "Reconception"
-description = "The first song."
-loopRegion = Vector2(16.696, 150.261)
-
 [node name="CanisMinor" type="AudioStreamPlayer" parent="Sound/Music Manager"]
 stream = ExtResource("71_x7bal")
 script = ExtResource("70_abo3h")
-fullName = "My New Body From Canis Minor"
-description = "Stereotypical sci-fi music!!! The melody is often in a different key as if to represent that ones' soul has been placed in a new body. Time to learn how to use it."
+title = "My New Body from Canis Minor"
+description = "Stereotypical sci-fi opening music, I think. The melody is often in a different key as if to represent that ones' essence has been placed in a new body. Time to learn to use it!"
 loopRegion = Vector2(49.412, 218.824)
 pausesWithGame = false
 displaysNotification = false
+musicRoomDisplay = 1
+
+[node name="Reconception" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("69_5wumw")
+script = ExtResource("70_abo3h")
+title = "Reconception"
+description = "Muisc"
+loopRegion = Vector2(16.696, 150.261)
+
+[node name="Kakugata" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata2" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata3" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata4" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata5" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata6" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata7" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata8" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata9" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata10" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata11" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata12" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata13" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata14" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata15" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
+musicRoomDisplay = 2
+
+[node name="Kakugata16" type="AudioStreamPlayer" parent="Sound/Music Manager"]
+stream = ExtResource("76_bx5mm")
+script = ExtResource("70_abo3h")
+title = "核型 ~ Embryonic Heartbeat"
+description = "TBD"
 
 [node name="Common SFX Manager" type="Node" parent="Sound"]
 script = ExtResource("53_22pks")
@@ -1967,6 +2080,10 @@ mode = 1
 [node name="MainSequence" type="Node" parent="Stage Manager"]
 script = ExtResource("63_d8ira")
 role = 8
+
+[node name="PlayMusic" type="Node" parent="Stage Manager/MainSequence"]
+script = ExtResource("121_odgj2")
+nodeName = "Reconception"
 
 [node name="BossStageTest" type="Node" parent="Stage Manager/MainSequence"]
 script = ExtResource("63_d8ira")

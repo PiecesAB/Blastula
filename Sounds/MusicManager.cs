@@ -1,3 +1,4 @@
+using Blastula.Menus;
 using Blastula.VirtualVariables;
 using Godot;
 using System.Collections.Generic;
@@ -19,11 +20,13 @@ namespace Blastula.Sounds
         private string currentMusicNodePath = "";
 
         public Music currentMusic { get; private set; } = null;
-        public Dictionary<string, Music> musicsByNodeName = new Dictionary<string, Music>();
+        private bool currentMusicStartedFromMusicRoom = false;
+        public Dictionary<string, Music> musicsByNodeName = new();
+        private List<Music> musicInMenuOrder = new();
         /// <summary>
         /// Linear volumes that the AudioStreamPlayer nodes begin with.
         /// </summary>
-        private Dictionary<string, float> startVolumesByNodeName = new Dictionary<string, float>();
+        private Dictionary<string, float> startVolumesByNodeName = new();
 
         private float duckMultiplier = 1f;
         private struct DuckInfo
@@ -42,14 +45,17 @@ namespace Blastula.Sounds
         }
         private FadeInfo currFadeInfo = new FadeInfo { totalDuration = 0f };
 
+        public IReadOnlyList<Music> GetAllMusics() => musicInMenuOrder;
+
         private void MusicSearch()
         {
             UtilityFunctions.PathBuilder(
                 this, 
                 (c, path) => { 
-                    if (c is Music) { 
-                        musicsByNodeName[path] = (Music)c;
-                        startVolumesByNodeName[path] = Mathf.DbToLinear(((Music)c).VolumeDb);
+                    if (c is Music cm) { 
+                        musicsByNodeName[path] = cm;
+                        startVolumesByNodeName[path] = Mathf.DbToLinear(cm.VolumeDb);
+                        musicInMenuOrder.Add(cm);
                     } 
                 }, 
                 true
@@ -61,13 +67,19 @@ namespace Blastula.Sounds
         /// This ends the current music immediately.
         /// </summary>
         /// <param name="continueSameMusic">If true, the music won't reset if the same track is already playing.</param>
-        public static void PlayImmediate(string nodeName, bool continueSameMusic = true)
+        public static void PlayImmediate(string nodeName, bool continueSameMusic = true, bool startedFromMusicRoom = false)
         {
             if (main == null) { return; }
             if (main.currentMusic != null) 
             {
-                if (continueSameMusic && main.currentMusic.Name == nodeName) { return; }
+                main.currentMusic.Finished -= main.OnMusicAbruptEnd;
+                if (continueSameMusic 
+                    && main.currentMusic.Name == nodeName
+                    && startedFromMusicRoom == main.currentMusicStartedFromMusicRoom) { 
+                    return; 
+                }
                 else { main.currentMusic.Stop(); }
+                main.currentMusic = null;
             }
             if (!main.musicsByNodeName.ContainsKey(nodeName)) { return; }
             Music nextMusic = main.musicsByNodeName[nodeName];
@@ -78,6 +90,16 @@ namespace Blastula.Sounds
             main.fadeMultiplier = 1f;
             main.currFadeInfo = new FadeInfo { totalDuration = 0f };
             main.currentMusic.Play();
+            main.currentMusicStartedFromMusicRoom = startedFromMusicRoom;
+            main.currentMusic.Finished += main.OnMusicAbruptEnd;
+        }
+
+        public static void MusicRoomTogglePause()
+        {
+            if (main.currentMusic != null)
+            {
+                main.currentMusic.StreamPaused = !main.currentMusic.StreamPaused;
+            }
         }
 
         /// <summary>
@@ -160,10 +182,14 @@ namespace Blastula.Sounds
             }
         }
 
+        public static bool IsMusicMuted()
+            => main != null ? main.settingMultiplier <= 0 : false;
+
         public override void _Ready()
         {
             base._Ready();
             main = this;
+            MusicMenuOrchestrator.LoadEncounteredMusic();
             MusicSearch();
             ProcessPriority = Persistent.Priorities.MUSIC_MANAGER;
         }
@@ -232,6 +258,8 @@ namespace Blastula.Sounds
 
         public void HandlePause()
         {
+            if (currentMusicStartedFromMusicRoom) return;
+
             if (currentMusic.pausesWithGame && Session.main != null)
             {
                 if (Session.main.paused && !currentMusic.StreamPaused)
@@ -248,6 +276,11 @@ namespace Blastula.Sounds
 
         public void HandleLoop()
         {
+            if (currentMusicStartedFromMusicRoom)
+            {
+                return;
+            }
+
             if (currentMusic.loopRegion != Vector2.Zero)
             {
                 // this is not SyncedMusicManager
@@ -257,6 +290,11 @@ namespace Blastula.Sounds
                     currentMusic.Seek(currPos - (currentMusic.loopRegion.Y - currentMusic.loopRegion.X));
                 }
             }
+        }
+
+        public void OnMusicAbruptEnd()
+        {
+            GD.Print("abrupt end!");
         }
 
         public override void _Process(double delta)

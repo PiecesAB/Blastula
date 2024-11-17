@@ -196,7 +196,7 @@ namespace Blastula.Schedules
 		/// </remarks>
 		public bool HasBeenTimedOut()
 		{
-			return duration is not (null or "") && timeoutFlag;
+			return role != Role.BossTimeout && duration is not (null or "") && timeoutFlag;
 		}
 
 		public IEnumerator RunTime()

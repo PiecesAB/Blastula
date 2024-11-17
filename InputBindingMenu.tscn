@@ -1,7 +1,7 @@
 [gd_scene load_steps=36 format=3 uid="uid://cprdpdrut88ml"]
 
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Glisten.gdshader" id="1_ehf76"]
-[ext_resource type="Script" path="res://addons/Blastula/Menus/InputBindingMenu.cs" id="1_qjxaf"]
+[ext_resource type="Script" path="res://addons/Blastula/Menus/Settings/InputBindingMenu.cs" id="1_qjxaf"]
 [ext_resource type="Texture2D" uid="uid://ckrxpe026jxya" path="res://addons/Blastula/Graphics/UI/sampleBackground.png" id="2_66732"]
 [ext_resource type="FontFile" uid="uid://cfnytafqjxp75" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RB.otf" id="3_n7qyc"]
 [ext_resource type="Shader" path="res://addons/Blastula/Graphics/Shaders/Menu/SlightVerticalGradient.gdshader" id="4_bfnsf"]

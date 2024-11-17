@@ -1,0 +1,374 @@
+[gd_scene load_steps=17 format=3 uid="uid://fwx0p2b0oteq"]
+
+[ext_resource type="Script" path="res://addons/Blastula/Menus/MusicRoom/MusicSelectionListNode.cs" id="1_p7yhk"]
+[ext_resource type="Texture2D" uid="uid://bxrtp2k7avokd" path="res://addons/Blastula/Graphics/UI/Settings/unit.png" id="2_bb0fl"]
+[ext_resource type="FontFile" uid="uid://dtwct8imbtrpq" path="res://addons/Blastula/Graphics/Linux Biolinum/LinBiolinum_RI.otf" id="3_yaudc"]
+[ext_resource type="FontFile" uid="uid://djia8pojyn6eq" path="res://addons/Blastula/Graphics/Ubuntu Mono/UbuntuMono-Regular.ttf" id="4_e7dak"]
+[ext_resource type="Script" path="res://addons/Blastula/Graphics/BBCodeEffects/Obfuscate.cs" id="5_xso5o"]
+
+[sub_resource type="Animation" id="Animation_ep1p5"]
+resource_name = "FullHeight"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:custom_minimum_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HighlightHolder/HighlightText:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MainText:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_grypd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:custom_minimum_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HighlightHolder/HighlightText:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MainText:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_qunqr"]
+resource_name = "Squashed"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:custom_minimum_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainText:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1e-05)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HighlightHolder/HighlightText:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1e-05)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jot8g"]
+_data = {
+"FullHeight": SubResource("Animation_ep1p5"),
+"RESET": SubResource("Animation_grypd"),
+"Squashed": SubResource("Animation_qunqr")
+}
+
+[sub_resource type="Animation" id="Animation_mc5di"]
+resource_name = "Highlight"
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HighlightHolder:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(960, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HighlightHolder/HighlightText:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(2, 0.501961, 1, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.03),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Switch"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_cp0mg"]
+resource_name = "Normal"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HighlightHolder:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HighlightHolder/HighlightText:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(2, 0.501961, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_vb6vf"]
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HighlightHolder:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HighlightHolder/HighlightText:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(2, 0.501961, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_on6dn"]
+resource_name = "Select"
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HighlightHolder:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(960, 60)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HighlightHolder/HighlightText:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(2, 0.501961, 1, 1), Color(1.5, 0.5, 0.8, 1), Color(2, 0.501961, 1, 1), Color(1.5, 0.5, 0.8, 1), Color(2, 0.501961, 1, 1), Color(1.5, 0.5, 0.8, 1), Color(2, 0.501961, 1, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.04),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Menu/Select"],
+"method": &"PlayCommonSFX"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_iqjm8"]
+_data = {
+"Highlight": SubResource("Animation_mc5di"),
+"Normal": SubResource("Animation_cp0mg"),
+"RESET": SubResource("Animation_vb6vf"),
+"Select": SubResource("Animation_on6dn")
+}
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_qyho3"]
+script = ExtResource("5_xso5o")
+bbcode = "obfuscate"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ucu5k"]
+
+[node name="SampleLocked" type="Control" node_paths=PackedStringArray("squashAnimator", "mainLabel", "highlightLabel", "animationPlayer")]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 3
+anchors_preset = 0
+offset_bottom = 60.0
+script = ExtResource("1_p7yhk")
+squashAnimator = NodePath("Squasher")
+mainLabel = NodePath("MainText/MainLabel")
+highlightLabel = NodePath("HighlightHolder/HighlightText/HighlightLabel")
+template = "[font_size=24]{order}.[/font_size] [b][obfuscate]aaaaaaaaaaaaaaaaa[/obfuscate][/b]"
+animationPlayer = NodePath("MainAnimationPlayer")
+selectable = false
+
+[node name="Squasher" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jot8g")
+}
+autoplay = "Squashed"
+blend_times = [&"Squashed", &"Squashed", 0.1, &"Squashed", &"FullHeight", 0.1, &"FullHeight", &"Squashed", 0.1, &"FullHeight", &"FullHeight", 0.1]
+
+[node name="MainAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_iqjm8")
+}
+autoplay = "Normal"
+blend_times = [&"Highlight", &"Highlight", 0.15, &"Highlight", &"Normal", 0.15, &"Normal", &"Highlight", 0.15, &"Normal", &"Normal", 0.15]
+
+[node name="MainText" type="NinePatchRect" parent="."]
+self_modulate = Color(0.407843, 0, 0.137255, 0.878431)
+layout_mode = 2
+offset_right = 960.0
+offset_bottom = 60.0
+texture = ExtResource("2_bb0fl")
+region_rect = Rect2(8, 8, 496, 112)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="MainLabel" type="RichTextLabel" parent="MainText"]
+z_index = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 10.0
+offset_right = 4016.0
+offset_bottom = 70.0
+theme_override_colors/default_color = Color(0.560784, 0, 0.258824, 1)
+theme_override_fonts/normal_font = ExtResource("3_yaudc")
+theme_override_fonts/bold_font = ExtResource("4_e7dak")
+theme_override_font_sizes/normal_font_size = 36
+theme_override_font_sizes/bold_font_size = 36
+bbcode_enabled = true
+text = "[font_size=24]unknown.[/font_size] [b][obfuscate]aaaaaaaaaaaaaaaaa[/obfuscate][/b]"
+autowrap_mode = 0
+custom_effects = [SubResource("RichTextEffect_qyho3")]
+
+[node name="HighlightHolder" type="ColorRect" parent="."]
+clip_children = 1
+layout_mode = 0
+offset_bottom = 60.0
+
+[node name="HighlightText" type="NinePatchRect" parent="HighlightHolder"]
+self_modulate = Color(2, 0.501961, 1, 1)
+material = SubResource("ShaderMaterial_ucu5k")
+layout_mode = 2
+offset_right = 960.0
+offset_bottom = 60.0
+texture = ExtResource("2_bb0fl")
+region_rect = Rect2(8, 8, 496, 112)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="HighlightLabel" type="RichTextLabel" parent="HighlightHolder/HighlightText"]
+z_index = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 10.0
+offset_right = 4016.0
+offset_bottom = 70.0
+theme_override_colors/default_color = Color(0.560784, 0, 0.258824, 1)
+theme_override_fonts/normal_font = ExtResource("3_yaudc")
+theme_override_fonts/bold_font = ExtResource("4_e7dak")
+theme_override_font_sizes/normal_font_size = 36
+theme_override_font_sizes/bold_font_size = 36
+bbcode_enabled = true
+text = "[font_size=24]unknown.[/font_size] [b][obfuscate]aaaaaaaaaaaaaaaaa[/obfuscate][/b]"
+autowrap_mode = 0
+custom_effects = [SubResource("RichTextEffect_qyho3")]

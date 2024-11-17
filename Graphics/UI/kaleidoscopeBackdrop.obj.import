@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cwp52q04ky6g6"
+path="res://.godot/imported/kaleidoscopeBackdrop.obj-d33c94a6f777baee66bc9ff1510c622c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/kaleidoscopeBackdrop.obj-d33c94a6f777baee66bc9ff1510c622c.mesh"]
+
+source_file="res://addons/Blastula/Graphics/UI/kaleidoscopeBackdrop.obj"
+dest_files=["res://.godot/imported/kaleidoscopeBackdrop.obj-d33c94a6f777baee66bc9ff1510c622c.mesh", "res://.godot/imported/kaleidoscopeBackdrop.obj-d33c94a6f777baee66bc9ff1510c622c.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

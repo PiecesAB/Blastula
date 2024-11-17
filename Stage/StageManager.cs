@@ -1,5 +1,6 @@
 using Blastula.Coroutine;
 using Blastula.Graphics;
+using Blastula.Menus;
 using Blastula.Schedules;
 using Blastula.Sounds;
 using Blastula.VirtualVariables;
@@ -146,6 +147,7 @@ namespace Blastula
             MusicManager.Stop();
             LabelPool.StopAll();
             if (HistoryHandler.main != null) HistoryHandler.Save();
+            MusicMenuOrchestrator.SaveAllEncounteredMusic();
         }
 
         public Godot.Collections.Dictionary<string, string> CreateReplaySnapshot()

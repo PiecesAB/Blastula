@@ -2,6 +2,7 @@ using Blastula.Input;
 using Blastula.Sounds;
 using Godot;
 using System;
+using System.IO;
 
 namespace Blastula.Menus;
 
@@ -13,6 +14,7 @@ public partial class MusicDetailsMenu : ListMenu
 {
 	[Export] public Label infoLabel;
 	[Export] public AnimationPlayer adjustmentAnimator;
+	[Export] public MusicDetailsListNode mixButton;
 	[ExportGroup("Seeker")]
     [Export] public Control seekerBack;
     [Export] public Control seekerLoopRegion;
@@ -26,7 +28,8 @@ public partial class MusicDetailsMenu : ListMenu
 	[Export] public Label trackNumber;
 	[Export] public RichTextLabel description;
 	[ExportGroup("Sounds")]
-	[Export] public string soundSwitch;
+    [Export] public string soundSwitch;
+    [Export] public string soundExitAdjust;
     [Export] public string soundAdjustLeft;
     [Export] public string soundAdjustRight;
     /// <summary>
@@ -96,7 +99,6 @@ public partial class MusicDetailsMenu : ListMenu
 			seekedPosition = MusicManager.main.currentMusic.GetPlaybackPosition();
 			MusicManager.main.currentMusic.StreamPaused = true;
         }
-		
     }
 
 	public void StartSetVolume()
@@ -125,7 +127,8 @@ public partial class MusicDetailsMenu : ListMenu
 
 	public void EndAdjusting()
 	{
-		if (adjustMode == AdjustMode.Seek)
+        CommonSFXManager.PlayByName(soundExitAdjust);
+        if (adjustMode == AdjustMode.Seek)
 		{
 			MusicManager.main.currentMusic.StreamPaused = false;
             MusicManager.main.currentMusic.Seek(seekedPosition);
@@ -185,7 +188,7 @@ public partial class MusicDetailsMenu : ListMenu
 
     public void SetAdaptationLabel()
     {
-        infoLabel.Text = $"Adaptation not implemented yet";
+        infoLabel.Text = $"Mix: {GetAdaptationName()}";
     }
 
     public void SetLoopModeLabel()
@@ -279,6 +282,33 @@ public partial class MusicDetailsMenu : ListMenu
 		composer.Text = currentMusic.composer;
 	}
 
+	/// <summary>
+	/// Get the index of the current adaptive music selection, assuming it has selected only one track to be played.
+	/// </summary>
+	/// <returns></returns>
+	public int GetNextAdaptationIndex(int direction)
+	{
+        var targetList = MusicManager.GetSyncedTargetList();
+		int maxIndex = 0;
+		float maxVolume = targetList[0];
+		for (int i = 1; i < targetList.Count; i++)
+		{
+			if (targetList[i] > maxVolume)
+			{
+				maxIndex = i;
+				maxVolume = targetList[i];
+			}
+		}
+		return (maxIndex + direction + targetList.Count) % targetList.Count;
+    }
+
+	public string GetAdaptationName()
+		=> MusicManager.CurrentMusicAsSynchronized()
+		?.GetSyncStream(GetNextAdaptationIndex(0))
+		.ResourcePath is string s 
+		? System.IO.Path.GetFileNameWithoutExtension(s).Replace("_", "") 
+		: "(none)";
+
 	private int lastSelection = -1;
 
 	public override void _Process(double delta)
@@ -312,6 +342,7 @@ public partial class MusicDetailsMenu : ListMenu
 		if (MusicManager.main?.currentMusic != lastMusic)
 		{
             SetInfoDisplay();
+			UpdateIcons();
 			lastMusic = MusicManager.main?.currentMusic;
         }
 		if (IsActive() && lastSelection != -1 && lastSelection != selection)
@@ -322,7 +353,7 @@ public partial class MusicDetailsMenu : ListMenu
 
 		if (adjustMode != AdjustMode.NotAdjusting && InputManager.ButtonPressedThisFrame("Menu/Back"))
 		{
-			EndAdjusting();
+            EndAdjusting();
 		}
 		
 		if (adjustMode != AdjustMode.NotAdjusting && MusicManager.main.currentMusic is Music currMusic)
@@ -351,8 +382,16 @@ public partial class MusicDetailsMenu : ListMenu
 			else
 			{
                 int inputNumber = 0;
-                if (LeftPressed()) inputNumber -= 1;
-                if (RightPressed()) inputNumber += 1;
+				if (LeftPressed()) 
+				{ 
+					inputNumber -= 1;
+                    CommonSFXManager.PlayByName(soundAdjustLeft);
+                }
+				if (RightPressed()) 
+				{ 
+					inputNumber += 1;
+                    CommonSFXManager.PlayByName(soundAdjustRight);
+                }
                 if (inputNumber != 0)
                 {
                     switch (adjustMode)
@@ -375,6 +414,16 @@ public partial class MusicDetailsMenu : ListMenu
 									(int)((int)MusicMenuOrchestrator.main.loopMode + inputNumber + MusicMenuOrchestrator.LoopMode.Count) 
 									% (int)MusicMenuOrchestrator.LoopMode.Count);
 							break;
+						case AdjustMode.Adaptation:
+							if (MusicManager.main?.currentMusic?.Stream is not AudioStreamSynchronized currSynced) { break; }
+                            System.Collections.Generic.List<float> newNextList = new();
+							int nextAdaptIndex = GetNextAdaptationIndex(inputNumber);
+							for (int i = 0; i < currSynced.StreamCount; ++i)
+							{
+								newNextList.Add((i == nextAdaptIndex) ? 1 : 0);
+							}
+							MusicManager.StartSyncedFade(0.5f, newNextList);
+                            break;
                         default:
                             break;
                     }

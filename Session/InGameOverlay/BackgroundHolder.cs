@@ -111,7 +111,7 @@ namespace Blastula
             }
         }
 
-        public static void SetVisible(bool newVisible)
+        public new static void SetVisible(bool newVisible)
         {
             shouldBeVisible = newVisible;
             if (main == null) { return; }

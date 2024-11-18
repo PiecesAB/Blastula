@@ -300,7 +300,7 @@ libraries = {
 "": SubResource("AnimationLibrary_jot8g")
 }
 autoplay = "Squashed"
-blend_times = [&"Squashed", &"Squashed", 0.1, &"Squashed", &"FullHeight", 0.1, &"FullHeight", &"Squashed", 0.1, &"FullHeight", &"FullHeight", 0.1]
+blend_times = [&"FullHeight", &"FullHeight", 0.1, &"FullHeight", &"Squashed", 0.1, &"Squashed", &"FullHeight", 0.1, &"Squashed", &"Squashed", 0.1]
 
 [node name="MainAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

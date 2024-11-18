@@ -10,9 +10,11 @@ public partial class MusicMenuOrchestrator : Node
 {
     [Export] public MusicSelectionMenu selectionMenu;
     [Export] public MusicDetailsMenu detailsMenu;
+    [Export] public MusicForceUnlockMenu forceUnlockMenu;
     [Export] public Sprite2D pausePlayForm;
     [Export] public Vector2 pausePlayFormSelectOffset = new Vector2(-70, 30);
-    [Export] public Vector2 pausePlayDetailsPosition = new Vector2(600, 310);
+    [Export] public Vector2 forceUnlockPosition = new Vector2(0, 0);
+    [Export] public Vector2 pausePlayDetailsPosition = new Vector2(0, 0);
     [Export] public AnimationPlayer modeSwapAnimator;
 
     public enum LoopMode
@@ -111,12 +113,21 @@ public partial class MusicMenuOrchestrator : Node
         { 
             MusicManager.PlayImmediate(music.Name, true, true);
             ResetLoopMode();
+            if (main.modeSwapAnimator != null)
+            {
+                main.modeSwapAnimator.Play("Details");
+            }
+            main.detailsMenu.Open();
         }
-        if (main.modeSwapAnimator != null)
+        else
         {
-            main.modeSwapAnimator.Play("Details");
+            if (main.modeSwapAnimator != null)
+            {
+                main.modeSwapAnimator.Play("ForceUnlock");
+            }
+            main.forceUnlockMenu.musicSelectionFromMainMenu = music;
+            main.forceUnlockMenu.Open();
         }
-        main.detailsMenu.Open();
     }
 
     public static void SwapToSelectionList()
@@ -126,7 +137,33 @@ public partial class MusicMenuOrchestrator : Node
         {
             main.modeSwapAnimator.Play("Select");
         }
+        ResetLoopMode();
+        main.selectionMenu.RegenerateChildren();
+        main.selectionMenu.InstantChangeView();
+        main.selectionMenu.ForceHighlightSelection();
         main.stunPausePlayForm = 2;
+    }
+
+    public void TrackAbruptlyEnded()
+    {
+        float storedPitch = MusicManager.main.currentMusic.PitchScale;
+        switch (loopMode)
+        {
+            case LoopMode.Loop_this_track:
+                MusicManager.PlayImmediate(MusicManager.main.currentMusic.Name, false, true);
+                MusicManager.main.currentMusic.Seek(0);
+                break;
+            case LoopMode.Lead_into_next_track:
+                Music nextMusic = MusicManager.main.currentMusic.GetNextEncounteredTrack();
+                MusicManager.PlayImmediate(nextMusic.Name, false, true);
+                break;
+            case LoopMode.Stop_at_end_of_track:
+                MusicManager.PlayImmediate(MusicManager.main.currentMusic.Name, false, true);
+                MusicManager.main.currentMusic.Seek(0);
+                MusicManager.main.currentMusic.StreamPaused = true;
+                break;
+        }
+        MusicManager.main.currentMusic.PitchScale = storedPitch;
     }
 
     public override void _Ready()
@@ -156,6 +193,11 @@ public partial class MusicMenuOrchestrator : Node
             if (selectionMenu.IsActive())
             {
                 targetPosition = selectionMenu.GetSelectionNode().GlobalPosition + pausePlayFormSelectOffset;
+            }
+
+            if (forceUnlockMenu.IsActive())
+            {
+                targetPosition = forceUnlockPosition;
             }
 
             if (detailsMenu.IsActive())

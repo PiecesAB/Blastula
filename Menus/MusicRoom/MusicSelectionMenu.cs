@@ -29,7 +29,7 @@ public partial class MusicSelectionMenu : ListMenu
 	/// </summary>
 	[Export] public int waitFramesUntilPlay = 60;
 
-	private List<MusicSelectionListNode> existingChildren = new();
+	//private List<MusicSelectionListNode> existingChildren = new();
 	private Music originalMusic = null;
 
 	private int currentFramesHighlighted = 0;
@@ -50,13 +50,13 @@ public partial class MusicSelectionMenu : ListMenu
 		onSelectCallable = new Callable(this, MethodName.OnSelectListNode);
 		onSelectCallableSet = true;
 
-		foreach (MusicSelectionListNode child in existingChildren) 
-		{ 
-			if (child.IsConnected(MethodName.OnSelectListNode, onSelectCallable))
-				child.Disconnect(MethodName.OnSelectListNode, onSelectCallable);
+		foreach (MusicSelectionListNode child in menuNodes) 
+		{
+			if (child.IsConnected(ListNode.SignalName.SelectAction, onSelectCallable))
+				child.Disconnect(ListNode.SignalName.SelectAction, onSelectCallable);
 			child.QueueFree();
 		}
-		existingChildren = new();
+		menuNodes = new();
 		int orderNumber = 1;
 		foreach (Music music in MusicManager.main.GetAllMusics())
 		{
@@ -71,7 +71,7 @@ public partial class MusicSelectionMenu : ListMenu
 			newListNode.InstantSquash();
 			Callable onSelect = new Callable(this, MethodName.OnSelectListNode);
 			newListNode.Connect(ListNode.SignalName.SelectAction, onSelect);
-			existingChildren.Add(newListNode);
+			menuNodes.Add(newListNode);
 			orderNumber++;
 		}
 	}
@@ -96,43 +96,48 @@ public partial class MusicSelectionMenu : ListMenu
 		}
 	}
 
+	public void ForceHighlightSelection()
+	{
+		menuNodes[selection].Highlight();
+	}
+
 	public void InstantChangeView()
 	{
-		if (existingChildren.Count <= maxItemsInView)
+		if (menuNodes.Count <= maxItemsInView)
 		{
-			foreach (MusicSelectionListNode child in existingChildren) 
+			foreach (MusicSelectionListNode child in menuNodes) 
 				child.InstantUnsquash();
 			return;
 		}
 
 		int midpoint = maxItemsInView / 2;
-		int lowestIndex = Mathf.Clamp(selection - midpoint, 0, existingChildren.Count - maxItemsInView);
-		for (int i = 0; i < existingChildren.Count; ++i)
+		int lowestIndex = Mathf.Clamp(selection - midpoint, 0, menuNodes.Count - maxItemsInView);
+		for (int i = 0; i < menuNodes.Count; ++i)
 		{
 			if (i >= lowestIndex && i < lowestIndex + maxItemsInView)
-				existingChildren[i].InstantUnsquash();
+				(menuNodes[i] as MusicSelectionListNode).InstantUnsquash();
 			else
-				existingChildren[i].InstantSquash();
+                (menuNodes[i] as MusicSelectionListNode).InstantSquash();
 		}
 	}
 
 	public void ChangeView()
 	{
-		if (existingChildren.Count <= maxItemsInView)
+		if (menuNodes.Count <= maxItemsInView)
 		{
-			foreach (MusicSelectionListNode child in existingChildren)
+			foreach (MusicSelectionListNode child in menuNodes)
 				child.InstantUnsquash();
 			return;
 		}
 
 		int midpoint = maxItemsInView / 2;
-		int lowestIndex = Mathf.Clamp(selection - midpoint, 0, existingChildren.Count - maxItemsInView);
-		for (int i = 0; i < existingChildren.Count; ++i)
+		int lowestIndex = Mathf.Clamp(selection - midpoint, 0, menuNodes.Count - maxItemsInView);
+		for (int i = 0; i < menuNodes.Count; ++i)
 		{
 			if (i >= lowestIndex && i < lowestIndex + maxItemsInView)
-				existingChildren[i].Unsquash();
+				(menuNodes[i] as MusicSelectionListNode).Unsquash();
 			else
-				existingChildren[i].Squash();
+				(menuNodes[i] as MusicSelectionListNode).Squash();
 		}
 	}
 
@@ -143,7 +148,7 @@ public partial class MusicSelectionMenu : ListMenu
 	}
 
 	public MusicSelectionListNode GetSelectionNode()
-		=> existingChildren[selection];
+		=> menuNodes[selection] as MusicSelectionListNode;
 
 	public override void _Process(double delta)
 	{

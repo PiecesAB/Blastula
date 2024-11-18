@@ -37,13 +37,23 @@ namespace Blastula.Sounds
         private List<DuckInfo> ongoingDucks = new List<DuckInfo>();
 
         private float fadeMultiplier = 1f;
-        private struct FadeInfo
+        private struct VolumeFadeInfo
         {
             public bool fadeIn;
             public float totalDuration;
             public float currTime;
         }
-        private FadeInfo currFadeInfo = new FadeInfo { totalDuration = 0f };
+        private VolumeFadeInfo currFadeInfo = new VolumeFadeInfo { totalDuration = 0f };
+
+        private class SyncedFadeInfo
+        {
+            public List<float> startLinearVolumes = null;
+            public List<float> nextLinearVolumes = null;
+            public float totalDuration;
+            public float currTime;
+        }
+
+        private SyncedFadeInfo syncedFadeInfo = new SyncedFadeInfo { totalDuration = 0f };
 
         public IReadOnlyList<Music> GetAllMusics() => musicInMenuOrder;
 
@@ -56,11 +66,18 @@ namespace Blastula.Sounds
                         musicsByNodeName[path] = cm;
                         startVolumesByNodeName[path] = Mathf.DbToLinear(cm.VolumeDb);
                         musicInMenuOrder.Add(cm);
+                        cm.Finished += main.OnMusicAbruptEnd;
                     } 
                 }, 
                 true
             );
         }
+
+        /// <summary>
+        /// If true, this is a synchronized track.
+        /// </summary>
+        public static AudioStreamSynchronized CurrentMusicAsSynchronized()
+            => main?.currentMusic?.Stream is AudioStreamSynchronized s ? s : null;
 
         /// <summary>
         /// Play a piece of music as referenced by its name (or possibly path) in the Godot hierarchy.
@@ -72,7 +89,6 @@ namespace Blastula.Sounds
             if (main == null) { return; }
             if (main.currentMusic != null) 
             {
-                main.currentMusic.Finished -= main.OnMusicAbruptEnd;
                 if (continueSameMusic 
                     && main.currentMusic.Name == nodeName
                     && startedFromMusicRoom == main.currentMusicStartedFromMusicRoom) { 
@@ -88,10 +104,31 @@ namespace Blastula.Sounds
             main.currentMusic = nextMusic;
             main.currentMusic.PitchScale = 1;
             main.fadeMultiplier = 1f;
-            main.currFadeInfo = new FadeInfo { totalDuration = 0f };
+            main.currFadeInfo = new VolumeFadeInfo { totalDuration = 0f };
+            main.syncedFadeInfo = new SyncedFadeInfo { totalDuration = 0f };
+            if (CurrentMusicAsSynchronized() is AudioStreamSynchronized currSynced)
+            {
+                main.syncedFadeInfo = new SyncedFadeInfo() 
+                { 
+                    startLinearVolumes = new(),
+                    nextLinearVolumes = new(),
+                    totalDuration = 0f 
+                };
+                // stub behavior for synced tracks; just play the first one for now
+                for (int i = 0; i < currSynced.StreamCount; ++i)
+                {
+                    if (i == 0) currSynced.SetSyncStreamVolume(0, Mathf.LinearToDb(1f));
+                    else currSynced.SetSyncStreamVolume(i, Mathf.LinearToDb(0f));
+                    main.syncedFadeInfo.startLinearVolumes.Add((i == 0) ? 1f : 0f);
+                    main.syncedFadeInfo.nextLinearVolumes.Add((i == 0) ? 1f : 0f);
+                }
+            } 
+            else
+            {
+                main.syncedFadeInfo = new SyncedFadeInfo() { totalDuration = 0f };
+            }
             main.currentMusic.Play();
             main.currentMusicStartedFromMusicRoom = startedFromMusicRoom;
-            main.currentMusic.Finished += main.OnMusicAbruptEnd;
         }
 
         public static void MusicRoomTogglePause()
@@ -138,7 +175,7 @@ namespace Blastula.Sounds
         public static void FadeIn(float duration)
         {
             if (main == null) { return; }
-            main.currFadeInfo = new FadeInfo
+            main.currFadeInfo = new VolumeFadeInfo
             {
                 fadeIn = true,
                 totalDuration = duration,
@@ -149,11 +186,35 @@ namespace Blastula.Sounds
         public static void FadeOut(float duration)
         {
             if (main == null) { return; }
-            main.currFadeInfo = new FadeInfo
+            main.currFadeInfo = new VolumeFadeInfo
             {
                 fadeIn = false,
                 totalDuration = duration,
                 currTime = 0f,
+            };
+        }
+
+        public static IReadOnlyList<float> GetSyncedTargetList()
+        {
+            return main?.syncedFadeInfo?.nextLinearVolumes;
+        }
+
+        public static void StartSyncedFade(float duration, List<float> nextLinearVolumes)
+        {
+            if (main == null) { return; }
+            if (main?.currentMusic?.Stream is not AudioStreamSynchronized currSynced) { return; }
+            List<float> currLinearVolumes = new();
+            for (int i = 0; i < currSynced.StreamCount; ++i)
+            {
+                currLinearVolumes.Add(Mathf.DbToLinear(currSynced.GetSyncStreamVolume(i)));
+            }
+
+            main.syncedFadeInfo = new SyncedFadeInfo
+            {
+                startLinearVolumes = currLinearVolumes,
+                nextLinearVolumes = nextLinearVolumes,
+                currTime = 0f,
+                totalDuration = duration,
             };
         }
 
@@ -238,12 +299,43 @@ namespace Blastula.Sounds
                 float timePassed = 1f / Persistent.SIMULATED_FPS; // No scaling
                 if (currFadeInfo.fadeIn) { fadeMultiplier = progress; }
                 else { fadeMultiplier = 1f - progress; }
-                currFadeInfo = new FadeInfo
+                currFadeInfo = new VolumeFadeInfo
                 {
                     fadeIn = currFadeInfo.fadeIn,
                     totalDuration = currFadeInfo.totalDuration,
                     currTime = currFadeInfo.currTime + timePassed
                 };
+            }
+        }
+
+        public void HandleSyncedFade()
+        {
+            if (syncedFadeInfo.totalDuration <= 0f) { return; }
+            if (main?.currentMusic?.Stream is not AudioStreamSynchronized currSynced) { return; }
+            if (currentMusic.StreamPaused) { return; }
+            if (syncedFadeInfo.currTime >= syncedFadeInfo.totalDuration)
+            {
+                for (int i = 0; i < currSynced.StreamCount; ++i)
+                {
+                    currSynced.SetSyncStreamVolume(i, Mathf.LinearToDb(syncedFadeInfo.nextLinearVolumes[i]));
+                }
+                syncedFadeInfo.totalDuration = 0f;
+            }
+            else
+            {
+                float progress = Mathf.Clamp(syncedFadeInfo.currTime / syncedFadeInfo.totalDuration, 0, 1);
+                float timePassed = 1f / Persistent.SIMULATED_FPS; // No scaling
+
+                for (int i = 0; i < currSynced.StreamCount; ++i)
+                {
+                    float interpolated = Mathf.Lerp(
+                        syncedFadeInfo.startLinearVolumes[i], 
+                        syncedFadeInfo.nextLinearVolumes[i], 
+                        progress);
+                    currSynced.SetSyncStreamVolume(i, Mathf.LinearToDb(interpolated));
+                }
+
+                syncedFadeInfo.currTime += timePassed;
             }
         }
 
@@ -276,7 +368,9 @@ namespace Blastula.Sounds
 
         public void HandleLoop()
         {
-            if (currentMusicStartedFromMusicRoom)
+            if (currentMusicStartedFromMusicRoom 
+                && MusicMenuOrchestrator.main != null
+                && MusicMenuOrchestrator.main.loopMode != MusicMenuOrchestrator.LoopMode.Loop_this_track)
             {
                 return;
             }
@@ -294,7 +388,11 @@ namespace Blastula.Sounds
 
         public void OnMusicAbruptEnd()
         {
-            GD.Print("abrupt end!");
+            if (currentMusicStartedFromMusicRoom
+                && MusicMenuOrchestrator.main != null)
+            {
+                MusicMenuOrchestrator.main.TrackAbruptlyEnded();
+            }
         }
 
         public override void _Process(double delta)
@@ -304,6 +402,7 @@ namespace Blastula.Sounds
 
             HandleDuckMultiplier();
             HandleFadeMultiplier();
+            HandleSyncedFade();
             HandleVolume();
             HandlePause();
             HandleLoop();

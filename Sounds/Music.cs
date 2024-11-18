@@ -91,5 +91,21 @@ namespace Blastula.Sounds
             for (int i = 0; i < all.Count; ++i) all[i].trackNumber = i + 1;
             areTracksEnumerated = true;
         }
+
+        /// <summary>
+        /// Find the next encountered track. It could even be this track, if nothing else is available.
+        /// </summary>
+        public Music GetNextEncounteredTrack()
+        {
+            EnumerateTracks();
+            IReadOnlyList<Music> all = MusicManager.main.GetAllMusics();
+            int myTrackNum = GetTrackNumber() - 1;
+            int i = (myTrackNum + 1) % all.Count;
+            for (; i != myTrackNum; i = (i + 1) % all.Count)
+            {
+                if (all[i].IsEncountered()) break;
+            }
+            return all[i];
+        }
     }
 }

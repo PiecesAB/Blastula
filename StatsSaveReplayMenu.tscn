@@ -998,7 +998,7 @@ libraries = {
 "": SubResource("AnimationLibrary_kk8ri")
 }
 autoplay = "Landing"
-blend_times = [&"Landing", &"Entry", 0.2, &"Entry", &"Landing", 0.2]
+blend_times = [&"Entry", &"Landing", 0.2, &"Landing", &"Entry", 0.2]
 
 [node name="BG" type="TextureRect" parent="Rendering Zone/Main"]
 z_index = -1000

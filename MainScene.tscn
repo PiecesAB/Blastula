@@ -2105,15 +2105,15 @@ _data = {
 "Select": SubResource("Animation_uepci")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aq0o8"]
+bg_color = Color(0, 0, 0, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x5a55"]
 content_margin_left = 12.0
 content_margin_top = 0.0
 content_margin_right = 12.0
 content_margin_bottom = 0.0
 bg_color = Color(0.152941, 0.152941, 0.152941, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aq0o8"]
-bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cwuca"]
 content_margin_left = 12.0
@@ -3887,7 +3887,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Resume"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3928,7 +3928,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Continue"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -3967,7 +3967,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Retry"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -4006,7 +4006,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/Settings"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -4045,7 +4045,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hbhh8")
 }
 autoplay = "Normal"
-blend_times = [&"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1]
+blend_times = [&"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/MainMenu/End"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -4150,7 +4150,7 @@ animationPlayer = NodePath("AnimationPlayer")
 libraries = {
 "": SubResource("AnimationLibrary_rkflj")
 }
-blend_times = [&"Normal", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Highlight", &"Highlight", 0.1]
+blend_times = [&"Highlight", &"Highlight", 0.1, &"Highlight", &"Normal", 0.1, &"Normal", &"Highlight", 0.1, &"Normal", &"Normal", 0.1]
 
 [node name="Highlight" type="ColorRect" parent="Rendering Zone/MainViewHolder/PauseMenu/Confirmation/Option1"]
 material = SubResource("ShaderMaterial_n41s0")
@@ -4262,8 +4262,8 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_fonts/font = ExtResource("46_yed1c")
 theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_x5a55")
 theme_override_styles/focus = SubResource("StyleBoxFlat_aq0o8")
+theme_override_styles/normal = SubResource("StyleBoxFlat_x5a55")
 deselect_on_focus_loss_enabled = false
 caret_blink = true
 
@@ -4280,15 +4280,15 @@ alignment = 2
 [node name="FirstMessage" type="RichTextLabel" parent="Rendering Zone/DebugConsole/Main/Messages"]
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("29_b511e")
-theme_override_fonts/bold_font = ExtResource("47_uvs0x")
+theme_override_fonts/mono_font = ExtResource("29_b511e")
 theme_override_fonts/italics_font = ExtResource("46_yed1c")
 theme_override_fonts/bold_italics_font = ExtResource("48_fojb6")
-theme_override_fonts/mono_font = ExtResource("29_b511e")
+theme_override_fonts/bold_font = ExtResource("47_uvs0x")
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
 theme_override_font_sizes/normal_font_size = 24
 theme_override_font_sizes/bold_font_size = 24
-theme_override_font_sizes/italics_font_size = 24
-theme_override_font_sizes/bold_italics_font_size = 24
-theme_override_font_sizes/mono_font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxEmpty_cwuca")
 bbcode_enabled = true
 text = "[font_size=40][b]Welcome ❤ Shell[/b][/font_size]

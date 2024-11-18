@@ -1,0 +1,26 @@
+[gd_resource type="AudioStreamSynchronized" load_steps=8 format=3 uid="uid://cxd5dk36neobn"]
+
+[ext_resource type="AudioStream" uid="uid://ciy55mt6giq4v" path="res://addons/Blastula/Sounds/Music/Permutation/Primordial.wav" id="1_0cjgw"]
+[ext_resource type="AudioStream" uid="uid://bfhfdpc8qc4q7" path="res://addons/Blastula/Sounds/Music/Permutation/A-Variant.wav" id="2_8f1hg"]
+[ext_resource type="AudioStream" uid="uid://gue2jciw7mef" path="res://addons/Blastula/Sounds/Music/Permutation/R-Variant.wav" id="3_j7fjg"]
+[ext_resource type="AudioStream" uid="uid://cggc2i28txotx" path="res://addons/Blastula/Sounds/Music/Permutation/K-Variant.wav" id="4_s0elk"]
+[ext_resource type="AudioStream" uid="uid://dwqqtsk2am812" path="res://addons/Blastula/Sounds/Music/Permutation/S-Variant.wav" id="5_hufpi"]
+[ext_resource type="AudioStream" uid="uid://drewkhmocr4ng" path="res://addons/Blastula/Sounds/Music/Permutation/O-Variant.wav" id="6_f4b8y"]
+[ext_resource type="AudioStream" uid="uid://btfb1tso6usm4" path="res://addons/Blastula/Sounds/Music/Permutation/L-Variant.wav" id="7_um6mn"]
+
+[resource]
+stream_count = 7
+stream_0/stream = ExtResource("1_0cjgw")
+stream_0/volume = 0.0
+stream_1/stream = ExtResource("2_8f1hg")
+stream_1/volume = 0.0
+stream_2/stream = ExtResource("3_j7fjg")
+stream_2/volume = 0.0
+stream_3/stream = ExtResource("4_s0elk")
+stream_3/volume = 0.0
+stream_4/stream = ExtResource("5_hufpi")
+stream_4/volume = 0.0
+stream_5/stream = ExtResource("6_f4b8y")
+stream_5/volume = 0.0
+stream_6/stream = ExtResource("7_um6mn")
+stream_6/volume = 0.0
